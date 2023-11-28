@@ -1,0 +1,57 @@
+"""
+LZ UltraLightNode
+"""
+type Send @entity(immutable: true) {
+  id: Bytes!
+  srcChainId: Int! # uint16
+  srcLzChainId: Int! # uint16
+  srcAddress: String! # address
+  dstAddress: String! # address
+  dstChainId: Int! # uint16
+  dstLzChainId: Int! # uint16
+  nonce: BigInt! # uint64
+  payload: String! # bytes
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+}
+
+type Receive @entity(immutable: false) {
+  id: Bytes!
+  srcChainId: Int! # uint16
+  srcLzChainId: Int! # uint16
+  srcAddress: String! # address
+  dstAddress: String! # address
+  dstChainId: Int! # uint16
+  dstLzChainId: Int! # uint16
+  nonce: BigInt! # uint64
+
+  payload: String # bytes - coming from PayloadStored and MessageFailed
+  payloadHash: String! # bytes32 - keccak256(payload)
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: String!
+
+  # MessageFailed
+  has_message_failed: Boolean!
+  message_failed_reason: String # bytes
+  message_failed_retry_success_tx_hash: String # bytes
+
+  # PayloadStored
+  has_payload_stored: Boolean!
+  payload_stored_reason: String # bytes
+  payload_stored_clear_tx_hash: String # bytes
+}
+
+
+type PotentialNonBlockingLzApp @entity(immutable: true) {
+  id: Bytes! # address
+  address: String! # address
+}
+
+type Count @entity(immutable: false) {
+  id: Bytes!
+  receives: Int!
+  sends: Int!
+  potentialNonBlockingLzApps: Int!
+}

@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "folke.vscode-monorepo-workspace",
+    "aaron-bond.better-comments"
+  ]
+}

@@ -1,0 +1,70 @@
+[
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint16",
+                "name": "_srcChainId",
+                "type": "uint16"
+            },
+            {
+                "indexed": false,
+                "internalType": "bytes",
+                "name": "_srcAddress",
+                "type": "bytes"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint64",
+                "name": "_nonce",
+                "type": "uint64"
+            },
+            {
+                "indexed": false,
+                "internalType": "bytes32",
+                "name": "_payloadHash",
+                "type": "bytes32"
+            }
+        ],
+        "name": "RetryMessageSuccess",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint16",
+                "name": "_srcChainId",
+                "type": "uint16"
+            },
+            {
+                "indexed": false,
+                "internalType": "bytes",
+                "name": "_srcAddress",
+                "type": "bytes"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint64",
+                "name": "_nonce",
+                "type": "uint64"
+            },
+            {
+                "indexed": false,
+                "internalType": "bytes",
+                "name": "_payload",
+                "type": "bytes"
+            },
+            {
+                "indexed": false,
+                "internalType": "bytes",
+                "name": "_reason",
+                "type": "bytes"
+            }
+        ],
+        "name": "MessageFailed",
+        "type": "event"
+    }
+]

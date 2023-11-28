@@ -1,0 +1,72 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: LzEndpoint
+    network: bsc
+    source:
+      abi: LzEndpoint
+      address: "0x3c2269811836af69497E5F486A85D7316753cf62"
+      startBlock: 16070442
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - PayloadCleared
+        - PayloadStored
+      abis:
+        - name: LzEndpoint
+          file: ./abis/LzEndpoint.json
+      eventHandlers:
+        - event: PayloadCleared(uint16,bytes,uint64,address)
+          handler: handlePayloadCleared
+        - event: PayloadStored(uint16,bytes,address,uint64,bytes,bytes)
+          handler: handlePayloadStored
+      file: ./src/lz-endpoint.ts
+  - kind: ethereum
+    name: LzULN
+    network: bsc
+    source:
+      abi: LzULN
+      address: "0x4D73AdB72bC3DD368966edD0f0b2148401A178E2"
+      startBlock: 16070442
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Packet
+        - PacketReceived
+      abis:
+        - name: LzULN
+          file: ./abis/LzULN.json
+      eventHandlers:
+        - event: Packet(bytes)
+          handler: handlePacket
+        - event: PacketReceived(indexed uint16,bytes,indexed address,uint64,bytes32)
+          handler: handlePacketReceived
+      file: ./src/lz-uln.ts
+templates:
+  - kind: ethereum
+    name: LzApp
+    network: bsc
+    source:
+      abi: LzApp
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - MessageFailed
+        - RetryMessageSuccess
+      abis:
+        - name: LzApp
+          file: ./abis/LzApp.json
+      eventHandlers:
+        - event: MessageFailed(uint16,bytes,uint64,bytes,bytes)
+          handler: handleMessageFailed
+        - event: RetryMessageSuccess(uint16,bytes,uint64,bytes32)
+          handler: handleRetryMessageSuccess
+      file: ./src/lz-app.ts
