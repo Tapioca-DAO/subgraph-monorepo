@@ -1,0 +1,739 @@
+##################################
+##### Token related entities #####
+##################################
+" Token holds basic information about a token "
+type Token @entity {
+  id: ID!                           # address of the token
+  address: Bytes!                   # address of the token
+  name: String!                     # name of the token
+  symbol: String!                   # symbol of the token
+  decimals: BigInt!                 # decimals of the token
+  latestUsdValue: TokenUsdValue     # USD value of the token
+  historicalUsdValue: [TokenUsdValue!]! @derivedFrom(field: "token")    # historical USD values of the token
+}
+
+" TokenUsdValue holds information about USD value of a token at a specific block "
+type TokenUsdValue @entity(immutable: true) {
+  " { Token address }-{ BlockNumber } "
+  id: ID!
+  usdValue: BigDecimal!      # usd value of the token
+  timestamp: BigInt!         # timestamp of the usd value
+  blockNumber: BigInt!       # block number of the usd value
+  token: Token!              # token
+}
+
+" TapiocaProtocolAmount holds information about amount of a token with respect to the units used in protocol "
+type TapiocaProtocolAmount @entity {
+  " Variable ID, see TapiocaProtocolAmountTemporary in utils/protocol/amount.ts "
+  id: ID!
+  raw: BigInt                       # raw internal protocol value either in shares or borrow part
+  amount: BigInt!                   # value in token units (raw value converted to value in token units)
+  usdAmount: BigDecimal!            # usd value of the amount
+  currentUsdValue: TokenUsdValue!   # current usd value of the token
+}
+
+" TOFToken holds information about OFT token "
+type TOFToken @entity {
+  " address of the TOFT "
+  id: ID!
+  " true if this is USDO "
+  isUSDO: Boolean!
+  " underlying Token - present if underlying token is from the same chain as current TOFT "
+  underlyingToken: Token
+  " TOFT token "
+  TOFToken: Token!
+  " information about TOFT tokens tied to current one on other chains "
+  remoteTOFTokenMetaData: [RemoteTOFTMeta!]! @derivedFrom(field: "TOFToken")
+  " list of successful teleports with **destination** of current TOFT token "
+  teleports: [TeleportReceived!]! @derivedFrom(field: "destinationTOFToken")
+}
+
+" RemoteTOFTMeta holds information about remote TOFT tokens "
+type RemoteTOFTMeta @entity {
+  " remote TOFT chain ID + source (current) TOFT address "
+  id: ID!
+  " TOFT token on current chain "
+  TOFToken: TOFToken!
+  " chain ID of remote TOFT "
+  remoteChainId: Int! # uint16
+  " layerzero chain ID of remote TOFT "
+  remoteLZChainId: Int! # uint16
+  " address of remote TOFT "
+  remoteTOFTokenAddress: Bytes!
+}
+
+##################################
+######## Utility entities ########
+##################################
+type Rebase @entity {
+  " Concatenation of pair address and 'asset' or 'borrow' "
+  id: ID!
+  " Token this rebase belongs to "
+  token: Token!
+  " Base (Share) "
+  base: BigInt!
+  " Elastic (Amount) "
+  elastic: BigInt!
+  " timestamp "
+  timestamp: BigInt!
+  " blockNumber "
+  blockNumber: BigInt!
+}
+
+type MarketAccrueInfo @entity {
+  " market address "
+  id: ID!
+  " Interest per second "
+  interestPerSecond: BigInt!
+  " Last accrued timestamp "
+  lastAccrued: BigInt!
+  " Fees earned fraction "
+  feesEarnedFraction: BigInt!
+}
+
+enum InterestRateSide {
+  " Position opened as a lender "
+  LENDER
+
+  " Position opened as a borrower "
+  BORROWER
+
+  " Position opened as a lender "
+  COLLATERAL_PROVIDER
+}
+
+enum InterestRateType {
+  " Stable interest rate (e.g. Aave) "
+  STABLE
+
+  " Variable interest rate (e.g. Compound) "
+  VARIABLE
+
+  " Fixed interest rate (e.g. Notional) "
+  FIXED
+}
+
+enum Tranche {
+  " Senior denotes debt with a higher priority. The first debt to be paid back to lenders. "
+  SENIOR
+
+  " Junior tranche denotes lower priority debt. This is secondary priority to be paid back to lenders. "
+  JUNIOR
+}
+
+# Most markets only have a single interest rate given a specific type.
+# However, fixed term lending protocols can have multiple rates with
+# different duration/maturity per market. You can append a counter
+# to the IDs to differentiate.
+type InterestRate @entity {
+  " { Interest rate side }-{ Interest rate type }-{ Market ID }-{ Optional: Tranche }-{ Optional: # days/hours since epoch time } "
+  id: ID!
+
+  " Interest rate in percentage APY. E.g. 5.21% should be stored as 5.21 "
+  rate: BigDecimal!
+
+  " Raw Interest rate as stored in contracts "
+  _rawRate: BigInt!
+
+  " Duration of the loan in days. Only applies to fixed term lending (e.g. Notional) "
+  duration: Int
+
+  " Maturity of the loan in block height. Only applies to fixed term lending (e.g. Notional) "
+  maturityBlock: BigInt
+
+  " The party the interest is paid to / received from "
+  side: InterestRateSide!
+
+  " The type of interest rate (e.g. stable, fixed, variable, etc) "
+  type: InterestRateType!
+
+  " The level of debt priority at this interest rate "
+  tranche: Tranche
+}
+
+##################################
+##### Market related entities ####
+##################################
+
+enum MarketType {
+  " Lending market where users can mint USDO using their collateral "
+  BIG_BANG,
+
+  " Lending market where assets are supplied by users "
+  SINGULARITY
+}
+
+" Singularity or Big Bang "
+type Market @entity {
+  id: ID!
+  address: Bytes!
+  type: MarketType!
+  _borrowTokenYieldBoxId: BigInt!      # yield box ID of borrow token
+  _collateralTokenYieldBoxId: BigInt!  # yield box ID of collateral token
+  borrowToken: Token!
+  collateralToken: Token!
+  oracleAddress: Bytes!
+  protocol: TapiocaProtocol!
+
+  " All borrows from this market "
+  borrows: [Borrow!]! @derivedFrom(field: "market")
+
+  " All deposits from this market including collateral and borrow asset deposits (both lending and adding collateral)"
+  deposits: [Deposit!]! @derivedFrom(field: "market")
+
+  " All withdrawals from this market, both collateral (as potential borrower) and asset (as lender)"
+  withdrawals: [Withdrawal!]! @derivedFrom(field: "market")
+
+  " All positions in this market "
+  positions: [Position!]! @derivedFrom(field: "market")
+
+  " Historical values for borrow/supply/collateral number "
+  historicalStates: [MarketState!]! @derivedFrom(field: "market")
+
+  " Number of positions in this market "
+  positionCount: Int!
+
+  " Number of open positions in this market "
+  openPositionCount: Int!
+
+  " Number of closed positions in this market "
+  closedPositionCount: Int!
+
+  " Number of lending positions in this market "
+  lendingPositionCount: Int!
+
+  " Number of borrowing positions in this market "
+  borrowingPositionCount: Int!
+
+  " Total borrowed amount of this market "
+  totalBorrowed: BigInt!
+
+  " Total borrowed amount of this market in USD "
+  totalBorrowedUsd: BigDecimal!
+
+  " Total borrow supply amount of this market "
+  totalBorrowSupply: BigInt!
+
+  " Total borrow supply amount of this market in USD "
+  totalBorrowSupplyUsd: BigDecimal!
+
+  " Total collateral amount of this market "
+  totalCollateral: BigInt!
+
+  " Total collateral amount of this market in USD "
+  totalCollateralUsd: BigDecimal!
+
+  " Total collateral share of this pair "
+  _totalCollateralShare: BigInt!
+
+  " Total YB asset rebase of this pair "
+  _ybTotalAsset: Rebase!
+
+  " Total YB collateral asset rebase of this pair "
+  _ybTotalCollateralAsset: Rebase!
+
+  " Total asset rebase of this pair "
+  _totalAsset: Rebase!
+
+  " Total borrow rebase of this pair "
+  _totalBorrow: Rebase!
+
+  " AccrueInfo for this pair "
+  accrueInfo: MarketAccrueInfo!
+
+  " Supply APR "
+  supplyInterest: InterestRate!
+
+  " Borrow APR "
+  borrowInterest: InterestRate!
+
+  " Collateral APR "
+  collateralInterest: InterestRate!
+
+  " utilization "
+  utilization: BigInt!
+
+ " Total fees earned fraction "
+  totalFeesEarnedFraction: BigInt!
+}
+
+" Lending/borrowing numbers at a given block number "
+type MarketState @entity {
+  id: ID!
+  market: Market!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+
+  " Total borrowed amount of this market "
+  totalBorrowed: BigInt!
+
+  " Total borrowed amount of this market in USD "
+  totalBorrowedUsd: BigDecimal!
+
+  " Total borrow supply amount of this market "
+  totalBorrowSupply: BigInt!
+
+  " Total borrow supply amount of this market in USD "
+  totalBorrowSupplyUsd: BigDecimal!
+
+  " Total collateral amount of this market "
+  totalCollateral: BigInt!
+
+  " Total collateral amount of this market in USD "
+  totalCollateralUsd: BigDecimal!
+}
+
+
+interface AccountEvent @entity(immutable: true) {
+  " { Transaction hash }-{ Log index } "
+  id: ID!
+
+  " Transaction hash of the transaction that emitted this event "
+  hash: Bytes!
+
+  " Nonce of the transaction that emitted this event "
+  nonce: BigInt!
+
+  " Event log index. For transactions that don't emit event, create arbitrary index starting from 0 "
+  logIndex: Int!
+
+  " Block number of this event "
+  blockNumber: BigInt!
+
+  " Timestamp of this event "
+  timestamp: BigInt!
+
+  " Account that called transaction "
+  callerAddress: Bytes!
+}
+
+##################################
+##### Event-Level Data #####
+##################################
+
+"""
+An event is any user action that occurs in a protocol. Generally, they are Ethereum events
+emitted by a function in the smart contracts, stored in transaction receipts as event logs.
+"""
+
+type TeleportReceived implements AccountEvent @entity(immutable: true) {
+  id: ID!
+  hash: Bytes!
+  nonce: BigInt!
+  logIndex: Int!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  callerAddress: Bytes!
+  # end AccountEvent implementation
+
+  " amount of TOFT tokens received "
+  amount: BigInt!
+
+  " chain ID of the sending chain "
+  sourceChainId: Int!
+
+  " LayerZero chain ID of the sending chain "
+  sourceLZChainId: Int!
+
+  " receiver's account "
+  destinationAccount: Account!
+
+  " received TOFT token "
+  destinationTOFToken: TOFToken!
+}
+
+type Deposit implements AccountEvent @entity(immutable: true) {
+  id: ID!
+  hash: Bytes!
+  nonce: BigInt!
+  logIndex: Int!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  callerAddress: Bytes!
+  # end AccountEvent implementation
+
+  " Account that executed this on behalf of toAccount "
+  fromAccount: Account!
+
+  " Account that deposited tokens "
+  toAccount: Account!
+
+  " Account that deposited tokens (alias for toAccount) "
+  account: Account!
+
+  " The market tokens are deposited to "
+  market: Market!
+
+  " The user position changed by this event "
+  position: Position!
+
+  " Token deposited "
+  token: Token!
+
+  " Amount of token deposited in native units "
+  amount: TapiocaProtocolAmount!
+}
+
+type Withdrawal implements AccountEvent @entity(immutable: true) {
+  id: ID!
+  hash: Bytes!
+  nonce: BigInt!
+  logIndex: Int!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  callerAddress: Bytes!
+  # end AccountEvent implementation
+
+  " Account that deposited tokens "
+  fromAccount: Account!
+
+  " Account that deposited tokens "
+  toAccount: Account!
+
+  " The market tokens are withdrew from "
+  market: Market!
+
+  " The user position changed by this event "
+  position: Position!
+
+  " Token withdrawn "
+  token: Token!
+
+  " Amount of token withdrawn in native units "
+  amount: TapiocaProtocolAmount!
+}
+
+# This used for both BigBang ans Singularity (mint and borrow)
+type Borrow implements AccountEvent @entity(immutable: true) {
+  id: ID!
+  hash: Bytes!
+  nonce: BigInt!
+  logIndex: Int!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  callerAddress: Bytes!
+  # end AccountEvent implementation
+
+  " Account that borrowed tokens "
+  fromAccount: Account!
+
+  " Account that executed this on behalf of fromAccount (receives the tokens) "
+  toAccount: Account!
+
+  " Account that borrowed tokens (alias for fromAccount) "
+  account: Account!
+
+  " The market tokens are borrowed/minted from "
+  market: Market!
+
+  " The user position changed by this event "
+  position: Position!
+
+  " Token borrowed "
+  token: Token!
+
+  " Amount of token borrowed in native units "
+  amount: TapiocaProtocolAmount!
+
+  " Token amount in this borrow with accrued interest "
+  amountAccrued: TapiocaProtocolAmount!
+
+  " Token balance in this position containing protocol fees for this position "
+  amountProtocolFees: TapiocaProtocolAmount!
+}
+
+# This used for both BigBang and Singularity (burn and repay)
+type Repay implements AccountEvent @entity(immutable: true) {
+  id: ID!
+  hash: Bytes!
+  nonce: BigInt!
+  logIndex: Int!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  callerAddress: Bytes!
+  # end AccountEvent implementation
+
+  " Account that deposited tokens "
+  fromAccount: Account!
+
+  " Account whose debt gets repaid "
+  toAccount: Account!
+
+  " The market tokens are repaid/burned to "
+  market: Market!
+
+  " The user position changed by this event "
+  position: Position!
+
+  " Token repaid "
+  token: Token!
+
+  " Amount of token repaid/burned in native units "
+  amount: TapiocaProtocolAmount!
+}
+
+
+enum PositionType {
+  " Position opened as a lender "
+  LEND_BORROW_ASSET
+
+  " Position opened as a borrower "
+  BORROW
+
+  " Position opened as a borrower "
+  PROVIDE_COLLATERAL_ASSET
+}
+
+##############################
+##### Account-Level Data #####
+##############################
+type Account @entity {
+  " { Account address } "
+  id: ID!
+
+  " Number of positions this account has "
+  positionCount: Int!
+
+  " All positions that belong to this account "
+  positions: [Position!]! @derivedFrom(field: "account")
+
+  " Number of open positions this account has "
+  openPositionCount: Int!
+
+  " Number of closed positions this account has "
+  closedPositionCount: Int!
+
+  " Number of deposits this account made "
+  depositCount: Int!
+
+  " All deposit events of this account "
+  deposits: [Deposit!]! @derivedFrom(field: "fromAccount")
+
+  " Number of withdrawals this account made "
+  withdrawCount: Int!
+
+  " All withdraw events of this account "
+  withdrawals: [Withdrawal!]! @derivedFrom(field: "fromAccount")
+
+  " Number of borrows this account made "
+  borrowCount: Int!
+
+  " All borrow events of this account "
+  borrows: [Borrow!]! @derivedFrom(field: "fromAccount")
+
+  " Number of repays this account made "
+  repayCount: Int!
+
+  " All repay events of this account "
+  repays: [Repay!]! @derivedFrom(field: "fromAccount")
+
+
+  " Number of teleports this account received "
+  teleportReceivedCount: Int!
+
+  " All teleport events of this account "
+  teleportsReceived: [TeleportReceived!]! @derivedFrom(field: "destinationAccount")
+}
+
+type Position @entity {
+  " { Account address }-{ Market address }-{ Position Type }-{ Counter } "
+  id: ID!
+
+  count: Int
+
+  " Account that owns this position "
+  account: Account!
+
+  " The market in which this position was opened "
+  market: Market!
+
+  " The hash of the transaction that opened this position "
+  hashOpened: String!
+
+  " The hash of the transaction that closed this position "
+  hashClosed: String
+
+  " Block number of when the position was opened "
+  blockNumberOpened: BigInt!
+
+  " Timestamp when the position was opened "
+  timestampOpened: BigInt!
+
+  " Block number of when the position was closed (0 if still open) "
+  blockNumberClosed: BigInt
+
+  " Timestamp when the position was closed (0 if still open) "
+  timestampClosed: BigInt
+
+  " Type of the position "
+  type: PositionType!
+
+  " Token balance in this position "
+  balance: TapiocaProtocolAmount!
+
+  " Number of deposits related to this position "
+  depositCount: Int!
+
+  " All deposit events of this position "
+  deposits: [Deposit!]! @derivedFrom(field: "position")
+
+  " Number of withdrawals related to this position "
+  withdrawCount: Int!
+
+  " All withdraw events of this position "
+  withdrawals: [Withdrawal!]! @derivedFrom(field: "position")
+
+  " Number of borrows related to this position "
+  borrowCount: Int!
+
+  " All borrow events of this position "
+  borrows: [Borrow!]! @derivedFrom(field: "position")
+
+  " Number of repays related to this position "
+  repayCount: Int!
+
+  " All repay events of this position "
+  repays: [Repay!]! @derivedFrom(field: "position")
+
+  " Position for all events related to this position "
+  snapshots: [PositionSnapshot!]! @derivedFrom(field: "position")
+}
+
+
+# Unlike other snapshots that are taken at a fixed time interval. Position
+# snapshots should be taken after every event, including the opening and
+# closing events. This will prevent an ever growing number of snapshots
+# for positions that are not moving. As we are only recording the balance
+# in token amounts instead of in USD, this will work well.
+# Note that we only take snapshot for open positions
+type PositionSnapshot @entity {
+  " { Position ID }-{ Transaction hash }-{ Log index } "
+  id: ID!
+
+  " Transaction hash of the transaction that triggered this snapshot "
+  hash: Bytes!
+
+  " Event log index. For transactions that don't emit event, create arbitrary index starting from 0 "
+  logIndex: Int!
+
+  " Nonce of the transaction that triggered this snapshot "
+  nonce: BigInt!
+
+  " Position of this snapshot "
+  position: Position!
+
+  " Token balance in this position "
+  balance: TapiocaProtocolAmount!
+
+  " Block number of this snapshot "
+  blockNumber: BigInt!
+
+  " Timestamp of this snapshot "
+  timestamp: BigInt!
+}
+
+type PositionCounter @entity {
+  " { Account address }-{ Market address }-{ Position Type } "
+  id: ID!
+
+  " Next count "
+  nextCount: Int!
+}
+
+
+#############################
+##### Protocol Metadata #####
+#############################
+enum Network {
+  ARBITRUM_ONE
+  ARWEAVE_MAINNET
+  AURORA
+  AVALANCHE
+  BOBA
+  BSC # aka BNB Chain
+  CELO
+  COSMOS
+  CRONOS
+  MAINNET # Ethereum Mainnet
+  FANTOM
+  FUSE
+  HARMONY
+  JUNO
+  MOONBEAM
+  MOONRIVER
+  NEAR_MAINNET
+  OPTIMISM
+  OSMOSIS
+  MATIC # aka Polygon
+  GNOSIS
+
+  # testnets
+  ARBITRUM_GOERLI
+  MUMBAI
+  FANTOM_TESTNET
+  AVALANCHE_FUJI
+}
+
+enum ProtocolType {
+  EXCHANGE
+  LENDING
+  YIELD
+  BRIDGE
+  GENERIC
+  TAPIOCA
+}
+
+
+type TapiocaProtocol @entity {
+  " Smart contract address of the protocol's main contract (Factory, Registry, etc) "
+  id: ID!
+
+  " Name of the protocol, including version. e.g. Uniswap v3 "
+  name: String!
+
+  " Slug of protocol, including version. e.g. uniswap-v3 "
+  slug: String!
+
+  " Version of the subgraph schema, in SemVer format (e.g. 1.0.0) "
+  schemaVersion: String!
+
+  " Version of the subgraph implementation, in SemVer format (e.g. 1.0.0) "
+  subgraphVersion: String!
+
+  " Version of the methodology used to compute metrics, loosely based on SemVer format (e.g. 1.0.0) "
+  methodologyVersion: String!
+
+  " The blockchain network this subgraph is indexing on "
+  network: Network!
+
+  " The type of protocol (e.g. DEX, Lending, Yield, etc) "
+  type: ProtocolType!
+
+  ##### Tapioca #####
+
+  " Address of registry contract "
+  penroseAddress: Bytes!
+
+  " Address of yieldbox contract "
+  yieldBox: YieldBox
+
+  " Address of registry contract "
+  markets: [Market!]! @derivedFrom(field: "protocol")
+
+  " Helper property to list market ids "
+  marketIds: [String!]!
+}
+
+type YieldBox @entity {
+  " Address of yieldbox contract "
+  id: ID!
+
+  " Address of yieldbox contract "
+  yieldBoxAddress: Bytes!
+
+  " Address of registry contract "
+  protocol: TapiocaProtocol! @derivedFrom(field: "yieldBox")
+
+  " WIP (unused) "
+  assetTotals: [Rebase!]!
+}
