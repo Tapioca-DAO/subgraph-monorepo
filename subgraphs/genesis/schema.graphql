@@ -1,0 +1,8 @@
+type ParticipationAOTap @entity(immutable: true) {
+  id: ID!
+  participantAddress: String! # address of the user who participated
+  expirationTimestamp: Int! # when this option expires
+  discount: Int! # in %
+  tapAmount: BigInt! # eligible TAP amount
+  epochClaimed: Int! # epoch ID where this option was created
+}

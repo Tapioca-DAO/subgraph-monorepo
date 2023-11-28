@@ -66,6 +66,31 @@ importers:
         specifier: 0.31.0
         version: 0.31.0
 
+  subgraphs/genesis:
+    dependencies:
+      '@graphprotocol/graph-cli':
+        specifier: ^0.62.0
+        version: 0.62.0(@types/node@20.5.2)(node-fetch@3.3.2)(typescript@5.2.2)
+      '@graphprotocol/graph-ts':
+        specifier: ^0.31.0
+        version: 0.31.0
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/eslint-config
+      '@repo/prettier-config':
+        specifier: workspace:*
+        version: link:../../packages/prettier-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../../packages/typescript-config
+      matchstick-as:
+        specifier: ^0.6.0
+        version: 0.6.0
+      typescript:
+        specifier: 5.2.2
+        version: 5.2.2
+
   subgraphs/lz-tracking:
     dependencies:
       '@graphprotocol/graph-cli':

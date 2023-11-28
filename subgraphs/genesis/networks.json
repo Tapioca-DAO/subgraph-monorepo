@@ -1,0 +1,8 @@
+{
+  "arbitrum-goerli": {
+    "AirdropBroker": {
+      "startBlock": 55592144,
+      "address": "0xcb4D35A46057cf87b06157cA962052705760F015"
+    }
+  }
+}

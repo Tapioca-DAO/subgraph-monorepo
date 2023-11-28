@@ -1,0 +1,26 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: AirdropBroker
+    source:
+      abi: AirdropBroker
+      startBlock: 55592144
+      address: "0xcb4D35A46057cf87b06157cA962052705760F015"
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - ParticipationAOTap
+      abis:
+        - name: AirdropBroker
+          file: ./abis/AirdropBroker.json
+        - name: AOTAP
+          file: ./abis/AOTAP.json
+      eventHandlers:
+        - event: Participate(indexed uint256,uint256)
+          handler: handleParticipate
+      file: ./src/airdrop-broker.ts
+    network: arbitrum-goerli
