@@ -1,0 +1,29 @@
+{
+  "fantom-testnet": {
+    "USDO": {
+      "startBlock": 22521116,
+      "address": "0x6a55259D10b68F233De623ca5100444C9965624E"
+    },
+    "Penrose": {
+      "startBlock": 22521116
+    },
+    "TapiocaWrapper": {
+      "startBlock": 22521116,
+      "address": "0xA839C313aEDDD0A4e0657d5b3b9d777C37b92DEf"
+    }
+  },
+  "arbitrum-goerli": {
+    "USDO": {
+      "startBlock": 56359179,
+      "address": "0x99c76DF5C812acCCe2908387a9C9445dC5D69E10"
+    },
+    "Penrose": {
+      "startBlock": 56359179,
+      "address": "0x31D0a7Ef1b2FeB041E0df29aC512f398e578BA40"
+    },
+    "TapiocaWrapper": {
+      "startBlock": 56359179,
+      "address": "0x82e713c839D50869614FE81280DD63D7b71718b4"
+    }
+  }
+}

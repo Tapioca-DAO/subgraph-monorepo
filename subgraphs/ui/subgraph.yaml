@@ -1,0 +1,116 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Penrose
+    source:
+      abi: Penrose
+      startBlock: 21338355
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - FeeToUpdate
+        - FeeVeTapUpdate
+        - OwnershipTransferred
+        - ProtocolWithdrawal
+        - RegisterMasterContract
+        - SingularityMarket
+        - BigBangMarket
+        - SwapperUpdate
+        - UsdoTokenUpdated
+      abis:
+        - name: Penrose
+          file: ./abis/Penrose.json
+        - name: Singularity
+          file: ./abis/Singularity.json
+        - name: BigBang
+          file: ./abis/BigBang.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        - event: RegisterSingularity(indexed address,indexed address)
+          handler: handleRegisterSingularity
+        - event: RegisterBigBang(indexed address,indexed address)
+          handler: handleRegisterBigBang
+      file: ./src/penrose.ts
+    network: fantom-testnet
+  - kind: ethereum
+    name: TapiocaWrapper
+    network: fantom-testnet
+    source:
+      abi: TapiocaWrapper
+      startBlock: 21338355
+      address: "0xB1A04f1b59ec7F2D6Ce1eb656E4A530626823B43"
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - TOFToken
+      abis:
+        - name: TapiocaWrapper
+          file: ./abis/TapiocaWrapper.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+        - name: TOFT
+          file: ./abis/TOFT.json
+      eventHandlers:
+        - event: CreateOFT(indexed address,indexed address)
+          handler: handleCreateOFT
+      file: ./src/tapioca-wrapper.ts
+  - kind: ethereum
+    name: USDO
+    network: fantom-testnet
+    source:
+      abi: USDO
+      startBlock: 21338355
+      address: "0x2a5F8aF896E77cb2f035Bb0a7a3178734E06f1e6"
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - TOFToken
+      abis:
+        - name: USDO
+          file: ./abis/USDO.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        - event: SetTrustedRemote(uint16,bytes)
+          handler: handleSetTrustedRemoteUSDO
+      file: ./src/usdo.ts
+templates:
+  - kind: ethereum
+    name: TOFT
+    network: fantom-testnet
+    source:
+      abi: TOFT
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - TOFToken
+      abis:
+        - name: TOFT
+          file: ./abis/TOFT.json
+      eventHandlers:
+        - event: SetTrustedRemote(uint16,bytes)
+          handler: handleSetTrustedRemote
+      file: ./src/toft.ts
