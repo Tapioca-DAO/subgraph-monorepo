@@ -24,3 +24,28 @@ dataSources:
           handler: handleParticipate
       file: ./src/airdrop-broker.ts
     network: arbitrum-goerli
+  - kind: ethereum
+    name: Vault
+    source:
+      abi: Vault
+      startBlock: 49293101
+      address: "0x762e7626ad75d35f2524085e21e516f7cddf5138"
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - PoolBalance
+        - Pool
+        - PoolBalanceFiveMinuteData
+      abis:
+        - name: Vault
+          file: ./abis/Vault.json
+      eventHandlers:
+        - event: PoolBalanceChanged(indexed bytes32,indexed
+            address,address[],int256[],uint256[])
+          handler: handlePoolBalanceChanged
+        - event: Swap(indexed bytes32,indexed address,indexed address,uint256,uint256)
+          handler: handleSwap
+      file: ./src/vault.ts
+    network: arbitrum-goerli

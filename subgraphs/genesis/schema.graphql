@@ -6,3 +6,24 @@ type ParticipationAOTap @entity(immutable: true) {
   tapAmount: BigInt! # eligible TAP amount
   epochClaimed: Int! # epoch ID where this option was created
 }
+
+
+type PoolBalance @entity(immutable: false) {
+  id: ID!
+  pool: Pool!
+  tokenAddress: String!
+  amount: BigInt! 
+}
+
+type PoolBalanceFiveMinuteData @entity(immutable: false) {
+  id: ID!
+  pool: Pool!
+  tokenAddress: String!
+  amount: BigInt!
+  periodStartUnix: Int!
+}
+
+type Pool @entity(immutable: true) {
+  id: ID!
+  balances: [PoolBalance!]! @derivedFrom(field: "pool")
+}
