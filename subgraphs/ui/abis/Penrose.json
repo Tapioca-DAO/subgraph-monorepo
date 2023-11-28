@@ -36,51 +36,6 @@
     "type": "constructor"
   },
   {
-    "inputs": [],
-    "name": "AlreadyAdded",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "Failed",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "LengthMismatch",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "NotAuthorized",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "NotRegistered",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "NotValid",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "Paused",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "Registered",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "ZeroAddress",
-    "type": "error"
-  },
-  {
     "anonymous": false,
     "inputs": [
       {

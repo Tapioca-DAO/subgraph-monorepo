@@ -146,28 +146,6 @@ export class InterestElasticityUpdated__Params {
   }
 }
 
-export class LeverageExecutorSet extends ethereum.Event {
-  get params(): LeverageExecutorSet__Params {
-    return new LeverageExecutorSet__Params(this);
-  }
-}
-
-export class LeverageExecutorSet__Params {
-  _event: LeverageExecutorSet;
-
-  constructor(event: LeverageExecutorSet) {
-    this._event = event;
-  }
-
-  get oldVal(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get newVal(): Address {
-    return this._event.parameters[1].value.toAddress();
-  }
-}
-
 export class Liquidated extends ethereum.Event {
   get params(): Liquidated__Params {
     return new Liquidated__Params(this);
@@ -1359,16 +1337,20 @@ export class Singularity extends ethereum.SmartContract {
     from: Address,
     borrowAmount: BigInt,
     supplyAmount: BigInt,
-    data: Bytes
+    minAmountOut: BigInt,
+    swapper: Address,
+    dexData: Bytes
   ): BigInt {
     let result = super.call(
       "buyCollateral",
-      "buyCollateral(address,uint256,uint256,bytes):(uint256)",
+      "buyCollateral(address,uint256,uint256,uint256,address,bytes):(uint256)",
       [
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigInt(borrowAmount),
         ethereum.Value.fromUnsignedBigInt(supplyAmount),
-        ethereum.Value.fromBytes(data)
+        ethereum.Value.fromUnsignedBigInt(minAmountOut),
+        ethereum.Value.fromAddress(swapper),
+        ethereum.Value.fromBytes(dexData)
       ]
     );
 
@@ -1379,16 +1361,20 @@ export class Singularity extends ethereum.SmartContract {
     from: Address,
     borrowAmount: BigInt,
     supplyAmount: BigInt,
-    data: Bytes
+    minAmountOut: BigInt,
+    swapper: Address,
+    dexData: Bytes
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "buyCollateral",
-      "buyCollateral(address,uint256,uint256,bytes):(uint256)",
+      "buyCollateral(address,uint256,uint256,uint256,address,bytes):(uint256)",
       [
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigInt(borrowAmount),
         ethereum.Value.fromUnsignedBigInt(supplyAmount),
-        ethereum.Value.fromBytes(data)
+        ethereum.Value.fromUnsignedBigInt(minAmountOut),
+        ethereum.Value.fromAddress(swapper),
+        ethereum.Value.fromBytes(dexData)
       ]
     );
     if (result.reverted) {
@@ -1810,29 +1796,6 @@ export class Singularity extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  leverageExecutor(): Address {
-    let result = super.call(
-      "leverageExecutor",
-      "leverageExecutor():(address)",
-      []
-    );
-
-    return result[0].toAddress();
-  }
-
-  try_leverageExecutor(): ethereum.CallResult<Address> {
-    let result = super.tryCall(
-      "leverageExecutor",
-      "leverageExecutor():(address)",
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
   leverageModule(): Address {
@@ -2388,14 +2351,22 @@ export class Singularity extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  sellCollateral(from: Address, share: BigInt, data: Bytes): BigInt {
+  sellCollateral(
+    from: Address,
+    share: BigInt,
+    minAmountOut: BigInt,
+    swapper: Address,
+    dexData: Bytes
+  ): BigInt {
     let result = super.call(
       "sellCollateral",
-      "sellCollateral(address,uint256,bytes):(uint256)",
+      "sellCollateral(address,uint256,uint256,address,bytes):(uint256)",
       [
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigInt(share),
-        ethereum.Value.fromBytes(data)
+        ethereum.Value.fromUnsignedBigInt(minAmountOut),
+        ethereum.Value.fromAddress(swapper),
+        ethereum.Value.fromBytes(dexData)
       ]
     );
 
@@ -2405,15 +2376,19 @@ export class Singularity extends ethereum.SmartContract {
   try_sellCollateral(
     from: Address,
     share: BigInt,
-    data: Bytes
+    minAmountOut: BigInt,
+    swapper: Address,
+    dexData: Bytes
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "sellCollateral",
-      "sellCollateral(address,uint256,bytes):(uint256)",
+      "sellCollateral(address,uint256,uint256,address,bytes):(uint256)",
       [
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigInt(share),
-        ethereum.Value.fromBytes(data)
+        ethereum.Value.fromUnsignedBigInt(minAmountOut),
+        ethereum.Value.fromAddress(swapper),
+        ethereum.Value.fromBytes(dexData)
       ]
     );
     if (result.reverted) {
@@ -3028,8 +3003,16 @@ export class BuyCollateralCall__Inputs {
     return this._call.inputValues[2].value.toBigInt();
   }
 
-  get data(): Bytes {
-    return this._call.inputValues[3].value.toBytes();
+  get minAmountOut(): BigInt {
+    return this._call.inputValues[3].value.toBigInt();
+  }
+
+  get swapper(): Address {
+    return this._call.inputValues[4].value.toAddress();
+  }
+
+  get dexData(): Bytes {
+    return this._call.inputValues[5].value.toBytes();
   }
 }
 
@@ -3224,6 +3207,246 @@ export class LiquidateBadDebtCall__Outputs {
 
   constructor(call: LiquidateBadDebtCall) {
     this._call = call;
+  }
+}
+
+export class MultiHopBuyCollateralCall extends ethereum.Call {
+  get inputs(): MultiHopBuyCollateralCall__Inputs {
+    return new MultiHopBuyCollateralCall__Inputs(this);
+  }
+
+  get outputs(): MultiHopBuyCollateralCall__Outputs {
+    return new MultiHopBuyCollateralCall__Outputs(this);
+  }
+}
+
+export class MultiHopBuyCollateralCall__Inputs {
+  _call: MultiHopBuyCollateralCall;
+
+  constructor(call: MultiHopBuyCollateralCall) {
+    this._call = call;
+  }
+
+  get from(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get collateralAmount(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+
+  get borrowAmount(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
+  }
+
+  get useAirdropped(): boolean {
+    return this._call.inputValues[3].value.toBoolean();
+  }
+
+  get swapData(): MultiHopBuyCollateralCallSwapDataStruct {
+    return changetype<MultiHopBuyCollateralCallSwapDataStruct>(
+      this._call.inputValues[4].value.toTuple()
+    );
+  }
+
+  get lzData(): MultiHopBuyCollateralCallLzDataStruct {
+    return changetype<MultiHopBuyCollateralCallLzDataStruct>(
+      this._call.inputValues[5].value.toTuple()
+    );
+  }
+
+  get externalData(): MultiHopBuyCollateralCallExternalDataStruct {
+    return changetype<MultiHopBuyCollateralCallExternalDataStruct>(
+      this._call.inputValues[6].value.toTuple()
+    );
+  }
+}
+
+export class MultiHopBuyCollateralCall__Outputs {
+  _call: MultiHopBuyCollateralCall;
+
+  constructor(call: MultiHopBuyCollateralCall) {
+    this._call = call;
+  }
+}
+
+export class MultiHopBuyCollateralCallSwapDataStruct extends ethereum.Tuple {
+  get tokenOut(): Address {
+    return this[0].toAddress();
+  }
+
+  get amountOutMin(): BigInt {
+    return this[1].toBigInt();
+  }
+
+  get data(): Bytes {
+    return this[2].toBytes();
+  }
+}
+
+export class MultiHopBuyCollateralCallLzDataStruct extends ethereum.Tuple {
+  get srcExtraGasLimit(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get lzSrcChainId(): i32 {
+    return this[1].toI32();
+  }
+
+  get lzDstChainId(): i32 {
+    return this[2].toI32();
+  }
+
+  get zroPaymentAddress(): Address {
+    return this[3].toAddress();
+  }
+
+  get dstAirdropAdapterParam(): Bytes {
+    return this[4].toBytes();
+  }
+
+  get srcAirdropAdapterParam(): Bytes {
+    return this[5].toBytes();
+  }
+
+  get refundAddress(): Address {
+    return this[6].toAddress();
+  }
+}
+
+export class MultiHopBuyCollateralCallExternalDataStruct extends ethereum.Tuple {
+  get swapper(): Address {
+    return this[0].toAddress();
+  }
+
+  get magnetar(): Address {
+    return this[1].toAddress();
+  }
+
+  get tOft(): Address {
+    return this[2].toAddress();
+  }
+
+  get srcMarket(): Address {
+    return this[3].toAddress();
+  }
+}
+
+export class MultiHopSellCollateralCall extends ethereum.Call {
+  get inputs(): MultiHopSellCollateralCall__Inputs {
+    return new MultiHopSellCollateralCall__Inputs(this);
+  }
+
+  get outputs(): MultiHopSellCollateralCall__Outputs {
+    return new MultiHopSellCollateralCall__Outputs(this);
+  }
+}
+
+export class MultiHopSellCollateralCall__Inputs {
+  _call: MultiHopSellCollateralCall;
+
+  constructor(call: MultiHopSellCollateralCall) {
+    this._call = call;
+  }
+
+  get from(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get share(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+
+  get useAirdropped(): boolean {
+    return this._call.inputValues[2].value.toBoolean();
+  }
+
+  get swapData(): MultiHopSellCollateralCallSwapDataStruct {
+    return changetype<MultiHopSellCollateralCallSwapDataStruct>(
+      this._call.inputValues[3].value.toTuple()
+    );
+  }
+
+  get lzData(): MultiHopSellCollateralCallLzDataStruct {
+    return changetype<MultiHopSellCollateralCallLzDataStruct>(
+      this._call.inputValues[4].value.toTuple()
+    );
+  }
+
+  get externalData(): MultiHopSellCollateralCallExternalDataStruct {
+    return changetype<MultiHopSellCollateralCallExternalDataStruct>(
+      this._call.inputValues[5].value.toTuple()
+    );
+  }
+}
+
+export class MultiHopSellCollateralCall__Outputs {
+  _call: MultiHopSellCollateralCall;
+
+  constructor(call: MultiHopSellCollateralCall) {
+    this._call = call;
+  }
+}
+
+export class MultiHopSellCollateralCallSwapDataStruct extends ethereum.Tuple {
+  get tokenOut(): Address {
+    return this[0].toAddress();
+  }
+
+  get amountOutMin(): BigInt {
+    return this[1].toBigInt();
+  }
+
+  get data(): Bytes {
+    return this[2].toBytes();
+  }
+}
+
+export class MultiHopSellCollateralCallLzDataStruct extends ethereum.Tuple {
+  get srcExtraGasLimit(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get lzSrcChainId(): i32 {
+    return this[1].toI32();
+  }
+
+  get lzDstChainId(): i32 {
+    return this[2].toI32();
+  }
+
+  get zroPaymentAddress(): Address {
+    return this[3].toAddress();
+  }
+
+  get dstAirdropAdapterParam(): Bytes {
+    return this[4].toBytes();
+  }
+
+  get srcAirdropAdapterParam(): Bytes {
+    return this[5].toBytes();
+  }
+
+  get refundAddress(): Address {
+    return this[6].toAddress();
+  }
+}
+
+export class MultiHopSellCollateralCallExternalDataStruct extends ethereum.Tuple {
+  get swapper(): Address {
+    return this[0].toAddress();
+  }
+
+  get magnetar(): Address {
+    return this[1].toAddress();
+  }
+
+  get tOft(): Address {
+    return this[2].toAddress();
+  }
+
+  get srcMarket(): Address {
+    return this[3].toAddress();
   }
 }
 
@@ -3584,8 +3807,16 @@ export class SellCollateralCall__Inputs {
     return this._call.inputValues[1].value.toBigInt();
   }
 
-  get data(): Bytes {
-    return this._call.inputValues[2].value.toBytes();
+  get minAmountOut(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
+  }
+
+  get swapper(): Address {
+    return this._call.inputValues[3].value.toAddress();
+  }
+
+  get dexData(): Bytes {
+    return this._call.inputValues[4].value.toBytes();
   }
 }
 
@@ -3598,36 +3829,6 @@ export class SellCollateralCall__Outputs {
 
   get amountOut(): BigInt {
     return this._call.outputValues[0].value.toBigInt();
-  }
-}
-
-export class SetLeverageExecutorCall extends ethereum.Call {
-  get inputs(): SetLeverageExecutorCall__Inputs {
-    return new SetLeverageExecutorCall__Inputs(this);
-  }
-
-  get outputs(): SetLeverageExecutorCall__Outputs {
-    return new SetLeverageExecutorCall__Outputs(this);
-  }
-}
-
-export class SetLeverageExecutorCall__Inputs {
-  _call: SetLeverageExecutorCall;
-
-  constructor(call: SetLeverageExecutorCall) {
-    this._call = call;
-  }
-
-  get _executor(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class SetLeverageExecutorCall__Outputs {
-  _call: SetLeverageExecutorCall;
-
-  constructor(call: SetLeverageExecutorCall) {
-    this._call = call;
   }
 }
 
@@ -3648,48 +3849,52 @@ export class SetMarketConfigCall__Inputs {
     this._call = call;
   }
 
+  get _borrowOpeningFee(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
   get _oracle(): Address {
-    return this._call.inputValues[0].value.toAddress();
+    return this._call.inputValues[1].value.toAddress();
   }
 
   get _oracleData(): Bytes {
-    return this._call.inputValues[1].value.toBytes();
+    return this._call.inputValues[2].value.toBytes();
   }
 
   get _conservator(): Address {
-    return this._call.inputValues[2].value.toAddress();
+    return this._call.inputValues[3].value.toAddress();
   }
 
   get _callerFee(): BigInt {
-    return this._call.inputValues[3].value.toBigInt();
-  }
-
-  get _protocolFee(): BigInt {
     return this._call.inputValues[4].value.toBigInt();
   }
 
-  get _liquidationBonusAmount(): BigInt {
+  get _protocolFee(): BigInt {
     return this._call.inputValues[5].value.toBigInt();
   }
 
-  get _minLiquidatorReward(): BigInt {
+  get _liquidationBonusAmount(): BigInt {
     return this._call.inputValues[6].value.toBigInt();
   }
 
-  get _maxLiquidatorReward(): BigInt {
+  get _minLiquidatorReward(): BigInt {
     return this._call.inputValues[7].value.toBigInt();
   }
 
-  get _totalBorrowCap(): BigInt {
+  get _maxLiquidatorReward(): BigInt {
     return this._call.inputValues[8].value.toBigInt();
   }
 
-  get _collateralizationRate(): BigInt {
+  get _totalBorrowCap(): BigInt {
     return this._call.inputValues[9].value.toBigInt();
   }
 
-  get _liquidationCollateralizationRate(): BigInt {
+  get _collateralizationRate(): BigInt {
     return this._call.inputValues[10].value.toBigInt();
+  }
+
+  get _liquidationCollateralizationRate(): BigInt {
+    return this._call.inputValues[11].value.toBigInt();
   }
 }
 
@@ -3718,36 +3923,32 @@ export class SetSingularityConfigCall__Inputs {
     this._call = call;
   }
 
-  get _borrowOpeningFee(): BigInt {
+  get _lqCollateralizationRate(): BigInt {
     return this._call.inputValues[0].value.toBigInt();
   }
 
-  get _lqCollateralizationRate(): BigInt {
+  get _liquidationMultiplier(): BigInt {
     return this._call.inputValues[1].value.toBigInt();
   }
 
-  get _liquidationMultiplier(): BigInt {
+  get _minimumTargetUtilization(): BigInt {
     return this._call.inputValues[2].value.toBigInt();
   }
 
-  get _minimumTargetUtilization(): BigInt {
+  get _maximumTargetUtilization(): BigInt {
     return this._call.inputValues[3].value.toBigInt();
   }
 
-  get _maximumTargetUtilization(): BigInt {
+  get _minimumInterestPerSecond(): BigInt {
     return this._call.inputValues[4].value.toBigInt();
   }
 
-  get _minimumInterestPerSecond(): BigInt {
+  get _maximumInterestPerSecond(): BigInt {
     return this._call.inputValues[5].value.toBigInt();
   }
 
-  get _maximumInterestPerSecond(): BigInt {
-    return this._call.inputValues[6].value.toBigInt();
-  }
-
   get _interestElasticity(): BigInt {
-    return this._call.inputValues[7].value.toBigInt();
+    return this._call.inputValues[6].value.toBigInt();
   }
 }
 

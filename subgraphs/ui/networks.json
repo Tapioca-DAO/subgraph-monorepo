@@ -1,29 +1,38 @@
 {
   "fantom-testnet": {
     "USDO": {
-      "startBlock": 22521116,
-      "address": "0x6a55259D10b68F233De623ca5100444C9965624E"
+      "startBlock": 21338355,
+      "address": "0xCBEcfB102031cCEF0C8BB1455d692BE4a75A0faC"
     },
     "Penrose": {
-      "startBlock": 22521116
+      "startBlock": 21338355,
+      "address": "0xDaea64A0FA0CbD12d9c85fC4B11904a1a5DcFB31"
     },
     "TapiocaWrapper": {
-      "startBlock": 22521116,
-      "address": "0xA839C313aEDDD0A4e0657d5b3b9d777C37b92DEf"
+      "startBlock": 21338355,
+      "address": "0x4c172840783CfeC4A3cB0D18EE6E59F18E180B78"
+    },
+    "YieldBox": {
+      "startBlock": 21338355,
+      "address": "0x9628067e507Ad43D5e686C2B5fc6AE085Cb67aEb"
     }
   },
   "arbitrum-goerli": {
     "USDO": {
-      "startBlock": 56359179,
-      "address": "0x99c76DF5C812acCCe2908387a9C9445dC5D69E10"
+      "startBlock": 46546869,
+      "address": "0x1147FB32BaE86f043790dc3A27786d0673fbd38B"
     },
     "Penrose": {
-      "startBlock": 56359179,
-      "address": "0x31D0a7Ef1b2FeB041E0df29aC512f398e578BA40"
+      "startBlock": 46546869,
+      "address": "0xC49e939fa67183D6122c4F815cB84c927086613E"
     },
     "TapiocaWrapper": {
-      "startBlock": 56359179,
-      "address": "0x82e713c839D50869614FE81280DD63D7b71718b4"
+      "startBlock": 46546869,
+      "address": "0x6C8d6b63E4FfAF6f7f565Bc316c6E0655A223548"
+    },
+    "YieldBox": {
+      "startBlock": 46546869,
+      "address": "0x36dF846354244ACcCBabb79c0F5942C94EE27091"
     }
   }
 }

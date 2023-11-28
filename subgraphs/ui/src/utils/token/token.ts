@@ -112,15 +112,8 @@ export function putToft(tokenAddress: Address, isUSDO: boolean): TOFToken {
   if (toftEntity == null) {
     toftEntity = new TOFToken(tokenAddress)
 
-    toftEntity.sourceTOFToken = putToken(tokenAddress).id
+    toftEntity.token = putToken(tokenAddress).id
     toftEntity.remoteTOFTs = []
-    toftEntity.isUSDO = isUSDO
-    toftEntity.save()
-  }
-
-  // we are respecing the isUSDO only if it is true
-  if (isUSDO && toftEntity.isUSDO != isUSDO) {
-    toftEntity.isUSDO = isUSDO
     toftEntity.save()
   }
 

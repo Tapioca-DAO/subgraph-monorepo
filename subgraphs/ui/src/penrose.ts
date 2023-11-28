@@ -25,8 +25,6 @@ export function handleRegisterSingularity(
   entity.borrowToken = putToken(singularityContract.asset()).id
   entity.collateralToken = putToken(singularityContract.collateral()).id
   entity.oracleAddress = singularityContract.oracle()
-  entity.borrowTokenYieldBoxId = singularityContract.assetId()
-  entity.collateralTokenYieldBoxId = singularityContract.collateralId()
 
   entity.save()
 
@@ -77,8 +75,6 @@ export function handleRegisterBigBang(event: RegisterBigBangEvent): void {
   entity.borrowToken = putToken(bbContract.asset()).id
   entity.collateralToken = putToken(bbContract.collateral()).id
   entity.oracleAddress = bbContract.oracle()
-  entity.borrowTokenYieldBoxId = bbContract.assetId()
-  entity.collateralTokenYieldBoxId = bbContract.collateralId()
 
   entity.save()
 

@@ -1,40 +1,5 @@
 [
   {
-    "inputs": [],
-    "name": "BadPair",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "DebtRatesNotValid",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "MaxDebtRateNotValid",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "ModuleNotSet",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "NotEnough",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "NotValid",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "TransferFailed",
-    "type": "error"
-  },
-  {
     "anonymous": false,
     "inputs": [
       {
@@ -82,31 +47,6 @@
       }
     ],
     "name": "ApprovalBorrow",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [],
-    "name": "AssetOracleDataUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "oldVal",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newVal",
-        "type": "address"
-      }
-    ],
-    "name": "AssetOracleUpdated",
     "type": "event"
   },
   {
@@ -164,25 +104,6 @@
       }
     ],
     "name": "ExchangeRateDurationUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "oldVal",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newVal",
-        "type": "address"
-      }
-    ],
-    "name": "LeverageExecutorSet",
     "type": "event"
   },
   {
@@ -345,6 +266,25 @@
       }
     ],
     "name": "LogBorrowCapUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_oldVal",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_newVal",
+        "type": "uint256"
+      }
+    ],
+    "name": "LogBorrowingFee",
     "type": "event"
   },
   {
@@ -533,68 +473,6 @@
       }
     ],
     "name": "Transfer",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "oldMin",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "newMin",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "oldMax",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "newMax",
-        "type": "uint256"
-      }
-    ],
-    "name": "UpdateMinMaxMintFee",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "oldMin",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "newMin",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "oldMax",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "newMax",
-        "type": "uint256"
-      }
-    ],
-    "name": "UpdateMinMaxMintRange",
     "type": "event"
   },
   {
@@ -791,32 +669,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "assetOracle",
-    "outputs": [
-      {
-        "internalType": "contract IOracle",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "assetOracleData",
-    "outputs": [
-      {
-        "internalType": "bytes",
-        "name": "",
-        "type": "bytes"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "address",
@@ -883,6 +735,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "borrowOpeningFee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -900,8 +765,18 @@
         "type": "uint256"
       },
       {
+        "internalType": "uint256",
+        "name": "minAmountOut",
+        "type": "uint256"
+      },
+      {
+        "internalType": "contract ISwapper",
+        "name": "swapper",
+        "type": "address"
+      },
+      {
         "internalType": "bytes",
-        "name": "data",
+        "name": "dexData",
         "type": "bytes"
       }
     ],
@@ -1210,19 +1085,6 @@
   },
   {
     "inputs": [],
-    "name": "leverageExecutor",
-    "outputs": [
-      {
-        "internalType": "contract ILeverageExecutor",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "leverageModule",
     "outputs": [
       {
@@ -1370,32 +1232,6 @@
   },
   {
     "inputs": [],
-    "name": "maxMintFee",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "maxMintFeeStart",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "minDebtRate",
     "outputs": [
       {
@@ -1410,32 +1246,6 @@
   {
     "inputs": [],
     "name": "minLiquidatorReward",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "minMintFee",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "minMintFeeStart",
     "outputs": [
       {
         "internalType": "uint256",
@@ -1812,8 +1622,18 @@
         "type": "uint256"
       },
       {
+        "internalType": "uint256",
+        "name": "minAmountOut",
+        "type": "uint256"
+      },
+      {
+        "internalType": "contract ISwapper",
+        "name": "swapper",
+        "type": "address"
+      },
+      {
         "internalType": "bytes",
-        "name": "data",
+        "name": "dexData",
         "type": "bytes"
       }
     ],
@@ -1825,24 +1645,6 @@
         "type": "uint256"
       }
     ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_oracle",
-        "type": "address"
-      },
-      {
-        "internalType": "bytes",
-        "name": "_oracleData",
-        "type": "bytes"
-      }
-    ],
-    "name": "setAssetOracle",
-    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -1877,18 +1679,10 @@
   {
     "inputs": [
       {
-        "internalType": "contract ILeverageExecutor",
-        "name": "_executor",
-        "type": "address"
-      }
-    ],
-    "name": "setLeverageExecutor",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
+        "internalType": "uint256",
+        "name": "_borrowOpeningFee",
+        "type": "uint256"
+      },
       {
         "internalType": "contract IOracle",
         "name": "_oracle",
@@ -1946,42 +1740,6 @@
       }
     ],
     "name": "setMarketConfig",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_min",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_max",
-        "type": "uint256"
-      }
-    ],
-    "name": "setMinAndMaxMintFee",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_min",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_max",
-        "type": "uint256"
-      }
-    ],
-    "name": "setMinAndMaxMintRange",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

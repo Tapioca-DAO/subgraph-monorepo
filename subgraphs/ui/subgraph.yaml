@@ -7,6 +7,7 @@ dataSources:
     source:
       abi: Penrose
       startBlock: 21338355
+      address: "0xDaea64A0FA0CbD12d9c85fC4B11904a1a5DcFB31"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -47,7 +48,7 @@ dataSources:
     source:
       abi: TapiocaWrapper
       startBlock: 21338355
-      address: "0xB1A04f1b59ec7F2D6Ce1eb656E4A530626823B43"
+      address: "0x4c172840783CfeC4A3cB0D18EE6E59F18E180B78"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -75,7 +76,7 @@ dataSources:
     source:
       abi: USDO
       startBlock: 21338355
-      address: "0x2a5F8aF896E77cb2f035Bb0a7a3178734E06f1e6"
+      address: "0xCBEcfB102031cCEF0C8BB1455d692BE4a75A0faC"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -95,6 +96,27 @@ dataSources:
         - event: SetTrustedRemote(uint16,bytes)
           handler: handleSetTrustedRemoteUSDO
       file: ./src/usdo.ts
+  - kind: ethereum
+    name: YieldBox
+    source:
+      abi: YieldBox
+      startBlock: 21338355
+      address: "0x9628067e507Ad43D5e686C2B5fc6AE085Cb67aEb"
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - TOFToken
+      abis:
+        - name: YieldBox
+          file: ./abis/YieldBox.json
+      eventHandlers:
+        - event: AssetRegistered(indexed uint8,indexed address,address,indexed
+            uint256,uint256)
+          handler: handleAssetRegistered
+      file: ./src/yieldbox.ts
+    network: fantom-testnet
 templates:
   - kind: ethereum
     name: TOFT

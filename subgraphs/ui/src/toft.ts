@@ -31,10 +31,9 @@ export function handleSetTrustedRemote(event: SetTrustedRemoteEvent): void {
     remoteToftMetaEntity = new RemoteTOFTMeta(remoteToftMetaEntityId)
   }
 
-  remoteToftMetaEntity.remoteChainId = staticTokenDefinition.chainId as u32
-  remoteToftMetaEntity.remoteLZChainId = event.params._remoteChainId
-  remoteToftMetaEntity.remoteTOFTokenAddress =
-    Address.fromHexString(remoteAddress)
+  remoteToftMetaEntity.chainId = staticTokenDefinition.chainId as u32
+  remoteToftMetaEntity.lzChainId = event.params._remoteChainId
+  remoteToftMetaEntity.address = Address.fromHexString(remoteAddress)
   remoteToftMetaEntity.save()
 
   const remoteToftMetaArray = toftEntity.remoteTOFTs
