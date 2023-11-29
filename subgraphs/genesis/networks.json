@@ -7,6 +7,10 @@
     "Vault": {
       "startBlock": 49293101,
       "address": "0x762e7626ad75d35f2524085e21e516f7cddf5138"
+    },
+    "LBP": {
+      "startBlock": 49293227,
+      "address": "0xc1dbd0a8fe1f449f4dfc02b45e11485ec305197a"
     }
   }
 }

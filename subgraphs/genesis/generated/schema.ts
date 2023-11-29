@@ -174,8 +174,8 @@ export class PoolBalance extends Entity {
     this.set("pool", Value.fromString(value));
   }
 
-  get tokenAddress(): string {
-    let value = this.get("tokenAddress");
+  get token(): string {
+    let value = this.get("token");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
@@ -183,8 +183,8 @@ export class PoolBalance extends Entity {
     }
   }
 
-  set tokenAddress(value: string) {
-    this.set("tokenAddress", Value.fromString(value));
+  set token(value: string) {
+    this.set("token", Value.fromString(value));
   }
 
   get amount(): BigInt {
@@ -198,119 +198,6 @@ export class PoolBalance extends Entity {
 
   set amount(value: BigInt) {
     this.set("amount", Value.fromBigInt(value));
-  }
-}
-
-export class Pool extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save Pool entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type Pool must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("Pool", id.toString(), this);
-    }
-  }
-
-  static loadInBlock(id: string): Pool | null {
-    return changetype<Pool | null>(store.get_in_block("Pool", id));
-  }
-
-  static load(id: string): Pool | null {
-    return changetype<Pool | null>(store.get("Pool", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get balances(): PoolBalanceLoader {
-    return new PoolBalanceLoader(
-      "Pool",
-      this.get("id")!.toString(),
-      "balances"
-    );
-  }
-}
-
-export class PoolFiveMinuteData extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save PoolFiveMinuteData entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type PoolFiveMinuteData must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("PoolFiveMinuteData", id.toString(), this);
-    }
-  }
-
-  static loadInBlock(id: string): PoolFiveMinuteData | null {
-    return changetype<PoolFiveMinuteData | null>(
-      store.get_in_block("PoolFiveMinuteData", id)
-    );
-  }
-
-  static load(id: string): PoolFiveMinuteData | null {
-    return changetype<PoolFiveMinuteData | null>(
-      store.get("PoolFiveMinuteData", id)
-    );
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get balances(): PoolBalanceFiveMinuteDataLoader {
-    return new PoolBalanceFiveMinuteDataLoader(
-      "PoolFiveMinuteData",
-      this.get("id")!.toString(),
-      "balances"
-    );
-  }
-
-  get periodStartUnix(): i32 {
-    let value = this.get("periodStartUnix");
-    if (!value || value.kind == ValueKind.NULL) {
-      return 0;
-    } else {
-      return value.toI32();
-    }
-  }
-
-  set periodStartUnix(value: i32) {
-    this.set("periodStartUnix", Value.fromI32(value));
   }
 }
 
@@ -373,8 +260,8 @@ export class PoolBalanceFiveMinuteData extends Entity {
     this.set("pool", Value.fromString(value));
   }
 
-  get tokenAddress(): string {
-    let value = this.get("tokenAddress");
+  get token(): string {
+    let value = this.get("token");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
@@ -382,8 +269,8 @@ export class PoolBalanceFiveMinuteData extends Entity {
     }
   }
 
-  set tokenAddress(value: string) {
-    this.set("tokenAddress", Value.fromString(value));
+  set token(value: string) {
+    this.set("token", Value.fromString(value));
   }
 
   get amount(): BigInt {
@@ -413,6 +300,283 @@ export class PoolBalanceFiveMinuteData extends Entity {
   }
 }
 
+export class PoolWeights extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save PoolWeights entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type PoolWeights must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("PoolWeights", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): PoolWeights | null {
+    return changetype<PoolWeights | null>(
+      store.get_in_block("PoolWeights", id)
+    );
+  }
+
+  static load(id: string): PoolWeights | null {
+    return changetype<PoolWeights | null>(store.get("PoolWeights", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get pool(): string {
+    let value = this.get("pool");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set pool(value: string) {
+    this.set("pool", Value.fromString(value));
+  }
+
+  get startTimestamp(): i32 {
+    let value = this.get("startTimestamp");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set startTimestamp(value: i32) {
+    this.set("startTimestamp", Value.fromI32(value));
+  }
+
+  get endTimestamp(): i32 {
+    let value = this.get("endTimestamp");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set endTimestamp(value: i32) {
+    this.set("endTimestamp", Value.fromI32(value));
+  }
+
+  get startWeights(): Array<BigInt> {
+    let value = this.get("startWeights");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigIntArray();
+    }
+  }
+
+  set startWeights(value: Array<BigInt>) {
+    this.set("startWeights", Value.fromBigIntArray(value));
+  }
+
+  get endWeights(): Array<BigInt> {
+    let value = this.get("endWeights");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigIntArray();
+    }
+  }
+
+  set endWeights(value: Array<BigInt>) {
+    this.set("endWeights", Value.fromBigIntArray(value));
+  }
+}
+
+export class Pool extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Pool entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Pool must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Pool", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): Pool | null {
+    return changetype<Pool | null>(store.get_in_block("Pool", id));
+  }
+
+  static load(id: string): Pool | null {
+    return changetype<Pool | null>(store.get("Pool", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get balances(): PoolBalanceLoader {
+    return new PoolBalanceLoader(
+      "Pool",
+      this.get("id")!.toString(),
+      "balances"
+    );
+  }
+
+  get tokens(): Array<string> {
+    let value = this.get("tokens");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set tokens(value: Array<string>) {
+    this.set("tokens", Value.fromStringArray(value));
+  }
+
+  get weights(): string | null {
+    let value = this.get("weights");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set weights(value: string | null) {
+    if (!value) {
+      this.unset("weights");
+    } else {
+      this.set("weights", Value.fromString(<string>value));
+    }
+  }
+}
+
+export class Token extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Token entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Token must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Token", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): Token | null {
+    return changetype<Token | null>(store.get_in_block("Token", id));
+  }
+
+  static load(id: string): Token | null {
+    return changetype<Token | null>(store.get("Token", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get address(): string {
+    let value = this.get("address");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set address(value: string) {
+    this.set("address", Value.fromString(value));
+  }
+
+  get name(): string {
+    let value = this.get("name");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
+
+  get symbol(): string {
+    let value = this.get("symbol");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set symbol(value: string) {
+    this.set("symbol", Value.fromString(value));
+  }
+
+  get decimals(): i32 {
+    let value = this.get("decimals");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set decimals(value: i32) {
+    this.set("decimals", Value.fromI32(value));
+  }
+}
+
 export class PoolBalanceLoader extends Entity {
   _entity: string;
   _field: string;
@@ -428,23 +592,5 @@ export class PoolBalanceLoader extends Entity {
   load(): PoolBalance[] {
     let value = store.loadRelated(this._entity, this._id, this._field);
     return changetype<PoolBalance[]>(value);
-  }
-}
-
-export class PoolBalanceFiveMinuteDataLoader extends Entity {
-  _entity: string;
-  _field: string;
-  _id: string;
-
-  constructor(entity: string, id: string, field: string) {
-    super();
-    this._entity = entity;
-    this._id = id;
-    this._field = field;
-  }
-
-  load(): PoolBalanceFiveMinuteData[] {
-    let value = store.loadRelated(this._entity, this._id, this._field);
-    return changetype<PoolBalanceFiveMinuteData[]>(value);
   }
 }

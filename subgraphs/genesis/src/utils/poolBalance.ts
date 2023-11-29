@@ -1,6 +1,7 @@
 import { Address, BigInt, ethereum } from "@graphprotocol/graph-ts"
 
 import { PoolBalance, PoolBalanceFiveMinuteData } from "../../generated/schema"
+import { putToken } from "./token/token"
 
 export const putBalance = (
   poolId: string,
@@ -16,7 +17,7 @@ export const putBalance = (
       poolId.concat("-").concat(token.toHexString())
     )
 
-    entity.tokenAddress = token.toHexString()
+    entity.token = putToken(token).id
     entity.amount = delta
     entity.pool = poolId
     entity.save()
@@ -49,7 +50,7 @@ export function updatePoolBalanceFiveMinuteData(
 
     poolBalanceFiveMinuteData.periodStartUnix = fiveMinuteStartUnix
     poolBalanceFiveMinuteData.pool = updatedPoolBalance.pool
-    poolBalanceFiveMinuteData.tokenAddress = updatedPoolBalance.tokenAddress
+    poolBalanceFiveMinuteData.token = updatedPoolBalance.token
     poolBalanceFiveMinuteData.amount = updatedPoolBalance.amount
   } else {
     poolBalanceFiveMinuteData.amount = updatedPoolBalance.amount

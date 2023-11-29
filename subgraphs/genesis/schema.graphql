@@ -11,19 +11,38 @@ type ParticipationAOTap @entity(immutable: true) {
 type PoolBalance @entity(immutable: false) {
   id: ID!
   pool: Pool!
-  tokenAddress: String!
+  token: Token!
   amount: BigInt! 
 }
 
 type PoolBalanceFiveMinuteData @entity(immutable: false) {
   id: ID!
   pool: Pool!
-  tokenAddress: String!
+  token: Token!
   amount: BigInt!
   periodStartUnix: Int!
+}
+
+type PoolWeights @entity(immutable: false) {
+  id: ID!
+  pool: Pool!
+  startTimestamp: Int!
+  endTimestamp: Int!
+  startWeights: [BigInt!]!
+  endWeights: [BigInt!]!
 }
 
 type Pool @entity(immutable: true) {
   id: ID!
   balances: [PoolBalance!]! @derivedFrom(field: "pool")
+  tokens: [Token!]!
+  weights: PoolWeights
+}
+
+type Token @entity(immutable: true) {
+  id: ID!
+  address: String!
+  name: String!
+  symbol: String!
+  decimals: Int! # uint32
 }

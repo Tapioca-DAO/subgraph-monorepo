@@ -39,6 +39,12 @@ dataSources:
         - Pool
         - PoolBalanceFiveMinuteData
       abis:
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
         - name: Vault
           file: ./abis/Vault.json
       eventHandlers:
@@ -48,4 +54,32 @@ dataSources:
         - event: Swap(indexed bytes32,indexed address,indexed address,uint256,uint256)
           handler: handleSwap
       file: ./src/vault.ts
+    network: arbitrum-goerli
+  - kind: ethereum
+    name: LBP
+    source:
+      abi: LBP
+      startBlock: 49293227
+      address: "0xc1dbd0a8fe1f449f4dfc02b45e11485ec305197a"
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - PoolWeights
+      abis:
+        - name: LBP
+          file: ./abis/LBP.json
+        - name: Vault
+          file: ./abis/Vault.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        - event: GradualWeightUpdateScheduled(uint256,uint256,uint256[],uint256[])
+          handler: handleGradualWeightUpdateScheduled
+      file: ./src/lbp.ts
     network: arbitrum-goerli
