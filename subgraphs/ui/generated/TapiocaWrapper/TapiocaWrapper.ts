@@ -130,6 +130,21 @@ export class TapiocaWrapper extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
+  pendingOwner(): Address {
+    let result = super.call("pendingOwner", "pendingOwner():(address)", []);
+
+    return result[0].toAddress();
+  }
+
+  try_pendingOwner(): ethereum.CallResult<Address> {
+    let result = super.tryCall("pendingOwner", "pendingOwner():(address)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
   tapiocaOFTLength(): BigInt {
     let result = super.call(
       "tapiocaOFTLength",
@@ -224,6 +239,32 @@ export class ConstructorCall__Outputs {
   _call: ConstructorCall;
 
   constructor(call: ConstructorCall) {
+    this._call = call;
+  }
+}
+
+export class ClaimOwnershipCall extends ethereum.Call {
+  get inputs(): ClaimOwnershipCall__Inputs {
+    return new ClaimOwnershipCall__Inputs(this);
+  }
+
+  get outputs(): ClaimOwnershipCall__Outputs {
+    return new ClaimOwnershipCall__Outputs(this);
+  }
+}
+
+export class ClaimOwnershipCall__Inputs {
+  _call: ClaimOwnershipCall;
+
+  constructor(call: ClaimOwnershipCall) {
+    this._call = call;
+  }
+}
+
+export class ClaimOwnershipCall__Outputs {
+  _call: ClaimOwnershipCall;
+
+  constructor(call: ClaimOwnershipCall) {
     this._call = call;
   }
 }
@@ -334,32 +375,6 @@ export class ExecuteTOFTCall__Outputs {
   }
 }
 
-export class RenounceOwnershipCall extends ethereum.Call {
-  get inputs(): RenounceOwnershipCall__Inputs {
-    return new RenounceOwnershipCall__Inputs(this);
-  }
-
-  get outputs(): RenounceOwnershipCall__Outputs {
-    return new RenounceOwnershipCall__Outputs(this);
-  }
-}
-
-export class RenounceOwnershipCall__Inputs {
-  _call: RenounceOwnershipCall;
-
-  constructor(call: RenounceOwnershipCall) {
-    this._call = call;
-  }
-}
-
-export class RenounceOwnershipCall__Outputs {
-  _call: RenounceOwnershipCall;
-
-  constructor(call: RenounceOwnershipCall) {
-    this._call = call;
-  }
-}
-
 export class TransferOwnershipCall extends ethereum.Call {
   get inputs(): TransferOwnershipCall__Inputs {
     return new TransferOwnershipCall__Inputs(this);
@@ -379,6 +394,14 @@ export class TransferOwnershipCall__Inputs {
 
   get newOwner(): Address {
     return this._call.inputValues[0].value.toAddress();
+  }
+
+  get direct(): boolean {
+    return this._call.inputValues[1].value.toBoolean();
+  }
+
+  get renounce(): boolean {
+    return this._call.inputValues[2].value.toBoolean();
   }
 }
 

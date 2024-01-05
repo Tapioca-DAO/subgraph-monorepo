@@ -42,53 +42,84 @@
         "type": "uint256"
       },
       {
-        "internalType": "address payable",
+        "internalType": "contract BaseTOFTLeverageModule",
         "name": "__leverageModule",
         "type": "address"
       },
       {
-        "internalType": "address payable",
+        "internalType": "contract BaseTOFTLeverageDestinationModule",
         "name": "__leverageDestinationModule",
         "type": "address"
       },
       {
-        "internalType": "address payable",
-        "name": "__strategyModule",
-        "type": "address"
-      },
-      {
-        "internalType": "address payable",
-        "name": "__strategyDestinationModule",
-        "type": "address"
-      },
-      {
-        "internalType": "address payable",
+        "internalType": "contract BaseTOFTMarketModule",
         "name": "__marketModule",
         "type": "address"
       },
       {
-        "internalType": "address payable",
+        "internalType": "contract BaseTOFTMarketDestinationModule",
         "name": "__marketDestinationModule",
         "type": "address"
       },
       {
-        "internalType": "address payable",
+        "internalType": "contract BaseTOFTOptionsModule",
         "name": "__optionsModule",
         "type": "address"
       },
       {
-        "internalType": "address payable",
+        "internalType": "contract BaseTOFTOptionsDestinationModule",
         "name": "__optionsDestinationModule",
         "type": "address"
       },
       {
-        "internalType": "address payable",
+        "internalType": "contract BaseTOFTGenericModule",
         "name": "__genericModule",
         "type": "address"
       }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
+  },
+  {
+    "inputs": [],
+    "name": "AllowanceNotValid",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "Failed",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidShortString",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotAuthorized",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotNative",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotValid",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "str",
+        "type": "string"
+      }
+    ],
+    "name": "StringTooLong",
+    "type": "error"
   },
   {
     "anonymous": false,
@@ -144,6 +175,31 @@
       }
     ],
     "name": "CallOFTReceivedSuccess",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [],
+    "name": "EIP712DomainChanged",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_old",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_newVal",
+        "type": "uint256"
+      }
+    ],
+    "name": "MaxSlippageUpdated",
     "type": "event"
   },
   {
@@ -389,6 +445,25 @@
       }
     ],
     "name": "SetUseCustomAdapterParams",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_old",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_new",
+        "type": "address"
+      }
+    ],
+    "name": "StargateRouterUpdated",
     "type": "event"
   },
   {
@@ -703,6 +778,49 @@
   },
   {
     "inputs": [],
+    "name": "eip712Domain",
+    "outputs": [
+      {
+        "internalType": "bytes1",
+        "name": "fields",
+        "type": "bytes1"
+      },
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "version",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "chainId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "verifyingContract",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "salt",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "extensions",
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "erc20",
     "outputs": [
       {
@@ -928,6 +1046,11 @@
             "type": "bool"
           },
           {
+            "internalType": "bool",
+            "name": "revokeYieldBox",
+            "type": "bool"
+          },
+          {
             "internalType": "uint16",
             "name": "actionType",
             "type": "uint16"
@@ -980,6 +1103,83 @@
         ],
         "internalType": "struct ICommonData.IApproval[]",
         "name": "approvals",
+        "type": "tuple[]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "bool",
+            "name": "permitAll",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "allowFailure",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "yieldBoxTypeApproval",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "revokeYieldBox",
+            "type": "bool"
+          },
+          {
+            "internalType": "uint16",
+            "name": "actionType",
+            "type": "uint16"
+          },
+          {
+            "internalType": "address",
+            "name": "target",
+            "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "permitBorrow",
+            "type": "bool"
+          },
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "deadline",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint8",
+            "name": "v",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "r",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "s",
+            "type": "bytes32"
+          }
+        ],
+        "internalType": "struct ICommonData.IApproval[]",
+        "name": "revokes",
         "type": "tuple[]"
       },
       {
@@ -1128,192 +1328,6 @@
       }
     ],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "share",
-        "type": "uint256"
-      },
-      {
-        "components": [
-          {
-            "internalType": "address",
-            "name": "tokenOut",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "amountOutMin",
-            "type": "uint256"
-          },
-          {
-            "internalType": "bytes",
-            "name": "data",
-            "type": "bytes"
-          }
-        ],
-        "internalType": "struct IUSDOBase.ILeverageSwapData",
-        "name": "swapData",
-        "type": "tuple"
-      },
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "srcExtraGasLimit",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint16",
-            "name": "lzSrcChainId",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "lzDstChainId",
-            "type": "uint16"
-          },
-          {
-            "internalType": "address",
-            "name": "zroPaymentAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "bytes",
-            "name": "dstAirdropAdapterParam",
-            "type": "bytes"
-          },
-          {
-            "internalType": "bytes",
-            "name": "srcAirdropAdapterParam",
-            "type": "bytes"
-          },
-          {
-            "internalType": "address",
-            "name": "refundAddress",
-            "type": "address"
-          }
-        ],
-        "internalType": "struct IUSDOBase.ILeverageLZData",
-        "name": "lzData",
-        "type": "tuple"
-      },
-      {
-        "components": [
-          {
-            "internalType": "address",
-            "name": "swapper",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "magnetar",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "tOft",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "srcMarket",
-            "type": "address"
-          }
-        ],
-        "internalType": "struct IUSDOBase.ILeverageExternalContractsData",
-        "name": "externalData",
-        "type": "tuple"
-      },
-      {
-        "internalType": "bytes",
-        "name": "airdropAdapterParams",
-        "type": "bytes"
-      },
-      {
-        "components": [
-          {
-            "internalType": "bool",
-            "name": "permitAll",
-            "type": "bool"
-          },
-          {
-            "internalType": "bool",
-            "name": "allowFailure",
-            "type": "bool"
-          },
-          {
-            "internalType": "bool",
-            "name": "yieldBoxTypeApproval",
-            "type": "bool"
-          },
-          {
-            "internalType": "uint16",
-            "name": "actionType",
-            "type": "uint16"
-          },
-          {
-            "internalType": "address",
-            "name": "target",
-            "type": "address"
-          },
-          {
-            "internalType": "bool",
-            "name": "permitBorrow",
-            "type": "bool"
-          },
-          {
-            "internalType": "address",
-            "name": "owner",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "spender",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "value",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "deadline",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint8",
-            "name": "v",
-            "type": "uint8"
-          },
-          {
-            "internalType": "bytes32",
-            "name": "r",
-            "type": "bytes32"
-          },
-          {
-            "internalType": "bytes32",
-            "name": "s",
-            "type": "bytes32"
-          }
-        ],
-        "internalType": "struct ICommonData.IApproval[]",
-        "name": "approvals",
-        "type": "tuple[]"
-      }
-    ],
-    "name": "initMultiSell",
-    "outputs": [],
-    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -1601,6 +1615,21 @@
             "internalType": "bytes",
             "name": "withdrawAdapterParams",
             "type": "bytes"
+          },
+          {
+            "internalType": "bool",
+            "name": "unwrap",
+            "type": "bool"
+          },
+          {
+            "internalType": "address payable",
+            "name": "refundAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "zroPaymentAddress",
+            "type": "address"
           }
         ],
         "internalType": "struct ICommonData.IWithdrawParams",
@@ -1644,6 +1673,11 @@
           {
             "internalType": "bool",
             "name": "yieldBoxTypeApproval",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "revokeYieldBox",
             "type": "bool"
           },
           {
@@ -1702,6 +1736,83 @@
         "type": "tuple[]"
       },
       {
+        "components": [
+          {
+            "internalType": "bool",
+            "name": "permitAll",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "allowFailure",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "yieldBoxTypeApproval",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "revokeYieldBox",
+            "type": "bool"
+          },
+          {
+            "internalType": "uint16",
+            "name": "actionType",
+            "type": "uint16"
+          },
+          {
+            "internalType": "address",
+            "name": "target",
+            "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "permitBorrow",
+            "type": "bool"
+          },
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "deadline",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint8",
+            "name": "v",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "r",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "s",
+            "type": "bytes32"
+          }
+        ],
+        "internalType": "struct ICommonData.IApproval[]",
+        "name": "revokes",
+        "type": "tuple[]"
+      },
+      {
         "internalType": "bytes",
         "name": "adapterParams",
         "type": "bytes"
@@ -1740,37 +1851,27 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "assetId",
-        "type": "uint256"
-      },
-      {
         "internalType": "uint16",
-        "name": "lzDstChainId",
+        "name": "_srcChainId",
         "type": "uint16"
       },
       {
-        "internalType": "address",
-        "name": "zroPaymentAddress",
-        "type": "address"
+        "internalType": "bytes",
+        "name": "_srcAddress",
+        "type": "bytes"
+      },
+      {
+        "internalType": "uint64",
+        "name": "_nonce",
+        "type": "uint64"
       },
       {
         "internalType": "bytes",
-        "name": "airdropAdapterParam",
+        "name": "_payload",
         "type": "bytes"
       }
     ],
-    "name": "retrieveFromStrategy",
+    "name": "retryMessage",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"
@@ -1798,9 +1899,9 @@
         "type": "bytes"
       }
     ],
-    "name": "retryMessage",
+    "name": "retryMessageWithSafeCall",
     "outputs": [],
-    "stateMutability": "payable",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -2030,9 +2131,14 @@
         "type": "address"
       },
       {
-        "internalType": "address",
+        "internalType": "uint16",
+        "name": "lzDstChainId",
+        "type": "uint16"
+      },
+      {
+        "internalType": "bytes32",
         "name": "to",
-        "type": "address"
+        "type": "bytes32"
       },
       {
         "internalType": "uint256",
@@ -2040,34 +2146,188 @@
         "type": "uint256"
       },
       {
-        "internalType": "uint256",
-        "name": "assetId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint16",
-        "name": "lzDstChainId",
-        "type": "uint16"
-      },
-      {
         "components": [
           {
-            "internalType": "uint256",
-            "name": "extraGasLimit",
-            "type": "uint256"
+            "internalType": "address payable",
+            "name": "refundAddress",
+            "type": "address"
           },
           {
             "internalType": "address",
             "name": "zroPaymentAddress",
             "type": "address"
+          },
+          {
+            "internalType": "bytes",
+            "name": "adapterParams",
+            "type": "bytes"
           }
         ],
-        "internalType": "struct ICommonData.ISendOptions",
-        "name": "options",
+        "internalType": "struct ICommonOFT.LzCallParams",
+        "name": "callParams",
         "type": "tuple"
+      },
+      {
+        "internalType": "bool",
+        "name": "unwrap",
+        "type": "bool"
+      },
+      {
+        "components": [
+          {
+            "internalType": "bool",
+            "name": "permitAll",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "allowFailure",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "yieldBoxTypeApproval",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "revokeYieldBox",
+            "type": "bool"
+          },
+          {
+            "internalType": "uint16",
+            "name": "actionType",
+            "type": "uint16"
+          },
+          {
+            "internalType": "address",
+            "name": "target",
+            "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "permitBorrow",
+            "type": "bool"
+          },
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "deadline",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint8",
+            "name": "v",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "r",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "s",
+            "type": "bytes32"
+          }
+        ],
+        "internalType": "struct ICommonData.IApproval[]",
+        "name": "approvals",
+        "type": "tuple[]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "bool",
+            "name": "permitAll",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "allowFailure",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "yieldBoxTypeApproval",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "revokeYieldBox",
+            "type": "bool"
+          },
+          {
+            "internalType": "uint16",
+            "name": "actionType",
+            "type": "uint16"
+          },
+          {
+            "internalType": "address",
+            "name": "target",
+            "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "permitBorrow",
+            "type": "bool"
+          },
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "deadline",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint8",
+            "name": "v",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "r",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "s",
+            "type": "bytes32"
+          }
+        ],
+        "internalType": "struct ICommonData.IApproval[]",
+        "name": "revokes",
+        "type": "tuple[]"
       }
     ],
-    "name": "sendToStrategy",
+    "name": "sendFromWithParams",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"
@@ -2147,6 +2407,21 @@
             "internalType": "bytes",
             "name": "withdrawAdapterParams",
             "type": "bytes"
+          },
+          {
+            "internalType": "bool",
+            "name": "unwrap",
+            "type": "bool"
+          },
+          {
+            "internalType": "address payable",
+            "name": "refundAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "zroPaymentAddress",
+            "type": "address"
           }
         ],
         "internalType": "struct ICommonData.IWithdrawParams",
@@ -2185,6 +2460,11 @@
           {
             "internalType": "bool",
             "name": "yieldBoxTypeApproval",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "revokeYieldBox",
             "type": "bool"
           },
           {
@@ -2240,6 +2520,83 @@
         ],
         "internalType": "struct ICommonData.IApproval[]",
         "name": "approvals",
+        "type": "tuple[]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "bool",
+            "name": "permitAll",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "allowFailure",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "yieldBoxTypeApproval",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "revokeYieldBox",
+            "type": "bool"
+          },
+          {
+            "internalType": "uint16",
+            "name": "actionType",
+            "type": "uint16"
+          },
+          {
+            "internalType": "address",
+            "name": "target",
+            "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "permitBorrow",
+            "type": "bool"
+          },
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "deadline",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint8",
+            "name": "v",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "r",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "s",
+            "type": "bytes32"
+          }
+        ],
+        "internalType": "struct ICommonData.IApproval[]",
+        "name": "revokes",
         "type": "tuple[]"
       }
     ],
@@ -2385,6 +2742,19 @@
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "_router",
+        "type": "address"
+      }
+    ],
+    "name": "setStargateRouter",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "uint16",
         "name": "_srcChainId",
         "type": "uint16"
@@ -2466,7 +2836,7 @@
     ],
     "name": "sgReceive",
     "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -2614,21 +2984,6 @@
         "type": "uint16"
       },
       {
-        "internalType": "bytes",
-        "name": "airdropAdapterParams",
-        "type": "bytes"
-      },
-      {
-        "internalType": "address",
-        "name": "zroPaymentAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      },
-      {
         "components": [
           {
             "internalType": "address payable",
@@ -2646,8 +3001,8 @@
             "type": "bytes"
           }
         ],
-        "internalType": "struct ISendFrom.LzCallParams",
-        "name": "sendFromData",
+        "internalType": "struct ICommonOFT.LzCallParams",
+        "name": "lzCallParams",
         "type": "tuple"
       },
       {
@@ -2665,6 +3020,11 @@
           {
             "internalType": "bool",
             "name": "yieldBoxTypeApproval",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "revokeYieldBox",
             "type": "bool"
           },
           {
@@ -2720,6 +3080,210 @@
         ],
         "internalType": "struct ICommonData.IApproval[]",
         "name": "approvals",
+        "type": "tuple[]"
+      }
+    ],
+    "name": "triggerApproveOrRevoke",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "uint16",
+        "name": "lzDstChainId",
+        "type": "uint16"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "to",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address payable",
+            "name": "refundAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "zroPaymentAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes",
+            "name": "adapterParams",
+            "type": "bytes"
+          }
+        ],
+        "internalType": "struct ICommonOFT.LzCallParams",
+        "name": "sendFromData",
+        "type": "tuple"
+      },
+      {
+        "components": [
+          {
+            "internalType": "bool",
+            "name": "permitAll",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "allowFailure",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "yieldBoxTypeApproval",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "revokeYieldBox",
+            "type": "bool"
+          },
+          {
+            "internalType": "uint16",
+            "name": "actionType",
+            "type": "uint16"
+          },
+          {
+            "internalType": "address",
+            "name": "target",
+            "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "permitBorrow",
+            "type": "bool"
+          },
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "deadline",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint8",
+            "name": "v",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "r",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "s",
+            "type": "bytes32"
+          }
+        ],
+        "internalType": "struct ICommonData.IApproval[]",
+        "name": "approvals",
+        "type": "tuple[]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "bool",
+            "name": "permitAll",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "allowFailure",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "yieldBoxTypeApproval",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "revokeYieldBox",
+            "type": "bool"
+          },
+          {
+            "internalType": "uint16",
+            "name": "actionType",
+            "type": "uint16"
+          },
+          {
+            "internalType": "address",
+            "name": "target",
+            "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "permitBorrow",
+            "type": "bool"
+          },
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "deadline",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint8",
+            "name": "v",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "r",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "s",
+            "type": "bytes32"
+          }
+        ],
+        "internalType": "struct ICommonData.IApproval[]",
+        "name": "revokes",
         "type": "tuple[]"
       }
     ],

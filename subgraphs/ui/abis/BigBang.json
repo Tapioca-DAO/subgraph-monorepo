@@ -1,5 +1,56 @@
 [
   {
+    "inputs": [],
+    "name": "BadPair",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "DebtRatesNotValid",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidShortString",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "MaxDebtRateNotValid",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ModuleNotSet",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotEnough",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotValid",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "str",
+        "type": "string"
+      }
+    ],
+    "name": "StringTooLong",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "TransferFailed",
+    "type": "error"
+  },
+  {
     "anonymous": false,
     "inputs": [
       {
@@ -51,6 +102,31 @@
   },
   {
     "anonymous": false,
+    "inputs": [],
+    "name": "AssetOracleDataUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "oldVal",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newVal",
+        "type": "address"
+      }
+    ],
+    "name": "AssetOracleUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
     "inputs": [
       {
         "indexed": true,
@@ -89,6 +165,12 @@
   },
   {
     "anonymous": false,
+    "inputs": [],
+    "name": "EIP712DomainChanged",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
     "inputs": [
       {
         "indexed": false,
@@ -104,6 +186,25 @@
       }
     ],
     "name": "ExchangeRateDurationUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "oldVal",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newVal",
+        "type": "address"
+      }
+    ],
+    "name": "LeverageExecutorSet",
     "type": "event"
   },
   {
@@ -274,25 +375,6 @@
       {
         "indexed": true,
         "internalType": "uint256",
-        "name": "_oldVal",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "_newVal",
-        "type": "uint256"
-      }
-    ],
-    "name": "LogBorrowingFee",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "uint256",
         "name": "rate",
         "type": "uint256"
       }
@@ -402,7 +484,14 @@
   },
   {
     "anonymous": false,
-    "inputs": [],
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "newAddr",
+        "type": "address"
+      }
+    ],
     "name": "OracleUpdated",
     "type": "event"
   },
@@ -473,6 +562,87 @@
       }
     ],
     "name": "Transfer",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "oldMin",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "newMin",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "oldMax",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newMax",
+        "type": "uint256"
+      }
+    ],
+    "name": "UpdateMinMaxMintFee",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "oldMin",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "newMin",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "oldMax",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newMax",
+        "type": "uint256"
+      }
+    ],
+    "name": "UpdateMinMaxMintRange",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "valType",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_newVal",
+        "type": "uint256"
+      }
+    ],
+    "name": "ValueUpdated",
     "type": "event"
   },
   {
@@ -669,6 +839,32 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "assetOracle",
+    "outputs": [
+      {
+        "internalType": "contract IOracle",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "assetOracleData",
+    "outputs": [
+      {
+        "internalType": "bytes",
+        "name": "",
+        "type": "bytes"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -735,19 +931,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "borrowOpeningFee",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "address",
@@ -765,18 +948,8 @@
         "type": "uint256"
       },
       {
-        "internalType": "uint256",
-        "name": "minAmountOut",
-        "type": "uint256"
-      },
-      {
-        "internalType": "contract ISwapper",
-        "name": "swapper",
-        "type": "address"
-      },
-      {
         "internalType": "bytes",
-        "name": "dexData",
+        "name": "data",
         "type": "bytes"
       }
     ],
@@ -978,12 +1151,42 @@
   },
   {
     "inputs": [],
-    "name": "debtStartPoint",
+    "name": "eip712Domain",
     "outputs": [
       {
+        "internalType": "bytes1",
+        "name": "fields",
+        "type": "bytes1"
+      },
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "version",
+        "type": "string"
+      },
+      {
         "internalType": "uint256",
-        "name": "",
+        "name": "chainId",
         "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "verifyingContract",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "salt",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "extensions",
+        "type": "uint256[]"
       }
     ],
     "stateMutability": "view",
@@ -1085,6 +1288,19 @@
   },
   {
     "inputs": [],
+    "name": "leverageExecutor",
+    "outputs": [
+      {
+        "internalType": "contract ILeverageExecutor",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "leverageModule",
     "outputs": [
       {
@@ -1106,6 +1322,11 @@
       {
         "internalType": "uint256[]",
         "name": "maxBorrowParts",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "minLiquidationBonuses",
         "type": "uint256[]"
       },
       {
@@ -1133,6 +1354,11 @@
       },
       {
         "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
         "name": "receiver",
         "type": "address"
       },
@@ -1145,6 +1371,11 @@
         "internalType": "bytes",
         "name": "liquidatorReceiverData",
         "type": "bytes"
+      },
+      {
+        "internalType": "bool",
+        "name": "swapCollateral",
+        "type": "bool"
       }
     ],
     "name": "liquidateBadDebt",
@@ -1232,6 +1463,32 @@
   },
   {
     "inputs": [],
+    "name": "maxMintFee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "maxMintFeeStart",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "minDebtRate",
     "outputs": [
       {
@@ -1257,14 +1514,21 @@
     "type": "function"
   },
   {
-    "inputs": [
+    "inputs": [],
+    "name": "minMintFee",
+    "outputs": [
       {
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
-    "name": "nonces",
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "minMintFeeStart",
     "outputs": [
       {
         "internalType": "uint256",
@@ -1279,15 +1543,15 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "user",
+        "name": "owner",
         "type": "address"
       }
     ],
-    "name": "openingFees",
+    "name": "nonces",
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "fee",
+        "name": "",
         "type": "uint256"
       }
     ],
@@ -1622,18 +1886,8 @@
         "type": "uint256"
       },
       {
-        "internalType": "uint256",
-        "name": "minAmountOut",
-        "type": "uint256"
-      },
-      {
-        "internalType": "contract ISwapper",
-        "name": "swapper",
-        "type": "address"
-      },
-      {
         "internalType": "bytes",
-        "name": "dexData",
+        "name": "data",
         "type": "bytes"
       }
     ],
@@ -1645,6 +1899,24 @@
         "type": "uint256"
       }
     ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_oracle",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes",
+        "name": "_oracleData",
+        "type": "bytes"
+      }
+    ],
+    "name": "setAssetOracle",
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -1679,10 +1951,18 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "_borrowOpeningFee",
-        "type": "uint256"
-      },
+        "internalType": "contract ILeverageExecutor",
+        "name": "_executor",
+        "type": "address"
+      }
+    ],
+    "name": "setLeverageExecutor",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
       {
         "internalType": "contract IOracle",
         "name": "_oracle",
@@ -1740,6 +2020,42 @@
       }
     ],
     "name": "setMarketConfig",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_min",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_max",
+        "type": "uint256"
+      }
+    ],
+    "name": "setMinAndMaxMintFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_min",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_max",
+        "type": "uint256"
+      }
+    ],
+    "name": "setMinAndMaxMintRange",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
