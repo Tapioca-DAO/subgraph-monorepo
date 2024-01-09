@@ -128,6 +128,20 @@ export class Paused__Params {
   }
 }
 
+export class Phase2MerkleRootsUpdated extends ethereum.Event {
+  get params(): Phase2MerkleRootsUpdated__Params {
+    return new Phase2MerkleRootsUpdated__Params(this);
+  }
+}
+
+export class Phase2MerkleRootsUpdated__Params {
+  _event: Phase2MerkleRootsUpdated;
+
+  constructor(event: Phase2MerkleRootsUpdated) {
+    this._event = event;
+  }
+}
+
 export class SetPaymentToken extends ethereum.Event {
   get params(): SetPaymentToken__Params {
     return new SetPaymentToken__Params(this);
@@ -268,6 +282,21 @@ export class AirdropBroker extends ethereum.SmartContract {
       "EPOCH_DURATION():(uint256)",
       []
     );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  LAST_EPOCH(): BigInt {
+    let result = super.call("LAST_EPOCH", "LAST_EPOCH():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_LAST_EPOCH(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("LAST_EPOCH", "LAST_EPOCH():(uint256)", []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -973,6 +1002,32 @@ export class CollectPaymentTokensCall__Outputs {
   }
 }
 
+export class DaoRecoverTAPCall extends ethereum.Call {
+  get inputs(): DaoRecoverTAPCall__Inputs {
+    return new DaoRecoverTAPCall__Inputs(this);
+  }
+
+  get outputs(): DaoRecoverTAPCall__Outputs {
+    return new DaoRecoverTAPCall__Outputs(this);
+  }
+}
+
+export class DaoRecoverTAPCall__Inputs {
+  _call: DaoRecoverTAPCall;
+
+  constructor(call: DaoRecoverTAPCall) {
+    this._call = call;
+  }
+}
+
+export class DaoRecoverTAPCall__Outputs {
+  _call: DaoRecoverTAPCall;
+
+  constructor(call: DaoRecoverTAPCall) {
+    this._call = call;
+  }
+}
+
 export class ExerciseOptionCall extends ethereum.Call {
   get inputs(): ExerciseOptionCall__Inputs {
     return new ExerciseOptionCall__Inputs(this);
@@ -1071,20 +1126,20 @@ export class ParticipateCall__Outputs {
   }
 }
 
-export class RegisterUserForPhaseCall extends ethereum.Call {
-  get inputs(): RegisterUserForPhaseCall__Inputs {
-    return new RegisterUserForPhaseCall__Inputs(this);
+export class RegisterUsersForPhaseCall extends ethereum.Call {
+  get inputs(): RegisterUsersForPhaseCall__Inputs {
+    return new RegisterUsersForPhaseCall__Inputs(this);
   }
 
-  get outputs(): RegisterUserForPhaseCall__Outputs {
-    return new RegisterUserForPhaseCall__Outputs(this);
+  get outputs(): RegisterUsersForPhaseCall__Outputs {
+    return new RegisterUsersForPhaseCall__Outputs(this);
   }
 }
 
-export class RegisterUserForPhaseCall__Inputs {
-  _call: RegisterUserForPhaseCall;
+export class RegisterUsersForPhaseCall__Inputs {
+  _call: RegisterUsersForPhaseCall;
 
-  constructor(call: RegisterUserForPhaseCall) {
+  constructor(call: RegisterUsersForPhaseCall) {
     this._call = call;
   }
 
@@ -1101,10 +1156,10 @@ export class RegisterUserForPhaseCall__Inputs {
   }
 }
 
-export class RegisterUserForPhaseCall__Outputs {
-  _call: RegisterUserForPhaseCall;
+export class RegisterUsersForPhaseCall__Outputs {
+  _call: RegisterUsersForPhaseCall;
 
-  constructor(call: RegisterUserForPhaseCall) {
+  constructor(call: RegisterUsersForPhaseCall) {
     this._call = call;
   }
 }

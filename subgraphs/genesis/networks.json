@@ -12,5 +12,19 @@
       "startBlock": 49293227,
       "address": "0xc1dbd0a8fe1f449f4dfc02b45e11485ec305197a"
     }
+  },
+  "arbitrum-sepolia": {
+    "AirdropBroker": {
+      "startBlock": 4865250,
+      "address": "0x2e3de46f97E3F46e53059b48e4d6F24A16DEa68d"
+    },
+    "Vault": {
+      "startBlock": 4865250,
+      "address": "0x0000000000000000000000000000000000000000"
+    },
+    "LBP": {
+      "startBlock": 4865250,
+      "address": "0x0000000000000000000000000000000000000000"
+    }
   }
 }
