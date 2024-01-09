@@ -1988,12 +1988,8 @@ export class ExerciseOptionCallOptionsDataStruct extends ethereum.Tuple {
     return this[3].toBigInt();
   }
 
-  get paymentToken(): Address {
-    return this[4].toAddress();
-  }
-
   get tapAmount(): BigInt {
-    return this[5].toBigInt();
+    return this[4].toBigInt();
   }
 }
 

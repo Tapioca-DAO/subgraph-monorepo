@@ -28,11 +28,6 @@
   },
   {
     "inputs": [],
-    "name": "TapiocaWrapper__MngmtFeeTooHigh",
-    "type": "error"
-  },
-  {
-    "inputs": [],
     "name": "TapiocaWrapper__NoTOFTDeployed",
     "type": "error"
   },
@@ -96,11 +91,11 @@
       {
         "indexed": true,
         "internalType": "uint256",
-        "name": "_newFee",
+        "name": "amount",
         "type": "uint256"
       }
     ],
-    "name": "SetFees",
+    "name": "RefundFailed",
     "type": "event"
   },
   {
@@ -216,19 +211,6 @@
       }
     ],
     "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "harvestableTapiocaOFTsLength",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
     "type": "function"
   },
   {

@@ -638,29 +638,6 @@ export class TOFT extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toI32());
   }
 
-  SWAP_MAX_SLIPPAGE(): BigInt {
-    let result = super.call(
-      "SWAP_MAX_SLIPPAGE",
-      "SWAP_MAX_SLIPPAGE():(uint256)",
-      []
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_SWAP_MAX_SLIPPAGE(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "SWAP_MAX_SLIPPAGE",
-      "SWAP_MAX_SLIPPAGE():(uint256)",
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
   allowance(owner: Address, spender: Address): BigInt {
     let result = super.call(
       "allowance",
@@ -1843,12 +1820,8 @@ export class ExerciseOptionCallOptionsDataStruct extends ethereum.Tuple {
     return this[3].toBigInt();
   }
 
-  get paymentToken(): Address {
-    return this[4].toAddress();
-  }
-
   get tapAmount(): BigInt {
-    return this[5].toBigInt();
+    return this[4].toBigInt();
   }
 }
 
@@ -3354,36 +3327,6 @@ export class SetConfigCall__Outputs {
   _call: SetConfigCall;
 
   constructor(call: SetConfigCall) {
-    this._call = call;
-  }
-}
-
-export class SetMaxSlippageCall extends ethereum.Call {
-  get inputs(): SetMaxSlippageCall__Inputs {
-    return new SetMaxSlippageCall__Inputs(this);
-  }
-
-  get outputs(): SetMaxSlippageCall__Outputs {
-    return new SetMaxSlippageCall__Outputs(this);
-  }
-}
-
-export class SetMaxSlippageCall__Inputs {
-  _call: SetMaxSlippageCall;
-
-  constructor(call: SetMaxSlippageCall) {
-    this._call = call;
-  }
-
-  get _slippage(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-}
-
-export class SetMaxSlippageCall__Outputs {
-  _call: SetMaxSlippageCall;
-
-  constructor(call: SetMaxSlippageCall) {
     this._call = call;
   }
 }

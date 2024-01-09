@@ -54,20 +54,20 @@ export class OwnershipTransferred__Params {
   }
 }
 
-export class SetFees extends ethereum.Event {
-  get params(): SetFees__Params {
-    return new SetFees__Params(this);
+export class RefundFailed extends ethereum.Event {
+  get params(): RefundFailed__Params {
+    return new RefundFailed__Params(this);
   }
 }
 
-export class SetFees__Params {
-  _event: SetFees;
+export class RefundFailed__Params {
+  _event: RefundFailed;
 
-  constructor(event: SetFees) {
+  constructor(event: RefundFailed) {
     this._event = event;
   }
 
-  get _newFee(): BigInt {
+  get amount(): BigInt {
     return this._event.parameters[0].value.toBigInt();
   }
 }
@@ -75,29 +75,6 @@ export class SetFees__Params {
 export class TapiocaWrapper extends ethereum.SmartContract {
   static bind(address: Address): TapiocaWrapper {
     return new TapiocaWrapper("TapiocaWrapper", address);
-  }
-
-  harvestableTapiocaOFTsLength(): BigInt {
-    let result = super.call(
-      "harvestableTapiocaOFTsLength",
-      "harvestableTapiocaOFTsLength():(uint256)",
-      []
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_harvestableTapiocaOFTsLength(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "harvestableTapiocaOFTsLength",
-      "harvestableTapiocaOFTsLength():(uint256)",
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   lastTOFT(): Address {

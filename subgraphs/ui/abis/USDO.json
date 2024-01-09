@@ -1040,11 +1040,6 @@
             "type": "uint256"
           },
           {
-            "internalType": "address",
-            "name": "paymentToken",
-            "type": "address"
-          },
-          {
             "internalType": "uint256",
             "name": "tapAmount",
             "type": "uint256"
