@@ -93,6 +93,8 @@ export function fetchTokenDecimals(tokenAddress: Address): BigInt {
 }
 
 export function putToken(tokenAddress: Address): Token {
+  putNativeToken()
+
   let token = Token.load(tokenAddress)
   if (token === null) {
     token = new Token(tokenAddress)

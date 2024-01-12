@@ -2,15 +2,15 @@
   "fantom-testnet": {
     "USDO": {
       "startBlock": 23590770,
-      "address": "0x1Da00Ab947d1A21f06B0e2c986E6683c6F5273DE"
+      "address": "0xBE9b9ef8d018066960eBE9E6207dDE7b86cCF909"
     },
     "Penrose": {
       "startBlock": 23590770,
-      "address": "0x07df7dA12015c912aE03810fBf2eEb67E4E033EB"
+      "address": "0x503ad61b554e33288DCD6C63aD297fC244f4DD33"
     },
     "TapiocaWrapper": {
       "startBlock": 23590770,
-      "address": "0xDB408501cA1A87a7BC5aD4C816c2E58733171d10"
+      "address": "0xe6D9EBbb59F1BA9297D58A0f6d3202BEC8A89A21"
     },
     "YieldBox": {
       "startBlock": 23590770,
@@ -20,15 +20,15 @@
   "arbitrum-sepolia": {
     "USDO": {
       "startBlock": 4954220,
-      "address": "0xc33DBDDcb5F8c785348238DcD973Ad1Ac082420D"
+      "address": "0x67B715806B93495Dc64A938168EBDA17eb01E732"
     },
     "Penrose": {
       "startBlock": 4954220,
-      "address": "0x3FF6F900f6567614ac2Bcc8136bFf56697bf4034"
+      "address": "0x5bcB4eb9F66f05735045118560C6DD7097e7582D"
     },
     "TapiocaWrapper": {
       "startBlock": 4954220,
-      "address": "0x6061FFf753560b50a501768f2557Ce12EF326802"
+      "address": "0xB5098803dAC7ff13E5cb1ecb13E11567670aCAf6"
     },
     "YieldBox": {
       "startBlock": 4954220,

@@ -8,12 +8,11 @@ import {
 import { Singularity } from "../generated/Penrose/Singularity"
 import { BigBangMarket, SingularityMarket } from "../generated/schema"
 import { getNetworkId } from "./utils/networks/definition"
-import { putNativeToken, putToft, putToken } from "./utils/token/token"
+import { putToft, putToken } from "./utils/token/token"
 
 export function handleRegisterSingularity(
   event: RegisterSingularityEvent
 ): void {
-  putNativeToken()
   const entity = new SingularityMarket(
     event.transaction.hash.concatI32(event.logIndex.toI32())
   )
@@ -27,6 +26,8 @@ export function handleRegisterSingularity(
   entity.oracleAddress = singularityContract.oracle()
 
   entity.save()
+
+  putToken(event.params.location)
 
   const borrowTokenToftEntity = putToft(
     Address.fromBytes(entity.borrowToken),
