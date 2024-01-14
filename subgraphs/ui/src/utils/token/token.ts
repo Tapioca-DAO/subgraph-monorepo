@@ -100,7 +100,7 @@ export function putToken(tokenAddress: Address): Token {
     token = new Token(tokenAddress)
   }
   token.chainId = getNetworkId(dataSource.network()) as i32
-  token.address = tokenAddress
+  token.address = tokenAddress.toHexString()
   token.symbol = fetchTokenSymbol(tokenAddress)
   token.name = fetchTokenName(tokenAddress)
   token.decimals = fetchTokenDecimals(tokenAddress).toU32()
@@ -132,7 +132,7 @@ export function putNativeToken(): void {
   }
   token = new Token(tokenAddress)
   token.chainId = getNetworkId(dataSource.network()) as i32
-  token.address = tokenAddress
+  token.address = tokenAddress.toHexString()
 
   const staticTokenDefinition = NativeTokenDefinition.fromChainId(token.chainId)
 

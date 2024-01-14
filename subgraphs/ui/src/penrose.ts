@@ -17,13 +17,13 @@ export function handleRegisterSingularity(
     event.transaction.hash.concatI32(event.logIndex.toI32())
   )
 
-  entity.address = event.params.location
+  entity.address = event.params.location.toHexString()
 
   const singularityContract = Singularity.bind(event.params.location)
   entity.chainId = getNetworkId(dataSource.network()) as i32
   entity.borrowToken = putToken(singularityContract.asset()).id
   entity.collateralToken = putToken(singularityContract.collateral()).id
-  entity.oracleAddress = singularityContract.oracle()
+  entity.oracleAddress = singularityContract.oracle().toHexString()
 
   entity.save()
 
@@ -69,13 +69,13 @@ export function handleRegisterBigBang(event: RegisterBigBangEvent): void {
     event.transaction.hash.concatI32(event.logIndex.toI32())
   )
 
-  entity.address = event.params.location
+  entity.address = event.params.location.toHexString()
 
   const bbContract = BigBang.bind(event.params.location)
   entity.chainId = getNetworkId(dataSource.network()) as i32
   entity.borrowToken = putToken(bbContract.asset()).id
   entity.collateralToken = putToken(bbContract.collateral()).id
-  entity.oracleAddress = bbContract.oracle()
+  entity.oracleAddress = bbContract.oracle().toHexString()
 
   entity.save()
 

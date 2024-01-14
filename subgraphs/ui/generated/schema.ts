@@ -67,17 +67,17 @@ export class BigBangMarket extends Entity {
     this.set("chainId", Value.fromI32(value));
   }
 
-  get address(): Bytes {
+  get address(): string {
     let value = this.get("address");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toBytes();
+      return value.toString();
     }
   }
 
-  set address(value: Bytes) {
-    this.set("address", Value.fromBytes(value));
+  set address(value: string) {
+    this.set("address", Value.fromString(value));
   }
 
   get borrowToken(): Bytes {
@@ -106,17 +106,17 @@ export class BigBangMarket extends Entity {
     this.set("collateralToken", Value.fromBytes(value));
   }
 
-  get oracleAddress(): Bytes {
+  get oracleAddress(): string {
     let value = this.get("oracleAddress");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toBytes();
+      return value.toString();
     }
   }
 
-  set oracleAddress(value: Bytes) {
-    this.set("oracleAddress", Value.fromBytes(value));
+  set oracleAddress(value: string) {
+    this.set("oracleAddress", Value.fromString(value));
   }
 }
 
@@ -176,17 +176,17 @@ export class SingularityMarket extends Entity {
     this.set("chainId", Value.fromI32(value));
   }
 
-  get address(): Bytes {
+  get address(): string {
     let value = this.get("address");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toBytes();
+      return value.toString();
     }
   }
 
-  set address(value: Bytes) {
-    this.set("address", Value.fromBytes(value));
+  set address(value: string) {
+    this.set("address", Value.fromString(value));
   }
 
   get borrowToken(): Bytes {
@@ -215,17 +215,17 @@ export class SingularityMarket extends Entity {
     this.set("collateralToken", Value.fromBytes(value));
   }
 
-  get oracleAddress(): Bytes {
+  get oracleAddress(): string {
     let value = this.get("oracleAddress");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toBytes();
+      return value.toString();
     }
   }
 
-  set oracleAddress(value: Bytes) {
-    this.set("oracleAddress", Value.fromBytes(value));
+  set oracleAddress(value: string) {
+    this.set("oracleAddress", Value.fromString(value));
   }
 }
 
@@ -283,17 +283,17 @@ export class Token extends Entity {
     this.set("chainId", Value.fromI32(value));
   }
 
-  get address(): Bytes {
+  get address(): string {
     let value = this.get("address");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toBytes();
+      return value.toString();
     }
   }
 
-  set address(value: Bytes) {
-    this.set("address", Value.fromBytes(value));
+  set address(value: string) {
+    this.set("address", Value.fromString(value));
   }
 
   get name(): string {
@@ -405,17 +405,17 @@ export class RemoteTOFTMeta extends Entity {
     this.set("chainId", Value.fromI32(value));
   }
 
-  get address(): Bytes {
+  get address(): string {
     let value = this.get("address");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toBytes();
+      return value.toString();
     }
   }
 
-  set address(value: Bytes) {
-    this.set("address", Value.fromBytes(value));
+  set address(value: string) {
+    this.set("address", Value.fromString(value));
   }
 }
 
@@ -535,5 +535,158 @@ export class TOFToken extends Entity {
     } else {
       this.set("bigBangMarkets", Value.fromBytesArray(<Array<Bytes>>value));
     }
+  }
+}
+
+export class PaymentToken extends Entity {
+  constructor(id: Bytes) {
+    super();
+    this.set("id", Value.fromBytes(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save PaymentToken entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.BYTES,
+        `Entities of type PaymentToken must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("PaymentToken", id.toBytes().toHexString(), this);
+    }
+  }
+
+  static loadInBlock(id: Bytes): PaymentToken | null {
+    return changetype<PaymentToken | null>(
+      store.get_in_block("PaymentToken", id.toHexString())
+    );
+  }
+
+  static load(id: Bytes): PaymentToken | null {
+    return changetype<PaymentToken | null>(
+      store.get("PaymentToken", id.toHexString())
+    );
+  }
+
+  get id(): Bytes {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set id(value: Bytes) {
+    this.set("id", Value.fromBytes(value));
+  }
+
+  get token(): Bytes {
+    let value = this.get("token");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set token(value: Bytes) {
+    this.set("token", Value.fromBytes(value));
+  }
+
+  get oracleAddress(): string {
+    let value = this.get("oracleAddress");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set oracleAddress(value: string) {
+    this.set("oracleAddress", Value.fromString(value));
+  }
+
+  get oracleData(): Bytes {
+    let value = this.get("oracleData");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set oracleData(value: Bytes) {
+    this.set("oracleData", Value.fromBytes(value));
+  }
+}
+
+export class TapiocaOptionBroker extends Entity {
+  constructor(id: Bytes) {
+    super();
+    this.set("id", Value.fromBytes(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save TapiocaOptionBroker entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.BYTES,
+        `Entities of type TapiocaOptionBroker must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("TapiocaOptionBroker", id.toBytes().toHexString(), this);
+    }
+  }
+
+  static loadInBlock(id: Bytes): TapiocaOptionBroker | null {
+    return changetype<TapiocaOptionBroker | null>(
+      store.get_in_block("TapiocaOptionBroker", id.toHexString())
+    );
+  }
+
+  static load(id: Bytes): TapiocaOptionBroker | null {
+    return changetype<TapiocaOptionBroker | null>(
+      store.get("TapiocaOptionBroker", id.toHexString())
+    );
+  }
+
+  get id(): Bytes {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set id(value: Bytes) {
+    this.set("id", Value.fromBytes(value));
+  }
+
+  get paymentTokens(): Array<Bytes> {
+    let value = this.get("paymentTokens");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytesArray();
+    }
+  }
+
+  set paymentTokens(value: Array<Bytes>) {
+    this.set("paymentTokens", Value.fromBytesArray(value));
+  }
+
+  get epochDuration(): i32 {
+    let value = this.get("epochDuration");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set epochDuration(value: i32) {
+    this.set("epochDuration", Value.fromI32(value));
   }
 }

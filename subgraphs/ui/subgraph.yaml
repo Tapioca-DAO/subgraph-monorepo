@@ -6,8 +6,8 @@ dataSources:
     name: Penrose
     source:
       abi: Penrose
-      startBlock: 21338355
-      address: "0xDaea64A0FA0CbD12d9c85fC4B11904a1a5DcFB31"
+      startBlock: 4954220
+      address: "0x5bcB4eb9F66f05735045118560C6DD7097e7582D"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -41,14 +41,14 @@ dataSources:
         - event: RegisterBigBang(indexed address,indexed address)
           handler: handleRegisterBigBang
       file: ./src/penrose.ts
-    network: fantom-testnet
+    network: arbitrum-sepolia
   - kind: ethereum
     name: TapiocaWrapper
-    network: fantom-testnet
+    network: arbitrum-sepolia
     source:
       abi: TapiocaWrapper
-      startBlock: 21338355
-      address: "0x4c172840783CfeC4A3cB0D18EE6E59F18E180B78"
+      startBlock: 4954220
+      address: "0xB5098803dAC7ff13E5cb1ecb13E11567670aCAf6"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -72,11 +72,11 @@ dataSources:
       file: ./src/tapioca-wrapper.ts
   - kind: ethereum
     name: USDO
-    network: fantom-testnet
+    network: arbitrum-sepolia
     source:
       abi: USDO
-      startBlock: 21338355
-      address: "0xCBEcfB102031cCEF0C8BB1455d692BE4a75A0faC"
+      startBlock: 4954220
+      address: "0x67B715806B93495Dc64A938168EBDA17eb01E732"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -100,8 +100,8 @@ dataSources:
     name: YieldBox
     source:
       abi: YieldBox
-      startBlock: 21338355
-      address: "0x9628067e507Ad43D5e686C2B5fc6AE085Cb67aEb"
+      startBlock: 4954220
+      address: "0xb7Bd73f92Af817055B6a5E2bcb19804b9D515864"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -116,11 +116,37 @@ dataSources:
             uint256,uint256)
           handler: handleAssetRegistered
       file: ./src/yieldbox.ts
-    network: fantom-testnet
+    network: arbitrum-sepolia
+  - kind: ethereum
+    name: TOB
+    source:
+      abi: TOB
+      startBlock: 4954220
+      address: "0x72B6a8f239cb8347BD81Dd212CCA251c4F09245a"
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - TapiocaOptionBroker
+      abis:
+        - name: TOB
+          file: ./abis/tOB.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        - event: SetPaymentToken(indexed address,indexed address,indexed bytes)
+          handler: handleSetPaymentToken
+      file: ./src/tob.ts
+    network: arbitrum-sepolia
 templates:
   - kind: ethereum
     name: TOFT
-    network: fantom-testnet
+    network: arbitrum-sepolia
     source:
       abi: TOFT
     mapping:
