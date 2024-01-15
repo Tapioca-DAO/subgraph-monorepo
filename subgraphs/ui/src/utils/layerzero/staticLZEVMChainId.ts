@@ -10,6 +10,7 @@ export class StaticChainIdDefinition {
       { lzChainId: 10143, chainId: 421613 },
       { lzChainId: 10109, chainId: 80001 },
       { lzChainId: 10112, chainId: 4002 },
+      { lzChainId: 10231, chainId: 421614 },
     ] as Array<StaticChainIdDefinition>
 
     return staticDefinitions

@@ -10,11 +10,9 @@ import { putToken } from "./utils/token/token"
 export function handleCreateOFT(event: CreateOFTEvent): void {
   const toftEntity = new TOFToken(event.params._tapiocaOFT)
 
-  toftEntity.sourceTOFToken = putToken(event.params._tapiocaOFT).id
+  toftEntity.token = putToken(event.params._tapiocaOFT).id
 
   toftEntity.remoteTOFTs = []
-  // this should never happen that USDO will be wrapped to TOFT again
-  toftEntity.isUSDO = false
 
   const currentNetworkId = getNetworkId(dataSource.network())
   const result = TOFTContract.bind(event.params._tapiocaOFT).try_hostChainID()
@@ -25,7 +23,7 @@ export function handleCreateOFT(event: CreateOFTEvent): void {
     if (
       !BigInt.compare(BigInt.fromI32(currentNetworkId as i32), result.value)
     ) {
-      toftEntity.sourceERC20Token = putToken(event.params._erc20).id
+      toftEntity.underlyingToken = putToken(event.params._erc20).id
     }
   }
 

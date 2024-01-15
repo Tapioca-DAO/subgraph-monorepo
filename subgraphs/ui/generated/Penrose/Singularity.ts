@@ -102,6 +102,20 @@ export class ConservatorUpdated__Params {
   }
 }
 
+export class EIP712DomainChanged extends ethereum.Event {
+  get params(): EIP712DomainChanged__Params {
+    return new EIP712DomainChanged__Params(this);
+  }
+}
+
+export class EIP712DomainChanged__Params {
+  _event: EIP712DomainChanged;
+
+  constructor(event: EIP712DomainChanged) {
+    this._event = event;
+  }
+}
+
 export class ExchangeRateDurationUpdated extends ethereum.Event {
   get params(): ExchangeRateDurationUpdated__Params {
     return new ExchangeRateDurationUpdated__Params(this);
@@ -676,6 +690,10 @@ export class OracleUpdated__Params {
   constructor(event: OracleUpdated) {
     this._event = event;
   }
+
+  get newAddr(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
 }
 
 export class OrderBookLiquidationMultiplierUpdated extends ethereum.Event {
@@ -792,6 +810,28 @@ export class UsdoSwapperUpdated__Params {
   }
 }
 
+export class ValueUpdated extends ethereum.Event {
+  get params(): ValueUpdated__Params {
+    return new ValueUpdated__Params(this);
+  }
+}
+
+export class ValueUpdated__Params {
+  _event: ValueUpdated;
+
+  constructor(event: ValueUpdated) {
+    this._event = event;
+  }
+
+  get valType(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get _newVal(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
 export class Singularity__accrueInfoResult {
   value0: BigInt;
   value1: BigInt;
@@ -878,6 +918,74 @@ export class Singularity__computeTVLInfoResult {
 
   getMaxTVL(): BigInt {
     return this.value2;
+  }
+}
+
+export class Singularity__eip712DomainResult {
+  value0: Bytes;
+  value1: string;
+  value2: string;
+  value3: BigInt;
+  value4: Address;
+  value5: Bytes;
+  value6: Array<BigInt>;
+
+  constructor(
+    value0: Bytes,
+    value1: string,
+    value2: string,
+    value3: BigInt,
+    value4: Address,
+    value5: Bytes,
+    value6: Array<BigInt>
+  ) {
+    this.value0 = value0;
+    this.value1 = value1;
+    this.value2 = value2;
+    this.value3 = value3;
+    this.value4 = value4;
+    this.value5 = value5;
+    this.value6 = value6;
+  }
+
+  toMap(): TypedMap<string, ethereum.Value> {
+    let map = new TypedMap<string, ethereum.Value>();
+    map.set("value0", ethereum.Value.fromFixedBytes(this.value0));
+    map.set("value1", ethereum.Value.fromString(this.value1));
+    map.set("value2", ethereum.Value.fromString(this.value2));
+    map.set("value3", ethereum.Value.fromUnsignedBigInt(this.value3));
+    map.set("value4", ethereum.Value.fromAddress(this.value4));
+    map.set("value5", ethereum.Value.fromFixedBytes(this.value5));
+    map.set("value6", ethereum.Value.fromUnsignedBigIntArray(this.value6));
+    return map;
+  }
+
+  getFields(): Bytes {
+    return this.value0;
+  }
+
+  getName(): string {
+    return this.value1;
+  }
+
+  getVersion(): string {
+    return this.value2;
+  }
+
+  getChainId(): BigInt {
+    return this.value3;
+  }
+
+  getVerifyingContract(): Address {
+    return this.value4;
+  }
+
+  getSalt(): Bytes {
+    return this.value5;
+  }
+
+  getExtensions(): Array<BigInt> {
+    return this.value6;
   }
 }
 
@@ -1665,6 +1773,47 @@ export class Singularity extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toI32());
+  }
+
+  eip712Domain(): Singularity__eip712DomainResult {
+    let result = super.call(
+      "eip712Domain",
+      "eip712Domain():(bytes1,string,string,uint256,address,bytes32,uint256[])",
+      []
+    );
+
+    return new Singularity__eip712DomainResult(
+      result[0].toBytes(),
+      result[1].toString(),
+      result[2].toString(),
+      result[3].toBigInt(),
+      result[4].toAddress(),
+      result[5].toBytes(),
+      result[6].toBigIntArray()
+    );
+  }
+
+  try_eip712Domain(): ethereum.CallResult<Singularity__eip712DomainResult> {
+    let result = super.tryCall(
+      "eip712Domain",
+      "eip712Domain():(bytes1,string,string,uint256,address,bytes32,uint256[])",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      new Singularity__eip712DomainResult(
+        value[0].toBytes(),
+        value[1].toString(),
+        value[2].toString(),
+        value[3].toBigInt(),
+        value[4].toAddress(),
+        value[5].toBytes(),
+        value[6].toBigIntArray()
+      )
+    );
   }
 
   exchangeRate(): BigInt {
@@ -2711,6 +2860,45 @@ export class Singularity extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
+  viewLiquidationCollateralAmount(
+    user: Address,
+    maxBorrowPart: BigInt,
+    minLiquidationBonus: BigInt
+  ): Bytes {
+    let result = super.call(
+      "viewLiquidationCollateralAmount",
+      "viewLiquidationCollateralAmount(address,uint256,uint256):(bytes)",
+      [
+        ethereum.Value.fromAddress(user),
+        ethereum.Value.fromUnsignedBigInt(maxBorrowPart),
+        ethereum.Value.fromUnsignedBigInt(minLiquidationBonus)
+      ]
+    );
+
+    return result[0].toBytes();
+  }
+
+  try_viewLiquidationCollateralAmount(
+    user: Address,
+    maxBorrowPart: BigInt,
+    minLiquidationBonus: BigInt
+  ): ethereum.CallResult<Bytes> {
+    let result = super.tryCall(
+      "viewLiquidationCollateralAmount",
+      "viewLiquidationCollateralAmount(address,uint256,uint256):(bytes)",
+      [
+        ethereum.Value.fromAddress(user),
+        ethereum.Value.fromUnsignedBigInt(maxBorrowPart),
+        ethereum.Value.fromUnsignedBigInt(minLiquidationBonus)
+      ]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBytes());
+  }
+
   yieldBox(): Address {
     let result = super.call("yieldBox", "yieldBox():(address)", []);
 
@@ -2724,38 +2912,6 @@ export class Singularity extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
-  yieldBoxShares(_user: Address, _assetId: BigInt): BigInt {
-    let result = super.call(
-      "yieldBoxShares",
-      "yieldBoxShares(address,uint256):(uint256)",
-      [
-        ethereum.Value.fromAddress(_user),
-        ethereum.Value.fromUnsignedBigInt(_assetId)
-      ]
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_yieldBoxShares(
-    _user: Address,
-    _assetId: BigInt
-  ): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "yieldBoxShares",
-      "yieldBoxShares(address,uint256):(uint256)",
-      [
-        ethereum.Value.fromAddress(_user),
-        ethereum.Value.fromUnsignedBigInt(_assetId)
-      ]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 }
 
@@ -3168,12 +3324,16 @@ export class LiquidateCall__Inputs {
     return this._call.inputValues[1].value.toBigIntArray();
   }
 
+  get minLiquidationBonuses(): Array<BigInt> {
+    return this._call.inputValues[2].value.toBigIntArray();
+  }
+
   get liquidatorReceivers(): Array<Address> {
-    return this._call.inputValues[2].value.toAddressArray();
+    return this._call.inputValues[3].value.toAddressArray();
   }
 
   get liquidatorReceiverDatas(): Array<Bytes> {
-    return this._call.inputValues[3].value.toBytesArray();
+    return this._call.inputValues[4].value.toBytesArray();
   }
 }
 
@@ -3206,16 +3366,24 @@ export class LiquidateBadDebtCall__Inputs {
     return this._call.inputValues[0].value.toAddress();
   }
 
-  get receiver(): Address {
+  get from(): Address {
     return this._call.inputValues[1].value.toAddress();
   }
 
-  get liquidatorReceiver(): Address {
+  get receiver(): Address {
     return this._call.inputValues[2].value.toAddress();
   }
 
+  get liquidatorReceiver(): Address {
+    return this._call.inputValues[3].value.toAddress();
+  }
+
   get liquidatorReceiverData(): Bytes {
-    return this._call.inputValues[3].value.toBytes();
+    return this._call.inputValues[4].value.toBytes();
+  }
+
+  get swapCollateral(): boolean {
+    return this._call.inputValues[5].value.toBoolean();
   }
 }
 
@@ -3934,6 +4102,10 @@ export class UpdatePauseCall__Inputs {
 
   get val(): boolean {
     return this._call.inputValues[1].value.toBoolean();
+  }
+
+  get resetAccrueTimestmap(): boolean {
+    return this._call.inputValues[2].value.toBoolean();
   }
 }
 

@@ -11,6 +11,11 @@
   },
   {
     "inputs": [],
+    "name": "InvalidShortString",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "MaxDebtRateNotValid",
     "type": "error"
   },
@@ -27,6 +32,17 @@
   {
     "inputs": [],
     "name": "NotValid",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "str",
+        "type": "string"
+      }
+    ],
+    "name": "StringTooLong",
     "type": "error"
   },
   {
@@ -145,6 +161,12 @@
       }
     ],
     "name": "DebtRateAgainstEthUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [],
+    "name": "EIP712DomainChanged",
     "type": "event"
   },
   {
@@ -462,7 +484,14 @@
   },
   {
     "anonymous": false,
-    "inputs": [],
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "newAddr",
+        "type": "address"
+      }
+    ],
     "name": "OracleUpdated",
     "type": "event"
   },
@@ -595,6 +624,25 @@
       }
     ],
     "name": "UpdateMinMaxMintRange",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "valType",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_newVal",
+        "type": "uint256"
+      }
+    ],
+    "name": "ValueUpdated",
     "type": "event"
   },
   {
@@ -1103,12 +1151,42 @@
   },
   {
     "inputs": [],
-    "name": "debtStartPoint",
+    "name": "eip712Domain",
     "outputs": [
       {
+        "internalType": "bytes1",
+        "name": "fields",
+        "type": "bytes1"
+      },
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "version",
+        "type": "string"
+      },
+      {
         "internalType": "uint256",
-        "name": "",
+        "name": "chainId",
         "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "verifyingContract",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "salt",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "extensions",
+        "type": "uint256[]"
       }
     ],
     "stateMutability": "view",
@@ -1247,6 +1325,11 @@
         "type": "uint256[]"
       },
       {
+        "internalType": "uint256[]",
+        "name": "minLiquidationBonuses",
+        "type": "uint256[]"
+      },
+      {
         "internalType": "contract IMarketLiquidatorReceiver[]",
         "name": "liquidatorReceivers",
         "type": "address[]"
@@ -1271,6 +1354,11 @@
       },
       {
         "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
         "name": "receiver",
         "type": "address"
       },
@@ -1283,6 +1371,11 @@
         "internalType": "bytes",
         "name": "liquidatorReceiverData",
         "type": "bytes"
+      },
+      {
+        "internalType": "bool",
+        "name": "swapCollateral",
+        "type": "bool"
       }
     ],
     "name": "liquidateBadDebt",
@@ -1459,25 +1552,6 @@
       {
         "internalType": "uint256",
         "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "user",
-        "type": "address"
-      }
-    ],
-    "name": "openingFees",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "fee",
         "type": "uint256"
       }
     ],

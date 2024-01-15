@@ -36,6 +36,32 @@ export class Approval__Params {
   }
 }
 
+export class CallFailedBytes extends ethereum.Event {
+  get params(): CallFailedBytes__Params {
+    return new CallFailedBytes__Params(this);
+  }
+}
+
+export class CallFailedBytes__Params {
+  _event: CallFailedBytes;
+
+  constructor(event: CallFailedBytes) {
+    this._event = event;
+  }
+
+  get _srcChainId(): i32 {
+    return this._event.parameters[0].value.toI32();
+  }
+
+  get _payload(): Bytes {
+    return this._event.parameters[1].value.toBytes();
+  }
+
+  get _reason(): Bytes {
+    return this._event.parameters[2].value.toBytes();
+  }
+}
+
 export class CallOFTReceivedSuccess extends ethereum.Event {
   get params(): CallOFTReceivedSuccess__Params {
     return new CallOFTReceivedSuccess__Params(this);
@@ -63,6 +89,20 @@ export class CallOFTReceivedSuccess__Params {
 
   get _hash(): Bytes {
     return this._event.parameters[3].value.toBytes();
+  }
+}
+
+export class EIP712DomainChanged extends ethereum.Event {
+  get params(): EIP712DomainChanged__Params {
+    return new EIP712DomainChanged__Params(this);
+  }
+}
+
+export class EIP712DomainChanged__Params {
+  _event: EIP712DomainChanged;
+
+  constructor(event: EIP712DomainChanged) {
+    this._event = event;
   }
 }
 
@@ -421,6 +461,74 @@ export class Transfer__Params {
 
   get value(): BigInt {
     return this._event.parameters[2].value.toBigInt();
+  }
+}
+
+export class USDO__eip712DomainResult {
+  value0: Bytes;
+  value1: string;
+  value2: string;
+  value3: BigInt;
+  value4: Address;
+  value5: Bytes;
+  value6: Array<BigInt>;
+
+  constructor(
+    value0: Bytes,
+    value1: string,
+    value2: string,
+    value3: BigInt,
+    value4: Address,
+    value5: Bytes,
+    value6: Array<BigInt>
+  ) {
+    this.value0 = value0;
+    this.value1 = value1;
+    this.value2 = value2;
+    this.value3 = value3;
+    this.value4 = value4;
+    this.value5 = value5;
+    this.value6 = value6;
+  }
+
+  toMap(): TypedMap<string, ethereum.Value> {
+    let map = new TypedMap<string, ethereum.Value>();
+    map.set("value0", ethereum.Value.fromFixedBytes(this.value0));
+    map.set("value1", ethereum.Value.fromString(this.value1));
+    map.set("value2", ethereum.Value.fromString(this.value2));
+    map.set("value3", ethereum.Value.fromUnsignedBigInt(this.value3));
+    map.set("value4", ethereum.Value.fromAddress(this.value4));
+    map.set("value5", ethereum.Value.fromFixedBytes(this.value5));
+    map.set("value6", ethereum.Value.fromUnsignedBigIntArray(this.value6));
+    return map;
+  }
+
+  getFields(): Bytes {
+    return this.value0;
+  }
+
+  getName(): string {
+    return this.value1;
+  }
+
+  getVersion(): string {
+    return this.value2;
+  }
+
+  getChainId(): BigInt {
+    return this.value3;
+  }
+
+  getVerifyingContract(): Address {
+    return this.value4;
+  }
+
+  getSalt(): Bytes {
+    return this.value5;
+  }
+
+  getExtensions(): Array<BigInt> {
+    return this.value6;
   }
 }
 
@@ -838,6 +946,47 @@ export class USDO extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
+  eip712Domain(): USDO__eip712DomainResult {
+    let result = super.call(
+      "eip712Domain",
+      "eip712Domain():(bytes1,string,string,uint256,address,bytes32,uint256[])",
+      []
+    );
+
+    return new USDO__eip712DomainResult(
+      result[0].toBytes(),
+      result[1].toString(),
+      result[2].toString(),
+      result[3].toBigInt(),
+      result[4].toAddress(),
+      result[5].toBytes(),
+      result[6].toBigIntArray()
+    );
+  }
+
+  try_eip712Domain(): ethereum.CallResult<USDO__eip712DomainResult> {
+    let result = super.tryCall(
+      "eip712Domain",
+      "eip712Domain():(bytes1,string,string,uint256,address,bytes32,uint256[])",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      new USDO__eip712DomainResult(
+        value[0].toBytes(),
+        value[1].toString(),
+        value[2].toString(),
+        value[3].toBigInt(),
+        value[4].toAddress(),
+        value[5].toBytes(),
+        value[6].toBigIntArray()
+      )
+    );
   }
 
   estimateSendAndCallFee(
@@ -1839,12 +1988,8 @@ export class ExerciseOptionCallOptionsDataStruct extends ethereum.Tuple {
     return this[3].toBigInt();
   }
 
-  get paymentToken(): Address {
-    return this[4].toAddress();
-  }
-
   get tapAmount(): BigInt {
-    return this[5].toBigInt();
+    return this[4].toBigInt();
   }
 }
 
@@ -2460,6 +2605,14 @@ export class RemoveAssetCallRemoveAndRepayDataAssetWithdrawDataStruct extends et
   get unwrap(): boolean {
     return this[5].toBoolean();
   }
+
+  get refundAddress(): Address {
+    return this[6].toAddress();
+  }
+
+  get zroPaymentAddress(): Address {
+    return this[7].toAddress();
+  }
 }
 
 export class RemoveAssetCallRemoveAndRepayDataCollateralWithdrawDataStruct extends ethereum.Tuple {
@@ -2485,6 +2638,14 @@ export class RemoveAssetCallRemoveAndRepayDataCollateralWithdrawDataStruct exten
 
   get unwrap(): boolean {
     return this[5].toBoolean();
+  }
+
+  get refundAddress(): Address {
+    return this[6].toAddress();
+  }
+
+  get zroPaymentAddress(): Address {
+    return this[7].toAddress();
   }
 }
 
@@ -3063,6 +3224,14 @@ export class SendAndLendOrRepayCallWithdrawParamsStruct extends ethereum.Tuple {
 
   get unwrap(): boolean {
     return this[5].toBoolean();
+  }
+
+  get refundAddress(): Address {
+    return this[6].toAddress();
+  }
+
+  get zroPaymentAddress(): Address {
+    return this[7].toAddress();
   }
 }
 

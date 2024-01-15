@@ -1,4 +1,4 @@
-import { Address, Bytes, log } from "@graphprotocol/graph-ts"
+import { Bytes, log } from "@graphprotocol/graph-ts"
 
 import { RemoteTOFTMeta, TOFToken } from "../generated/schema"
 import { SetTrustedRemote as SetTrustedRemoteEvent } from "../generated/templates/TOFT/TOFT"
@@ -31,10 +31,9 @@ export function handleSetTrustedRemote(event: SetTrustedRemoteEvent): void {
     remoteToftMetaEntity = new RemoteTOFTMeta(remoteToftMetaEntityId)
   }
 
-  remoteToftMetaEntity.remoteChainId = staticTokenDefinition.chainId as u32
-  remoteToftMetaEntity.remoteLZChainId = event.params._remoteChainId
-  remoteToftMetaEntity.remoteTOFTokenAddress =
-    Address.fromHexString(remoteAddress)
+  remoteToftMetaEntity.chainId = staticTokenDefinition.chainId as u32
+  remoteToftMetaEntity.lzChainId = event.params._remoteChainId
+  remoteToftMetaEntity.address = remoteAddress
   remoteToftMetaEntity.save()
 
   const remoteToftMetaArray = toftEntity.remoteTOFTs

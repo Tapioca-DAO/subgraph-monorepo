@@ -6,6 +6,11 @@
   },
   {
     "inputs": [],
+    "name": "InvalidShortString",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "MinLimit",
     "type": "error"
   },
@@ -16,7 +21,28 @@
   },
   {
     "inputs": [],
+    "name": "NotAuthorized",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "NotValid",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "SameState",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "str",
+        "type": "string"
+      }
+    ],
+    "name": "StringTooLong",
     "type": "error"
   },
   {
@@ -109,6 +135,12 @@
       }
     ],
     "name": "ConservatorUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [],
+    "name": "EIP712DomainChanged",
     "type": "event"
   },
   {
@@ -633,7 +665,14 @@
   },
   {
     "anonymous": false,
-    "inputs": [],
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "newAddr",
+        "type": "address"
+      }
+    ],
     "name": "OracleUpdated",
     "type": "event"
   },
@@ -736,6 +775,25 @@
       }
     ],
     "name": "UsdoSwapperUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "valType",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_newVal",
+        "type": "uint256"
+      }
+    ],
+    "name": "ValueUpdated",
     "type": "event"
   },
   {
@@ -1294,6 +1352,49 @@
   },
   {
     "inputs": [],
+    "name": "eip712Domain",
+    "outputs": [
+      {
+        "internalType": "bytes1",
+        "name": "fields",
+        "type": "bytes1"
+      },
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "version",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "chainId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "verifyingContract",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "salt",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "extensions",
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "exchangeRate",
     "outputs": [
       {
@@ -1447,6 +1548,11 @@
         "type": "uint256[]"
       },
       {
+        "internalType": "uint256[]",
+        "name": "minLiquidationBonuses",
+        "type": "uint256[]"
+      },
+      {
         "internalType": "contract IMarketLiquidatorReceiver[]",
         "name": "liquidatorReceivers",
         "type": "address[]"
@@ -1471,6 +1577,11 @@
       },
       {
         "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
         "name": "receiver",
         "type": "address"
       },
@@ -1483,6 +1594,11 @@
         "internalType": "bytes",
         "name": "liquidatorReceiverData",
         "type": "bytes"
+      },
+      {
+        "internalType": "bool",
+        "name": "swapCollateral",
+        "type": "bool"
       }
     ],
     "name": "liquidateBadDebt",
@@ -2368,6 +2484,11 @@
         "internalType": "bool",
         "name": "val",
         "type": "bool"
+      },
+      {
+        "internalType": "bool",
+        "name": "resetAccrueTimestmap",
+        "type": "bool"
       }
     ],
     "name": "updatePause",
@@ -2414,6 +2535,35 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "maxBorrowPart",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "minLiquidationBonus",
+        "type": "uint256"
+      }
+    ],
+    "name": "viewLiquidationCollateralAmount",
+    "outputs": [
+      {
+        "internalType": "bytes",
+        "name": "",
+        "type": "bytes"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "yieldBox",
     "outputs": [
@@ -2421,30 +2571,6 @@
         "internalType": "contract YieldBox",
         "name": "",
         "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_user",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_assetId",
-        "type": "uint256"
-      }
-    ],
-    "name": "yieldBoxShares",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
       }
     ],
     "stateMutability": "view",

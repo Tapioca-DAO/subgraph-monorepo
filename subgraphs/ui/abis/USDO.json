@@ -67,12 +67,33 @@
   },
   {
     "inputs": [],
+    "name": "InvalidShortString",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "NotAuthorized",
     "type": "error"
   },
   {
     "inputs": [],
+    "name": "NotValid",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "Paused",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "str",
+        "type": "string"
+      }
+    ],
+    "name": "StringTooLong",
     "type": "error"
   },
   {
@@ -110,6 +131,31 @@
         "type": "uint16"
       },
       {
+        "indexed": true,
+        "internalType": "bytes",
+        "name": "_payload",
+        "type": "bytes"
+      },
+      {
+        "indexed": true,
+        "internalType": "bytes",
+        "name": "_reason",
+        "type": "bytes"
+      }
+    ],
+    "name": "CallFailedBytes",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint16",
+        "name": "_srcChainId",
+        "type": "uint16"
+      },
+      {
         "indexed": false,
         "internalType": "bytes",
         "name": "_srcAddress",
@@ -129,6 +175,12 @@
       }
     ],
     "name": "CallOFTReceivedSuccess",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [],
+    "name": "EIP712DomainChanged",
     "type": "event"
   },
   {
@@ -823,6 +875,49 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "eip712Domain",
+    "outputs": [
+      {
+        "internalType": "bytes1",
+        "name": "fields",
+        "type": "bytes1"
+      },
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "version",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "chainId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "verifyingContract",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "salt",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "extensions",
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint16",
@@ -943,11 +1038,6 @@
             "internalType": "uint256",
             "name": "oTAPTokenID",
             "type": "uint256"
-          },
-          {
-            "internalType": "address",
-            "name": "paymentToken",
-            "type": "address"
           },
           {
             "internalType": "uint256",
@@ -1751,6 +1841,16 @@
                 "internalType": "bool",
                 "name": "unwrap",
                 "type": "bool"
+              },
+              {
+                "internalType": "address payable",
+                "name": "refundAddress",
+                "type": "address"
+              },
+              {
+                "internalType": "address",
+                "name": "zroPaymentAddress",
+                "type": "address"
               }
             ],
             "internalType": "struct ICommonData.IWithdrawParams",
@@ -1788,6 +1888,16 @@
                 "internalType": "bool",
                 "name": "unwrap",
                 "type": "bool"
+              },
+              {
+                "internalType": "address payable",
+                "name": "refundAddress",
+                "type": "address"
+              },
+              {
+                "internalType": "address",
+                "name": "zroPaymentAddress",
+                "type": "address"
               }
             ],
             "internalType": "struct ICommonData.IWithdrawParams",
@@ -2375,6 +2485,16 @@
             "internalType": "bool",
             "name": "unwrap",
             "type": "bool"
+          },
+          {
+            "internalType": "address payable",
+            "name": "refundAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "zroPaymentAddress",
+            "type": "address"
           }
         ],
         "internalType": "struct ICommonData.IWithdrawParams",

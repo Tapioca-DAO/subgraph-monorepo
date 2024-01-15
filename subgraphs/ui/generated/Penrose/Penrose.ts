@@ -10,39 +10,47 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
-export class BigBangEthMarketDebtRate extends ethereum.Event {
-  get params(): BigBangEthMarketDebtRate__Params {
-    return new BigBangEthMarketDebtRate__Params(this);
+export class BigBangEthMarketDebtRateUpdated extends ethereum.Event {
+  get params(): BigBangEthMarketDebtRateUpdated__Params {
+    return new BigBangEthMarketDebtRateUpdated__Params(this);
   }
 }
 
-export class BigBangEthMarketDebtRate__Params {
-  _event: BigBangEthMarketDebtRate;
+export class BigBangEthMarketDebtRateUpdated__Params {
+  _event: BigBangEthMarketDebtRateUpdated;
 
-  constructor(event: BigBangEthMarketDebtRate) {
+  constructor(event: BigBangEthMarketDebtRateUpdated) {
     this._event = event;
   }
 
-  get _rate(): BigInt {
+  get _oldRate(): BigInt {
     return this._event.parameters[0].value.toBigInt();
   }
-}
 
-export class BigBangEthMarketSet extends ethereum.Event {
-  get params(): BigBangEthMarketSet__Params {
-    return new BigBangEthMarketSet__Params(this);
+  get _newRate(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
   }
 }
 
-export class BigBangEthMarketSet__Params {
-  _event: BigBangEthMarketSet;
+export class BigBangEthMarketUpdated extends ethereum.Event {
+  get params(): BigBangEthMarketUpdated__Params {
+    return new BigBangEthMarketUpdated__Params(this);
+  }
+}
 
-  constructor(event: BigBangEthMarketSet) {
+export class BigBangEthMarketUpdated__Params {
+  _event: BigBangEthMarketUpdated;
+
+  constructor(event: BigBangEthMarketUpdated) {
     this._event = event;
+  }
+
+  get _oldAddress(): Address {
+    return this._event.parameters[0].value.toAddress();
   }
 
   get _newAddress(): Address {
-    return this._event.parameters[0].value.toAddress();
+    return this._event.parameters[1].value.toAddress();
   }
 }
 
@@ -129,12 +137,8 @@ export class LogTwTapFeesDeposit__Params {
     this._event = event;
   }
 
-  get feeShares(): BigInt {
+  get amount(): BigInt {
     return this._event.parameters[0].value.toBigInt();
-  }
-
-  get ethAmount(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
   }
 }
 
@@ -204,6 +208,24 @@ export class ProtocolWithdrawal__Params {
   }
 }
 
+export class ReaccruedMarkets extends ethereum.Event {
+  get params(): ReaccruedMarkets__Params {
+    return new ReaccruedMarkets__Params(this);
+  }
+}
+
+export class ReaccruedMarkets__Params {
+  _event: ReaccruedMarkets;
+
+  constructor(event: ReaccruedMarkets) {
+    this._event = event;
+  }
+
+  get mainMarketIncluded(): boolean {
+    return this._event.parameters[0].value.toBoolean();
+  }
+}
+
 export class RegisterBigBang extends ethereum.Event {
   get params(): RegisterBigBang__Params {
     return new RegisterBigBang__Params(this);
@@ -245,6 +267,24 @@ export class RegisterBigBangMasterContract__Params {
 
   get risk(): i32 {
     return this._event.parameters[1].value.toI32();
+  }
+}
+
+export class RegisterOrigins extends ethereum.Event {
+  get params(): RegisterOrigins__Params {
+    return new RegisterOrigins__Params(this);
+  }
+}
+
+export class RegisterOrigins__Params {
+  _event: RegisterOrigins;
+
+  constructor(event: RegisterOrigins) {
+    this._event = event;
+  }
+
+  get location(): Address {
+    return this._event.parameters[0].value.toAddress();
   }
 }
 
@@ -292,29 +332,21 @@ export class RegisterSingularityMasterContract__Params {
   }
 }
 
-export class SwapperUpdate extends ethereum.Event {
-  get params(): SwapperUpdate__Params {
-    return new SwapperUpdate__Params(this);
+export class TotalUsdoDebt extends ethereum.Event {
+  get params(): TotalUsdoDebt__Params {
+    return new TotalUsdoDebt__Params(this);
   }
 }
 
-export class SwapperUpdate__Params {
-  _event: SwapperUpdate;
+export class TotalUsdoDebt__Params {
+  _event: TotalUsdoDebt;
 
-  constructor(event: SwapperUpdate) {
+  constructor(event: TotalUsdoDebt) {
     this._event = event;
   }
 
-  get swapper(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get id(): i32 {
-    return this._event.parameters[1].value.toI32();
-  }
-
-  get isRegistered(): boolean {
-    return this._event.parameters[2].value.toBoolean();
+  get amount(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
   }
 }
 
@@ -337,16 +369,6 @@ export class UsdoTokenUpdated__Params {
 
   get assetId(): BigInt {
     return this._event.parameters[1].value.toBigInt();
-  }
-}
-
-export class Penrose___getMasterContractLengthInputArrayStruct extends ethereum.Tuple {
-  get location(): Address {
-    return this[0].toAddress();
-  }
-
-  get risk(): i32 {
-    return this[1].toI32();
   }
 }
 
@@ -403,6 +425,16 @@ export class Penrose__executeMarketFnResult {
   }
 }
 
+export class Penrose__getAllMasterContractClonesInputArrayStruct extends ethereum.Tuple {
+  get location(): Address {
+    return this[0].toAddress();
+  }
+
+  get risk(): i32 {
+    return this[1].toI32();
+  }
+}
+
 export class Penrose__singularityMasterContractsResult {
   value0: Address;
   value1: i32;
@@ -436,33 +468,6 @@ export class Penrose extends ethereum.SmartContract {
     return new Penrose("Penrose", address);
   }
 
-  _getMasterContractLength(
-    array: Array<Penrose___getMasterContractLengthInputArrayStruct>
-  ): Array<Address> {
-    let result = super.call(
-      "_getMasterContractLength",
-      "_getMasterContractLength((address,uint8)[]):(address[])",
-      [ethereum.Value.fromTupleArray(array)]
-    );
-
-    return result[0].toAddressArray();
-  }
-
-  try__getMasterContractLength(
-    array: Array<Penrose___getMasterContractLengthInputArrayStruct>
-  ): ethereum.CallResult<Array<Address>> {
-    let result = super.tryCall(
-      "_getMasterContractLength",
-      "_getMasterContractLength((address,uint8)[]):(address[])",
-      [ethereum.Value.fromTupleArray(array)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddressArray());
-  }
-
   allBigBangMarkets(param0: BigInt): Address {
     let result = super.call(
       "allBigBangMarkets",
@@ -477,6 +482,29 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "allBigBangMarkets",
       "allBigBangMarkets(uint256):(address)",
+      [ethereum.Value.fromUnsignedBigInt(param0)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  allOriginsMarkets(param0: BigInt): Address {
+    let result = super.call(
+      "allOriginsMarkets",
+      "allOriginsMarkets(uint256):(address)",
+      [ethereum.Value.fromUnsignedBigInt(param0)]
+    );
+
+    return result[0].toAddress();
+  }
+
+  try_allOriginsMarkets(param0: BigInt): ethereum.CallResult<Address> {
+    let result = super.tryCall(
+      "allOriginsMarkets",
+      "allOriginsMarkets(uint256):(address)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
     if (result.reverted) {
@@ -676,6 +704,29 @@ export class Penrose extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
+  computeTotalDebt(): BigInt {
+    let result = super.call(
+      "computeTotalDebt",
+      "computeTotalDebt():(uint256)",
+      []
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_computeTotalDebt(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "computeTotalDebt",
+      "computeTotalDebt():(uint256)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   conservator(): Address {
     let result = super.call("conservator", "conservator():(address)", []);
 
@@ -761,6 +812,33 @@ export class Penrose extends ethereum.SmartContract {
     );
   }
 
+  getAllMasterContractClones(
+    array: Array<Penrose__getAllMasterContractClonesInputArrayStruct>
+  ): Array<Address> {
+    let result = super.call(
+      "getAllMasterContractClones",
+      "getAllMasterContractClones((address,uint8)[]):(address[])",
+      [ethereum.Value.fromTupleArray(array)]
+    );
+
+    return result[0].toAddressArray();
+  }
+
+  try_getAllMasterContractClones(
+    array: Array<Penrose__getAllMasterContractClonesInputArrayStruct>
+  ): ethereum.CallResult<Array<Address>> {
+    let result = super.tryCall(
+      "getAllMasterContractClones",
+      "getAllMasterContractClones((address,uint8)[]):(address[])",
+      [ethereum.Value.fromTupleArray(array)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddressArray());
+  }
+
   hostLzChainId(): i32 {
     let result = super.call("hostLzChainId", "hostLzChainId():(uint16)", []);
 
@@ -815,6 +893,29 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "isMarketRegistered",
       "isMarketRegistered(address):(bool)",
+      [ethereum.Value.fromAddress(param0)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
+  isOriginRegistered(param0: Address): boolean {
+    let result = super.call(
+      "isOriginRegistered",
+      "isOriginRegistered(address):(bool)",
+      [ethereum.Value.fromAddress(param0)]
+    );
+
+    return result[0].toBoolean();
+  }
+
+  try_isOriginRegistered(param0: Address): ethereum.CallResult<boolean> {
+    let result = super.tryCall(
+      "isOriginRegistered",
+      "isOriginRegistered(address):(bool)",
       [ethereum.Value.fromAddress(param0)]
     );
     if (result.reverted) {
@@ -1088,6 +1189,25 @@ export class Penrose extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
+  viewTotalDebt(): BigInt {
+    let result = super.call("viewTotalDebt", "viewTotalDebt():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_viewTotalDebt(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "viewTotalDebt",
+      "viewTotalDebt():(uint256)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   yieldBox(): Address {
     let result = super.call("yieldBox", "yieldBox():(address)", []);
 
@@ -1188,6 +1308,36 @@ export class AddBigBangCall__Outputs {
   }
 }
 
+export class AddOriginsMarketCall extends ethereum.Call {
+  get inputs(): AddOriginsMarketCall__Inputs {
+    return new AddOriginsMarketCall__Inputs(this);
+  }
+
+  get outputs(): AddOriginsMarketCall__Outputs {
+    return new AddOriginsMarketCall__Outputs(this);
+  }
+}
+
+export class AddOriginsMarketCall__Inputs {
+  _call: AddOriginsMarketCall;
+
+  constructor(call: AddOriginsMarketCall) {
+    this._call = call;
+  }
+
+  get _contract(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class AddOriginsMarketCall__Outputs {
+  _call: AddOriginsMarketCall;
+
+  constructor(call: AddOriginsMarketCall) {
+    this._call = call;
+  }
+}
+
 export class AddSingularityCall extends ethereum.Call {
   get inputs(): AddSingularityCall__Inputs {
     return new AddSingularityCall__Inputs(this);
@@ -1245,6 +1395,36 @@ export class ClaimOwnershipCall__Outputs {
 
   constructor(call: ClaimOwnershipCall) {
     this._call = call;
+  }
+}
+
+export class ComputeTotalDebtCall extends ethereum.Call {
+  get inputs(): ComputeTotalDebtCall__Inputs {
+    return new ComputeTotalDebtCall__Inputs(this);
+  }
+
+  get outputs(): ComputeTotalDebtCall__Outputs {
+    return new ComputeTotalDebtCall__Outputs(this);
+  }
+}
+
+export class ComputeTotalDebtCall__Inputs {
+  _call: ComputeTotalDebtCall;
+
+  constructor(call: ComputeTotalDebtCall) {
+    this._call = call;
+  }
+}
+
+export class ComputeTotalDebtCall__Outputs {
+  _call: ComputeTotalDebtCall;
+
+  constructor(call: ComputeTotalDebtCall) {
+    this._call = call;
+  }
+
+  get totalUsdoDebt(): BigInt {
+    return this._call.outputValues[0].value.toBigInt();
   }
 }
 
@@ -1333,6 +1513,36 @@ export class ExecuteMarketFnCall__Outputs {
 
   get result(): Array<Bytes> {
     return this._call.outputValues[1].value.toBytesArray();
+  }
+}
+
+export class MintOpenInterestDebtCall extends ethereum.Call {
+  get inputs(): MintOpenInterestDebtCall__Inputs {
+    return new MintOpenInterestDebtCall__Inputs(this);
+  }
+
+  get outputs(): MintOpenInterestDebtCall__Outputs {
+    return new MintOpenInterestDebtCall__Outputs(this);
+  }
+}
+
+export class MintOpenInterestDebtCall__Inputs {
+  _call: MintOpenInterestDebtCall;
+
+  constructor(call: MintOpenInterestDebtCall) {
+    this._call = call;
+  }
+
+  get twTap(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class MintOpenInterestDebtCall__Outputs {
+  _call: MintOpenInterestDebtCall;
+
+  constructor(call: MintOpenInterestDebtCall) {
+    this._call = call;
   }
 }
 

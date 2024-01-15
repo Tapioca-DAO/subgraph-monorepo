@@ -9,6 +9,7 @@ export const AVALANCHE_NETWORK = "avalanche"
 
 // testnets
 export const ARBITRUM_GOERLI = "arbitrum-goerli"
+export const ARBITRUM_SEPOLIA = "arbitrum-sepolia"
 export const MUMBAI = "mumbai"
 export const FANTOM_TESTNET = "fantom-testnet"
 export const AVALANCHE_FUJI = "fuji"
@@ -26,6 +27,8 @@ export function getNetworkId(network: string): number {
     return 56
   } else if (network == ARBITRUM_GOERLI) {
     return 421613
+  } else if (network == ARBITRUM_SEPOLIA) {
+    return 421614
   } else if (network == MUMBAI) {
     return 80001
   } else if (network == FANTOM_TESTNET) {
@@ -49,6 +52,8 @@ export function getNetwork(network: string): string {
     return Network.BSC
   } else if (network == ARBITRUM_GOERLI) {
     return Network.ARBITRUM_GOERLI
+  } else if (network == ARBITRUM_SEPOLIA) {
+    return Network.ARBITRUM_SEPOLIA
   } else if (network == MUMBAI) {
     return Network.MUMBAI
   } else if (network == FANTOM_TESTNET) {

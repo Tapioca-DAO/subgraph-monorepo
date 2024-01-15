@@ -1,29 +1,25 @@
 type BigBangMarket @entity(immutable: true) {
   id: Bytes!
   chainId: Int! # uint32
-  address: Bytes! # address
-  borrowTokenYieldBoxId: BigInt!
-  collateralTokenYieldBoxId: BigInt!
+  address: String! # address
   borrowToken: Token!
   collateralToken: Token!
-  oracleAddress: Bytes! # address
+  oracleAddress: String! # address
 }
 
 type SingularityMarket @entity(immutable: true) {
   id: Bytes!
   chainId: Int! # uint32
-  address: Bytes! # address
-  borrowTokenYieldBoxId: BigInt!
-  collateralTokenYieldBoxId: BigInt!
+  address: String! # address
   borrowToken: Token!
   collateralToken: Token!
-  oracleAddress: Bytes! # address
+  oracleAddress: String! # address
 }
 
 type Token @entity(immutable: true) {
   id: Bytes!
   chainId: Int! # uint32
-  address: Bytes!
+  address: String!
   name: String!
   symbol: String!
   decimals: Int! # uint32
@@ -31,17 +27,35 @@ type Token @entity(immutable: true) {
 
 type RemoteTOFTMeta @entity(immutable: false) {
   id: Bytes!
-  remoteChainId: Int! # uint16
-  remoteLZChainId: Int! # uint16
-  remoteTOFTokenAddress: Bytes! # bytes
+  lzChainId: Int! # uint16
+  chainId: Int! # uint16
+  address: String! # bytes
 }
 
 type TOFToken @entity(immutable: false) {
   id: Bytes!
-  isUSDO: Boolean!
-  sourceERC20Token: Token # bytes
-  sourceTOFToken: Token! # bytes
+  token: Token!
+  underlyingToken: Token 
   remoteTOFTs: [RemoteTOFTMeta!]!
   markets: [SingularityMarket!]
   bigBangMarkets: [BigBangMarket!]
+}
+
+type PaymentToken @entity(immutable: false) {
+  id: Bytes!
+  token: Token!
+  oracleAddress: String! # address
+  oracleData: Bytes!
+}
+
+type TapiocaOptionBroker @entity(immutable: false) {
+  id: Bytes!
+  paymentTokens: [PaymentToken!]!
+  epochDuration: Int! # uint32
+}
+
+type oTAP @entity(immutable: false) {
+  id: Bytes!
+  nftId: BigInt! # uint256
+  owner: String! # address
 }

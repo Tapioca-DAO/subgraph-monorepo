@@ -86,11 +86,17 @@
       {
         "indexed": true,
         "internalType": "uint256",
-        "name": "_rate",
+        "name": "_oldRate",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_newRate",
         "type": "uint256"
       }
     ],
-    "name": "BigBangEthMarketDebtRate",
+    "name": "BigBangEthMarketDebtRateUpdated",
     "type": "event"
   },
   {
@@ -99,11 +105,17 @@
       {
         "indexed": true,
         "internalType": "address",
+        "name": "_oldAddress",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
         "name": "_newAddress",
         "type": "address"
       }
     ],
-    "name": "BigBangEthMarketSet",
+    "name": "BigBangEthMarketUpdated",
     "type": "event"
   },
   {
@@ -175,13 +187,7 @@
       {
         "indexed": true,
         "internalType": "uint256",
-        "name": "feeShares",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "ethAmount",
+        "name": "amount",
         "type": "uint256"
       }
     ],
@@ -250,6 +256,19 @@
     "inputs": [
       {
         "indexed": true,
+        "internalType": "bool",
+        "name": "mainMarketIncluded",
+        "type": "bool"
+      }
+    ],
+    "name": "ReaccruedMarkets",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
         "internalType": "address",
         "name": "location",
         "type": "address"
@@ -281,6 +300,19 @@
       }
     ],
     "name": "RegisterBigBangMasterContract",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "location",
+        "type": "address"
+      }
+    ],
+    "name": "RegisterOrigins",
     "type": "event"
   },
   {
@@ -326,24 +358,12 @@
     "inputs": [
       {
         "indexed": true,
-        "internalType": "address",
-        "name": "swapper",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint16",
-        "name": "id",
-        "type": "uint16"
-      },
-      {
-        "indexed": true,
-        "internalType": "bool",
-        "name": "isRegistered",
-        "type": "bool"
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
       }
     ],
-    "name": "SwapperUpdate",
+    "name": "TotalUsdoDebt",
     "type": "event"
   },
   {
@@ -368,37 +388,6 @@
   {
     "inputs": [
       {
-        "components": [
-          {
-            "internalType": "address",
-            "name": "location",
-            "type": "address"
-          },
-          {
-            "internalType": "enum IPenrose.ContractType",
-            "name": "risk",
-            "type": "uint8"
-          }
-        ],
-        "internalType": "struct IPenrose.MasterContract[]",
-        "name": "array",
-        "type": "tuple[]"
-      }
-    ],
-    "name": "_getMasterContractLength",
-    "outputs": [
-      {
-        "internalType": "address[]",
-        "name": "markets",
-        "type": "address[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "address",
         "name": "mc",
         "type": "address"
@@ -410,6 +399,19 @@
       }
     ],
     "name": "addBigBang",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_contract",
+        "type": "address"
+      }
+    ],
+    "name": "addOriginsMarket",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -441,6 +443,25 @@
       }
     ],
     "name": "allBigBangMarkets",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "allOriginsMarkets",
     "outputs": [
       {
         "internalType": "address",
@@ -592,6 +613,19 @@
   },
   {
     "inputs": [],
+    "name": "computeTotalDebt",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "totalUsdoDebt",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "conservator",
     "outputs": [
       {
@@ -686,6 +720,37 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "location",
+            "type": "address"
+          },
+          {
+            "internalType": "enum IPenrose.ContractType",
+            "name": "risk",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct IPenrose.MasterContract[]",
+        "name": "array",
+        "type": "tuple[]"
+      }
+    ],
+    "name": "getAllMasterContractClones",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "markets",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "hostLzChainId",
     "outputs": [
@@ -726,6 +791,25 @@
       }
     ],
     "name": "isMarketRegistered",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "isOriginRegistered",
     "outputs": [
       {
         "internalType": "bool",
@@ -798,6 +882,19 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "twTap",
+        "type": "address"
+      }
+    ],
+    "name": "mintOpenInterestDebt",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -1138,6 +1235,19 @@
         "internalType": "contract IERC20",
         "name": "",
         "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "viewTotalDebt",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",

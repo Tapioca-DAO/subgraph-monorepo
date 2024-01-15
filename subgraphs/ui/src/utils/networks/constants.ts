@@ -14,6 +14,7 @@ export namespace Network {
   export const MATIC = "MATIC" // aka Polygon
   export const XDAI = "XDAI" // aka Gnosis Chain
 
+  export const ARBITRUM_SEPOLIA = "ARBITRUM_SEPOLIA"
   export const ARBITRUM_GOERLI = "ARBITRUM_GOERLI"
   export const MUMBAI = "MUMBAI"
   export const FANTOM_TESTNET = "FANTOM_TESTNET"

@@ -93,12 +93,14 @@ export function fetchTokenDecimals(tokenAddress: Address): BigInt {
 }
 
 export function putToken(tokenAddress: Address): Token {
+  putNativeToken()
+
   let token = Token.load(tokenAddress)
   if (token === null) {
     token = new Token(tokenAddress)
   }
   token.chainId = getNetworkId(dataSource.network()) as i32
-  token.address = tokenAddress
+  token.address = tokenAddress.toHexString()
   token.symbol = fetchTokenSymbol(tokenAddress)
   token.name = fetchTokenName(tokenAddress)
   token.decimals = fetchTokenDecimals(tokenAddress).toU32()
@@ -112,15 +114,8 @@ export function putToft(tokenAddress: Address, isUSDO: boolean): TOFToken {
   if (toftEntity == null) {
     toftEntity = new TOFToken(tokenAddress)
 
-    toftEntity.sourceTOFToken = putToken(tokenAddress).id
+    toftEntity.token = putToken(tokenAddress).id
     toftEntity.remoteTOFTs = []
-    toftEntity.isUSDO = isUSDO
-    toftEntity.save()
-  }
-
-  // we are respecing the isUSDO only if it is true
-  if (isUSDO && toftEntity.isUSDO != isUSDO) {
-    toftEntity.isUSDO = isUSDO
     toftEntity.save()
   }
 
@@ -137,7 +132,7 @@ export function putNativeToken(): void {
   }
   token = new Token(tokenAddress)
   token.chainId = getNetworkId(dataSource.network()) as i32
-  token.address = tokenAddress
+  token.address = tokenAddress.toHexString()
 
   const staticTokenDefinition = NativeTokenDefinition.fromChainId(token.chainId)
 
