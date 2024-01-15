@@ -33,6 +33,7 @@ function putPaymentToken(
     paymentTokenEntity = new PaymentToken(tokenId)
   }
 
+  paymentTokenEntity.token = tokenId
   paymentTokenEntity.oracleAddress = oracleAddress.toHexString()
   paymentTokenEntity.oracleData = oracleData
   paymentTokenEntity.save()

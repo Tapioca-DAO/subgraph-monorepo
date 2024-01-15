@@ -53,3 +53,9 @@ type TapiocaOptionBroker @entity(immutable: false) {
   paymentTokens: [PaymentToken!]!
   epochDuration: Int! # uint32
 }
+
+type oTAP @entity(immutable: false) {
+  id: Bytes!
+  nftId: BigInt! # uint256
+  owner: String! # address
+}

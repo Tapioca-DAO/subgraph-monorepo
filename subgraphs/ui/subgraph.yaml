@@ -143,6 +143,26 @@ dataSources:
           handler: handleSetPaymentToken
       file: ./src/tob.ts
     network: arbitrum-sepolia
+  - kind: ethereum
+    name: OTAP
+    source:
+      abi: OTAP
+      startBlock: 4954220
+      address: "0xDCA2B50098D64AB6c2a41730e128c9ACC93b5a29"
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - TapiocaOptionBroker
+      abis:
+        - name: OTAP
+          file: ./abis/OTAP.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/otap.ts
+    network: arbitrum-sepolia
 templates:
   - kind: ethereum
     name: TOFT

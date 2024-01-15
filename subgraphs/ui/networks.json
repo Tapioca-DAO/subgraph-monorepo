@@ -19,6 +19,10 @@
     "TOB": {
       "startBlock": 23590770,
       "address": "0x0000000000000000000000000000000000000000"
+    },
+    "OTAP": {
+      "startBlock": 23590770,
+      "address": "0x0000000000000000000000000000000000000000"
     }
   },
   "arbitrum-sepolia": {
@@ -41,6 +45,10 @@
     "TOB": {
       "startBlock": 4954220,
       "address": "0x72B6a8f239cb8347BD81Dd212CCA251c4F09245a"
+    },
+    "OTAP": {
+      "startBlock": 4954220,
+      "address": "0xDCA2B50098D64AB6c2a41730e128c9ACC93b5a29"
     }
   }
 }
