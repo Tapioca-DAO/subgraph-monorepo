@@ -689,6 +689,19 @@ export class TapiocaOptionBroker extends Entity {
   set epochDuration(value: i32) {
     this.set("epochDuration", Value.fromI32(value));
   }
+
+  get tap(): Bytes {
+    let value = this.get("tap");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set tap(value: Bytes) {
+    this.set("tap", Value.fromBytes(value));
+  }
 }
 
 export class oTAP extends Entity {

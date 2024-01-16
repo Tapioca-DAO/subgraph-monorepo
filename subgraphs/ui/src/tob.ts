@@ -16,6 +16,7 @@ function putTobEntity(address: Address): TapiocaOptionBroker {
 
     tobEntity.paymentTokens = []
     tobEntity.epochDuration = tobContract.EPOCH_DURATION().toI32()
+    tobEntity.tap = putToken(tobContract.tapOFT()).id
     tobEntity.save()
   }
 

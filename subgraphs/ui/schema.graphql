@@ -52,6 +52,7 @@ type TapiocaOptionBroker @entity(immutable: false) {
   id: Bytes!
   paymentTokens: [PaymentToken!]!
   epochDuration: Int! # uint32
+  tap: Token!
 }
 
 type oTAP @entity(immutable: false) {
