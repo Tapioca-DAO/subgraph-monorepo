@@ -6,8 +6,8 @@ dataSources:
     name: AirdropBroker
     source:
       abi: AirdropBroker
-      startBlock: 55592144
-      address: "0xcb4D35A46057cf87b06157cA962052705760F015"
+      startBlock: 4865250
+      address: "0x2e3de46f97E3F46e53059b48e4d6F24A16DEa68d"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -23,13 +23,13 @@ dataSources:
         - event: Participate(indexed uint256,uint256)
           handler: handleParticipate
       file: ./src/airdrop-broker.ts
-    network: arbitrum-goerli
+    network: arbitrum-sepolia
   - kind: ethereum
     name: Vault
     source:
       abi: Vault
-      startBlock: 49293101
-      address: "0x762e7626ad75d35f2524085e21e516f7cddf5138"
+      startBlock: 4865250
+      address: "0xEce16053629a562474b9Ec2C89A2F25563400aB6"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -54,13 +54,13 @@ dataSources:
         - event: Swap(indexed bytes32,indexed address,indexed address,uint256,uint256)
           handler: handleSwap
       file: ./src/vault.ts
-    network: arbitrum-goerli
+    network: arbitrum-sepolia
   - kind: ethereum
     name: LBP
     source:
       abi: LBP
-      startBlock: 49293227
-      address: "0xc1dbd0a8fe1f449f4dfc02b45e11485ec305197a"
+      startBlock: 4865250
+      address: "0xf5F2bFBc12Bf945Ee90829503409052677a27762"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -82,4 +82,4 @@ dataSources:
         - event: GradualWeightUpdateScheduled(uint256,uint256,uint256[],uint256[])
           handler: handleGradualWeightUpdateScheduled
       file: ./src/lbp.ts
-    network: arbitrum-goerli
+    network: arbitrum-sepolia
