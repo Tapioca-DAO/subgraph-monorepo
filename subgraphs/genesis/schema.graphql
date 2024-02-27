@@ -46,3 +46,10 @@ type Token @entity(immutable: true) {
   symbol: String!
   decimals: Int! # uint32
 }
+
+type UserTokenBalance @entity(immutable: false) {
+  id: ID!
+  user: String!
+  token: Token!
+  amount: BigInt! 
+}

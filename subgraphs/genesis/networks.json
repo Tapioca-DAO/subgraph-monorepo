@@ -25,6 +25,10 @@
     "LBP": {
       "startBlock": 4865250,
       "address": "0xf5F2bFBc12Bf945Ee90829503409052677a27762"
+    },
+    "LTAP": {
+      "startBlock": 4865250,
+      "address": "0x665A6450a3c4C225a4C2F37A4014D8EC2665346f"
     }
   }
 }
