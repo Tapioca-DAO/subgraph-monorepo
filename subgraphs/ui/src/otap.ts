@@ -1,19 +1,20 @@
 import { BigInt, Bytes } from "@graphprotocol/graph-ts"
 
 import { Transfer as TransferEvent } from "../generated/OTAP/OTAP"
-import { oTAP } from "../generated/schema"
+import { OTAP } from "../generated/schema"
+import { ZERO_ADDRESS_STRING } from "./utils/helper"
 
-function putOTAPEntity(nftId: BigInt): oTAP {
-  let tobEntity = oTAP.load(
+export function putOTAPEntity(nftId: BigInt): OTAP {
+  let tobEntity = OTAP.load(
     Bytes.fromHexString(Bytes.fromBigInt(nftId).toHexString())
   )
 
   if (tobEntity == null) {
-    tobEntity = new oTAP(
+    tobEntity = new OTAP(
       Bytes.fromHexString(Bytes.fromBigInt(nftId).toHexString())
     )
     tobEntity.nftId = nftId
-    tobEntity.owner = "0x0000000000000000000000000000000000000000"
+    tobEntity.owner = ZERO_ADDRESS_STRING
     tobEntity.save()
   }
 

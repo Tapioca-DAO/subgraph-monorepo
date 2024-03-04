@@ -41,22 +41,63 @@ type TOFToken @entity(immutable: false) {
   bigBangMarkets: [BigBangMarket!]
 }
 
-type PaymentToken @entity(immutable: false) {
+#START ######### TOB BASE ##########
+type TapiocaOptionBrokerPaymentToken @entity(immutable: false) {
   id: Bytes!
   token: Token!
   oracleAddress: String! # address
   oracleData: Bytes!
 }
 
-type TapiocaOptionBroker @entity(immutable: false) {
-  id: Bytes!
-  paymentTokens: [PaymentToken!]!
-  epochDuration: Int! # uint32
-  tap: Token!
+type TapiocaOptionBrokerEpoch @entity(immutable: true) {
+  id: String!
+  epochId: BigInt! # uint256
+  epochTAPAmount: BigInt! # uint256
+  epochTAPValuation: BigInt! # uint256
 }
 
-type oTAP @entity(immutable: false) {
+type TapiocaOptionBroker @entity(immutable: false) {
+  id: Bytes!
+  paymentTokens: [TapiocaOptionBrokerPaymentToken!]!
+  epochDuration: Int! # uint32
+  tap: Token!
+  currentEpoch: TapiocaOptionBrokerEpoch!
+}
+#END ########### TOB BASE ##########
+
+#START ######### TOLP BASE ##########
+type TOLPLockPosition @entity(immutable: true) {
+  id: Bytes!
+  sglAssetId: BigInt! # uint128
+  ybShares: BigInt! # uint128
+  lockTime: Int! # uint128
+  lockDuration: Int! # uint128
+  tolp: TOLP!
+}
+
+type TOLP @entity(immutable: false) {
+  id: Bytes!
+  nftId: BigInt! # uint256
+  owner: String! # address - mutable
+
+  lockPosition: TOLPLockPosition
+}
+#END ########### TOLP BASE ##########
+
+#START ######### TOLP BASE ##########
+type OTAPParticipatePosition @entity(immutable: true) {
+  id: Bytes!
+  participatedAtEpoch: TapiocaOptionBrokerEpoch!
+  discount: Int! # uint256
+  tolp: TOLP!
+  otap: OTAP!
+}
+
+type OTAP @entity(immutable: false) {
   id: Bytes!
   nftId: BigInt! # uint256
   owner: String! # address
+
+  participatePosition: OTAPParticipatePosition
 }
+#END ########### TOLP BASE ##########
