@@ -1,2 +1,4 @@
 module.exports = [
+    "tolp",
+    "otap",
 ];
