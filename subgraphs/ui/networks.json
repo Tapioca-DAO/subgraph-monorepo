@@ -23,6 +23,10 @@
     "OTAP": {
       "startBlock": 23590770,
       "address": "0x0000000000000000000000000000000000000000"
+    },
+    "TOLP": {
+      "startBlock": 23590770,
+      "address": "0x0000000000000000000000000000000000000000"
     }
   },
   "arbitrum-sepolia": {
@@ -49,6 +53,40 @@
     "OTAP": {
       "startBlock": 4954220,
       "address": "0xDCA2B50098D64AB6c2a41730e128c9ACC93b5a29"
+    },
+    "TOLP": {
+      "startBlock": 4954220,
+      "address": "0xe96eCaaD1D9152702d383786901EBaA4Cf732d40"
+    }
+  },
+  "sepolia": {
+    "USDO": {
+      "startBlock": 5389906,
+      "address": "0x0000000000000000000000000000000000000000"
+    },
+    "Penrose": {
+      "startBlock": 5389906,
+      "address": "0x0000000000000000000000000000000000000000"
+    },
+    "TapiocaWrapper": {
+      "startBlock": 5389906,
+      "address": "0x0000000000000000000000000000000000000000"
+    },
+    "YieldBox": {
+      "startBlock": 5389906,
+      "address": "0x79a2CCbDF2d136EDd1fB445D49d9f1055C398c59"
+    },
+    "TOB": {
+      "startBlock": 5389906,
+      "address": "0x9e2087a884A6Ab4b0273D835ce98dD70F26351B6"
+    },
+    "OTAP": {
+      "startBlock": 5389906,
+      "address": "0x50B5615A044CA82c3b6E7EA3A33Cf5C74FbCc46e"
+    },
+    "TOLP": {
+      "startBlock": 5389906,
+      "address": "0x7912e86164b79EE0E9EC414923be8B278983e8D6"
     }
   }
 }

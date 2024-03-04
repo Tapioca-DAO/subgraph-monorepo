@@ -91,7 +91,7 @@ export class ExitPosition__Params {
     return this._event.parameters[0].value.toBigInt();
   }
 
-  get tokenId(): BigInt {
+  get tolpTokenId(): BigInt {
     return this._event.parameters[1].value.toBigInt();
   }
 
@@ -173,32 +173,16 @@ export class Participate__Params {
     return this._event.parameters[2].value.toBigInt();
   }
 
-  get lock(): ParticipateLockStruct {
-    return changetype<ParticipateLockStruct>(
-      this._event.parameters[3].value.toTuple()
-    );
+  get tokenId(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
+  }
+
+  get tolpTokenId(): BigInt {
+    return this._event.parameters[4].value.toBigInt();
   }
 
   get discount(): BigInt {
-    return this._event.parameters[4].value.toBigInt();
-  }
-}
-
-export class ParticipateLockStruct extends ethereum.Tuple {
-  get sglAssetID(): BigInt {
-    return this[0].toBigInt();
-  }
-
-  get ybShares(): BigInt {
-    return this[1].toBigInt();
-  }
-
-  get lockTime(): BigInt {
-    return this[2].toBigInt();
-  }
-
-  get lockDuration(): BigInt {
-    return this[3].toBigInt();
+    return this._event.parameters[5].value.toBigInt();
   }
 }
 
@@ -217,6 +201,28 @@ export class Paused__Params {
 
   get account(): Address {
     return this._event.parameters[0].value.toAddress();
+  }
+}
+
+export class PearlmitUpdated extends ethereum.Event {
+  get params(): PearlmitUpdated__Params {
+    return new PearlmitUpdated__Params(this);
+  }
+}
+
+export class PearlmitUpdated__Params {
+  _event: PearlmitUpdated;
+
+  constructor(event: PearlmitUpdated) {
+    this._event = event;
+  }
+
+  get oldPearlmit(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get newPearlmit(): Address {
+    return this._event.parameters[1].value.toAddress();
   }
 }
 
@@ -666,6 +672,49 @@ export class TOB extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
+  onERC721Received(
+    operator: Address,
+    from: Address,
+    tokenId: BigInt,
+    data: Bytes
+  ): Bytes {
+    let result = super.call(
+      "onERC721Received",
+      "onERC721Received(address,address,uint256,bytes):(bytes4)",
+      [
+        ethereum.Value.fromAddress(operator),
+        ethereum.Value.fromAddress(from),
+        ethereum.Value.fromUnsignedBigInt(tokenId),
+        ethereum.Value.fromBytes(data)
+      ]
+    );
+
+    return result[0].toBytes();
+  }
+
+  try_onERC721Received(
+    operator: Address,
+    from: Address,
+    tokenId: BigInt,
+    data: Bytes
+  ): ethereum.CallResult<Bytes> {
+    let result = super.tryCall(
+      "onERC721Received",
+      "onERC721Received(address,address,uint256,bytes):(bytes4)",
+      [
+        ethereum.Value.fromAddress(operator),
+        ethereum.Value.fromAddress(from),
+        ethereum.Value.fromUnsignedBigInt(tokenId),
+        ethereum.Value.fromBytes(data)
+      ]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBytes());
+  }
+
   owner(): Address {
     let result = super.call("owner", "owner():(address)", []);
 
@@ -805,14 +854,14 @@ export class TOB extends ethereum.SmartContract {
     );
   }
 
-  pendingOwner(): Address {
-    let result = super.call("pendingOwner", "pendingOwner():(address)", []);
+  pearlmit(): Address {
+    let result = super.call("pearlmit", "pearlmit():(address)", []);
 
     return result[0].toAddress();
   }
 
-  try_pendingOwner(): ethereum.CallResult<Address> {
-    let result = super.tryCall("pendingOwner", "pendingOwner():(address)", []);
+  try_pearlmit(): ethereum.CallResult<Address> {
+    let result = super.tryCall("pearlmit", "pearlmit():(address)", []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -1008,8 +1057,12 @@ export class ConstructorCall__Inputs {
     return this._call.inputValues[4].value.toBigInt();
   }
 
-  get _owner(): Address {
+  get _pearlmit(): Address {
     return this._call.inputValues[5].value.toAddress();
+  }
+
+  get _owner(): Address {
+    return this._call.inputValues[6].value.toAddress();
   }
 }
 
@@ -1017,32 +1070,6 @@ export class ConstructorCall__Outputs {
   _call: ConstructorCall;
 
   constructor(call: ConstructorCall) {
-    this._call = call;
-  }
-}
-
-export class ClaimOwnershipCall extends ethereum.Call {
-  get inputs(): ClaimOwnershipCall__Inputs {
-    return new ClaimOwnershipCall__Inputs(this);
-  }
-
-  get outputs(): ClaimOwnershipCall__Outputs {
-    return new ClaimOwnershipCall__Outputs(this);
-  }
-}
-
-export class ClaimOwnershipCall__Inputs {
-  _call: ClaimOwnershipCall;
-
-  constructor(call: ClaimOwnershipCall) {
-    this._call = call;
-  }
-}
-
-export class ClaimOwnershipCall__Outputs {
-  _call: ClaimOwnershipCall;
-
-  constructor(call: ClaimOwnershipCall) {
     this._call = call;
   }
 }
@@ -1197,6 +1224,52 @@ export class OTAPBrokerClaimCall__Outputs {
   }
 }
 
+export class OnERC721ReceivedCall extends ethereum.Call {
+  get inputs(): OnERC721ReceivedCall__Inputs {
+    return new OnERC721ReceivedCall__Inputs(this);
+  }
+
+  get outputs(): OnERC721ReceivedCall__Outputs {
+    return new OnERC721ReceivedCall__Outputs(this);
+  }
+}
+
+export class OnERC721ReceivedCall__Inputs {
+  _call: OnERC721ReceivedCall;
+
+  constructor(call: OnERC721ReceivedCall) {
+    this._call = call;
+  }
+
+  get operator(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get from(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+
+  get tokenId(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
+  }
+
+  get data(): Bytes {
+    return this._call.inputValues[3].value.toBytes();
+  }
+}
+
+export class OnERC721ReceivedCall__Outputs {
+  _call: OnERC721ReceivedCall;
+
+  constructor(call: OnERC721ReceivedCall) {
+    this._call = call;
+  }
+
+  get value0(): Bytes {
+    return this._call.outputValues[0].value.toBytes();
+  }
+}
+
 export class ParticipateCall extends ethereum.Call {
   get inputs(): ParticipateCall__Inputs {
     return new ParticipateCall__Inputs(this);
@@ -1231,6 +1304,32 @@ export class ParticipateCall__Outputs {
   }
 }
 
+export class RenounceOwnershipCall extends ethereum.Call {
+  get inputs(): RenounceOwnershipCall__Inputs {
+    return new RenounceOwnershipCall__Inputs(this);
+  }
+
+  get outputs(): RenounceOwnershipCall__Outputs {
+    return new RenounceOwnershipCall__Outputs(this);
+  }
+}
+
+export class RenounceOwnershipCall__Inputs {
+  _call: RenounceOwnershipCall;
+
+  constructor(call: RenounceOwnershipCall) {
+    this._call = call;
+  }
+}
+
+export class RenounceOwnershipCall__Outputs {
+  _call: RenounceOwnershipCall;
+
+  constructor(call: RenounceOwnershipCall) {
+    this._call = call;
+  }
+}
+
 export class SetMinWeightFactorCall extends ethereum.Call {
   get inputs(): SetMinWeightFactorCall__Inputs {
     return new SetMinWeightFactorCall__Inputs(this);
@@ -1257,6 +1356,36 @@ export class SetMinWeightFactorCall__Outputs {
   _call: SetMinWeightFactorCall;
 
   constructor(call: SetMinWeightFactorCall) {
+    this._call = call;
+  }
+}
+
+export class SetPauseCall extends ethereum.Call {
+  get inputs(): SetPauseCall__Inputs {
+    return new SetPauseCall__Inputs(this);
+  }
+
+  get outputs(): SetPauseCall__Outputs {
+    return new SetPauseCall__Outputs(this);
+  }
+}
+
+export class SetPauseCall__Inputs {
+  _call: SetPauseCall;
+
+  constructor(call: SetPauseCall) {
+    this._call = call;
+  }
+
+  get _pauseState(): boolean {
+    return this._call.inputValues[0].value.toBoolean();
+  }
+}
+
+export class SetPauseCall__Outputs {
+  _call: SetPauseCall;
+
+  constructor(call: SetPauseCall) {
     this._call = call;
   }
 }
@@ -1329,6 +1458,36 @@ export class SetPaymentTokenBeneficiaryCall__Outputs {
   }
 }
 
+export class SetPearlmitCall extends ethereum.Call {
+  get inputs(): SetPearlmitCall__Inputs {
+    return new SetPearlmitCall__Inputs(this);
+  }
+
+  get outputs(): SetPearlmitCall__Outputs {
+    return new SetPearlmitCall__Outputs(this);
+  }
+}
+
+export class SetPearlmitCall__Inputs {
+  _call: SetPearlmitCall;
+
+  constructor(call: SetPearlmitCall) {
+    this._call = call;
+  }
+
+  get _pearlmit(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class SetPearlmitCall__Outputs {
+  _call: SetPearlmitCall;
+
+  constructor(call: SetPearlmitCall) {
+    this._call = call;
+  }
+}
+
 export class SetTapOracleCall extends ethereum.Call {
   get inputs(): SetTapOracleCall__Inputs {
     return new SetTapOracleCall__Inputs(this);
@@ -1363,6 +1522,36 @@ export class SetTapOracleCall__Outputs {
   }
 }
 
+export class SetVirtualTotalAmountCall extends ethereum.Call {
+  get inputs(): SetVirtualTotalAmountCall__Inputs {
+    return new SetVirtualTotalAmountCall__Inputs(this);
+  }
+
+  get outputs(): SetVirtualTotalAmountCall__Outputs {
+    return new SetVirtualTotalAmountCall__Outputs(this);
+  }
+}
+
+export class SetVirtualTotalAmountCall__Inputs {
+  _call: SetVirtualTotalAmountCall;
+
+  constructor(call: SetVirtualTotalAmountCall) {
+    this._call = call;
+  }
+
+  get _virtualTotalAmount(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class SetVirtualTotalAmountCall__Outputs {
+  _call: SetVirtualTotalAmountCall;
+
+  constructor(call: SetVirtualTotalAmountCall) {
+    this._call = call;
+  }
+}
+
 export class TransferOwnershipCall extends ethereum.Call {
   get inputs(): TransferOwnershipCall__Inputs {
     return new TransferOwnershipCall__Inputs(this);
@@ -1382,14 +1571,6 @@ export class TransferOwnershipCall__Inputs {
 
   get newOwner(): Address {
     return this._call.inputValues[0].value.toAddress();
-  }
-
-  get direct(): boolean {
-    return this._call.inputValues[1].value.toBoolean();
-  }
-
-  get renounce(): boolean {
-    return this._call.inputValues[2].value.toBoolean();
   }
 }
 

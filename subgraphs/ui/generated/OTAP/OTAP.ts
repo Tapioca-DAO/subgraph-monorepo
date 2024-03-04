@@ -128,6 +128,28 @@ export class Mint__Params {
   }
 }
 
+export class OwnershipTransferred extends ethereum.Event {
+  get params(): OwnershipTransferred__Params {
+    return new OwnershipTransferred__Params(this);
+  }
+}
+
+export class OwnershipTransferred__Params {
+  _event: OwnershipTransferred;
+
+  constructor(event: OwnershipTransferred) {
+    this._event = event;
+  }
+
+  get previousOwner(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get newOwner(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+}
+
 export class Transfer extends ethereum.Event {
   get params(): Transfer__Params {
     return new Transfer__Params(this);
@@ -155,16 +177,20 @@ export class Transfer__Params {
 }
 
 export class OTAP__attributesResultValue1Struct extends ethereum.Tuple {
-  get expiry(): BigInt {
+  get entry(): BigInt {
     return this[0].toBigInt();
   }
 
-  get discount(): BigInt {
+  get expiry(): BigInt {
     return this[1].toBigInt();
   }
 
-  get tOLP(): BigInt {
+  get discount(): BigInt {
     return this[2].toBigInt();
+  }
+
+  get tOLP(): BigInt {
+    return this[3].toBigInt();
   }
 }
 
@@ -265,11 +291,13 @@ export class OTAP__optionsResult {
   value0: BigInt;
   value1: BigInt;
   value2: BigInt;
+  value3: BigInt;
 
-  constructor(value0: BigInt, value1: BigInt, value2: BigInt) {
+  constructor(value0: BigInt, value1: BigInt, value2: BigInt, value3: BigInt) {
     this.value0 = value0;
     this.value1 = value1;
     this.value2 = value2;
+    this.value3 = value3;
   }
 
   toMap(): TypedMap<string, ethereum.Value> {
@@ -277,19 +305,24 @@ export class OTAP__optionsResult {
     map.set("value0", ethereum.Value.fromUnsignedBigInt(this.value0));
     map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
     map.set("value2", ethereum.Value.fromUnsignedBigInt(this.value2));
+    map.set("value3", ethereum.Value.fromUnsignedBigInt(this.value3));
     return map;
   }
 
-  getExpiry(): BigInt {
+  getEntry(): BigInt {
     return this.value0;
   }
 
-  getDiscount(): BigInt {
+  getExpiry(): BigInt {
     return this.value1;
   }
 
-  getTOLP(): BigInt {
+  getDiscount(): BigInt {
     return this.value2;
+  }
+
+  getTOLP(): BigInt {
+    return this.value3;
   }
 }
 
@@ -324,7 +357,7 @@ export class OTAP extends ethereum.SmartContract {
   attributes(_tokenId: BigInt): OTAP__attributesResult {
     let result = super.call(
       "attributes",
-      "attributes(uint256):(address,(uint128,uint128,uint256))",
+      "attributes(uint256):(address,(uint128,uint128,uint128,uint256))",
       [ethereum.Value.fromUnsignedBigInt(_tokenId)]
     );
 
@@ -339,7 +372,7 @@ export class OTAP extends ethereum.SmartContract {
   ): ethereum.CallResult<OTAP__attributesResult> {
     let result = super.tryCall(
       "attributes",
-      "attributes(uint256):(address,(uint128,uint128,uint256))",
+      "attributes(uint256):(address,(uint128,uint128,uint128,uint256))",
       [ethereum.Value.fromUnsignedBigInt(_tokenId)]
     );
     if (result.reverted) {
@@ -600,6 +633,21 @@ export class OTAP extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toString());
   }
 
+  nftLoader(): Address {
+    let result = super.call("nftLoader", "nftLoader():(address)", []);
+
+    return result[0].toAddress();
+  }
+
+  try_nftLoader(): ethereum.CallResult<Address> {
+    let result = super.tryCall("nftLoader", "nftLoader():(address)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
   nonces(owner: Address): BigInt {
     let result = super.call("nonces", "nonces(address):(uint256)", [
       ethereum.Value.fromAddress(owner)
@@ -622,21 +670,22 @@ export class OTAP extends ethereum.SmartContract {
   options(param0: BigInt): OTAP__optionsResult {
     let result = super.call(
       "options",
-      "options(uint256):(uint128,uint128,uint256)",
+      "options(uint256):(uint128,uint128,uint128,uint256)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
 
     return new OTAP__optionsResult(
       result[0].toBigInt(),
       result[1].toBigInt(),
-      result[2].toBigInt()
+      result[2].toBigInt(),
+      result[3].toBigInt()
     );
   }
 
   try_options(param0: BigInt): ethereum.CallResult<OTAP__optionsResult> {
     let result = super.tryCall(
       "options",
-      "options(uint256):(uint128,uint128,uint256)",
+      "options(uint256):(uint128,uint128,uint128,uint256)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
     if (result.reverted) {
@@ -647,9 +696,25 @@ export class OTAP extends ethereum.SmartContract {
       new OTAP__optionsResult(
         value[0].toBigInt(),
         value[1].toBigInt(),
-        value[2].toBigInt()
+        value[2].toBigInt(),
+        value[3].toBigInt()
       )
     );
+  }
+
+  owner(): Address {
+    let result = super.call("owner", "owner():(address)", []);
+
+    return result[0].toAddress();
+  }
+
+  try_owner(): ethereum.CallResult<Address> {
+    let result = super.tryCall("owner", "owner():(address)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
   ownerOf(tokenId: BigInt): Address {
@@ -709,36 +774,17 @@ export class OTAP extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toString());
   }
 
-  tokenURI(_tokenId: BigInt): string {
+  tokenURI(tokenId: BigInt): string {
     let result = super.call("tokenURI", "tokenURI(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(_tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId)
     ]);
 
     return result[0].toString();
   }
 
-  try_tokenURI(_tokenId: BigInt): ethereum.CallResult<string> {
+  try_tokenURI(tokenId: BigInt): ethereum.CallResult<string> {
     let result = super.tryCall("tokenURI", "tokenURI(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(_tokenId)
-    ]);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toString());
-  }
-
-  tokenURIs(param0: BigInt): string {
-    let result = super.call("tokenURIs", "tokenURIs(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(param0)
-    ]);
-
-    return result[0].toString();
-  }
-
-  try_tokenURIs(param0: BigInt): ethereum.CallResult<string> {
-    let result = super.tryCall("tokenURIs", "tokenURIs(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(param0)
+      ethereum.Value.fromUnsignedBigInt(tokenId)
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -763,6 +809,10 @@ export class ConstructorCall__Inputs {
 
   constructor(call: ConstructorCall) {
     this._call = call;
+  }
+
+  get _owner(): Address {
+    return this._call.inputValues[0].value.toAddress();
   }
 }
 
@@ -994,6 +1044,32 @@ export class PermitCall__Outputs {
   }
 }
 
+export class RenounceOwnershipCall extends ethereum.Call {
+  get inputs(): RenounceOwnershipCall__Inputs {
+    return new RenounceOwnershipCall__Inputs(this);
+  }
+
+  get outputs(): RenounceOwnershipCall__Outputs {
+    return new RenounceOwnershipCall__Outputs(this);
+  }
+}
+
+export class RenounceOwnershipCall__Inputs {
+  _call: RenounceOwnershipCall;
+
+  constructor(call: RenounceOwnershipCall) {
+    this._call = call;
+  }
+}
+
+export class RenounceOwnershipCall__Outputs {
+  _call: RenounceOwnershipCall;
+
+  constructor(call: RenounceOwnershipCall) {
+    this._call = call;
+  }
+}
+
 export class SafeTransferFromCall extends ethereum.Call {
   get inputs(): SafeTransferFromCall__Inputs {
     return new SafeTransferFromCall__Inputs(this);
@@ -1108,36 +1184,32 @@ export class SetApprovalForAllCall__Outputs {
   }
 }
 
-export class SetTokenURICall extends ethereum.Call {
-  get inputs(): SetTokenURICall__Inputs {
-    return new SetTokenURICall__Inputs(this);
+export class SetNftLoaderCall extends ethereum.Call {
+  get inputs(): SetNftLoaderCall__Inputs {
+    return new SetNftLoaderCall__Inputs(this);
   }
 
-  get outputs(): SetTokenURICall__Outputs {
-    return new SetTokenURICall__Outputs(this);
+  get outputs(): SetNftLoaderCall__Outputs {
+    return new SetNftLoaderCall__Outputs(this);
   }
 }
 
-export class SetTokenURICall__Inputs {
-  _call: SetTokenURICall;
+export class SetNftLoaderCall__Inputs {
+  _call: SetNftLoaderCall;
 
-  constructor(call: SetTokenURICall) {
+  constructor(call: SetNftLoaderCall) {
     this._call = call;
   }
 
-  get _tokenId(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-
-  get _tokenURI(): string {
-    return this._call.inputValues[1].value.toString();
+  get _nftLoader(): Address {
+    return this._call.inputValues[0].value.toAddress();
   }
 }
 
-export class SetTokenURICall__Outputs {
-  _call: SetTokenURICall;
+export class SetNftLoaderCall__Outputs {
+  _call: SetNftLoaderCall;
 
-  constructor(call: SetTokenURICall) {
+  constructor(call: SetNftLoaderCall) {
     this._call = call;
   }
 }
@@ -1176,6 +1248,36 @@ export class TransferFromCall__Outputs {
   _call: TransferFromCall;
 
   constructor(call: TransferFromCall) {
+    this._call = call;
+  }
+}
+
+export class TransferOwnershipCall extends ethereum.Call {
+  get inputs(): TransferOwnershipCall__Inputs {
+    return new TransferOwnershipCall__Inputs(this);
+  }
+
+  get outputs(): TransferOwnershipCall__Outputs {
+    return new TransferOwnershipCall__Outputs(this);
+  }
+}
+
+export class TransferOwnershipCall__Inputs {
+  _call: TransferOwnershipCall;
+
+  constructor(call: TransferOwnershipCall) {
+    this._call = call;
+  }
+
+  get newOwner(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class TransferOwnershipCall__Outputs {
+  _call: TransferOwnershipCall;
+
+  constructor(call: TransferOwnershipCall) {
     this._call = call;
   }
 }

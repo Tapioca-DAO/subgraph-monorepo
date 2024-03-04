@@ -538,7 +538,7 @@ export class TOFToken extends Entity {
   }
 }
 
-export class PaymentToken extends Entity {
+export class TapiocaOptionBrokerPaymentToken extends Entity {
   constructor(id: Bytes) {
     super();
     this.set("id", Value.fromBytes(id));
@@ -546,25 +546,32 @@ export class PaymentToken extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save PaymentToken entity without an ID");
+    assert(
+      id != null,
+      "Cannot save TapiocaOptionBrokerPaymentToken entity without an ID"
+    );
     if (id) {
       assert(
         id.kind == ValueKind.BYTES,
-        `Entities of type PaymentToken must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type TapiocaOptionBrokerPaymentToken must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("PaymentToken", id.toBytes().toHexString(), this);
+      store.set(
+        "TapiocaOptionBrokerPaymentToken",
+        id.toBytes().toHexString(),
+        this
+      );
     }
   }
 
-  static loadInBlock(id: Bytes): PaymentToken | null {
-    return changetype<PaymentToken | null>(
-      store.get_in_block("PaymentToken", id.toHexString())
+  static loadInBlock(id: Bytes): TapiocaOptionBrokerPaymentToken | null {
+    return changetype<TapiocaOptionBrokerPaymentToken | null>(
+      store.get_in_block("TapiocaOptionBrokerPaymentToken", id.toHexString())
     );
   }
 
-  static load(id: Bytes): PaymentToken | null {
-    return changetype<PaymentToken | null>(
-      store.get("PaymentToken", id.toHexString())
+  static load(id: Bytes): TapiocaOptionBrokerPaymentToken | null {
+    return changetype<TapiocaOptionBrokerPaymentToken | null>(
+      store.get("TapiocaOptionBrokerPaymentToken", id.toHexString())
     );
   }
 
@@ -618,6 +625,92 @@ export class PaymentToken extends Entity {
 
   set oracleData(value: Bytes) {
     this.set("oracleData", Value.fromBytes(value));
+  }
+}
+
+export class TapiocaOptionBrokerEpoch extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(
+      id != null,
+      "Cannot save TapiocaOptionBrokerEpoch entity without an ID"
+    );
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type TapiocaOptionBrokerEpoch must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("TapiocaOptionBrokerEpoch", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): TapiocaOptionBrokerEpoch | null {
+    return changetype<TapiocaOptionBrokerEpoch | null>(
+      store.get_in_block("TapiocaOptionBrokerEpoch", id)
+    );
+  }
+
+  static load(id: string): TapiocaOptionBrokerEpoch | null {
+    return changetype<TapiocaOptionBrokerEpoch | null>(
+      store.get("TapiocaOptionBrokerEpoch", id)
+    );
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get epochId(): BigInt {
+    let value = this.get("epochId");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set epochId(value: BigInt) {
+    this.set("epochId", Value.fromBigInt(value));
+  }
+
+  get epochTAPAmount(): BigInt {
+    let value = this.get("epochTAPAmount");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set epochTAPAmount(value: BigInt) {
+    this.set("epochTAPAmount", Value.fromBigInt(value));
+  }
+
+  get epochTAPValuation(): BigInt {
+    let value = this.get("epochTAPValuation");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set epochTAPValuation(value: BigInt) {
+    this.set("epochTAPValuation", Value.fromBigInt(value));
   }
 }
 
@@ -702,9 +795,22 @@ export class TapiocaOptionBroker extends Entity {
   set tap(value: Bytes) {
     this.set("tap", Value.fromBytes(value));
   }
+
+  get currentEpoch(): string {
+    let value = this.get("currentEpoch");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set currentEpoch(value: string) {
+    this.set("currentEpoch", Value.fromString(value));
+  }
 }
 
-export class oTAP extends Entity {
+export class TOLPLockPosition extends Entity {
   constructor(id: Bytes) {
     super();
     this.set("id", Value.fromBytes(id));
@@ -712,24 +818,133 @@ export class oTAP extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save oTAP entity without an ID");
+    assert(id != null, "Cannot save TOLPLockPosition entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.BYTES,
-        `Entities of type oTAP must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type TOLPLockPosition must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("oTAP", id.toBytes().toHexString(), this);
+      store.set("TOLPLockPosition", id.toBytes().toHexString(), this);
     }
   }
 
-  static loadInBlock(id: Bytes): oTAP | null {
-    return changetype<oTAP | null>(
-      store.get_in_block("oTAP", id.toHexString())
+  static loadInBlock(id: Bytes): TOLPLockPosition | null {
+    return changetype<TOLPLockPosition | null>(
+      store.get_in_block("TOLPLockPosition", id.toHexString())
     );
   }
 
-  static load(id: Bytes): oTAP | null {
-    return changetype<oTAP | null>(store.get("oTAP", id.toHexString()));
+  static load(id: Bytes): TOLPLockPosition | null {
+    return changetype<TOLPLockPosition | null>(
+      store.get("TOLPLockPosition", id.toHexString())
+    );
+  }
+
+  get id(): Bytes {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set id(value: Bytes) {
+    this.set("id", Value.fromBytes(value));
+  }
+
+  get sglAssetId(): BigInt {
+    let value = this.get("sglAssetId");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set sglAssetId(value: BigInt) {
+    this.set("sglAssetId", Value.fromBigInt(value));
+  }
+
+  get ybShares(): BigInt {
+    let value = this.get("ybShares");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set ybShares(value: BigInt) {
+    this.set("ybShares", Value.fromBigInt(value));
+  }
+
+  get lockTime(): i32 {
+    let value = this.get("lockTime");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set lockTime(value: i32) {
+    this.set("lockTime", Value.fromI32(value));
+  }
+
+  get lockDuration(): i32 {
+    let value = this.get("lockDuration");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set lockDuration(value: i32) {
+    this.set("lockDuration", Value.fromI32(value));
+  }
+
+  get tolp(): Bytes {
+    let value = this.get("tolp");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set tolp(value: Bytes) {
+    this.set("tolp", Value.fromBytes(value));
+  }
+}
+
+export class TOLP extends Entity {
+  constructor(id: Bytes) {
+    super();
+    this.set("id", Value.fromBytes(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save TOLP entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.BYTES,
+        `Entities of type TOLP must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("TOLP", id.toBytes().toHexString(), this);
+    }
+  }
+
+  static loadInBlock(id: Bytes): TOLP | null {
+    return changetype<TOLP | null>(
+      store.get_in_block("TOLP", id.toHexString())
+    );
+  }
+
+  static load(id: Bytes): TOLP | null {
+    return changetype<TOLP | null>(store.get("TOLP", id.toHexString()));
   }
 
   get id(): Bytes {
@@ -769,5 +984,206 @@ export class oTAP extends Entity {
 
   set owner(value: string) {
     this.set("owner", Value.fromString(value));
+  }
+
+  get lockPosition(): Bytes | null {
+    let value = this.get("lockPosition");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set lockPosition(value: Bytes | null) {
+    if (!value) {
+      this.unset("lockPosition");
+    } else {
+      this.set("lockPosition", Value.fromBytes(<Bytes>value));
+    }
+  }
+}
+
+export class OTAPParticipatePosition extends Entity {
+  constructor(id: Bytes) {
+    super();
+    this.set("id", Value.fromBytes(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(
+      id != null,
+      "Cannot save OTAPParticipatePosition entity without an ID"
+    );
+    if (id) {
+      assert(
+        id.kind == ValueKind.BYTES,
+        `Entities of type OTAPParticipatePosition must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("OTAPParticipatePosition", id.toBytes().toHexString(), this);
+    }
+  }
+
+  static loadInBlock(id: Bytes): OTAPParticipatePosition | null {
+    return changetype<OTAPParticipatePosition | null>(
+      store.get_in_block("OTAPParticipatePosition", id.toHexString())
+    );
+  }
+
+  static load(id: Bytes): OTAPParticipatePosition | null {
+    return changetype<OTAPParticipatePosition | null>(
+      store.get("OTAPParticipatePosition", id.toHexString())
+    );
+  }
+
+  get id(): Bytes {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set id(value: Bytes) {
+    this.set("id", Value.fromBytes(value));
+  }
+
+  get participatedAtEpoch(): string {
+    let value = this.get("participatedAtEpoch");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set participatedAtEpoch(value: string) {
+    this.set("participatedAtEpoch", Value.fromString(value));
+  }
+
+  get discount(): i32 {
+    let value = this.get("discount");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set discount(value: i32) {
+    this.set("discount", Value.fromI32(value));
+  }
+
+  get tolp(): Bytes {
+    let value = this.get("tolp");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set tolp(value: Bytes) {
+    this.set("tolp", Value.fromBytes(value));
+  }
+
+  get otap(): Bytes {
+    let value = this.get("otap");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set otap(value: Bytes) {
+    this.set("otap", Value.fromBytes(value));
+  }
+}
+
+export class OTAP extends Entity {
+  constructor(id: Bytes) {
+    super();
+    this.set("id", Value.fromBytes(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save OTAP entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.BYTES,
+        `Entities of type OTAP must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("OTAP", id.toBytes().toHexString(), this);
+    }
+  }
+
+  static loadInBlock(id: Bytes): OTAP | null {
+    return changetype<OTAP | null>(
+      store.get_in_block("OTAP", id.toHexString())
+    );
+  }
+
+  static load(id: Bytes): OTAP | null {
+    return changetype<OTAP | null>(store.get("OTAP", id.toHexString()));
+  }
+
+  get id(): Bytes {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set id(value: Bytes) {
+    this.set("id", Value.fromBytes(value));
+  }
+
+  get nftId(): BigInt {
+    let value = this.get("nftId");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set nftId(value: BigInt) {
+    this.set("nftId", Value.fromBigInt(value));
+  }
+
+  get owner(): string {
+    let value = this.get("owner");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set owner(value: string) {
+    this.set("owner", Value.fromString(value));
+  }
+
+  get participatePosition(): Bytes | null {
+    let value = this.get("participatePosition");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set participatePosition(value: Bytes | null) {
+    if (!value) {
+      this.unset("participatePosition");
+    } else {
+      this.set("participatePosition", Value.fromBytes(<Bytes>value));
+    }
   }
 }

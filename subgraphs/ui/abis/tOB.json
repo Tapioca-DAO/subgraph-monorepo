@@ -27,6 +27,11 @@
         "type": "uint256"
       },
       {
+        "internalType": "contract IPearlmit",
+        "name": "_pearlmit",
+        "type": "address"
+      },
+      {
         "internalType": "address",
         "name": "_owner",
         "type": "address"
@@ -37,12 +42,22 @@
   },
   {
     "inputs": [],
+    "name": "AdvanceEpochFirst",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "DurationTooShort",
     "type": "error"
   },
   {
     "inputs": [],
     "name": "Failed",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "LockExpired",
     "type": "error"
   },
   {
@@ -135,13 +150,13 @@
         "type": "uint256"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "uint256",
         "name": "cumulative",
         "type": "uint256"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "uint256",
         "name": "averageMagnitude",
         "type": "uint256"
@@ -203,13 +218,13 @@
         "type": "uint256"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "uint256",
-        "name": "tokenId",
+        "name": "tolpTokenId",
         "type": "uint256"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
@@ -228,13 +243,13 @@
         "type": "uint256"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "uint256",
         "name": "extractedTAP",
         "type": "uint256"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "uint256",
         "name": "epochTAPValuation",
         "type": "uint256"
@@ -278,38 +293,22 @@
         "type": "uint256"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "uint256",
         "name": "totalDeposited",
         "type": "uint256"
       },
       {
-        "components": [
-          {
-            "internalType": "uint128",
-            "name": "sglAssetID",
-            "type": "uint128"
-          },
-          {
-            "internalType": "uint128",
-            "name": "ybShares",
-            "type": "uint128"
-          },
-          {
-            "internalType": "uint128",
-            "name": "lockTime",
-            "type": "uint128"
-          },
-          {
-            "internalType": "uint128",
-            "name": "lockDuration",
-            "type": "uint128"
-          }
-        ],
         "indexed": false,
-        "internalType": "struct LockPosition",
-        "name": "lock",
-        "type": "tuple"
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "tolpTokenId",
+        "type": "uint256"
       },
       {
         "indexed": false,
@@ -338,19 +337,38 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": false,
+        "internalType": "contract IPearlmit",
+        "name": "oldPearlmit",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "contract IPearlmit",
+        "name": "newPearlmit",
+        "type": "address"
+      }
+    ],
+    "name": "PearlmitUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
         "indexed": true,
         "internalType": "contract ERC20",
         "name": "paymentToken",
         "type": "address"
       },
       {
-        "indexed": true,
-        "internalType": "contract IOracle",
+        "indexed": false,
+        "internalType": "contract ITapiocaOracle",
         "name": "oracle",
         "type": "address"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "bytes",
         "name": "oracleData",
         "type": "bytes"
@@ -364,7 +382,7 @@
     "inputs": [
       {
         "indexed": true,
-        "internalType": "contract IOracle",
+        "internalType": "contract ITapiocaOracle",
         "name": "oracle",
         "type": "address"
       },
@@ -415,13 +433,6 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "claimOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -640,6 +651,40 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
+    ],
+    "name": "onERC721Received",
+    "outputs": [
+      {
+        "internalType": "bytes4",
+        "name": "",
+        "type": "bytes4"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "owner",
     "outputs": [
@@ -737,7 +782,7 @@
     "name": "paymentTokens",
     "outputs": [
       {
-        "internalType": "contract IOracle",
+        "internalType": "contract ITapiocaOracle",
         "name": "oracle",
         "type": "address"
       },
@@ -752,15 +797,22 @@
   },
   {
     "inputs": [],
-    "name": "pendingOwner",
+    "name": "pearlmit",
     "outputs": [
       {
-        "internalType": "address",
+        "internalType": "contract IPearlmit",
         "name": "",
         "type": "address"
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -779,12 +831,25 @@
   {
     "inputs": [
       {
+        "internalType": "bool",
+        "name": "_pauseState",
+        "type": "bool"
+      }
+    ],
+    "name": "setPause",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "contract ERC20",
         "name": "_paymentToken",
         "type": "address"
       },
       {
-        "internalType": "contract IOracle",
+        "internalType": "contract ITapiocaOracle",
         "name": "_oracle",
         "type": "address"
       },
@@ -815,7 +880,20 @@
   {
     "inputs": [
       {
-        "internalType": "contract IOracle",
+        "internalType": "contract IPearlmit",
+        "name": "_pearlmit",
+        "type": "address"
+      }
+    ],
+    "name": "setPearlmit",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract ITapiocaOracle",
         "name": "_tapOracle",
         "type": "address"
       },
@@ -826,6 +904,19 @@
       }
     ],
     "name": "setTapOracle",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_virtualTotalAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "setVirtualTotalAmount",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -872,7 +963,7 @@
     "name": "tapOFT",
     "outputs": [
       {
-        "internalType": "contract TapOFT",
+        "internalType": "contract TapToken",
         "name": "",
         "type": "address"
       }
@@ -885,7 +976,7 @@
     "name": "tapOracle",
     "outputs": [
       {
-        "internalType": "contract IOracle",
+        "internalType": "contract ITapiocaOracle",
         "name": "",
         "type": "address"
       }
@@ -931,16 +1022,6 @@
         "internalType": "address",
         "name": "newOwner",
         "type": "address"
-      },
-      {
-        "internalType": "bool",
-        "name": "direct",
-        "type": "bool"
-      },
-      {
-        "internalType": "bool",
-        "name": "renounce",
-        "type": "bool"
       }
     ],
     "name": "transferOwnership",
