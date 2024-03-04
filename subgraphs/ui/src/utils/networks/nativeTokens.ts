@@ -8,6 +8,7 @@ export class NativeTokenDefinition {
     const staticDefinitions = [
       { chainId: 43113, decimals: 18, symbol: "AVAX", name: "Avalanche Fuji" },
       { chainId: 5, decimals: 18, symbol: "ETH", name: "Goerli Ether" },
+      { chainId: 11155111, decimals: 18, symbol: "ETH", name: "Sepolia Ether" },
       {
         chainId: 421613,
         decimals: 18,

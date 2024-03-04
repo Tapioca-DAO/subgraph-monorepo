@@ -13,6 +13,7 @@ export const ARBITRUM_SEPOLIA = "arbitrum-sepolia"
 export const MUMBAI = "mumbai"
 export const FANTOM_TESTNET = "fantom-testnet"
 export const AVALANCHE_FUJI = "fuji"
+export const SEPOLIA = "sepolia"
 
 export function getNetworkId(network: string): number {
   if (network == ETH_NETWORK) {
@@ -35,6 +36,8 @@ export function getNetworkId(network: string): number {
     return 4002
   } else if (network == AVALANCHE_FUJI) {
     return 43113
+  } else if (network == SEPOLIA) {
+    return 11155111
   }
   return 0
 }
@@ -60,6 +63,8 @@ export function getNetwork(network: string): string {
     return Network.FANTOM_TESTNET
   } else if (network == AVALANCHE_FUJI) {
     return Network.AVALANCHE_FUJI
+  } else if (network == SEPOLIA) {
+    return Network.SEPOLIA
   }
   return ""
 }

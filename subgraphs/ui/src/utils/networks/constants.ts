@@ -19,4 +19,5 @@ export namespace Network {
   export const MUMBAI = "MUMBAI"
   export const FANTOM_TESTNET = "FANTOM_TESTNET"
   export const AVALANCHE_FUJI = "AVALANCHE_FUJI"
+  export const SEPOLIA = "SEPOLIA"
 }
