@@ -1,8 +1,9 @@
-import { BigInt, Bytes } from "@graphprotocol/graph-ts"
+import { BigInt, Bytes, store } from "@graphprotocol/graph-ts"
 
 import {
   Transfer as TransferEvent,
   Mint as MintEvent,
+  Burn as BurnEvent,
 } from "../generated/TOLP/TOLP"
 import { TOLP, TOLPLockPosition } from "../generated/schema"
 import { ZERO_ADDRESS_STRING } from "./utils/helper"
@@ -50,4 +51,19 @@ export function handleMint(event: MintEvent): void {
   tolpEntity.lockPosition = tolpLockPositionEntity.id
 
   tolpEntity.save()
+}
+
+// `Mint` event happens only if we `unlock`
+export function handleBurn(event: BurnEvent): void {
+  const tolpEntity = putTOLPEntity(event.params.tokenId)
+
+  if (tolpEntity.owner === ZERO_ADDRESS_STRING) {
+    throw new Error("[handleBurn] - Owner is not set")
+  }
+
+  tolpEntity.lockPosition = null
+
+  tolpEntity.save()
+
+  store.remove("TOLPLockPosition", tolpEntity.id.toHexString())
 }

@@ -1,10 +1,11 @@
-import { Address, BigInt, Bytes } from "@graphprotocol/graph-ts"
+import { Address, BigInt, Bytes, store } from "@graphprotocol/graph-ts"
 
 import {
   SetPaymentToken as SetPaymentTokenEvent,
   NewEpoch as NewEpochEvent,
   TOB,
-  Participate,
+  Participate as ParticipateEvent,
+  ExitPosition as ExitPositionEvent,
 } from "../generated/TOB/TOB"
 import {
   TapiocaOptionBrokerPaymentToken,
@@ -99,7 +100,7 @@ export function handleNewEpoch(event: NewEpochEvent): void {
   tobEntity.save()
 }
 
-export function handleParticipate(event: Participate): void {
+export function handleParticipate(event: ParticipateEvent): void {
   const tobEntity = putTobEntity(event.address)
   const otapEntity = putOTAPEntity(event.params.tokenId)
   const tolpEntity = putTOLPEntity(event.params.tolpTokenId)
@@ -113,4 +114,14 @@ export function handleParticipate(event: Participate): void {
 
   otapEntity.participatePosition = otapParticipateEntity.id
   otapEntity.save()
+}
+
+export function handleExitPosition(event: ExitPositionEvent): void {
+  const otapEntity = putOTAPEntity(event.params.otapTokenId)
+
+  otapEntity.participatePosition = null
+
+  otapEntity.save()
+
+  store.remove("OTAPParticipatePosition", otapEntity.id.toHexString())
 }

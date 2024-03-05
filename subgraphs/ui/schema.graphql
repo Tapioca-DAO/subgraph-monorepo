@@ -66,7 +66,7 @@ type TapiocaOptionBroker @entity(immutable: false) {
 #END ########### TOB BASE ##########
 
 #START ######### TOLP BASE ##########
-type TOLPLockPosition @entity(immutable: true) {
+type TOLPLockPosition @entity(immutable: false) {
   id: Bytes!
   sglAssetId: BigInt! # uint128
   ybShares: BigInt! # uint128
@@ -85,7 +85,7 @@ type TOLP @entity(immutable: false) {
 #END ########### TOLP BASE ##########
 
 #START ######### TOLP BASE ##########
-type OTAPParticipatePosition @entity(immutable: true) {
+type OTAPParticipatePosition @entity(immutable: false) {
   id: Bytes!
   participatedAtEpoch: TapiocaOptionBrokerEpoch!
   discount: Int! # uint256

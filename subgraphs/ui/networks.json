@@ -78,15 +78,15 @@
     },
     "TOB": {
       "startBlock": 5389906,
-      "address": "0x9e2087a884A6Ab4b0273D835ce98dD70F26351B6"
+      "address": "0x010c4d37AF726039e96Cc855a8D461Ee779f2A5D"
     },
     "OTAP": {
       "startBlock": 5389906,
-      "address": "0x50B5615A044CA82c3b6E7EA3A33Cf5C74FbCc46e"
+      "address": "0x37B72cCdc15ABC0923c4A1e5EbEcD8EDd2545Fe8"
     },
     "TOLP": {
       "startBlock": 5389906,
-      "address": "0x7912e86164b79EE0E9EC414923be8B278983e8D6"
+      "address": "0x86842848787ae90874A4716044402C7acB054e14"
     }
   }
 }

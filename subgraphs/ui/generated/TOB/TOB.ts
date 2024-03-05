@@ -91,12 +91,16 @@ export class ExitPosition__Params {
     return this._event.parameters[0].value.toBigInt();
   }
 
-  get tolpTokenId(): BigInt {
+  get otapTokenId(): BigInt {
     return this._event.parameters[1].value.toBigInt();
   }
 
-  get amount(): BigInt {
+  get tolpTokenId(): BigInt {
     return this._event.parameters[2].value.toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
   }
 }
 
