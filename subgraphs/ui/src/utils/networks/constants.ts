@@ -20,4 +20,5 @@ export namespace Network {
   export const FANTOM_TESTNET = "FANTOM_TESTNET"
   export const AVALANCHE_FUJI = "AVALANCHE_FUJI"
   export const SEPOLIA = "SEPOLIA"
+  export const OPTIMISM_SEPOLIA = "OPTIMISM_SEPOLIA"
 }

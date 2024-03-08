@@ -21,6 +21,12 @@ export class NativeTokenDefinition {
         symbol: "ETH",
         name: "Arbitrum Sepolia Ether",
       },
+      {
+        chainId: 11155420,
+        decimals: 18,
+        symbol: "ETH",
+        name: "Optimism Sepolia Ether",
+      },
       { chainId: 80001, decimals: 18, symbol: "MATIC", name: "MATIC" },
       { chainId: 4002, decimals: 18, symbol: "FTM", name: "Fantom" },
     ] as Array<NativeTokenDefinition>
