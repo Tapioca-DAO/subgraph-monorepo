@@ -6,7 +6,7 @@ dataSources:
     name: Penrose
     source:
       abi: Penrose
-      startBlock: 5389906
+      startBlock: 8970956
       address: "0x0000000000000000000000000000000000000000"
     mapping:
       kind: ethereum/events
@@ -41,13 +41,13 @@ dataSources:
         - event: RegisterBigBang(indexed address,indexed address)
           handler: handleRegisterBigBang
       file: ./src/penrose.ts
-    network: sepolia
+    network: optimism-sepolia
   - kind: ethereum
     name: TapiocaWrapper
-    network: sepolia
+    network: optimism-sepolia
     source:
       abi: TapiocaWrapper
-      startBlock: 5389906
+      startBlock: 8970956
       address: "0x0000000000000000000000000000000000000000"
     mapping:
       kind: ethereum/events
@@ -72,10 +72,10 @@ dataSources:
       file: ./src/tapioca-wrapper.ts
   - kind: ethereum
     name: USDO
-    network: sepolia
+    network: optimism-sepolia
     source:
       abi: USDO
-      startBlock: 5389906
+      startBlock: 8970956
       address: "0x0000000000000000000000000000000000000000"
     mapping:
       kind: ethereum/events
@@ -100,8 +100,8 @@ dataSources:
     name: YieldBox
     source:
       abi: YieldBox
-      startBlock: 5389906
-      address: "0x79a2CCbDF2d136EDd1fB445D49d9f1055C398c59"
+      startBlock: 8970956
+      address: "0x69ef1F4AE4c6BDEdaa112b5044E708b957ee407e"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -116,13 +116,13 @@ dataSources:
             uint256,uint256)
           handler: handleAssetRegistered
       file: ./src/yieldbox.ts
-    network: sepolia
+    network: optimism-sepolia
   - kind: ethereum
     name: TOLP
     source:
       abi: TOLP
-      startBlock: 5389906
-      address: "0x86842848787ae90874A4716044402C7acB054e14"
+      startBlock: 8970956
+      address: "0x41006A5FB6d796150887E69f66fc8579FFF33C2F"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -141,13 +141,13 @@ dataSources:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
       file: ./src/tolp.ts
-    network: sepolia
+    network: optimism-sepolia
   - kind: ethereum
     name: TOB
     source:
       abi: TOB
-      startBlock: 5389906
-      address: "0x010c4d37AF726039e96Cc855a8D461Ee779f2A5D"
+      startBlock: 8970956
+      address: "0x0a50470e34917290a4aA220c32e8Cf82cA406D01"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -174,13 +174,13 @@ dataSources:
         - event: ExitPosition(indexed uint256,uint256,uint256,uint256)
           handler: handleExitPosition
       file: ./src/tob.ts
-    network: sepolia
+    network: optimism-sepolia
   - kind: ethereum
     name: OTAP
     source:
       abi: OTAP
-      startBlock: 5389906
-      address: "0x37B72cCdc15ABC0923c4A1e5EbEcD8EDd2545Fe8"
+      startBlock: 8970956
+      address: "0x99BA9e0c08F1C3Fa83C5EC5AE19fb8C8C293C295"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -194,11 +194,11 @@ dataSources:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
       file: ./src/otap.ts
-    network: sepolia
+    network: optimism-sepolia
 templates:
   - kind: ethereum
     name: TOFT
-    network: sepolia
+    network: optimism-sepolia
     source:
       abi: TOFT
     mapping:
