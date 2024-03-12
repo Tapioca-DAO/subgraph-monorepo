@@ -66,6 +66,24 @@ type TapiocaOptionBroker @entity(immutable: false) {
 #END ########### TOB BASE ##########
 
 #START ######### TOLP BASE ##########
+type TolpSingularityPool @entity(immutable: false) {
+  id: String!
+  sglAssetId: BigInt! # uint256
+  sglAddress: String! # address
+  totalDeposited: BigInt! # total amount of YieldBox shares deposited, used for pool share calculation
+  poolWeight: BigInt! # uint256
+  isInRescueMode: Boolean! # bool
+  currentEpochTapAmount: BigInt! # uint256
+}
+
+type TapiocaOptionLiquidityProvision @entity(immutable: false) {
+  id: Bytes!
+  singularityPools: [TolpSingularityPool!]!
+  totalSingularityPoolWeights: BigInt! # uint256 - Total weight of all active singularity pools
+}
+#END ########### TOLP BASE ##########
+
+#START ######### TOLP NFT BASE ##########
 type TOLPLockPosition @entity(immutable: false) {
   id: Bytes!
   sglAssetId: BigInt! # uint128
@@ -82,9 +100,9 @@ type TOLP @entity(immutable: false) {
 
   lockPosition: TOLPLockPosition
 }
-#END ########### TOLP BASE ##########
+#END ########### TOLP NFT BASE ##########
 
-#START ######### TOLP BASE ##########
+#START ######### OTAP NFT BASE ##########
 type OTAPParticipatePosition @entity(immutable: false) {
   id: Bytes!
   participatedAtEpoch: TapiocaOptionBrokerEpoch!
@@ -100,4 +118,4 @@ type OTAP @entity(immutable: false) {
 
   participatePosition: OTAPParticipatePosition
 }
-#END ########### TOLP BASE ##########
+#END ########### OTAP NFT BASE ##########

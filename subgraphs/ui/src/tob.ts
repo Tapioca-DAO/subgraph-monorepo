@@ -14,7 +14,11 @@ import {
   OTAPParticipatePosition,
 } from "../generated/schema"
 import { putOTAPEntity } from "./otap"
-import { putTOLPEntity } from "./tolp"
+import {
+  getTolpSingularityPool,
+  putTOLPEntity,
+  putTapiocaOptionLiquidityProvisionEntity,
+} from "./tolp"
 import { putToken } from "./utils/token/token"
 
 function putEpochEntity(
@@ -93,16 +97,40 @@ export function handleNewEpoch(event: NewEpochEvent): void {
 
   tobEntity.currentEpoch = putEpochEntity(
     event.params.epoch,
-    event.params.extractedTAP,
-    event.params.epochTAPValuation
+    event.params.extractedTap,
+    event.params.epochTapValuation
   ).id
 
   tobEntity.save()
+
+  const tapiocaOptionLiquidityProvision =
+    putTapiocaOptionLiquidityProvisionEntity()
+
+  for (
+    let i = 0;
+    i < tapiocaOptionLiquidityProvision.singularityPools.length;
+    i++
+  ) {
+    const singularityPoolsId =
+      tapiocaOptionLiquidityProvision.singularityPools[i]
+
+    const singularityPool = getTolpSingularityPool(
+      BigInt.fromString(singularityPoolsId)
+    )
+
+    // Calculates floor(x * y / denominator) with full precision. Throws if result overflows a uint256 or denominator == 0
+    // uint256 quotaPerSingularity = muldiv(currentPoolWeight, _epochTAP, totalWeights);
+    singularityPool.currentEpochTapAmount = singularityPool.poolWeight
+      .times(event.params.extractedTap)
+      .div(tapiocaOptionLiquidityProvision.totalSingularityPoolWeights)
+
+    singularityPool.save()
+  }
 }
 
 export function handleParticipate(event: ParticipateEvent): void {
   const tobEntity = putTobEntity(event.address)
-  const otapEntity = putOTAPEntity(event.params.tokenId)
+  const otapEntity = putOTAPEntity(event.params.otapTokenId)
   const tolpEntity = putTOLPEntity(event.params.tolpTokenId)
 
   const otapParticipateEntity = new OTAPParticipatePosition(otapEntity.id)
