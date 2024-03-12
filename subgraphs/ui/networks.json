@@ -48,75 +48,15 @@
     },
     "TOB": {
       "startBlock": 4954220,
-      "address": "0x72B6a8f239cb8347BD81Dd212CCA251c4F09245a"
+      "address": "0x925c1fa44796612CADaFc8624a9e27236BCCF39C"
     },
     "OTAP": {
       "startBlock": 4954220,
-      "address": "0xDCA2B50098D64AB6c2a41730e128c9ACC93b5a29"
+      "address": "0x53D07B6dd29702194Cf8B93671d28Afc94a957E1"
     },
     "TOLP": {
       "startBlock": 4954220,
-      "address": "0xe96eCaaD1D9152702d383786901EBaA4Cf732d40"
-    }
-  },
-  "sepolia": {
-    "USDO": {
-      "startBlock": 5389906,
-      "address": "0x0000000000000000000000000000000000000000"
-    },
-    "Penrose": {
-      "startBlock": 5389906,
-      "address": "0x0000000000000000000000000000000000000000"
-    },
-    "TapiocaWrapper": {
-      "startBlock": 5389906,
-      "address": "0x0000000000000000000000000000000000000000"
-    },
-    "YieldBox": {
-      "startBlock": 5389906,
-      "address": "0x79a2CCbDF2d136EDd1fB445D49d9f1055C398c59"
-    },
-    "TOB": {
-      "startBlock": 5389906,
-      "address": "0xbFc536F2A8f6EF295D3498Ea05bA3557dE90cef4"
-    },
-    "OTAP": {
-      "startBlock": 5389906,
-      "address": "0x2B42A525CC13f58FbBbACeA2d7c65bb0CCc7d154"
-    },
-    "TOLP": {
-      "startBlock": 5389906,
-      "address": "0xeA65E515dD280b11991c3BE69e5E153e52DE3266"
-    }
-  },
-  "optimism-sepolia": {
-    "USDO": {
-      "startBlock": 8970956,
-      "address": "0x0000000000000000000000000000000000000000"
-    },
-    "Penrose": {
-      "startBlock": 8970956,
-      "address": "0x0000000000000000000000000000000000000000"
-    },
-    "TapiocaWrapper": {
-      "startBlock": 8970956,
-      "address": "0x0000000000000000000000000000000000000000"
-    },
-    "YieldBox": {
-      "startBlock": 8970956,
-      "address": "0x69ef1F4AE4c6BDEdaa112b5044E708b957ee407e"
-    },
-    "TOB": {
-      "startBlock": 8970956,
-      "address": "0x0a50470e34917290a4aA220c32e8Cf82cA406D01"
-    },
-    "OTAP": {
-      "startBlock": 8970956,
-      "address": "0x99BA9e0c08F1C3Fa83C5EC5AE19fb8C8C293C295"
-    },
-    "TOLP": {
-      "startBlock": 8970956,
-      "address": "0x41006A5FB6d796150887E69f66fc8579FFF33C2F"
+      "address": "0xF2FE6997F7dbc5f3F0b9e45B921eFb6045fa1F11"
     }
   }
 }
