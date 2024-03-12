@@ -2,7 +2,7 @@
   "name": "ui",
   "license": "UNLICENSED",
   "scripts": {
-    "codegen": "graph codegen",
+    "codegen": "graph codegen && git checkout ./generated/TapiocaWrapper/TapiocaWrapper.ts",
     "build": "graph build",
     "deploy:thegraph": "graph deploy --skip-migrations --node https://api.thegraph.com/deploy/"
   },
