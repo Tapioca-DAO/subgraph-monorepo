@@ -65,11 +65,11 @@ export class ExerciseOption__Params {
     return this._event.parameters[2].value.toAddress();
   }
 
-  get oTapTokenID(): BigInt {
+  get otapTokenId(): BigInt {
     return this._event.parameters[3].value.toBigInt();
   }
 
-  get amount(): BigInt {
+  get tapAmount(): BigInt {
     return this._event.parameters[4].value.toBigInt();
   }
 }
@@ -98,10 +98,6 @@ export class ExitPosition__Params {
   get tolpTokenId(): BigInt {
     return this._event.parameters[2].value.toBigInt();
   }
-
-  get amount(): BigInt {
-    return this._event.parameters[3].value.toBigInt();
-  }
 }
 
 export class NewEpoch extends ethereum.Event {
@@ -121,11 +117,11 @@ export class NewEpoch__Params {
     return this._event.parameters[0].value.toBigInt();
   }
 
-  get extractedTAP(): BigInt {
+  get extractedTap(): BigInt {
     return this._event.parameters[1].value.toBigInt();
   }
 
-  get epochTAPValuation(): BigInt {
+  get epochTapValuation(): BigInt {
     return this._event.parameters[2].value.toBigInt();
   }
 }
@@ -169,7 +165,7 @@ export class Participate__Params {
     return this._event.parameters[0].value.toBigInt();
   }
 
-  get sglAssetID(): BigInt {
+  get sglAssetId(): BigInt {
     return this._event.parameters[1].value.toBigInt();
   }
 
@@ -177,7 +173,7 @@ export class Participate__Params {
     return this._event.parameters[2].value.toBigInt();
   }
 
-  get tokenId(): BigInt {
+  get otapTokenId(): BigInt {
     return this._event.parameters[3].value.toBigInt();
   }
 
@@ -1176,6 +1172,32 @@ export class ExitPositionCall__Outputs {
   }
 }
 
+export class InitCall extends ethereum.Call {
+  get inputs(): InitCall__Inputs {
+    return new InitCall__Inputs(this);
+  }
+
+  get outputs(): InitCall__Outputs {
+    return new InitCall__Outputs(this);
+  }
+}
+
+export class InitCall__Inputs {
+  _call: InitCall;
+
+  constructor(call: InitCall) {
+    this._call = call;
+  }
+}
+
+export class InitCall__Outputs {
+  _call: InitCall;
+
+  constructor(call: InitCall) {
+    this._call = call;
+  }
+}
+
 export class NewEpochCall extends ethereum.Call {
   get inputs(): NewEpochCall__Inputs {
     return new NewEpochCall__Inputs(this);
@@ -1198,32 +1220,6 @@ export class NewEpochCall__Outputs {
   _call: NewEpochCall;
 
   constructor(call: NewEpochCall) {
-    this._call = call;
-  }
-}
-
-export class OTAPBrokerClaimCall extends ethereum.Call {
-  get inputs(): OTAPBrokerClaimCall__Inputs {
-    return new OTAPBrokerClaimCall__Inputs(this);
-  }
-
-  get outputs(): OTAPBrokerClaimCall__Outputs {
-    return new OTAPBrokerClaimCall__Outputs(this);
-  }
-}
-
-export class OTAPBrokerClaimCall__Inputs {
-  _call: OTAPBrokerClaimCall;
-
-  constructor(call: OTAPBrokerClaimCall) {
-    this._call = call;
-  }
-}
-
-export class OTAPBrokerClaimCall__Outputs {
-  _call: OTAPBrokerClaimCall;
-
-  constructor(call: OTAPBrokerClaimCall) {
     this._call = call;
   }
 }

@@ -23,8 +23,12 @@ export class ActivateSGLPoolRescue__Params {
     this._event = event;
   }
 
-  get sgl(): Address {
-    return this._event.parameters[0].value.toAddress();
+  get sglAssetId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get sglAddress(): Address {
+    return this._event.parameters[1].value.toAddress();
   }
 }
 
@@ -97,11 +101,11 @@ export class Burn__Params {
     return this._event.parameters[0].value.toAddress();
   }
 
-  get sglAssetID(): BigInt {
+  get sglAssetId(): BigInt {
     return this._event.parameters[1].value.toBigInt();
   }
 
-  get tokenId(): BigInt {
+  get tolpTokenId(): BigInt {
     return this._event.parameters[2].value.toBigInt();
   }
 }
@@ -137,11 +141,11 @@ export class Mint__Params {
     return this._event.parameters[0].value.toAddress();
   }
 
-  get sglAssetID(): BigInt {
+  get sglAssetId(): BigInt {
     return this._event.parameters[1].value.toBigInt();
   }
 
-  get tokenId(): BigInt {
+  get tolpTokenId(): BigInt {
     return this._event.parameters[2].value.toBigInt();
   }
 
@@ -229,12 +233,16 @@ export class RegisterSingularity__Params {
     this._event = event;
   }
 
-  get sgl(): Address {
-    return this._event.parameters[0].value.toAddress();
+  get sglAssetId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
   }
 
-  get assetID(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
+  get sglAddress(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get poolWeight(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
   }
 }
 
@@ -273,12 +281,16 @@ export class SetSGLPoolWeight__Params {
     this._event = event;
   }
 
-  get sgl(): Address {
-    return this._event.parameters[0].value.toAddress();
+  get sglAssetId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get sglAddress(): Address {
+    return this._event.parameters[1].value.toAddress();
   }
 
   get poolWeight(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
+    return this._event.parameters[2].value.toBigInt();
   }
 }
 
@@ -339,12 +351,12 @@ export class UnregisterSingularity__Params {
     this._event = event;
   }
 
-  get sgl(): Address {
-    return this._event.parameters[0].value.toAddress();
+  get sglAssetId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
   }
 
-  get assetID(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
+  get sglAddress(): Address {
+    return this._event.parameters[1].value.toAddress();
   }
 }
 
@@ -1862,16 +1874,54 @@ export class SafeTransferFromCall__Inputs {
   get tokenId(): BigInt {
     return this._call.inputValues[2].value.toBigInt();
   }
-
-  get data(): Bytes {
-    return this._call.inputValues[3].value.toBytes();
-  }
 }
 
 export class SafeTransferFromCall__Outputs {
   _call: SafeTransferFromCall;
 
   constructor(call: SafeTransferFromCall) {
+    this._call = call;
+  }
+}
+
+export class SafeTransferFrom1Call extends ethereum.Call {
+  get inputs(): SafeTransferFrom1Call__Inputs {
+    return new SafeTransferFrom1Call__Inputs(this);
+  }
+
+  get outputs(): SafeTransferFrom1Call__Outputs {
+    return new SafeTransferFrom1Call__Outputs(this);
+  }
+}
+
+export class SafeTransferFrom1Call__Inputs {
+  _call: SafeTransferFrom1Call;
+
+  constructor(call: SafeTransferFrom1Call) {
+    this._call = call;
+  }
+
+  get from(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get to(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+
+  get tokenId(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
+  }
+
+  get data(): Bytes {
+    return this._call.inputValues[3].value.toBytes();
+  }
+}
+
+export class SafeTransferFrom1Call__Outputs {
+  _call: SafeTransferFrom1Call;
+
+  constructor(call: SafeTransferFrom1Call) {
     this._call = call;
   }
 }

@@ -810,6 +810,205 @@ export class TapiocaOptionBroker extends Entity {
   }
 }
 
+export class TolpSingularityPool extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save TolpSingularityPool entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type TolpSingularityPool must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("TolpSingularityPool", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): TolpSingularityPool | null {
+    return changetype<TolpSingularityPool | null>(
+      store.get_in_block("TolpSingularityPool", id)
+    );
+  }
+
+  static load(id: string): TolpSingularityPool | null {
+    return changetype<TolpSingularityPool | null>(
+      store.get("TolpSingularityPool", id)
+    );
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get sglAssetId(): BigInt {
+    let value = this.get("sglAssetId");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set sglAssetId(value: BigInt) {
+    this.set("sglAssetId", Value.fromBigInt(value));
+  }
+
+  get sglAddress(): string {
+    let value = this.get("sglAddress");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set sglAddress(value: string) {
+    this.set("sglAddress", Value.fromString(value));
+  }
+
+  get totalDeposited(): BigInt {
+    let value = this.get("totalDeposited");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set totalDeposited(value: BigInt) {
+    this.set("totalDeposited", Value.fromBigInt(value));
+  }
+
+  get poolWeight(): BigInt {
+    let value = this.get("poolWeight");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set poolWeight(value: BigInt) {
+    this.set("poolWeight", Value.fromBigInt(value));
+  }
+
+  get isInRescueMode(): boolean {
+    let value = this.get("isInRescueMode");
+    if (!value || value.kind == ValueKind.NULL) {
+      return false;
+    } else {
+      return value.toBoolean();
+    }
+  }
+
+  set isInRescueMode(value: boolean) {
+    this.set("isInRescueMode", Value.fromBoolean(value));
+  }
+
+  get currentEpochTapAmount(): BigInt {
+    let value = this.get("currentEpochTapAmount");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set currentEpochTapAmount(value: BigInt) {
+    this.set("currentEpochTapAmount", Value.fromBigInt(value));
+  }
+}
+
+export class TapiocaOptionLiquidityProvision extends Entity {
+  constructor(id: Bytes) {
+    super();
+    this.set("id", Value.fromBytes(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(
+      id != null,
+      "Cannot save TapiocaOptionLiquidityProvision entity without an ID"
+    );
+    if (id) {
+      assert(
+        id.kind == ValueKind.BYTES,
+        `Entities of type TapiocaOptionLiquidityProvision must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set(
+        "TapiocaOptionLiquidityProvision",
+        id.toBytes().toHexString(),
+        this
+      );
+    }
+  }
+
+  static loadInBlock(id: Bytes): TapiocaOptionLiquidityProvision | null {
+    return changetype<TapiocaOptionLiquidityProvision | null>(
+      store.get_in_block("TapiocaOptionLiquidityProvision", id.toHexString())
+    );
+  }
+
+  static load(id: Bytes): TapiocaOptionLiquidityProvision | null {
+    return changetype<TapiocaOptionLiquidityProvision | null>(
+      store.get("TapiocaOptionLiquidityProvision", id.toHexString())
+    );
+  }
+
+  get id(): Bytes {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set id(value: Bytes) {
+    this.set("id", Value.fromBytes(value));
+  }
+
+  get singularityPools(): Array<string> {
+    let value = this.get("singularityPools");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set singularityPools(value: Array<string>) {
+    this.set("singularityPools", Value.fromStringArray(value));
+  }
+
+  get totalSingularityPoolWeights(): BigInt {
+    let value = this.get("totalSingularityPoolWeights");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set totalSingularityPoolWeights(value: BigInt) {
+    this.set("totalSingularityPoolWeights", Value.fromBigInt(value));
+  }
+}
+
 export class TOLPLockPosition extends Entity {
   constructor(id: Bytes) {
     super();
