@@ -7,7 +7,7 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
+  BigInt,
 } from "@graphprotocol/graph-ts";
 
 export class BigBangEthMarketDebtRateUpdated extends ethereum.Event {
@@ -386,7 +386,7 @@ export class Penrose__bigbangMasterContractsResult {
     map.set("value0", ethereum.Value.fromAddress(this.value0));
     map.set(
       "value1",
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value1))
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value1)),
     );
     return map;
   }
@@ -449,7 +449,7 @@ export class Penrose__singularityMasterContractsResult {
     map.set("value0", ethereum.Value.fromAddress(this.value0));
     map.set(
       "value1",
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value1))
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value1)),
     );
     return map;
   }
@@ -472,7 +472,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "allBigBangMarkets",
       "allBigBangMarkets(uint256):(address)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
 
     return result[0].toAddress();
@@ -482,7 +482,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "allBigBangMarkets",
       "allBigBangMarkets(uint256):(address)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -495,7 +495,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "allOriginsMarkets",
       "allOriginsMarkets(uint256):(address)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
 
     return result[0].toAddress();
@@ -505,7 +505,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "allOriginsMarkets",
       "allOriginsMarkets(uint256):(address)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -518,7 +518,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "bigBangEthDebtRate",
       "bigBangEthDebtRate():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -528,7 +528,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "bigBangEthDebtRate",
       "bigBangEthDebtRate():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -541,7 +541,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "bigBangEthMarket",
       "bigBangEthMarket():(address)",
-      []
+      [],
     );
 
     return result[0].toAddress();
@@ -551,7 +551,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "bigBangEthMarket",
       "bigBangEthMarket():(address)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -564,7 +564,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "bigBangMarkets",
       "bigBangMarkets():(address[])",
-      []
+      [],
     );
 
     return result[0].toAddressArray();
@@ -574,7 +574,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "bigBangMarkets",
       "bigBangMarkets():(address[])",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -587,7 +587,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "bigBangMasterContractLength",
       "bigBangMasterContractLength():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -597,7 +597,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "bigBangMasterContractLength",
       "bigBangMasterContractLength():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -607,27 +607,27 @@ export class Penrose extends ethereum.SmartContract {
   }
 
   bigbangMasterContracts(
-    param0: BigInt
+    param0: BigInt,
   ): Penrose__bigbangMasterContractsResult {
     let result = super.call(
       "bigbangMasterContracts",
       "bigbangMasterContracts(uint256):(address,uint8)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
 
     return new Penrose__bigbangMasterContractsResult(
       result[0].toAddress(),
-      result[1].toI32()
+      result[1].toI32(),
     );
   }
 
   try_bigbangMasterContracts(
-    param0: BigInt
+    param0: BigInt,
   ): ethereum.CallResult<Penrose__bigbangMasterContractsResult> {
     let result = super.tryCall(
       "bigbangMasterContracts",
       "bigbangMasterContracts(uint256):(address,uint8)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -636,15 +636,15 @@ export class Penrose extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(
       new Penrose__bigbangMasterContractsResult(
         value[0].toAddress(),
-        value[1].toI32()
-      )
+        value[1].toI32(),
+      ),
     );
   }
 
   clonesOf(param0: Address, param1: BigInt): Address {
     let result = super.call("clonesOf", "clonesOf(address,uint256):(address)", [
       ethereum.Value.fromAddress(param0),
-      ethereum.Value.fromUnsignedBigInt(param1)
+      ethereum.Value.fromUnsignedBigInt(param1),
     ]);
 
     return result[0].toAddress();
@@ -656,8 +656,8 @@ export class Penrose extends ethereum.SmartContract {
       "clonesOf(address,uint256):(address)",
       [
         ethereum.Value.fromAddress(param0),
-        ethereum.Value.fromUnsignedBigInt(param1)
-      ]
+        ethereum.Value.fromUnsignedBigInt(param1),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -670,7 +670,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "clonesOfCount",
       "clonesOfCount(address):(uint256)",
-      [ethereum.Value.fromAddress(masterContract)]
+      [ethereum.Value.fromAddress(masterContract)],
     );
 
     return result[0].toBigInt();
@@ -680,7 +680,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "clonesOfCount",
       "clonesOfCount(address):(uint256)",
-      [ethereum.Value.fromAddress(masterContract)]
+      [ethereum.Value.fromAddress(masterContract)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -708,7 +708,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "computeTotalDebt",
       "computeTotalDebt():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -718,7 +718,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "computeTotalDebt",
       "computeTotalDebt():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -746,7 +746,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "emptyStrategies",
       "emptyStrategies(address):(address)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
 
     return result[0].toAddress();
@@ -756,7 +756,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "emptyStrategies",
       "emptyStrategies(address):(address)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -768,7 +768,7 @@ export class Penrose extends ethereum.SmartContract {
   executeMarketFn(
     mc: Array<Address>,
     data: Array<Bytes>,
-    forceSuccess: boolean
+    forceSuccess: boolean,
   ): Penrose__executeMarketFnResult {
     let result = super.call(
       "executeMarketFn",
@@ -776,20 +776,20 @@ export class Penrose extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddressArray(mc),
         ethereum.Value.fromBytesArray(data),
-        ethereum.Value.fromBoolean(forceSuccess)
-      ]
+        ethereum.Value.fromBoolean(forceSuccess),
+      ],
     );
 
     return new Penrose__executeMarketFnResult(
       result[0].toBooleanArray(),
-      result[1].toBytesArray()
+      result[1].toBytesArray(),
     );
   }
 
   try_executeMarketFn(
     mc: Array<Address>,
     data: Array<Bytes>,
-    forceSuccess: boolean
+    forceSuccess: boolean,
   ): ethereum.CallResult<Penrose__executeMarketFnResult> {
     let result = super.tryCall(
       "executeMarketFn",
@@ -797,8 +797,8 @@ export class Penrose extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddressArray(mc),
         ethereum.Value.fromBytesArray(data),
-        ethereum.Value.fromBoolean(forceSuccess)
-      ]
+        ethereum.Value.fromBoolean(forceSuccess),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -807,30 +807,30 @@ export class Penrose extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(
       new Penrose__executeMarketFnResult(
         value[0].toBooleanArray(),
-        value[1].toBytesArray()
-      )
+        value[1].toBytesArray(),
+      ),
     );
   }
 
   getAllMasterContractClones(
-    array: Array<Penrose__getAllMasterContractClonesInputArrayStruct>
+    array: Array<Penrose__getAllMasterContractClonesInputArrayStruct>,
   ): Array<Address> {
     let result = super.call(
       "getAllMasterContractClones",
       "getAllMasterContractClones((address,uint8)[]):(address[])",
-      [ethereum.Value.fromTupleArray(array)]
+      [ethereum.Value.fromTupleArray(array)],
     );
 
     return result[0].toAddressArray();
   }
 
   try_getAllMasterContractClones(
-    array: Array<Penrose__getAllMasterContractClonesInputArrayStruct>
+    array: Array<Penrose__getAllMasterContractClonesInputArrayStruct>,
   ): ethereum.CallResult<Array<Address>> {
     let result = super.tryCall(
       "getAllMasterContractClones",
       "getAllMasterContractClones((address,uint8)[]):(address[])",
-      [ethereum.Value.fromTupleArray(array)]
+      [ethereum.Value.fromTupleArray(array)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -858,19 +858,19 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "isBigBangMasterContractRegistered",
       "isBigBangMasterContractRegistered(address):(bool)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
 
     return result[0].toBoolean();
   }
 
   try_isBigBangMasterContractRegistered(
-    param0: Address
+    param0: Address,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "isBigBangMasterContractRegistered",
       "isBigBangMasterContractRegistered(address):(bool)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -883,7 +883,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "isMarketRegistered",
       "isMarketRegistered(address):(bool)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
 
     return result[0].toBoolean();
@@ -893,7 +893,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "isMarketRegistered",
       "isMarketRegistered(address):(bool)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -906,7 +906,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "isOriginRegistered",
       "isOriginRegistered(address):(bool)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
 
     return result[0].toBoolean();
@@ -916,7 +916,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "isOriginRegistered",
       "isOriginRegistered(address):(bool)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -929,19 +929,19 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "isSingularityMasterContractRegistered",
       "isSingularityMasterContractRegistered(address):(bool)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
 
     return result[0].toBoolean();
   }
 
   try_isSingularityMasterContractRegistered(
-    param0: Address
+    param0: Address,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "isSingularityMasterContractRegistered",
       "isSingularityMasterContractRegistered(address):(bool)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -984,7 +984,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "masterContractOf",
       "masterContractOf(address):(address)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
 
     return result[0].toAddress();
@@ -994,7 +994,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "masterContractOf",
       "masterContractOf(address):(address)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1052,7 +1052,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "singularityMarkets",
       "singularityMarkets():(address[])",
-      []
+      [],
     );
 
     return result[0].toAddressArray();
@@ -1062,7 +1062,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "singularityMarkets",
       "singularityMarkets():(address[])",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1075,7 +1075,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "singularityMasterContractLength",
       "singularityMasterContractLength():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -1085,7 +1085,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "singularityMasterContractLength",
       "singularityMasterContractLength():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1095,27 +1095,27 @@ export class Penrose extends ethereum.SmartContract {
   }
 
   singularityMasterContracts(
-    param0: BigInt
+    param0: BigInt,
   ): Penrose__singularityMasterContractsResult {
     let result = super.call(
       "singularityMasterContracts",
       "singularityMasterContracts(uint256):(address,uint8)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
 
     return new Penrose__singularityMasterContractsResult(
       result[0].toAddress(),
-      result[1].toI32()
+      result[1].toI32(),
     );
   }
 
   try_singularityMasterContracts(
-    param0: BigInt
+    param0: BigInt,
   ): ethereum.CallResult<Penrose__singularityMasterContractsResult> {
     let result = super.tryCall(
       "singularityMasterContracts",
       "singularityMasterContracts(uint256):(address,uint8)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1124,8 +1124,8 @@ export class Penrose extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(
       new Penrose__singularityMasterContractsResult(
         value[0].toAddress(),
-        value[1].toI32()
-      )
+        value[1].toI32(),
+      ),
     );
   }
 
@@ -1199,7 +1199,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "viewTotalDebt",
       "viewTotalDebt():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();

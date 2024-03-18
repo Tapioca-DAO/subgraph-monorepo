@@ -7,7 +7,7 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
+  BigInt,
 } from "@graphprotocol/graph-ts";
 
 export class Approval extends ethereum.Event {
@@ -235,7 +235,7 @@ export class OTAP__eip712DomainResult {
     value3: BigInt,
     value4: Address,
     value5: Bytes,
-    value6: Array<BigInt>
+    value6: Array<BigInt>,
   ) {
     this.value0 = value0;
     this.value1 = value1;
@@ -335,7 +335,7 @@ export class OTAP extends ethereum.SmartContract {
     let result = super.call(
       "DOMAIN_SEPARATOR",
       "DOMAIN_SEPARATOR():(bytes32)",
-      []
+      [],
     );
 
     return result[0].toBytes();
@@ -345,7 +345,7 @@ export class OTAP extends ethereum.SmartContract {
     let result = super.tryCall(
       "DOMAIN_SEPARATOR",
       "DOMAIN_SEPARATOR():(bytes32)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -358,22 +358,22 @@ export class OTAP extends ethereum.SmartContract {
     let result = super.call(
       "attributes",
       "attributes(uint256):(address,(uint128,uint128,uint128,uint256))",
-      [ethereum.Value.fromUnsignedBigInt(_tokenId)]
+      [ethereum.Value.fromUnsignedBigInt(_tokenId)],
     );
 
     return new OTAP__attributesResult(
       result[0].toAddress(),
-      changetype<OTAP__attributesResultValue1Struct>(result[1].toTuple())
+      changetype<OTAP__attributesResultValue1Struct>(result[1].toTuple()),
     );
   }
 
   try_attributes(
-    _tokenId: BigInt
+    _tokenId: BigInt,
   ): ethereum.CallResult<OTAP__attributesResult> {
     let result = super.tryCall(
       "attributes",
       "attributes(uint256):(address,(uint128,uint128,uint128,uint256))",
-      [ethereum.Value.fromUnsignedBigInt(_tokenId)]
+      [ethereum.Value.fromUnsignedBigInt(_tokenId)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -382,14 +382,14 @@ export class OTAP extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(
       new OTAP__attributesResult(
         value[0].toAddress(),
-        changetype<OTAP__attributesResultValue1Struct>(value[1].toTuple())
-      )
+        changetype<OTAP__attributesResultValue1Struct>(value[1].toTuple()),
+      ),
     );
   }
 
   balanceOf(owner: Address): BigInt {
     let result = super.call("balanceOf", "balanceOf(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+      ethereum.Value.fromAddress(owner),
     ]);
 
     return result[0].toBigInt();
@@ -397,7 +397,7 @@ export class OTAP extends ethereum.SmartContract {
 
   try_balanceOf(owner: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall("balanceOf", "balanceOf(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+      ethereum.Value.fromAddress(owner),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -425,7 +425,7 @@ export class OTAP extends ethereum.SmartContract {
     let result = super.call(
       "eip712Domain",
       "eip712Domain():(bytes1,string,string,uint256,address,bytes32,uint256[])",
-      []
+      [],
     );
 
     return new OTAP__eip712DomainResult(
@@ -435,7 +435,7 @@ export class OTAP extends ethereum.SmartContract {
       result[3].toBigInt(),
       result[4].toAddress(),
       result[5].toBytes(),
-      result[6].toBigIntArray()
+      result[6].toBigIntArray(),
     );
   }
 
@@ -443,7 +443,7 @@ export class OTAP extends ethereum.SmartContract {
     let result = super.tryCall(
       "eip712Domain",
       "eip712Domain():(bytes1,string,string,uint256,address,bytes32,uint256[])",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -457,14 +457,14 @@ export class OTAP extends ethereum.SmartContract {
         value[3].toBigInt(),
         value[4].toAddress(),
         value[5].toBytes(),
-        value[6].toBigIntArray()
-      )
+        value[6].toBigIntArray(),
+      ),
     );
   }
 
   exists(_tokenId: BigInt): boolean {
     let result = super.call("exists", "exists(uint256):(bool)", [
-      ethereum.Value.fromUnsignedBigInt(_tokenId)
+      ethereum.Value.fromUnsignedBigInt(_tokenId),
     ]);
 
     return result[0].toBoolean();
@@ -472,7 +472,7 @@ export class OTAP extends ethereum.SmartContract {
 
   try_exists(_tokenId: BigInt): ethereum.CallResult<boolean> {
     let result = super.tryCall("exists", "exists(uint256):(bool)", [
-      ethereum.Value.fromUnsignedBigInt(_tokenId)
+      ethereum.Value.fromUnsignedBigInt(_tokenId),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -483,7 +483,7 @@ export class OTAP extends ethereum.SmartContract {
 
   getApproved(tokenId: BigInt): Address {
     let result = super.call("getApproved", "getApproved(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId),
     ]);
 
     return result[0].toAddress();
@@ -493,7 +493,7 @@ export class OTAP extends ethereum.SmartContract {
     let result = super.tryCall(
       "getApproved",
       "getApproved(uint256):(address)",
-      [ethereum.Value.fromUnsignedBigInt(tokenId)]
+      [ethereum.Value.fromUnsignedBigInt(tokenId)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -506,7 +506,7 @@ export class OTAP extends ethereum.SmartContract {
     let result = super.call(
       "isApprovedForAll",
       "isApprovedForAll(address,address):(bool)",
-      [ethereum.Value.fromAddress(owner), ethereum.Value.fromAddress(operator)]
+      [ethereum.Value.fromAddress(owner), ethereum.Value.fromAddress(operator)],
     );
 
     return result[0].toBoolean();
@@ -514,12 +514,12 @@ export class OTAP extends ethereum.SmartContract {
 
   try_isApprovedForAll(
     owner: Address,
-    operator: Address
+    operator: Address,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "isApprovedForAll",
       "isApprovedForAll(address,address):(bool)",
-      [ethereum.Value.fromAddress(owner), ethereum.Value.fromAddress(operator)]
+      [ethereum.Value.fromAddress(owner), ethereum.Value.fromAddress(operator)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -534,8 +534,8 @@ export class OTAP extends ethereum.SmartContract {
       "isApprovedOrOwner(address,uint256):(bool)",
       [
         ethereum.Value.fromAddress(_spender),
-        ethereum.Value.fromUnsignedBigInt(_tokenId)
-      ]
+        ethereum.Value.fromUnsignedBigInt(_tokenId),
+      ],
     );
 
     return result[0].toBoolean();
@@ -543,15 +543,15 @@ export class OTAP extends ethereum.SmartContract {
 
   try_isApprovedOrOwner(
     _spender: Address,
-    _tokenId: BigInt
+    _tokenId: BigInt,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "isApprovedOrOwner",
       "isApprovedOrOwner(address,uint256):(bool)",
       [
         ethereum.Value.fromAddress(_spender),
-        ethereum.Value.fromUnsignedBigInt(_tokenId)
-      ]
+        ethereum.Value.fromUnsignedBigInt(_tokenId),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -564,7 +564,7 @@ export class OTAP extends ethereum.SmartContract {
     _to: Address,
     _expiry: BigInt,
     _discount: BigInt,
-    _tOLP: BigInt
+    _tOLP: BigInt,
   ): BigInt {
     let result = super.call(
       "mint",
@@ -573,8 +573,8 @@ export class OTAP extends ethereum.SmartContract {
         ethereum.Value.fromAddress(_to),
         ethereum.Value.fromUnsignedBigInt(_expiry),
         ethereum.Value.fromUnsignedBigInt(_discount),
-        ethereum.Value.fromUnsignedBigInt(_tOLP)
-      ]
+        ethereum.Value.fromUnsignedBigInt(_tOLP),
+      ],
     );
 
     return result[0].toBigInt();
@@ -584,7 +584,7 @@ export class OTAP extends ethereum.SmartContract {
     _to: Address,
     _expiry: BigInt,
     _discount: BigInt,
-    _tOLP: BigInt
+    _tOLP: BigInt,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "mint",
@@ -593,8 +593,8 @@ export class OTAP extends ethereum.SmartContract {
         ethereum.Value.fromAddress(_to),
         ethereum.Value.fromUnsignedBigInt(_expiry),
         ethereum.Value.fromUnsignedBigInt(_discount),
-        ethereum.Value.fromUnsignedBigInt(_tOLP)
-      ]
+        ethereum.Value.fromUnsignedBigInt(_tOLP),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -650,7 +650,7 @@ export class OTAP extends ethereum.SmartContract {
 
   nonces(owner: Address): BigInt {
     let result = super.call("nonces", "nonces(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+      ethereum.Value.fromAddress(owner),
     ]);
 
     return result[0].toBigInt();
@@ -658,7 +658,7 @@ export class OTAP extends ethereum.SmartContract {
 
   try_nonces(owner: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall("nonces", "nonces(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+      ethereum.Value.fromAddress(owner),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -671,14 +671,14 @@ export class OTAP extends ethereum.SmartContract {
     let result = super.call(
       "options",
       "options(uint256):(uint128,uint128,uint128,uint256)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
 
     return new OTAP__optionsResult(
       result[0].toBigInt(),
       result[1].toBigInt(),
       result[2].toBigInt(),
-      result[3].toBigInt()
+      result[3].toBigInt(),
     );
   }
 
@@ -686,7 +686,7 @@ export class OTAP extends ethereum.SmartContract {
     let result = super.tryCall(
       "options",
       "options(uint256):(uint128,uint128,uint128,uint256)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -697,8 +697,8 @@ export class OTAP extends ethereum.SmartContract {
         value[0].toBigInt(),
         value[1].toBigInt(),
         value[2].toBigInt(),
-        value[3].toBigInt()
-      )
+        value[3].toBigInt(),
+      ),
     );
   }
 
@@ -719,7 +719,7 @@ export class OTAP extends ethereum.SmartContract {
 
   ownerOf(tokenId: BigInt): Address {
     let result = super.call("ownerOf", "ownerOf(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId),
     ]);
 
     return result[0].toAddress();
@@ -727,7 +727,7 @@ export class OTAP extends ethereum.SmartContract {
 
   try_ownerOf(tokenId: BigInt): ethereum.CallResult<Address> {
     let result = super.tryCall("ownerOf", "ownerOf(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -740,7 +740,7 @@ export class OTAP extends ethereum.SmartContract {
     let result = super.call(
       "supportsInterface",
       "supportsInterface(bytes4):(bool)",
-      [ethereum.Value.fromFixedBytes(interfaceId)]
+      [ethereum.Value.fromFixedBytes(interfaceId)],
     );
 
     return result[0].toBoolean();
@@ -750,7 +750,7 @@ export class OTAP extends ethereum.SmartContract {
     let result = super.tryCall(
       "supportsInterface",
       "supportsInterface(bytes4):(bool)",
-      [ethereum.Value.fromFixedBytes(interfaceId)]
+      [ethereum.Value.fromFixedBytes(interfaceId)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -776,7 +776,7 @@ export class OTAP extends ethereum.SmartContract {
 
   tokenURI(tokenId: BigInt): string {
     let result = super.call("tokenURI", "tokenURI(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId),
     ]);
 
     return result[0].toString();
@@ -784,7 +784,7 @@ export class OTAP extends ethereum.SmartContract {
 
   try_tokenURI(tokenId: BigInt): ethereum.CallResult<string> {
     let result = super.tryCall("tokenURI", "tokenURI(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();

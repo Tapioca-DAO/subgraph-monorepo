@@ -7,7 +7,7 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
+  BigInt,
 } from "@graphprotocol/graph-ts";
 
 export class ActivateSGLPoolRescue extends ethereum.Event {
@@ -105,8 +105,12 @@ export class Burn__Params {
     return this._event.parameters[1].value.toBigInt();
   }
 
+  get sglAddress(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
   get tolpTokenId(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
+    return this._event.parameters[3].value.toBigInt();
   }
 }
 
@@ -145,16 +149,20 @@ export class Mint__Params {
     return this._event.parameters[1].value.toBigInt();
   }
 
-  get tolpTokenId(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
+  get sglAddress(): Address {
+    return this._event.parameters[2].value.toAddress();
   }
 
-  get lockDuration(): BigInt {
+  get tolpTokenId(): BigInt {
     return this._event.parameters[3].value.toBigInt();
   }
 
-  get ybShares(): BigInt {
+  get lockDuration(): BigInt {
     return this._event.parameters[4].value.toBigInt();
+  }
+
+  get ybShares(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
   }
 }
 
@@ -433,7 +441,7 @@ export class TOLP__eip712DomainResult {
     value3: BigInt,
     value4: Address,
     value5: Bytes,
-    value6: Array<BigInt>
+    value6: Array<BigInt>,
   ) {
     this.value0 = value0;
     this.value1 = value1;
@@ -594,7 +602,7 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.call(
       "DOMAIN_SEPARATOR",
       "DOMAIN_SEPARATOR():(bytes32)",
-      []
+      [],
     );
 
     return result[0].toBytes();
@@ -604,7 +612,7 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.tryCall(
       "DOMAIN_SEPARATOR",
       "DOMAIN_SEPARATOR():(bytes32)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -623,7 +631,7 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.tryCall(
       "EPOCH_DURATION",
       "EPOCH_DURATION():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -636,7 +644,7 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.call(
       "MAX_LOCK_DURATION",
       "MAX_LOCK_DURATION():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -646,7 +654,7 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.tryCall(
       "MAX_LOCK_DURATION",
       "MAX_LOCK_DURATION():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -659,24 +667,24 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.call(
       "activeSingularities",
       "activeSingularities(address):(uint256,uint256,uint256,bool)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
 
     return new TOLP__activeSingularitiesResult(
       result[0].toBigInt(),
       result[1].toBigInt(),
       result[2].toBigInt(),
-      result[3].toBoolean()
+      result[3].toBoolean(),
     );
   }
 
   try_activeSingularities(
-    param0: Address
+    param0: Address,
   ): ethereum.CallResult<TOLP__activeSingularitiesResult> {
     let result = super.tryCall(
       "activeSingularities",
       "activeSingularities(address):(uint256,uint256,uint256,bool)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -687,14 +695,14 @@ export class TOLP extends ethereum.SmartContract {
         value[0].toBigInt(),
         value[1].toBigInt(),
         value[2].toBigInt(),
-        value[3].toBoolean()
-      )
+        value[3].toBoolean(),
+      ),
     );
   }
 
   balanceOf(owner: Address): BigInt {
     let result = super.call("balanceOf", "balanceOf(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+      ethereum.Value.fromAddress(owner),
     ]);
 
     return result[0].toBigInt();
@@ -702,7 +710,7 @@ export class TOLP extends ethereum.SmartContract {
 
   try_balanceOf(owner: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall("balanceOf", "balanceOf(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+      ethereum.Value.fromAddress(owner),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -715,7 +723,7 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.call(
       "eip712Domain",
       "eip712Domain():(bytes1,string,string,uint256,address,bytes32,uint256[])",
-      []
+      [],
     );
 
     return new TOLP__eip712DomainResult(
@@ -725,7 +733,7 @@ export class TOLP extends ethereum.SmartContract {
       result[3].toBigInt(),
       result[4].toAddress(),
       result[5].toBytes(),
-      result[6].toBigIntArray()
+      result[6].toBigIntArray(),
     );
   }
 
@@ -733,7 +741,7 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.tryCall(
       "eip712Domain",
       "eip712Domain():(bytes1,string,string,uint256,address,bytes32,uint256[])",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -747,14 +755,14 @@ export class TOLP extends ethereum.SmartContract {
         value[3].toBigInt(),
         value[4].toAddress(),
         value[5].toBytes(),
-        value[6].toBigIntArray()
-      )
+        value[6].toBigIntArray(),
+      ),
     );
   }
 
   getApproved(tokenId: BigInt): Address {
     let result = super.call("getApproved", "getApproved(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId),
     ]);
 
     return result[0].toAddress();
@@ -764,7 +772,7 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.tryCall(
       "getApproved",
       "getApproved(uint256):(address)",
-      [ethereum.Value.fromUnsignedBigInt(tokenId)]
+      [ethereum.Value.fromUnsignedBigInt(tokenId)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -777,26 +785,26 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.call(
       "getLock",
       "getLock(uint256):((uint128,uint128,uint128,uint128))",
-      [ethereum.Value.fromUnsignedBigInt(_tokenId)]
+      [ethereum.Value.fromUnsignedBigInt(_tokenId)],
     );
 
     return changetype<TOLP__getLockResultValue0Struct>(result[0].toTuple());
   }
 
   try_getLock(
-    _tokenId: BigInt
+    _tokenId: BigInt,
   ): ethereum.CallResult<TOLP__getLockResultValue0Struct> {
     let result = super.tryCall(
       "getLock",
       "getLock(uint256):((uint128,uint128,uint128,uint128))",
-      [ethereum.Value.fromUnsignedBigInt(_tokenId)]
+      [ethereum.Value.fromUnsignedBigInt(_tokenId)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      changetype<TOLP__getLockResultValue0Struct>(value[0].toTuple())
+      changetype<TOLP__getLockResultValue0Struct>(value[0].toTuple()),
     );
   }
 
@@ -804,7 +812,7 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.call(
       "getSingularities",
       "getSingularities():(uint256[])",
-      []
+      [],
     );
 
     return result[0].toBigIntArray();
@@ -814,7 +822,7 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.tryCall(
       "getSingularities",
       "getSingularities():(uint256[])",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -827,12 +835,10 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.call(
       "getSingularityPools",
       "getSingularityPools():((uint256,uint256,uint256,bool)[])",
-      []
+      [],
     );
 
-    return result[0].toTupleArray<
-      TOLP__getSingularityPoolsResultValue0Struct
-    >();
+    return result[0].toTupleArray<TOLP__getSingularityPoolsResultValue0Struct>();
   }
 
   try_getSingularityPools(): ethereum.CallResult<
@@ -841,39 +847,39 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.tryCall(
       "getSingularityPools",
       "getSingularityPools():((uint256,uint256,uint256,bool)[])",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      value[0].toTupleArray<TOLP__getSingularityPoolsResultValue0Struct>()
+      value[0].toTupleArray<TOLP__getSingularityPoolsResultValue0Struct>(),
     );
   }
 
   getTotalPoolDeposited(
-    _sglAssetId: BigInt
+    _sglAssetId: BigInt,
   ): TOLP__getTotalPoolDepositedResult {
     let result = super.call(
       "getTotalPoolDeposited",
       "getTotalPoolDeposited(uint256):(uint256,uint256)",
-      [ethereum.Value.fromUnsignedBigInt(_sglAssetId)]
+      [ethereum.Value.fromUnsignedBigInt(_sglAssetId)],
     );
 
     return new TOLP__getTotalPoolDepositedResult(
       result[0].toBigInt(),
-      result[1].toBigInt()
+      result[1].toBigInt(),
     );
   }
 
   try_getTotalPoolDeposited(
-    _sglAssetId: BigInt
+    _sglAssetId: BigInt,
   ): ethereum.CallResult<TOLP__getTotalPoolDepositedResult> {
     let result = super.tryCall(
       "getTotalPoolDeposited",
       "getTotalPoolDeposited(uint256):(uint256,uint256)",
-      [ethereum.Value.fromUnsignedBigInt(_sglAssetId)]
+      [ethereum.Value.fromUnsignedBigInt(_sglAssetId)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -882,8 +888,8 @@ export class TOLP extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(
       new TOLP__getTotalPoolDepositedResult(
         value[0].toBigInt(),
-        value[1].toBigInt()
-      )
+        value[1].toBigInt(),
+      ),
     );
   }
 
@@ -891,7 +897,7 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.call(
       "isApprovedForAll",
       "isApprovedForAll(address,address):(bool)",
-      [ethereum.Value.fromAddress(owner), ethereum.Value.fromAddress(operator)]
+      [ethereum.Value.fromAddress(owner), ethereum.Value.fromAddress(operator)],
     );
 
     return result[0].toBoolean();
@@ -899,12 +905,12 @@ export class TOLP extends ethereum.SmartContract {
 
   try_isApprovedForAll(
     owner: Address,
-    operator: Address
+    operator: Address,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "isApprovedForAll",
       "isApprovedForAll(address,address):(bool)",
-      [ethereum.Value.fromAddress(owner), ethereum.Value.fromAddress(operator)]
+      [ethereum.Value.fromAddress(owner), ethereum.Value.fromAddress(operator)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -919,8 +925,8 @@ export class TOLP extends ethereum.SmartContract {
       "isApprovedOrOwner(address,uint256):(bool)",
       [
         ethereum.Value.fromAddress(_spender),
-        ethereum.Value.fromUnsignedBigInt(_tokenId)
-      ]
+        ethereum.Value.fromUnsignedBigInt(_tokenId),
+      ],
     );
 
     return result[0].toBoolean();
@@ -928,15 +934,15 @@ export class TOLP extends ethereum.SmartContract {
 
   try_isApprovedOrOwner(
     _spender: Address,
-    _tokenId: BigInt
+    _tokenId: BigInt,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "isApprovedOrOwner",
       "isApprovedOrOwner(address,uint256):(bool)",
       [
         ethereum.Value.fromAddress(_spender),
-        ethereum.Value.fromUnsignedBigInt(_tokenId)
-      ]
+        ethereum.Value.fromUnsignedBigInt(_tokenId),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -949,7 +955,7 @@ export class TOLP extends ethereum.SmartContract {
     _to: Address,
     _singularity: Address,
     _lockDuration: BigInt,
-    _ybShares: BigInt
+    _ybShares: BigInt,
   ): BigInt {
     let result = super.call(
       "lock",
@@ -958,8 +964,8 @@ export class TOLP extends ethereum.SmartContract {
         ethereum.Value.fromAddress(_to),
         ethereum.Value.fromAddress(_singularity),
         ethereum.Value.fromUnsignedBigInt(_lockDuration),
-        ethereum.Value.fromUnsignedBigInt(_ybShares)
-      ]
+        ethereum.Value.fromUnsignedBigInt(_ybShares),
+      ],
     );
 
     return result[0].toBigInt();
@@ -969,7 +975,7 @@ export class TOLP extends ethereum.SmartContract {
     _to: Address,
     _singularity: Address,
     _lockDuration: BigInt,
-    _ybShares: BigInt
+    _ybShares: BigInt,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "lock",
@@ -978,8 +984,8 @@ export class TOLP extends ethereum.SmartContract {
         ethereum.Value.fromAddress(_to),
         ethereum.Value.fromAddress(_singularity),
         ethereum.Value.fromUnsignedBigInt(_lockDuration),
-        ethereum.Value.fromUnsignedBigInt(_ybShares)
-      ]
+        ethereum.Value.fromUnsignedBigInt(_ybShares),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -992,24 +998,24 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.call(
       "lockPositions",
       "lockPositions(uint256):(uint128,uint128,uint128,uint128)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
 
     return new TOLP__lockPositionsResult(
       result[0].toBigInt(),
       result[1].toBigInt(),
       result[2].toBigInt(),
-      result[3].toBigInt()
+      result[3].toBigInt(),
     );
   }
 
   try_lockPositions(
-    param0: BigInt
+    param0: BigInt,
   ): ethereum.CallResult<TOLP__lockPositionsResult> {
     let result = super.tryCall(
       "lockPositions",
       "lockPositions(uint256):(uint128,uint128,uint128,uint128)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1020,8 +1026,8 @@ export class TOLP extends ethereum.SmartContract {
         value[0].toBigInt(),
         value[1].toBigInt(),
         value[2].toBigInt(),
-        value[3].toBigInt()
-      )
+        value[3].toBigInt(),
+      ),
     );
   }
 
@@ -1042,7 +1048,7 @@ export class TOLP extends ethereum.SmartContract {
 
   nonces(owner: Address): BigInt {
     let result = super.call("nonces", "nonces(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+      ethereum.Value.fromAddress(owner),
     ]);
 
     return result[0].toBigInt();
@@ -1050,7 +1056,7 @@ export class TOLP extends ethereum.SmartContract {
 
   try_nonces(owner: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall("nonces", "nonces(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+      ethereum.Value.fromAddress(owner),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1064,7 +1070,7 @@ export class TOLP extends ethereum.SmartContract {
     from: Address,
     ids: Array<BigInt>,
     values: Array<BigInt>,
-    data: Bytes
+    data: Bytes,
   ): Bytes {
     let result = super.call(
       "onERC1155BatchReceived",
@@ -1074,8 +1080,8 @@ export class TOLP extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigIntArray(ids),
         ethereum.Value.fromUnsignedBigIntArray(values),
-        ethereum.Value.fromBytes(data)
-      ]
+        ethereum.Value.fromBytes(data),
+      ],
     );
 
     return result[0].toBytes();
@@ -1086,7 +1092,7 @@ export class TOLP extends ethereum.SmartContract {
     from: Address,
     ids: Array<BigInt>,
     values: Array<BigInt>,
-    data: Bytes
+    data: Bytes,
   ): ethereum.CallResult<Bytes> {
     let result = super.tryCall(
       "onERC1155BatchReceived",
@@ -1096,8 +1102,8 @@ export class TOLP extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigIntArray(ids),
         ethereum.Value.fromUnsignedBigIntArray(values),
-        ethereum.Value.fromBytes(data)
-      ]
+        ethereum.Value.fromBytes(data),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1111,7 +1117,7 @@ export class TOLP extends ethereum.SmartContract {
     from: Address,
     id: BigInt,
     value: BigInt,
-    data: Bytes
+    data: Bytes,
   ): Bytes {
     let result = super.call(
       "onERC1155Received",
@@ -1121,8 +1127,8 @@ export class TOLP extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigInt(id),
         ethereum.Value.fromUnsignedBigInt(value),
-        ethereum.Value.fromBytes(data)
-      ]
+        ethereum.Value.fromBytes(data),
+      ],
     );
 
     return result[0].toBytes();
@@ -1133,7 +1139,7 @@ export class TOLP extends ethereum.SmartContract {
     from: Address,
     id: BigInt,
     value: BigInt,
-    data: Bytes
+    data: Bytes,
   ): ethereum.CallResult<Bytes> {
     let result = super.tryCall(
       "onERC1155Received",
@@ -1143,8 +1149,8 @@ export class TOLP extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigInt(id),
         ethereum.Value.fromUnsignedBigInt(value),
-        ethereum.Value.fromBytes(data)
-      ]
+        ethereum.Value.fromBytes(data),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1170,7 +1176,7 @@ export class TOLP extends ethereum.SmartContract {
 
   ownerOf(tokenId: BigInt): Address {
     let result = super.call("ownerOf", "ownerOf(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId),
     ]);
 
     return result[0].toAddress();
@@ -1178,7 +1184,7 @@ export class TOLP extends ethereum.SmartContract {
 
   try_ownerOf(tokenId: BigInt): ethereum.CallResult<Address> {
     let result = super.tryCall("ownerOf", "ownerOf(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1227,7 +1233,7 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.tryCall(
       "rescueCooldown",
       "rescueCooldown():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1240,7 +1246,7 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.call(
       "sglAssetIDToAddress",
       "sglAssetIDToAddress(uint256):(address)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
 
     return result[0].toAddress();
@@ -1250,7 +1256,7 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.tryCall(
       "sglAssetIDToAddress",
       "sglAssetIDToAddress(uint256):(address)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1263,7 +1269,7 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.call(
       "sglRescueRequest",
       "sglRescueRequest(uint256):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(sglId)]
+      [ethereum.Value.fromUnsignedBigInt(sglId)],
     );
 
     return result[0].toBigInt();
@@ -1273,7 +1279,7 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.tryCall(
       "sglRescueRequest",
       "sglRescueRequest(uint256):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(sglId)]
+      [ethereum.Value.fromUnsignedBigInt(sglId)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1286,7 +1292,7 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.call(
       "singularities",
       "singularities(uint256):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
 
     return result[0].toBigInt();
@@ -1296,7 +1302,7 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.tryCall(
       "singularities",
       "singularities(uint256):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1309,7 +1315,7 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.call(
       "supportsInterface",
       "supportsInterface(bytes4):(bool)",
-      [ethereum.Value.fromFixedBytes(interfaceId)]
+      [ethereum.Value.fromFixedBytes(interfaceId)],
     );
 
     return result[0].toBoolean();
@@ -1319,7 +1325,7 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.tryCall(
       "supportsInterface",
       "supportsInterface(bytes4):(bool)",
-      [ethereum.Value.fromFixedBytes(interfaceId)]
+      [ethereum.Value.fromFixedBytes(interfaceId)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1360,7 +1366,7 @@ export class TOLP extends ethereum.SmartContract {
 
   tokenURI(tokenId: BigInt): string {
     let result = super.call("tokenURI", "tokenURI(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId),
     ]);
 
     return result[0].toString();
@@ -1368,7 +1374,7 @@ export class TOLP extends ethereum.SmartContract {
 
   try_tokenURI(tokenId: BigInt): ethereum.CallResult<string> {
     let result = super.tryCall("tokenURI", "tokenURI(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1381,7 +1387,7 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.call(
       "totalSingularityPoolWeights",
       "totalSingularityPoolWeights():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -1391,7 +1397,7 @@ export class TOLP extends ethereum.SmartContract {
     let result = super.tryCall(
       "totalSingularityPoolWeights",
       "totalSingularityPoolWeights():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();

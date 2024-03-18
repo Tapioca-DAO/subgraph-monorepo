@@ -7,7 +7,7 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
+  BigInt,
 } from "@graphprotocol/graph-ts";
 
 export class ApprovalForAll extends ethereum.Event {
@@ -402,7 +402,7 @@ export class YieldBox__assetsResult {
     let map = new TypedMap<string, ethereum.Value>();
     map.set(
       "value0",
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value0))
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value0)),
     );
     map.set("value1", ethereum.Value.fromAddress(this.value1));
     map.set("value2", ethereum.Value.fromAddress(this.value2));
@@ -518,7 +518,7 @@ export class YieldBox__eip712DomainResult {
     value3: BigInt,
     value4: Address,
     value5: Bytes,
-    value6: Array<BigInt>
+    value6: Array<BigInt>,
   ) {
     this.value0 = value0;
     this.value1 = value1;
@@ -589,7 +589,7 @@ export class YieldBox__nativeTokensResult {
     map.set("value1", ethereum.Value.fromString(this.value1));
     map.set(
       "value2",
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value2))
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value2)),
     );
     map.set("value3", ethereum.Value.fromString(this.value3));
     return map;
@@ -646,7 +646,7 @@ export class YieldBox extends ethereum.SmartContract {
     let result = super.call(
       "DOMAIN_SEPARATOR",
       "DOMAIN_SEPARATOR():(bytes32)",
-      []
+      [],
     );
 
     return result[0].toBytes();
@@ -656,7 +656,7 @@ export class YieldBox extends ethereum.SmartContract {
     let result = super.tryCall(
       "DOMAIN_SEPARATOR",
       "DOMAIN_SEPARATOR():(bytes32)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -668,7 +668,7 @@ export class YieldBox extends ethereum.SmartContract {
   amountOf(user: Address, assetId: BigInt): BigInt {
     let result = super.call("amountOf", "amountOf(address,uint256):(uint256)", [
       ethereum.Value.fromAddress(user),
-      ethereum.Value.fromUnsignedBigInt(assetId)
+      ethereum.Value.fromUnsignedBigInt(assetId),
     ]);
 
     return result[0].toBigInt();
@@ -680,8 +680,8 @@ export class YieldBox extends ethereum.SmartContract {
       "amountOf(address,uint256):(uint256)",
       [
         ethereum.Value.fromAddress(user),
-        ethereum.Value.fromUnsignedBigInt(assetId)
-      ]
+        ethereum.Value.fromUnsignedBigInt(assetId),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -709,29 +709,29 @@ export class YieldBox extends ethereum.SmartContract {
     let result = super.call(
       "assetTotals",
       "assetTotals(uint256):(uint256,uint256)",
-      [ethereum.Value.fromUnsignedBigInt(assetId)]
+      [ethereum.Value.fromUnsignedBigInt(assetId)],
     );
 
     return new YieldBox__assetTotalsResult(
       result[0].toBigInt(),
-      result[1].toBigInt()
+      result[1].toBigInt(),
     );
   }
 
   try_assetTotals(
-    assetId: BigInt
+    assetId: BigInt,
   ): ethereum.CallResult<YieldBox__assetTotalsResult> {
     let result = super.tryCall(
       "assetTotals",
       "assetTotals(uint256):(uint256,uint256)",
-      [ethereum.Value.fromUnsignedBigInt(assetId)]
+      [ethereum.Value.fromUnsignedBigInt(assetId)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new YieldBox__assetTotalsResult(value[0].toBigInt(), value[1].toBigInt())
+      new YieldBox__assetTotalsResult(value[0].toBigInt(), value[1].toBigInt()),
     );
   }
 
@@ -739,14 +739,14 @@ export class YieldBox extends ethereum.SmartContract {
     let result = super.call(
       "assets",
       "assets(uint256):(uint8,address,address,uint256)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
 
     return new YieldBox__assetsResult(
       result[0].toI32(),
       result[1].toAddress(),
       result[2].toAddress(),
-      result[3].toBigInt()
+      result[3].toBigInt(),
     );
   }
 
@@ -754,7 +754,7 @@ export class YieldBox extends ethereum.SmartContract {
     let result = super.tryCall(
       "assets",
       "assets(uint256):(uint8,address,address,uint256)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -765,8 +765,8 @@ export class YieldBox extends ethereum.SmartContract {
         value[0].toI32(),
         value[1].toAddress(),
         value[2].toAddress(),
-        value[3].toBigInt()
-      )
+        value[3].toBigInt(),
+      ),
     );
   }
 
@@ -776,8 +776,8 @@ export class YieldBox extends ethereum.SmartContract {
       "balanceOf(address,uint256):(uint256)",
       [
         ethereum.Value.fromAddress(param0),
-        ethereum.Value.fromUnsignedBigInt(param1)
-      ]
+        ethereum.Value.fromUnsignedBigInt(param1),
+      ],
     );
 
     return result[0].toBigInt();
@@ -789,8 +789,8 @@ export class YieldBox extends ethereum.SmartContract {
       "balanceOf(address,uint256):(uint256)",
       [
         ethereum.Value.fromAddress(param0),
-        ethereum.Value.fromUnsignedBigInt(param1)
-      ]
+        ethereum.Value.fromUnsignedBigInt(param1),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -805,8 +805,8 @@ export class YieldBox extends ethereum.SmartContract {
       "balanceOfBatch(address[],uint256[]):(uint256[])",
       [
         ethereum.Value.fromAddressArray(owners),
-        ethereum.Value.fromUnsignedBigIntArray(ids)
-      ]
+        ethereum.Value.fromUnsignedBigIntArray(ids),
+      ],
     );
 
     return result[0].toBigIntArray();
@@ -814,15 +814,15 @@ export class YieldBox extends ethereum.SmartContract {
 
   try_balanceOfBatch(
     owners: Array<Address>,
-    ids: Array<BigInt>
+    ids: Array<BigInt>,
   ): ethereum.CallResult<Array<BigInt>> {
     let result = super.tryCall(
       "balanceOfBatch",
       "balanceOfBatch(address[],uint256[]):(uint256[])",
       [
         ethereum.Value.fromAddressArray(owners),
-        ethereum.Value.fromUnsignedBigIntArray(ids)
-      ]
+        ethereum.Value.fromUnsignedBigIntArray(ids),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -835,7 +835,7 @@ export class YieldBox extends ethereum.SmartContract {
     name: string,
     symbol: string,
     decimals: i32,
-    uri: string
+    uri: string,
   ): BigInt {
     let result = super.call(
       "createToken",
@@ -844,8 +844,8 @@ export class YieldBox extends ethereum.SmartContract {
         ethereum.Value.fromString(name),
         ethereum.Value.fromString(symbol),
         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(decimals)),
-        ethereum.Value.fromString(uri)
-      ]
+        ethereum.Value.fromString(uri),
+      ],
     );
 
     return result[0].toBigInt();
@@ -855,7 +855,7 @@ export class YieldBox extends ethereum.SmartContract {
     name: string,
     symbol: string,
     decimals: i32,
-    uri: string
+    uri: string,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "createToken",
@@ -864,8 +864,8 @@ export class YieldBox extends ethereum.SmartContract {
         ethereum.Value.fromString(name),
         ethereum.Value.fromString(symbol),
         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(decimals)),
-        ethereum.Value.fromString(uri)
-      ]
+        ethereum.Value.fromString(uri),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -876,7 +876,7 @@ export class YieldBox extends ethereum.SmartContract {
 
   decimals(assetId: BigInt): i32 {
     let result = super.call("decimals", "decimals(uint256):(uint8)", [
-      ethereum.Value.fromUnsignedBigInt(assetId)
+      ethereum.Value.fromUnsignedBigInt(assetId),
     ]);
 
     return result[0].toI32();
@@ -884,7 +884,7 @@ export class YieldBox extends ethereum.SmartContract {
 
   try_decimals(assetId: BigInt): ethereum.CallResult<i32> {
     let result = super.tryCall("decimals", "decimals(uint256):(uint8)", [
-      ethereum.Value.fromUnsignedBigInt(assetId)
+      ethereum.Value.fromUnsignedBigInt(assetId),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -901,7 +901,7 @@ export class YieldBox extends ethereum.SmartContract {
     from: Address,
     to: Address,
     amount: BigInt,
-    share: BigInt
+    share: BigInt,
   ): YieldBox__depositResult {
     let result = super.call(
       "deposit",
@@ -914,13 +914,13 @@ export class YieldBox extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
         ethereum.Value.fromUnsignedBigInt(amount),
-        ethereum.Value.fromUnsignedBigInt(share)
-      ]
+        ethereum.Value.fromUnsignedBigInt(share),
+      ],
     );
 
     return new YieldBox__depositResult(
       result[0].toBigInt(),
-      result[1].toBigInt()
+      result[1].toBigInt(),
     );
   }
 
@@ -932,7 +932,7 @@ export class YieldBox extends ethereum.SmartContract {
     from: Address,
     to: Address,
     amount: BigInt,
-    share: BigInt
+    share: BigInt,
   ): ethereum.CallResult<YieldBox__depositResult> {
     let result = super.tryCall(
       "deposit",
@@ -945,15 +945,15 @@ export class YieldBox extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
         ethereum.Value.fromUnsignedBigInt(amount),
-        ethereum.Value.fromUnsignedBigInt(share)
-      ]
+        ethereum.Value.fromUnsignedBigInt(share),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new YieldBox__depositResult(value[0].toBigInt(), value[1].toBigInt())
+      new YieldBox__depositResult(value[0].toBigInt(), value[1].toBigInt()),
     );
   }
 
@@ -962,7 +962,7 @@ export class YieldBox extends ethereum.SmartContract {
     from: Address,
     to: Address,
     amount: BigInt,
-    share: BigInt
+    share: BigInt,
   ): YieldBox__depositAssetResult {
     let result = super.call(
       "depositAsset",
@@ -972,13 +972,13 @@ export class YieldBox extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
         ethereum.Value.fromUnsignedBigInt(amount),
-        ethereum.Value.fromUnsignedBigInt(share)
-      ]
+        ethereum.Value.fromUnsignedBigInt(share),
+      ],
     );
 
     return new YieldBox__depositAssetResult(
       result[0].toBigInt(),
-      result[1].toBigInt()
+      result[1].toBigInt(),
     );
   }
 
@@ -987,7 +987,7 @@ export class YieldBox extends ethereum.SmartContract {
     from: Address,
     to: Address,
     amount: BigInt,
-    share: BigInt
+    share: BigInt,
   ): ethereum.CallResult<YieldBox__depositAssetResult> {
     let result = super.tryCall(
       "depositAsset",
@@ -997,22 +997,25 @@ export class YieldBox extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
         ethereum.Value.fromUnsignedBigInt(amount),
-        ethereum.Value.fromUnsignedBigInt(share)
-      ]
+        ethereum.Value.fromUnsignedBigInt(share),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new YieldBox__depositAssetResult(value[0].toBigInt(), value[1].toBigInt())
+      new YieldBox__depositAssetResult(
+        value[0].toBigInt(),
+        value[1].toBigInt(),
+      ),
     );
   }
 
   depositNFTAsset(
     assetId: BigInt,
     from: Address,
-    to: Address
+    to: Address,
   ): YieldBox__depositNFTAssetResult {
     let result = super.call(
       "depositNFTAsset",
@@ -1020,20 +1023,20 @@ export class YieldBox extends ethereum.SmartContract {
       [
         ethereum.Value.fromUnsignedBigInt(assetId),
         ethereum.Value.fromAddress(from),
-        ethereum.Value.fromAddress(to)
-      ]
+        ethereum.Value.fromAddress(to),
+      ],
     );
 
     return new YieldBox__depositNFTAssetResult(
       result[0].toBigInt(),
-      result[1].toBigInt()
+      result[1].toBigInt(),
     );
   }
 
   try_depositNFTAsset(
     assetId: BigInt,
     from: Address,
-    to: Address
+    to: Address,
   ): ethereum.CallResult<YieldBox__depositNFTAssetResult> {
     let result = super.tryCall(
       "depositNFTAsset",
@@ -1041,8 +1044,8 @@ export class YieldBox extends ethereum.SmartContract {
       [
         ethereum.Value.fromUnsignedBigInt(assetId),
         ethereum.Value.fromAddress(from),
-        ethereum.Value.fromAddress(to)
-      ]
+        ethereum.Value.fromAddress(to),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1051,8 +1054,8 @@ export class YieldBox extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(
       new YieldBox__depositNFTAssetResult(
         value[0].toBigInt(),
-        value[1].toBigInt()
-      )
+        value[1].toBigInt(),
+      ),
     );
   }
 
@@ -1060,7 +1063,7 @@ export class YieldBox extends ethereum.SmartContract {
     let result = super.call(
       "eip712Domain",
       "eip712Domain():(bytes1,string,string,uint256,address,bytes32,uint256[])",
-      []
+      [],
     );
 
     return new YieldBox__eip712DomainResult(
@@ -1070,7 +1073,7 @@ export class YieldBox extends ethereum.SmartContract {
       result[3].toBigInt(),
       result[4].toAddress(),
       result[5].toBytes(),
-      result[6].toBigIntArray()
+      result[6].toBigIntArray(),
     );
   }
 
@@ -1078,7 +1081,7 @@ export class YieldBox extends ethereum.SmartContract {
     let result = super.tryCall(
       "eip712Domain",
       "eip712Domain():(bytes1,string,string,uint256,address,bytes32,uint256[])",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1092,8 +1095,8 @@ export class YieldBox extends ethereum.SmartContract {
         value[3].toBigInt(),
         value[4].toAddress(),
         value[5].toBytes(),
-        value[6].toBigIntArray()
-      )
+        value[6].toBigIntArray(),
+      ),
     );
   }
 
@@ -1105,8 +1108,8 @@ export class YieldBox extends ethereum.SmartContract {
         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0)),
         ethereum.Value.fromAddress(param1),
         ethereum.Value.fromAddress(param2),
-        ethereum.Value.fromUnsignedBigInt(param3)
-      ]
+        ethereum.Value.fromUnsignedBigInt(param3),
+      ],
     );
 
     return result[0].toBigInt();
@@ -1116,7 +1119,7 @@ export class YieldBox extends ethereum.SmartContract {
     param0: i32,
     param1: Address,
     param2: Address,
-    param3: BigInt
+    param3: BigInt,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "ids",
@@ -1125,8 +1128,8 @@ export class YieldBox extends ethereum.SmartContract {
         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0)),
         ethereum.Value.fromAddress(param1),
         ethereum.Value.fromAddress(param2),
-        ethereum.Value.fromUnsignedBigInt(param3)
-      ]
+        ethereum.Value.fromUnsignedBigInt(param3),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1139,7 +1142,7 @@ export class YieldBox extends ethereum.SmartContract {
     let result = super.call(
       "isApprovedForAll",
       "isApprovedForAll(address,address):(bool)",
-      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)]
+      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)],
     );
 
     return result[0].toBoolean();
@@ -1147,12 +1150,12 @@ export class YieldBox extends ethereum.SmartContract {
 
   try_isApprovedForAll(
     param0: Address,
-    param1: Address
+    param1: Address,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "isApprovedForAll",
       "isApprovedForAll(address,address):(bool)",
-      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)]
+      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1164,7 +1167,7 @@ export class YieldBox extends ethereum.SmartContract {
   isApprovedForAsset(
     param0: Address,
     param1: Address,
-    param2: BigInt
+    param2: BigInt,
   ): boolean {
     let result = super.call(
       "isApprovedForAsset",
@@ -1172,8 +1175,8 @@ export class YieldBox extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddress(param0),
         ethereum.Value.fromAddress(param1),
-        ethereum.Value.fromUnsignedBigInt(param2)
-      ]
+        ethereum.Value.fromUnsignedBigInt(param2),
+      ],
     );
 
     return result[0].toBoolean();
@@ -1182,7 +1185,7 @@ export class YieldBox extends ethereum.SmartContract {
   try_isApprovedForAsset(
     param0: Address,
     param1: Address,
-    param2: BigInt
+    param2: BigInt,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "isApprovedForAsset",
@@ -1190,8 +1193,8 @@ export class YieldBox extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddress(param0),
         ethereum.Value.fromAddress(param1),
-        ethereum.Value.fromUnsignedBigInt(param2)
-      ]
+        ethereum.Value.fromUnsignedBigInt(param2),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1202,7 +1205,7 @@ export class YieldBox extends ethereum.SmartContract {
 
   name(assetId: BigInt): string {
     let result = super.call("name", "name(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(assetId)
+      ethereum.Value.fromUnsignedBigInt(assetId),
     ]);
 
     return result[0].toString();
@@ -1210,7 +1213,7 @@ export class YieldBox extends ethereum.SmartContract {
 
   try_name(assetId: BigInt): ethereum.CallResult<string> {
     let result = super.tryCall("name", "name(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(assetId)
+      ethereum.Value.fromUnsignedBigInt(assetId),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1223,24 +1226,24 @@ export class YieldBox extends ethereum.SmartContract {
     let result = super.call(
       "nativeTokens",
       "nativeTokens(uint256):(string,string,uint8,string)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
 
     return new YieldBox__nativeTokensResult(
       result[0].toString(),
       result[1].toString(),
       result[2].toI32(),
-      result[3].toString()
+      result[3].toString(),
     );
   }
 
   try_nativeTokens(
-    param0: BigInt
+    param0: BigInt,
   ): ethereum.CallResult<YieldBox__nativeTokensResult> {
     let result = super.tryCall(
       "nativeTokens",
       "nativeTokens(uint256):(string,string,uint8,string)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1251,14 +1254,14 @@ export class YieldBox extends ethereum.SmartContract {
         value[0].toString(),
         value[1].toString(),
         value[2].toI32(),
-        value[3].toString()
-      )
+        value[3].toString(),
+      ),
     );
   }
 
   nonces(owner: Address): BigInt {
     let result = super.call("nonces", "nonces(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+      ethereum.Value.fromAddress(owner),
     ]);
 
     return result[0].toBigInt();
@@ -1266,7 +1269,7 @@ export class YieldBox extends ethereum.SmartContract {
 
   try_nonces(owner: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall("nonces", "nonces(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+      ethereum.Value.fromAddress(owner),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1280,7 +1283,7 @@ export class YieldBox extends ethereum.SmartContract {
     param1: Address,
     param2: Array<BigInt>,
     param3: Array<BigInt>,
-    param4: Bytes
+    param4: Bytes,
   ): Bytes {
     let result = super.call(
       "onERC1155BatchReceived",
@@ -1290,8 +1293,8 @@ export class YieldBox extends ethereum.SmartContract {
         ethereum.Value.fromAddress(param1),
         ethereum.Value.fromUnsignedBigIntArray(param2),
         ethereum.Value.fromUnsignedBigIntArray(param3),
-        ethereum.Value.fromBytes(param4)
-      ]
+        ethereum.Value.fromBytes(param4),
+      ],
     );
 
     return result[0].toBytes();
@@ -1302,7 +1305,7 @@ export class YieldBox extends ethereum.SmartContract {
     param1: Address,
     param2: Array<BigInt>,
     param3: Array<BigInt>,
-    param4: Bytes
+    param4: Bytes,
   ): ethereum.CallResult<Bytes> {
     let result = super.tryCall(
       "onERC1155BatchReceived",
@@ -1312,8 +1315,8 @@ export class YieldBox extends ethereum.SmartContract {
         ethereum.Value.fromAddress(param1),
         ethereum.Value.fromUnsignedBigIntArray(param2),
         ethereum.Value.fromUnsignedBigIntArray(param3),
-        ethereum.Value.fromBytes(param4)
-      ]
+        ethereum.Value.fromBytes(param4),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1327,7 +1330,7 @@ export class YieldBox extends ethereum.SmartContract {
     param1: Address,
     param2: BigInt,
     param3: BigInt,
-    param4: Bytes
+    param4: Bytes,
   ): Bytes {
     let result = super.call(
       "onERC1155Received",
@@ -1337,8 +1340,8 @@ export class YieldBox extends ethereum.SmartContract {
         ethereum.Value.fromAddress(param1),
         ethereum.Value.fromUnsignedBigInt(param2),
         ethereum.Value.fromUnsignedBigInt(param3),
-        ethereum.Value.fromBytes(param4)
-      ]
+        ethereum.Value.fromBytes(param4),
+      ],
     );
 
     return result[0].toBytes();
@@ -1349,7 +1352,7 @@ export class YieldBox extends ethereum.SmartContract {
     param1: Address,
     param2: BigInt,
     param3: BigInt,
-    param4: Bytes
+    param4: Bytes,
   ): ethereum.CallResult<Bytes> {
     let result = super.tryCall(
       "onERC1155Received",
@@ -1359,8 +1362,8 @@ export class YieldBox extends ethereum.SmartContract {
         ethereum.Value.fromAddress(param1),
         ethereum.Value.fromUnsignedBigInt(param2),
         ethereum.Value.fromUnsignedBigInt(param3),
-        ethereum.Value.fromBytes(param4)
-      ]
+        ethereum.Value.fromBytes(param4),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1373,7 +1376,7 @@ export class YieldBox extends ethereum.SmartContract {
     param0: Address,
     param1: Address,
     param2: BigInt,
-    param3: Bytes
+    param3: Bytes,
   ): Bytes {
     let result = super.call(
       "onERC721Received",
@@ -1382,8 +1385,8 @@ export class YieldBox extends ethereum.SmartContract {
         ethereum.Value.fromAddress(param0),
         ethereum.Value.fromAddress(param1),
         ethereum.Value.fromUnsignedBigInt(param2),
-        ethereum.Value.fromBytes(param3)
-      ]
+        ethereum.Value.fromBytes(param3),
+      ],
     );
 
     return result[0].toBytes();
@@ -1393,7 +1396,7 @@ export class YieldBox extends ethereum.SmartContract {
     param0: Address,
     param1: Address,
     param2: BigInt,
-    param3: Bytes
+    param3: Bytes,
   ): ethereum.CallResult<Bytes> {
     let result = super.tryCall(
       "onERC721Received",
@@ -1402,8 +1405,8 @@ export class YieldBox extends ethereum.SmartContract {
         ethereum.Value.fromAddress(param0),
         ethereum.Value.fromAddress(param1),
         ethereum.Value.fromUnsignedBigInt(param2),
-        ethereum.Value.fromBytes(param3)
-      ]
+        ethereum.Value.fromBytes(param3),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1414,7 +1417,7 @@ export class YieldBox extends ethereum.SmartContract {
 
   owner(param0: BigInt): Address {
     let result = super.call("owner", "owner(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(param0)
+      ethereum.Value.fromUnsignedBigInt(param0),
     ]);
 
     return result[0].toAddress();
@@ -1422,7 +1425,7 @@ export class YieldBox extends ethereum.SmartContract {
 
   try_owner(param0: BigInt): ethereum.CallResult<Address> {
     let result = super.tryCall("owner", "owner(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(param0)
+      ethereum.Value.fromUnsignedBigInt(param0),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1433,7 +1436,7 @@ export class YieldBox extends ethereum.SmartContract {
 
   pendingOwner(param0: BigInt): Address {
     let result = super.call("pendingOwner", "pendingOwner(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(param0)
+      ethereum.Value.fromUnsignedBigInt(param0),
     ]);
 
     return result[0].toAddress();
@@ -1443,7 +1446,7 @@ export class YieldBox extends ethereum.SmartContract {
     let result = super.tryCall(
       "pendingOwner",
       "pendingOwner(uint256):(address)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1456,7 +1459,7 @@ export class YieldBox extends ethereum.SmartContract {
     tokenType: i32,
     contractAddress: Address,
     strategy: Address,
-    tokenId: BigInt
+    tokenId: BigInt,
   ): BigInt {
     let result = super.call(
       "registerAsset",
@@ -1465,8 +1468,8 @@ export class YieldBox extends ethereum.SmartContract {
         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(tokenType)),
         ethereum.Value.fromAddress(contractAddress),
         ethereum.Value.fromAddress(strategy),
-        ethereum.Value.fromUnsignedBigInt(tokenId)
-      ]
+        ethereum.Value.fromUnsignedBigInt(tokenId),
+      ],
     );
 
     return result[0].toBigInt();
@@ -1476,7 +1479,7 @@ export class YieldBox extends ethereum.SmartContract {
     tokenType: i32,
     contractAddress: Address,
     strategy: Address,
-    tokenId: BigInt
+    tokenId: BigInt,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "registerAsset",
@@ -1485,8 +1488,8 @@ export class YieldBox extends ethereum.SmartContract {
         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(tokenType)),
         ethereum.Value.fromAddress(contractAddress),
         ethereum.Value.fromAddress(strategy),
-        ethereum.Value.fromUnsignedBigInt(tokenId)
-      ]
+        ethereum.Value.fromUnsignedBigInt(tokenId),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1499,7 +1502,7 @@ export class YieldBox extends ethereum.SmartContract {
     let result = super.call(
       "supportsInterface",
       "supportsInterface(bytes4):(bool)",
-      [ethereum.Value.fromFixedBytes(interfaceID)]
+      [ethereum.Value.fromFixedBytes(interfaceID)],
     );
 
     return result[0].toBoolean();
@@ -1509,7 +1512,7 @@ export class YieldBox extends ethereum.SmartContract {
     let result = super.tryCall(
       "supportsInterface",
       "supportsInterface(bytes4):(bool)",
-      [ethereum.Value.fromFixedBytes(interfaceID)]
+      [ethereum.Value.fromFixedBytes(interfaceID)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1520,7 +1523,7 @@ export class YieldBox extends ethereum.SmartContract {
 
   symbol(assetId: BigInt): string {
     let result = super.call("symbol", "symbol(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(assetId)
+      ethereum.Value.fromUnsignedBigInt(assetId),
     ]);
 
     return result[0].toString();
@@ -1528,7 +1531,7 @@ export class YieldBox extends ethereum.SmartContract {
 
   try_symbol(assetId: BigInt): ethereum.CallResult<string> {
     let result = super.tryCall("symbol", "symbol(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(assetId)
+      ethereum.Value.fromUnsignedBigInt(assetId),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1544,8 +1547,8 @@ export class YieldBox extends ethereum.SmartContract {
       [
         ethereum.Value.fromUnsignedBigInt(assetId),
         ethereum.Value.fromUnsignedBigInt(share),
-        ethereum.Value.fromBoolean(roundUp)
-      ]
+        ethereum.Value.fromBoolean(roundUp),
+      ],
     );
 
     return result[0].toBigInt();
@@ -1554,7 +1557,7 @@ export class YieldBox extends ethereum.SmartContract {
   try_toAmount(
     assetId: BigInt,
     share: BigInt,
-    roundUp: boolean
+    roundUp: boolean,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "toAmount",
@@ -1562,8 +1565,8 @@ export class YieldBox extends ethereum.SmartContract {
       [
         ethereum.Value.fromUnsignedBigInt(assetId),
         ethereum.Value.fromUnsignedBigInt(share),
-        ethereum.Value.fromBoolean(roundUp)
-      ]
+        ethereum.Value.fromBoolean(roundUp),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1579,8 +1582,8 @@ export class YieldBox extends ethereum.SmartContract {
       [
         ethereum.Value.fromUnsignedBigInt(assetId),
         ethereum.Value.fromUnsignedBigInt(amount),
-        ethereum.Value.fromBoolean(roundUp)
-      ]
+        ethereum.Value.fromBoolean(roundUp),
+      ],
     );
 
     return result[0].toBigInt();
@@ -1589,7 +1592,7 @@ export class YieldBox extends ethereum.SmartContract {
   try_toShare(
     assetId: BigInt,
     amount: BigInt,
-    roundUp: boolean
+    roundUp: boolean,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "toShare",
@@ -1597,8 +1600,8 @@ export class YieldBox extends ethereum.SmartContract {
       [
         ethereum.Value.fromUnsignedBigInt(assetId),
         ethereum.Value.fromUnsignedBigInt(amount),
-        ethereum.Value.fromBoolean(roundUp)
-      ]
+        ethereum.Value.fromBoolean(roundUp),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1609,7 +1612,7 @@ export class YieldBox extends ethereum.SmartContract {
 
   totalSupply(param0: BigInt): BigInt {
     let result = super.call("totalSupply", "totalSupply(uint256):(uint256)", [
-      ethereum.Value.fromUnsignedBigInt(param0)
+      ethereum.Value.fromUnsignedBigInt(param0),
     ]);
 
     return result[0].toBigInt();
@@ -1619,7 +1622,7 @@ export class YieldBox extends ethereum.SmartContract {
     let result = super.tryCall(
       "totalSupply",
       "totalSupply(uint256):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1630,7 +1633,7 @@ export class YieldBox extends ethereum.SmartContract {
 
   uri(assetId: BigInt): string {
     let result = super.call("uri", "uri(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(assetId)
+      ethereum.Value.fromUnsignedBigInt(assetId),
     ]);
 
     return result[0].toString();
@@ -1638,7 +1641,7 @@ export class YieldBox extends ethereum.SmartContract {
 
   try_uri(assetId: BigInt): ethereum.CallResult<string> {
     let result = super.tryCall("uri", "uri(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(assetId)
+      ethereum.Value.fromUnsignedBigInt(assetId),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1667,7 +1670,7 @@ export class YieldBox extends ethereum.SmartContract {
     from: Address,
     to: Address,
     amount: BigInt,
-    share: BigInt
+    share: BigInt,
   ): YieldBox__withdrawResult {
     let result = super.call(
       "withdraw",
@@ -1677,13 +1680,13 @@ export class YieldBox extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
         ethereum.Value.fromUnsignedBigInt(amount),
-        ethereum.Value.fromUnsignedBigInt(share)
-      ]
+        ethereum.Value.fromUnsignedBigInt(share),
+      ],
     );
 
     return new YieldBox__withdrawResult(
       result[0].toBigInt(),
-      result[1].toBigInt()
+      result[1].toBigInt(),
     );
   }
 
@@ -1692,7 +1695,7 @@ export class YieldBox extends ethereum.SmartContract {
     from: Address,
     to: Address,
     amount: BigInt,
-    share: BigInt
+    share: BigInt,
   ): ethereum.CallResult<YieldBox__withdrawResult> {
     let result = super.tryCall(
       "withdraw",
@@ -1702,15 +1705,15 @@ export class YieldBox extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
         ethereum.Value.fromUnsignedBigInt(amount),
-        ethereum.Value.fromUnsignedBigInt(share)
-      ]
+        ethereum.Value.fromUnsignedBigInt(share),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new YieldBox__withdrawResult(value[0].toBigInt(), value[1].toBigInt())
+      new YieldBox__withdrawResult(value[0].toBigInt(), value[1].toBigInt()),
     );
   }
 
@@ -1724,7 +1727,7 @@ export class YieldBox extends ethereum.SmartContract {
     let result = super.tryCall(
       "wrappedNative",
       "wrappedNative():(address)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();

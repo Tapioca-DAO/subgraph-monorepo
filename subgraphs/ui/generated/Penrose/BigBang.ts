@@ -7,7 +7,7 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
+  BigInt,
 } from "@graphprotocol/graph-ts";
 
 export class Approval extends ethereum.Event {
@@ -768,7 +768,7 @@ export class BigBang__eip712DomainResult {
     value3: BigInt,
     value4: Address,
     value5: Bytes,
-    value6: Array<BigInt>
+    value6: Array<BigInt>,
   ) {
     this.value0 = value0;
     this.value1 = value1;
@@ -904,7 +904,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.call(
       "DOMAIN_SEPARATOR",
       "DOMAIN_SEPARATOR():(bytes32)",
-      []
+      [],
     );
 
     return result[0].toBytes();
@@ -914,7 +914,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "DOMAIN_SEPARATOR",
       "DOMAIN_SEPARATOR():(bytes32)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -928,7 +928,7 @@ export class BigBang extends ethereum.SmartContract {
 
     return new BigBang__accrueInfoResult(
       result[0].toBigInt(),
-      result[1].toBigInt()
+      result[1].toBigInt(),
     );
   }
 
@@ -936,14 +936,14 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "accrueInfo",
       "accrueInfo():(uint64,uint64)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new BigBang__accrueInfoResult(value[0].toBigInt(), value[1].toBigInt())
+      new BigBang__accrueInfoResult(value[0].toBigInt(), value[1].toBigInt()),
     );
   }
 
@@ -951,7 +951,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.call(
       "allowance",
       "allowance(address,address):(uint256)",
-      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)]
+      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)],
     );
 
     return result[0].toBigInt();
@@ -961,7 +961,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "allowance",
       "allowance(address,address):(uint256)",
-      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)]
+      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -974,7 +974,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.call(
       "allowanceBorrow",
       "allowanceBorrow(address,address):(uint256)",
-      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)]
+      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)],
     );
 
     return result[0].toBigInt();
@@ -982,12 +982,12 @@ export class BigBang extends ethereum.SmartContract {
 
   try_allowanceBorrow(
     param0: Address,
-    param1: Address
+    param1: Address,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "allowanceBorrow",
       "allowanceBorrow(address,address):(uint256)",
-      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)]
+      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -999,7 +999,7 @@ export class BigBang extends ethereum.SmartContract {
   approve(spender: Address, amount: BigInt): boolean {
     let result = super.call("approve", "approve(address,uint256):(bool)", [
       ethereum.Value.fromAddress(spender),
-      ethereum.Value.fromUnsignedBigInt(amount)
+      ethereum.Value.fromUnsignedBigInt(amount),
     ]);
 
     return result[0].toBoolean();
@@ -1008,7 +1008,7 @@ export class BigBang extends ethereum.SmartContract {
   try_approve(spender: Address, amount: BigInt): ethereum.CallResult<boolean> {
     let result = super.tryCall("approve", "approve(address,uint256):(bool)", [
       ethereum.Value.fromAddress(spender),
-      ethereum.Value.fromUnsignedBigInt(amount)
+      ethereum.Value.fromUnsignedBigInt(amount),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1023,8 +1023,8 @@ export class BigBang extends ethereum.SmartContract {
       "approveBorrow(address,uint256):(bool)",
       [
         ethereum.Value.fromAddress(spender),
-        ethereum.Value.fromUnsignedBigInt(amount)
-      ]
+        ethereum.Value.fromUnsignedBigInt(amount),
+      ],
     );
 
     return result[0].toBoolean();
@@ -1032,15 +1032,15 @@ export class BigBang extends ethereum.SmartContract {
 
   try_approveBorrow(
     spender: Address,
-    amount: BigInt
+    amount: BigInt,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "approveBorrow",
       "approveBorrow(address,uint256):(bool)",
       [
         ethereum.Value.fromAddress(spender),
-        ethereum.Value.fromUnsignedBigInt(amount)
-      ]
+        ethereum.Value.fromUnsignedBigInt(amount),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1104,7 +1104,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "assetOracleData",
       "assetOracleData():(bytes)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1115,7 +1115,7 @@ export class BigBang extends ethereum.SmartContract {
 
   balanceOf(param0: Address): BigInt {
     let result = super.call("balanceOf", "balanceOf(address):(uint256)", [
-      ethereum.Value.fromAddress(param0)
+      ethereum.Value.fromAddress(param0),
     ]);
 
     return result[0].toBigInt();
@@ -1123,7 +1123,7 @@ export class BigBang extends ethereum.SmartContract {
 
   try_balanceOf(param0: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall("balanceOf", "balanceOf(address):(uint256)", [
-      ethereum.Value.fromAddress(param0)
+      ethereum.Value.fromAddress(param0),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1139,20 +1139,20 @@ export class BigBang extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
-        ethereum.Value.fromUnsignedBigInt(amount)
-      ]
+        ethereum.Value.fromUnsignedBigInt(amount),
+      ],
     );
 
     return new BigBang__borrowResult(
       result[0].toBigInt(),
-      result[1].toBigInt()
+      result[1].toBigInt(),
     );
   }
 
   try_borrow(
     from: Address,
     to: Address,
-    amount: BigInt
+    amount: BigInt,
   ): ethereum.CallResult<BigBang__borrowResult> {
     let result = super.tryCall(
       "borrow",
@@ -1160,15 +1160,15 @@ export class BigBang extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
-        ethereum.Value.fromUnsignedBigInt(amount)
-      ]
+        ethereum.Value.fromUnsignedBigInt(amount),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new BigBang__borrowResult(value[0].toBigInt(), value[1].toBigInt())
+      new BigBang__borrowResult(value[0].toBigInt(), value[1].toBigInt()),
     );
   }
 
@@ -1191,7 +1191,7 @@ export class BigBang extends ethereum.SmartContract {
     from: Address,
     borrowAmount: BigInt,
     supplyAmount: BigInt,
-    data: Bytes
+    data: Bytes,
   ): BigInt {
     let result = super.call(
       "buyCollateral",
@@ -1200,8 +1200,8 @@ export class BigBang extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigInt(borrowAmount),
         ethereum.Value.fromUnsignedBigInt(supplyAmount),
-        ethereum.Value.fromBytes(data)
-      ]
+        ethereum.Value.fromBytes(data),
+      ],
     );
 
     return result[0].toBigInt();
@@ -1211,7 +1211,7 @@ export class BigBang extends ethereum.SmartContract {
     from: Address,
     borrowAmount: BigInt,
     supplyAmount: BigInt,
-    data: Bytes
+    data: Bytes,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "buyCollateral",
@@ -1220,8 +1220,8 @@ export class BigBang extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigInt(borrowAmount),
         ethereum.Value.fromUnsignedBigInt(supplyAmount),
-        ethereum.Value.fromBytes(data)
-      ]
+        ethereum.Value.fromBytes(data),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1279,7 +1279,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.call(
       "collateralModule",
       "collateralModule():(address)",
-      []
+      [],
     );
 
     return result[0].toAddress();
@@ -1289,7 +1289,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "collateralModule",
       "collateralModule():(address)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1302,7 +1302,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.call(
       "collateralizationRate",
       "collateralizationRate():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -1312,7 +1312,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "collateralizationRate",
       "collateralizationRate():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1324,7 +1324,7 @@ export class BigBang extends ethereum.SmartContract {
   computeClosingFactor(
     borrowPart: BigInt,
     collateralPartInAsset: BigInt,
-    ratesPrecision: BigInt
+    ratesPrecision: BigInt,
   ): BigInt {
     let result = super.call(
       "computeClosingFactor",
@@ -1332,8 +1332,8 @@ export class BigBang extends ethereum.SmartContract {
       [
         ethereum.Value.fromUnsignedBigInt(borrowPart),
         ethereum.Value.fromUnsignedBigInt(collateralPartInAsset),
-        ethereum.Value.fromUnsignedBigInt(ratesPrecision)
-      ]
+        ethereum.Value.fromUnsignedBigInt(ratesPrecision),
+      ],
     );
 
     return result[0].toBigInt();
@@ -1342,7 +1342,7 @@ export class BigBang extends ethereum.SmartContract {
   try_computeClosingFactor(
     borrowPart: BigInt,
     collateralPartInAsset: BigInt,
-    ratesPrecision: BigInt
+    ratesPrecision: BigInt,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "computeClosingFactor",
@@ -1350,8 +1350,8 @@ export class BigBang extends ethereum.SmartContract {
       [
         ethereum.Value.fromUnsignedBigInt(borrowPart),
         ethereum.Value.fromUnsignedBigInt(collateralPartInAsset),
-        ethereum.Value.fromUnsignedBigInt(ratesPrecision)
-      ]
+        ethereum.Value.fromUnsignedBigInt(ratesPrecision),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1366,8 +1366,8 @@ export class BigBang extends ethereum.SmartContract {
       "computeLiquidatorReward(address,uint256):(uint256)",
       [
         ethereum.Value.fromAddress(user),
-        ethereum.Value.fromUnsignedBigInt(_exchangeRate)
-      ]
+        ethereum.Value.fromUnsignedBigInt(_exchangeRate),
+      ],
     );
 
     return result[0].toBigInt();
@@ -1375,15 +1375,15 @@ export class BigBang extends ethereum.SmartContract {
 
   try_computeLiquidatorReward(
     user: Address,
-    _exchangeRate: BigInt
+    _exchangeRate: BigInt,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "computeLiquidatorReward",
       "computeLiquidatorReward(address,uint256):(uint256)",
       [
         ethereum.Value.fromAddress(user),
-        ethereum.Value.fromUnsignedBigInt(_exchangeRate)
-      ]
+        ethereum.Value.fromUnsignedBigInt(_exchangeRate),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1394,35 +1394,35 @@ export class BigBang extends ethereum.SmartContract {
 
   computeTVLInfo(
     user: Address,
-    _exchangeRate: BigInt
+    _exchangeRate: BigInt,
   ): BigBang__computeTVLInfoResult {
     let result = super.call(
       "computeTVLInfo",
       "computeTVLInfo(address,uint256):(uint256,uint256,uint256)",
       [
         ethereum.Value.fromAddress(user),
-        ethereum.Value.fromUnsignedBigInt(_exchangeRate)
-      ]
+        ethereum.Value.fromUnsignedBigInt(_exchangeRate),
+      ],
     );
 
     return new BigBang__computeTVLInfoResult(
       result[0].toBigInt(),
       result[1].toBigInt(),
-      result[2].toBigInt()
+      result[2].toBigInt(),
     );
   }
 
   try_computeTVLInfo(
     user: Address,
-    _exchangeRate: BigInt
+    _exchangeRate: BigInt,
   ): ethereum.CallResult<BigBang__computeTVLInfoResult> {
     let result = super.tryCall(
       "computeTVLInfo",
       "computeTVLInfo(address,uint256):(uint256,uint256,uint256)",
       [
         ethereum.Value.fromAddress(user),
-        ethereum.Value.fromUnsignedBigInt(_exchangeRate)
-      ]
+        ethereum.Value.fromUnsignedBigInt(_exchangeRate),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1432,8 +1432,8 @@ export class BigBang extends ethereum.SmartContract {
       new BigBang__computeTVLInfoResult(
         value[0].toBigInt(),
         value[1].toBigInt(),
-        value[2].toBigInt()
-      )
+        value[2].toBigInt(),
+      ),
     );
   }
 
@@ -1456,7 +1456,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.call(
       "debtRateAgainstEthMarket",
       "debtRateAgainstEthMarket():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -1466,7 +1466,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "debtRateAgainstEthMarket",
       "debtRateAgainstEthMarket():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1479,7 +1479,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.call(
       "eip712Domain",
       "eip712Domain():(bytes1,string,string,uint256,address,bytes32,uint256[])",
-      []
+      [],
     );
 
     return new BigBang__eip712DomainResult(
@@ -1489,7 +1489,7 @@ export class BigBang extends ethereum.SmartContract {
       result[3].toBigInt(),
       result[4].toAddress(),
       result[5].toBytes(),
-      result[6].toBigIntArray()
+      result[6].toBigIntArray(),
     );
   }
 
@@ -1497,7 +1497,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "eip712Domain",
       "eip712Domain():(bytes1,string,string,uint256,address,bytes32,uint256[])",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1511,8 +1511,8 @@ export class BigBang extends ethereum.SmartContract {
         value[3].toBigInt(),
         value[4].toAddress(),
         value[5].toBytes(),
-        value[6].toBigIntArray()
-      )
+        value[6].toBigIntArray(),
+      ),
     );
   }
 
@@ -1537,27 +1537,27 @@ export class BigBang extends ethereum.SmartContract {
       "execute(bytes[],bool):(bool[],string[])",
       [
         ethereum.Value.fromBytesArray(calls),
-        ethereum.Value.fromBoolean(revertOnFail)
-      ]
+        ethereum.Value.fromBoolean(revertOnFail),
+      ],
     );
 
     return new BigBang__executeResult(
       result[0].toBooleanArray(),
-      result[1].toStringArray()
+      result[1].toStringArray(),
     );
   }
 
   try_execute(
     calls: Array<Bytes>,
-    revertOnFail: boolean
+    revertOnFail: boolean,
   ): ethereum.CallResult<BigBang__executeResult> {
     let result = super.tryCall(
       "execute",
       "execute(bytes[],bool):(bool[],string[])",
       [
         ethereum.Value.fromBytesArray(calls),
-        ethereum.Value.fromBoolean(revertOnFail)
-      ]
+        ethereum.Value.fromBoolean(revertOnFail),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1566,8 +1566,8 @@ export class BigBang extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(
       new BigBang__executeResult(
         value[0].toBooleanArray(),
-        value[1].toStringArray()
-      )
+        value[1].toStringArray(),
+      ),
     );
   }
 
@@ -1620,7 +1620,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.call(
       "leverageExecutor",
       "leverageExecutor():(address)",
-      []
+      [],
     );
 
     return result[0].toAddress();
@@ -1630,7 +1630,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "leverageExecutor",
       "leverageExecutor():(address)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1649,7 +1649,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "leverageModule",
       "leverageModule():(address)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1662,7 +1662,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.call(
       "liquidationBonusAmount",
       "liquidationBonusAmount():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -1672,7 +1672,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "liquidationBonusAmount",
       "liquidationBonusAmount():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1685,7 +1685,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.call(
       "liquidationCollateralizationRate",
       "liquidationCollateralizationRate():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -1695,7 +1695,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "liquidationCollateralizationRate",
       "liquidationCollateralizationRate():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1708,7 +1708,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.call(
       "liquidationModule",
       "liquidationModule():(address)",
-      []
+      [],
     );
 
     return result[0].toAddress();
@@ -1718,7 +1718,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "liquidationModule",
       "liquidationModule():(address)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1731,7 +1731,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.call(
       "liquidationMultiplier",
       "liquidationMultiplier():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -1741,7 +1741,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "liquidationMultiplier",
       "liquidationMultiplier():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1769,7 +1769,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.call(
       "maxLiquidatorReward",
       "maxLiquidatorReward():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -1779,7 +1779,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "maxLiquidatorReward",
       "maxLiquidatorReward():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1807,7 +1807,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.call(
       "maxMintFeeStart",
       "maxMintFeeStart():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -1817,7 +1817,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "maxMintFeeStart",
       "maxMintFeeStart():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1845,7 +1845,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.call(
       "minLiquidatorReward",
       "minLiquidatorReward():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -1855,7 +1855,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "minLiquidatorReward",
       "minLiquidatorReward():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1883,7 +1883,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.call(
       "minMintFeeStart",
       "minMintFeeStart():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -1893,7 +1893,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "minMintFeeStart",
       "minMintFeeStart():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1904,7 +1904,7 @@ export class BigBang extends ethereum.SmartContract {
 
   nonces(owner: Address): BigInt {
     let result = super.call("nonces", "nonces(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+      ethereum.Value.fromAddress(owner),
     ]);
 
     return result[0].toBigInt();
@@ -1912,7 +1912,7 @@ export class BigBang extends ethereum.SmartContract {
 
   try_nonces(owner: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall("nonces", "nonces(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+      ethereum.Value.fromAddress(owner),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1968,7 +1968,7 @@ export class BigBang extends ethereum.SmartContract {
 
   pauseOptions(pauseProp: i32): boolean {
     let result = super.call("pauseOptions", "pauseOptions(uint8):(bool)", [
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(pauseProp))
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(pauseProp)),
     ]);
 
     return result[0].toBoolean();
@@ -1976,7 +1976,7 @@ export class BigBang extends ethereum.SmartContract {
 
   try_pauseOptions(pauseProp: i32): ethereum.CallResult<boolean> {
     let result = super.tryCall("pauseOptions", "pauseOptions(uint8):(bool)", [
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(pauseProp))
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(pauseProp)),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2040,7 +2040,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "rateTimestamp",
       "rateTimestamp():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2053,7 +2053,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.call(
       "rateValidDuration",
       "rateValidDuration():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -2063,7 +2063,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "rateValidDuration",
       "rateValidDuration():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2076,7 +2076,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.call(
       "refreshPenroseFees",
       "refreshPenroseFees():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -2086,7 +2086,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "refreshPenroseFees",
       "refreshPenroseFees():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2103,8 +2103,8 @@ export class BigBang extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
         ethereum.Value.fromBoolean(skim),
-        ethereum.Value.fromUnsignedBigInt(part)
-      ]
+        ethereum.Value.fromUnsignedBigInt(part),
+      ],
     );
 
     return result[0].toBigInt();
@@ -2114,7 +2114,7 @@ export class BigBang extends ethereum.SmartContract {
     from: Address,
     to: Address,
     skim: boolean,
-    part: BigInt
+    part: BigInt,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "repay",
@@ -2123,8 +2123,8 @@ export class BigBang extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
         ethereum.Value.fromBoolean(skim),
-        ethereum.Value.fromUnsignedBigInt(part)
-      ]
+        ethereum.Value.fromUnsignedBigInt(part),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2140,8 +2140,8 @@ export class BigBang extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigInt(share),
-        ethereum.Value.fromBytes(data)
-      ]
+        ethereum.Value.fromBytes(data),
+      ],
     );
 
     return result[0].toBigInt();
@@ -2150,7 +2150,7 @@ export class BigBang extends ethereum.SmartContract {
   try_sellCollateral(
     from: Address,
     share: BigInt,
-    data: Bytes
+    data: Bytes,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "sellCollateral",
@@ -2158,8 +2158,8 @@ export class BigBang extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigInt(share),
-        ethereum.Value.fromBytes(data)
-      ]
+        ethereum.Value.fromBytes(data),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2172,12 +2172,12 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.call(
       "totalBorrow",
       "totalBorrow():(uint128,uint128)",
-      []
+      [],
     );
 
     return new BigBang__totalBorrowResult(
       result[0].toBigInt(),
-      result[1].toBigInt()
+      result[1].toBigInt(),
     );
   }
 
@@ -2185,14 +2185,14 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "totalBorrow",
       "totalBorrow():(uint128,uint128)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new BigBang__totalBorrowResult(value[0].toBigInt(), value[1].toBigInt())
+      new BigBang__totalBorrowResult(value[0].toBigInt(), value[1].toBigInt()),
     );
   }
 
@@ -2206,7 +2206,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "totalBorrowCap",
       "totalBorrowCap():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2219,7 +2219,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.call(
       "totalCollateralShare",
       "totalCollateralShare():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -2229,7 +2229,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "totalCollateralShare",
       "totalCollateralShare():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2256,7 +2256,7 @@ export class BigBang extends ethereum.SmartContract {
   transfer(param0: Address, param1: BigInt): boolean {
     let result = super.call("transfer", "transfer(address,uint256):(bool)", [
       ethereum.Value.fromAddress(param0),
-      ethereum.Value.fromUnsignedBigInt(param1)
+      ethereum.Value.fromUnsignedBigInt(param1),
     ]);
 
     return result[0].toBoolean();
@@ -2265,7 +2265,7 @@ export class BigBang extends ethereum.SmartContract {
   try_transfer(param0: Address, param1: BigInt): ethereum.CallResult<boolean> {
     let result = super.tryCall("transfer", "transfer(address,uint256):(bool)", [
       ethereum.Value.fromAddress(param0),
-      ethereum.Value.fromUnsignedBigInt(param1)
+      ethereum.Value.fromUnsignedBigInt(param1),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2281,8 +2281,8 @@ export class BigBang extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddress(param0),
         ethereum.Value.fromAddress(param1),
-        ethereum.Value.fromUnsignedBigInt(param2)
-      ]
+        ethereum.Value.fromUnsignedBigInt(param2),
+      ],
     );
 
     return result[0].toBoolean();
@@ -2291,7 +2291,7 @@ export class BigBang extends ethereum.SmartContract {
   try_transferFrom(
     param0: Address,
     param1: Address,
-    param2: BigInt
+    param2: BigInt,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "transferFrom",
@@ -2299,8 +2299,8 @@ export class BigBang extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddress(param0),
         ethereum.Value.fromAddress(param1),
-        ethereum.Value.fromUnsignedBigInt(param2)
-      ]
+        ethereum.Value.fromUnsignedBigInt(param2),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2313,22 +2313,20 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.call(
       "updateExchangeRate",
       "updateExchangeRate():(bool,uint256)",
-      []
+      [],
     );
 
     return new BigBang__updateExchangeRateResult(
       result[0].toBoolean(),
-      result[1].toBigInt()
+      result[1].toBigInt(),
     );
   }
 
-  try_updateExchangeRate(): ethereum.CallResult<
-    BigBang__updateExchangeRateResult
-  > {
+  try_updateExchangeRate(): ethereum.CallResult<BigBang__updateExchangeRateResult> {
     let result = super.tryCall(
       "updateExchangeRate",
       "updateExchangeRate():(bool,uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2337,8 +2335,8 @@ export class BigBang extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(
       new BigBang__updateExchangeRateResult(
         value[0].toBoolean(),
-        value[1].toBigInt()
-      )
+        value[1].toBigInt(),
+      ),
     );
   }
 
@@ -2346,7 +2344,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.call(
       "userBorrowPart",
       "userBorrowPart(address):(uint256)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
 
     return result[0].toBigInt();
@@ -2356,7 +2354,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "userBorrowPart",
       "userBorrowPart(address):(uint256)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2369,7 +2367,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.call(
       "userCollateralShare",
       "userCollateralShare(address):(uint256)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
 
     return result[0].toBigInt();
@@ -2379,7 +2377,7 @@ export class BigBang extends ethereum.SmartContract {
     let result = super.tryCall(
       "userCollateralShare",
       "userCollateralShare(address):(uint256)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();

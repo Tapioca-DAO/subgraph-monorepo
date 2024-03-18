@@ -7,7 +7,7 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
+  BigInt,
 } from "@graphprotocol/graph-ts";
 
 export class Approval extends ethereum.Event {
@@ -937,7 +937,7 @@ export class Singularity__eip712DomainResult {
     value3: BigInt,
     value4: Address,
     value5: Bytes,
-    value6: Array<BigInt>
+    value6: Array<BigInt>,
   ) {
     this.value0 = value0;
     this.value1 = value1;
@@ -1034,7 +1034,7 @@ export class Singularity__getInterestDetailsResult {
 
   constructor(
     value0: Singularity__getInterestDetailsResult_accrueInfoStruct,
-    value1: BigInt
+    value1: BigInt,
   ) {
     this.value0 = value0;
     this.value1 = value1;
@@ -1140,7 +1140,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "DOMAIN_SEPARATOR",
       "DOMAIN_SEPARATOR():(bytes32)",
-      []
+      [],
     );
 
     return result[0].toBytes();
@@ -1150,7 +1150,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "DOMAIN_SEPARATOR",
       "DOMAIN_SEPARATOR():(bytes32)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1163,13 +1163,13 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "accrueInfo",
       "accrueInfo():(uint64,uint64,uint128)",
-      []
+      [],
     );
 
     return new Singularity__accrueInfoResult(
       result[0].toBigInt(),
       result[1].toBigInt(),
-      result[2].toBigInt()
+      result[2].toBigInt(),
     );
   }
 
@@ -1177,7 +1177,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "accrueInfo",
       "accrueInfo():(uint64,uint64,uint128)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1187,8 +1187,8 @@ export class Singularity extends ethereum.SmartContract {
       new Singularity__accrueInfoResult(
         value[0].toBigInt(),
         value[1].toBigInt(),
-        value[2].toBigInt()
-      )
+        value[2].toBigInt(),
+      ),
     );
   }
 
@@ -1200,8 +1200,8 @@ export class Singularity extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
         ethereum.Value.fromBoolean(skim),
-        ethereum.Value.fromUnsignedBigInt(share)
-      ]
+        ethereum.Value.fromUnsignedBigInt(share),
+      ],
     );
 
     return result[0].toBigInt();
@@ -1211,7 +1211,7 @@ export class Singularity extends ethereum.SmartContract {
     from: Address,
     to: Address,
     skim: boolean,
-    share: BigInt
+    share: BigInt,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "addAsset",
@@ -1220,8 +1220,8 @@ export class Singularity extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
         ethereum.Value.fromBoolean(skim),
-        ethereum.Value.fromUnsignedBigInt(share)
-      ]
+        ethereum.Value.fromUnsignedBigInt(share),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1234,7 +1234,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "allowance",
       "allowance(address,address):(uint256)",
-      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)]
+      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)],
     );
 
     return result[0].toBigInt();
@@ -1244,7 +1244,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "allowance",
       "allowance(address,address):(uint256)",
-      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)]
+      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1257,7 +1257,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "allowanceBorrow",
       "allowanceBorrow(address,address):(uint256)",
-      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)]
+      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)],
     );
 
     return result[0].toBigInt();
@@ -1265,12 +1265,12 @@ export class Singularity extends ethereum.SmartContract {
 
   try_allowanceBorrow(
     param0: Address,
-    param1: Address
+    param1: Address,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "allowanceBorrow",
       "allowanceBorrow(address,address):(uint256)",
-      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)]
+      [ethereum.Value.fromAddress(param0), ethereum.Value.fromAddress(param1)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1282,7 +1282,7 @@ export class Singularity extends ethereum.SmartContract {
   approve(spender: Address, amount: BigInt): boolean {
     let result = super.call("approve", "approve(address,uint256):(bool)", [
       ethereum.Value.fromAddress(spender),
-      ethereum.Value.fromUnsignedBigInt(amount)
+      ethereum.Value.fromUnsignedBigInt(amount),
     ]);
 
     return result[0].toBoolean();
@@ -1291,7 +1291,7 @@ export class Singularity extends ethereum.SmartContract {
   try_approve(spender: Address, amount: BigInt): ethereum.CallResult<boolean> {
     let result = super.tryCall("approve", "approve(address,uint256):(bool)", [
       ethereum.Value.fromAddress(spender),
-      ethereum.Value.fromUnsignedBigInt(amount)
+      ethereum.Value.fromUnsignedBigInt(amount),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1306,8 +1306,8 @@ export class Singularity extends ethereum.SmartContract {
       "approveBorrow(address,uint256):(bool)",
       [
         ethereum.Value.fromAddress(spender),
-        ethereum.Value.fromUnsignedBigInt(amount)
-      ]
+        ethereum.Value.fromUnsignedBigInt(amount),
+      ],
     );
 
     return result[0].toBoolean();
@@ -1315,15 +1315,15 @@ export class Singularity extends ethereum.SmartContract {
 
   try_approveBorrow(
     spender: Address,
-    amount: BigInt
+    amount: BigInt,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "approveBorrow",
       "approveBorrow(address,uint256):(bool)",
       [
         ethereum.Value.fromAddress(spender),
-        ethereum.Value.fromUnsignedBigInt(amount)
-      ]
+        ethereum.Value.fromUnsignedBigInt(amount),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1364,7 +1364,7 @@ export class Singularity extends ethereum.SmartContract {
 
   balanceOf(param0: Address): BigInt {
     let result = super.call("balanceOf", "balanceOf(address):(uint256)", [
-      ethereum.Value.fromAddress(param0)
+      ethereum.Value.fromAddress(param0),
     ]);
 
     return result[0].toBigInt();
@@ -1372,7 +1372,7 @@ export class Singularity extends ethereum.SmartContract {
 
   try_balanceOf(param0: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall("balanceOf", "balanceOf(address):(uint256)", [
-      ethereum.Value.fromAddress(param0)
+      ethereum.Value.fromAddress(param0),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1384,7 +1384,7 @@ export class Singularity extends ethereum.SmartContract {
   borrow(
     from: Address,
     to: Address,
-    amount: BigInt
+    amount: BigInt,
   ): Singularity__borrowResult {
     let result = super.call(
       "borrow",
@@ -1392,20 +1392,20 @@ export class Singularity extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
-        ethereum.Value.fromUnsignedBigInt(amount)
-      ]
+        ethereum.Value.fromUnsignedBigInt(amount),
+      ],
     );
 
     return new Singularity__borrowResult(
       result[0].toBigInt(),
-      result[1].toBigInt()
+      result[1].toBigInt(),
     );
   }
 
   try_borrow(
     from: Address,
     to: Address,
-    amount: BigInt
+    amount: BigInt,
   ): ethereum.CallResult<Singularity__borrowResult> {
     let result = super.tryCall(
       "borrow",
@@ -1413,15 +1413,15 @@ export class Singularity extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
-        ethereum.Value.fromUnsignedBigInt(amount)
-      ]
+        ethereum.Value.fromUnsignedBigInt(amount),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new Singularity__borrowResult(value[0].toBigInt(), value[1].toBigInt())
+      new Singularity__borrowResult(value[0].toBigInt(), value[1].toBigInt()),
     );
   }
 
@@ -1444,7 +1444,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "borrowOpeningFee",
       "borrowOpeningFee():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -1454,7 +1454,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "borrowOpeningFee",
       "borrowOpeningFee():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1467,7 +1467,7 @@ export class Singularity extends ethereum.SmartContract {
     from: Address,
     borrowAmount: BigInt,
     supplyAmount: BigInt,
-    data: Bytes
+    data: Bytes,
   ): BigInt {
     let result = super.call(
       "buyCollateral",
@@ -1476,8 +1476,8 @@ export class Singularity extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigInt(borrowAmount),
         ethereum.Value.fromUnsignedBigInt(supplyAmount),
-        ethereum.Value.fromBytes(data)
-      ]
+        ethereum.Value.fromBytes(data),
+      ],
     );
 
     return result[0].toBigInt();
@@ -1487,7 +1487,7 @@ export class Singularity extends ethereum.SmartContract {
     from: Address,
     borrowAmount: BigInt,
     supplyAmount: BigInt,
-    data: Bytes
+    data: Bytes,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "buyCollateral",
@@ -1496,8 +1496,8 @@ export class Singularity extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigInt(borrowAmount),
         ethereum.Value.fromUnsignedBigInt(supplyAmount),
-        ethereum.Value.fromBytes(data)
-      ]
+        ethereum.Value.fromBytes(data),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1555,7 +1555,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "collateralModule",
       "collateralModule():(address)",
-      []
+      [],
     );
 
     return result[0].toAddress();
@@ -1565,7 +1565,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "collateralModule",
       "collateralModule():(address)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1578,7 +1578,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "collateralizationRate",
       "collateralizationRate():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -1588,7 +1588,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "collateralizationRate",
       "collateralizationRate():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1603,8 +1603,8 @@ export class Singularity extends ethereum.SmartContract {
       "computeAllowedLendShare(uint256,uint256):(uint256)",
       [
         ethereum.Value.fromUnsignedBigInt(amount),
-        ethereum.Value.fromUnsignedBigInt(tokenId)
-      ]
+        ethereum.Value.fromUnsignedBigInt(tokenId),
+      ],
     );
 
     return result[0].toBigInt();
@@ -1612,15 +1612,15 @@ export class Singularity extends ethereum.SmartContract {
 
   try_computeAllowedLendShare(
     amount: BigInt,
-    tokenId: BigInt
+    tokenId: BigInt,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "computeAllowedLendShare",
       "computeAllowedLendShare(uint256,uint256):(uint256)",
       [
         ethereum.Value.fromUnsignedBigInt(amount),
-        ethereum.Value.fromUnsignedBigInt(tokenId)
-      ]
+        ethereum.Value.fromUnsignedBigInt(tokenId),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1632,7 +1632,7 @@ export class Singularity extends ethereum.SmartContract {
   computeClosingFactor(
     borrowPart: BigInt,
     collateralPartInAsset: BigInt,
-    ratesPrecision: BigInt
+    ratesPrecision: BigInt,
   ): BigInt {
     let result = super.call(
       "computeClosingFactor",
@@ -1640,8 +1640,8 @@ export class Singularity extends ethereum.SmartContract {
       [
         ethereum.Value.fromUnsignedBigInt(borrowPart),
         ethereum.Value.fromUnsignedBigInt(collateralPartInAsset),
-        ethereum.Value.fromUnsignedBigInt(ratesPrecision)
-      ]
+        ethereum.Value.fromUnsignedBigInt(ratesPrecision),
+      ],
     );
 
     return result[0].toBigInt();
@@ -1650,7 +1650,7 @@ export class Singularity extends ethereum.SmartContract {
   try_computeClosingFactor(
     borrowPart: BigInt,
     collateralPartInAsset: BigInt,
-    ratesPrecision: BigInt
+    ratesPrecision: BigInt,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "computeClosingFactor",
@@ -1658,8 +1658,8 @@ export class Singularity extends ethereum.SmartContract {
       [
         ethereum.Value.fromUnsignedBigInt(borrowPart),
         ethereum.Value.fromUnsignedBigInt(collateralPartInAsset),
-        ethereum.Value.fromUnsignedBigInt(ratesPrecision)
-      ]
+        ethereum.Value.fromUnsignedBigInt(ratesPrecision),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1674,8 +1674,8 @@ export class Singularity extends ethereum.SmartContract {
       "computeLiquidatorReward(address,uint256):(uint256)",
       [
         ethereum.Value.fromAddress(user),
-        ethereum.Value.fromUnsignedBigInt(_exchangeRate)
-      ]
+        ethereum.Value.fromUnsignedBigInt(_exchangeRate),
+      ],
     );
 
     return result[0].toBigInt();
@@ -1683,15 +1683,15 @@ export class Singularity extends ethereum.SmartContract {
 
   try_computeLiquidatorReward(
     user: Address,
-    _exchangeRate: BigInt
+    _exchangeRate: BigInt,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "computeLiquidatorReward",
       "computeLiquidatorReward(address,uint256):(uint256)",
       [
         ethereum.Value.fromAddress(user),
-        ethereum.Value.fromUnsignedBigInt(_exchangeRate)
-      ]
+        ethereum.Value.fromUnsignedBigInt(_exchangeRate),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1702,35 +1702,35 @@ export class Singularity extends ethereum.SmartContract {
 
   computeTVLInfo(
     user: Address,
-    _exchangeRate: BigInt
+    _exchangeRate: BigInt,
   ): Singularity__computeTVLInfoResult {
     let result = super.call(
       "computeTVLInfo",
       "computeTVLInfo(address,uint256):(uint256,uint256,uint256)",
       [
         ethereum.Value.fromAddress(user),
-        ethereum.Value.fromUnsignedBigInt(_exchangeRate)
-      ]
+        ethereum.Value.fromUnsignedBigInt(_exchangeRate),
+      ],
     );
 
     return new Singularity__computeTVLInfoResult(
       result[0].toBigInt(),
       result[1].toBigInt(),
-      result[2].toBigInt()
+      result[2].toBigInt(),
     );
   }
 
   try_computeTVLInfo(
     user: Address,
-    _exchangeRate: BigInt
+    _exchangeRate: BigInt,
   ): ethereum.CallResult<Singularity__computeTVLInfoResult> {
     let result = super.tryCall(
       "computeTVLInfo",
       "computeTVLInfo(address,uint256):(uint256,uint256,uint256)",
       [
         ethereum.Value.fromAddress(user),
-        ethereum.Value.fromUnsignedBigInt(_exchangeRate)
-      ]
+        ethereum.Value.fromUnsignedBigInt(_exchangeRate),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1740,8 +1740,8 @@ export class Singularity extends ethereum.SmartContract {
       new Singularity__computeTVLInfoResult(
         value[0].toBigInt(),
         value[1].toBigInt(),
-        value[2].toBigInt()
-      )
+        value[2].toBigInt(),
+      ),
     );
   }
 
@@ -1779,7 +1779,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "eip712Domain",
       "eip712Domain():(bytes1,string,string,uint256,address,bytes32,uint256[])",
-      []
+      [],
     );
 
     return new Singularity__eip712DomainResult(
@@ -1789,7 +1789,7 @@ export class Singularity extends ethereum.SmartContract {
       result[3].toBigInt(),
       result[4].toAddress(),
       result[5].toBytes(),
-      result[6].toBigIntArray()
+      result[6].toBigIntArray(),
     );
   }
 
@@ -1797,7 +1797,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "eip712Domain",
       "eip712Domain():(bytes1,string,string,uint256,address,bytes32,uint256[])",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1811,8 +1811,8 @@ export class Singularity extends ethereum.SmartContract {
         value[3].toBigInt(),
         value[4].toAddress(),
         value[5].toBytes(),
-        value[6].toBigIntArray()
-      )
+        value[6].toBigIntArray(),
+      ),
     );
   }
 
@@ -1833,34 +1833,34 @@ export class Singularity extends ethereum.SmartContract {
 
   execute(
     calls: Array<Bytes>,
-    revertOnFail: boolean
+    revertOnFail: boolean,
   ): Singularity__executeResult {
     let result = super.call(
       "execute",
       "execute(bytes[],bool):(bool[],string[])",
       [
         ethereum.Value.fromBytesArray(calls),
-        ethereum.Value.fromBoolean(revertOnFail)
-      ]
+        ethereum.Value.fromBoolean(revertOnFail),
+      ],
     );
 
     return new Singularity__executeResult(
       result[0].toBooleanArray(),
-      result[1].toStringArray()
+      result[1].toStringArray(),
     );
   }
 
   try_execute(
     calls: Array<Bytes>,
-    revertOnFail: boolean
+    revertOnFail: boolean,
   ): ethereum.CallResult<Singularity__executeResult> {
     let result = super.tryCall(
       "execute",
       "execute(bytes[],bool):(bool[],string[])",
       [
         ethereum.Value.fromBytesArray(calls),
-        ethereum.Value.fromBoolean(revertOnFail)
-      ]
+        ethereum.Value.fromBoolean(revertOnFail),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1869,8 +1869,8 @@ export class Singularity extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(
       new Singularity__executeResult(
         value[0].toBooleanArray(),
-        value[1].toStringArray()
-      )
+        value[1].toStringArray(),
+      ),
     );
   }
 
@@ -1878,7 +1878,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "fullUtilizationMinusMax",
       "fullUtilizationMinusMax():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -1888,7 +1888,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "fullUtilizationMinusMax",
       "fullUtilizationMinusMax():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1901,26 +1901,24 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "getInterestDetails",
       "getInterestDetails():((uint64,uint64,uint128),uint256)",
-      []
+      [],
     );
 
     return changetype<Singularity__getInterestDetailsResult>(
       new Singularity__getInterestDetailsResult(
         changetype<Singularity__getInterestDetailsResult_accrueInfoStruct>(
-          result[0].toTuple()
+          result[0].toTuple(),
         ),
-        result[1].toBigInt()
-      )
+        result[1].toBigInt(),
+      ),
     );
   }
 
-  try_getInterestDetails(): ethereum.CallResult<
-    Singularity__getInterestDetailsResult
-  > {
+  try_getInterestDetails(): ethereum.CallResult<Singularity__getInterestDetailsResult> {
     let result = super.tryCall(
       "getInterestDetails",
       "getInterestDetails():((uint64,uint64,uint128),uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1930,11 +1928,11 @@ export class Singularity extends ethereum.SmartContract {
       changetype<Singularity__getInterestDetailsResult>(
         new Singularity__getInterestDetailsResult(
           changetype<Singularity__getInterestDetailsResult_accrueInfoStruct>(
-            value[0].toTuple()
+            value[0].toTuple(),
           ),
-          value[1].toBigInt()
-        )
-      )
+          value[1].toBigInt(),
+        ),
+      ),
     );
   }
 
@@ -1942,7 +1940,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "interestElasticity",
       "interestElasticity():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -1952,7 +1950,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "interestElasticity",
       "interestElasticity():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1965,7 +1963,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "leverageExecutor",
       "leverageExecutor():(address)",
-      []
+      [],
     );
 
     return result[0].toAddress();
@@ -1975,7 +1973,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "leverageExecutor",
       "leverageExecutor():(address)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1994,7 +1992,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "leverageModule",
       "leverageModule():(address)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2007,7 +2005,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "liquidationBonusAmount",
       "liquidationBonusAmount():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -2017,7 +2015,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "liquidationBonusAmount",
       "liquidationBonusAmount():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2030,7 +2028,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "liquidationCollateralizationRate",
       "liquidationCollateralizationRate():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -2040,7 +2038,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "liquidationCollateralizationRate",
       "liquidationCollateralizationRate():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2053,7 +2051,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "liquidationModule",
       "liquidationModule():(address)",
-      []
+      [],
     );
 
     return result[0].toAddress();
@@ -2063,7 +2061,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "liquidationModule",
       "liquidationModule():(address)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2076,7 +2074,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "liquidationMultiplier",
       "liquidationMultiplier():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -2086,7 +2084,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "liquidationMultiplier",
       "liquidationMultiplier():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2099,7 +2097,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "lqCollateralizationRate",
       "lqCollateralizationRate():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -2109,7 +2107,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "lqCollateralizationRate",
       "lqCollateralizationRate():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2122,7 +2120,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "maxLiquidatorReward",
       "maxLiquidatorReward():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -2132,7 +2130,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "maxLiquidatorReward",
       "maxLiquidatorReward():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2145,7 +2143,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "maximumInterestPerSecond",
       "maximumInterestPerSecond():(uint64)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -2155,7 +2153,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "maximumInterestPerSecond",
       "maximumInterestPerSecond():(uint64)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2168,7 +2166,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "maximumTargetUtilization",
       "maximumTargetUtilization():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -2178,7 +2176,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "maximumTargetUtilization",
       "maximumTargetUtilization():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2191,7 +2189,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "minLiquidatorReward",
       "minLiquidatorReward():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -2201,7 +2199,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "minLiquidatorReward",
       "minLiquidatorReward():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2214,7 +2212,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "minimumInterestPerSecond",
       "minimumInterestPerSecond():(uint64)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -2224,7 +2222,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "minimumInterestPerSecond",
       "minimumInterestPerSecond():(uint64)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2237,7 +2235,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "minimumTargetUtilization",
       "minimumTargetUtilization():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -2247,7 +2245,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "minimumTargetUtilization",
       "minimumTargetUtilization():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2273,7 +2271,7 @@ export class Singularity extends ethereum.SmartContract {
 
   nonces(owner: Address): BigInt {
     let result = super.call("nonces", "nonces(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+      ethereum.Value.fromAddress(owner),
     ]);
 
     return result[0].toBigInt();
@@ -2281,7 +2279,7 @@ export class Singularity extends ethereum.SmartContract {
 
   try_nonces(owner: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall("nonces", "nonces(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+      ethereum.Value.fromAddress(owner),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2337,7 +2335,7 @@ export class Singularity extends ethereum.SmartContract {
 
   pauseOptions(pauseProp: i32): boolean {
     let result = super.call("pauseOptions", "pauseOptions(uint8):(bool)", [
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(pauseProp))
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(pauseProp)),
     ]);
 
     return result[0].toBoolean();
@@ -2345,7 +2343,7 @@ export class Singularity extends ethereum.SmartContract {
 
   try_pauseOptions(pauseProp: i32): ethereum.CallResult<boolean> {
     let result = super.tryCall("pauseOptions", "pauseOptions(uint8):(bool)", [
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(pauseProp))
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(pauseProp)),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2409,7 +2407,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "rateTimestamp",
       "rateTimestamp():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2422,7 +2420,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "rateValidDuration",
       "rateValidDuration():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -2432,7 +2430,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "rateValidDuration",
       "rateValidDuration():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2445,7 +2443,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "refreshPenroseFees",
       "refreshPenroseFees():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -2455,7 +2453,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "refreshPenroseFees",
       "refreshPenroseFees():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2471,8 +2469,8 @@ export class Singularity extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
-        ethereum.Value.fromUnsignedBigInt(fraction)
-      ]
+        ethereum.Value.fromUnsignedBigInt(fraction),
+      ],
     );
 
     return result[0].toBigInt();
@@ -2481,7 +2479,7 @@ export class Singularity extends ethereum.SmartContract {
   try_removeAsset(
     from: Address,
     to: Address,
-    fraction: BigInt
+    fraction: BigInt,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "removeAsset",
@@ -2489,8 +2487,8 @@ export class Singularity extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
-        ethereum.Value.fromUnsignedBigInt(fraction)
-      ]
+        ethereum.Value.fromUnsignedBigInt(fraction),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2507,8 +2505,8 @@ export class Singularity extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
         ethereum.Value.fromBoolean(skim),
-        ethereum.Value.fromUnsignedBigInt(part)
-      ]
+        ethereum.Value.fromUnsignedBigInt(part),
+      ],
     );
 
     return result[0].toBigInt();
@@ -2518,7 +2516,7 @@ export class Singularity extends ethereum.SmartContract {
     from: Address,
     to: Address,
     skim: boolean,
-    part: BigInt
+    part: BigInt,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "repay",
@@ -2527,8 +2525,8 @@ export class Singularity extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
         ethereum.Value.fromBoolean(skim),
-        ethereum.Value.fromUnsignedBigInt(part)
-      ]
+        ethereum.Value.fromUnsignedBigInt(part),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2544,8 +2542,8 @@ export class Singularity extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigInt(share),
-        ethereum.Value.fromBytes(data)
-      ]
+        ethereum.Value.fromBytes(data),
+      ],
     );
 
     return result[0].toBigInt();
@@ -2554,7 +2552,7 @@ export class Singularity extends ethereum.SmartContract {
   try_sellCollateral(
     from: Address,
     share: BigInt,
-    data: Bytes
+    data: Bytes,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "sellCollateral",
@@ -2562,8 +2560,8 @@ export class Singularity extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigInt(share),
-        ethereum.Value.fromBytes(data)
-      ]
+        ethereum.Value.fromBytes(data),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2576,7 +2574,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "startingInterestPerSecond",
       "startingInterestPerSecond():(uint64)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -2586,7 +2584,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "startingInterestPerSecond",
       "startingInterestPerSecond():(uint64)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2615,7 +2613,7 @@ export class Singularity extends ethereum.SmartContract {
 
     return new Singularity__totalAssetResult(
       result[0].toBigInt(),
-      result[1].toBigInt()
+      result[1].toBigInt(),
     );
   }
 
@@ -2623,7 +2621,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "totalAsset",
       "totalAsset():(uint128,uint128)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2632,8 +2630,8 @@ export class Singularity extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(
       new Singularity__totalAssetResult(
         value[0].toBigInt(),
-        value[1].toBigInt()
-      )
+        value[1].toBigInt(),
+      ),
     );
   }
 
@@ -2641,12 +2639,12 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "totalBorrow",
       "totalBorrow():(uint128,uint128)",
-      []
+      [],
     );
 
     return new Singularity__totalBorrowResult(
       result[0].toBigInt(),
-      result[1].toBigInt()
+      result[1].toBigInt(),
     );
   }
 
@@ -2654,7 +2652,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "totalBorrow",
       "totalBorrow():(uint128,uint128)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2663,8 +2661,8 @@ export class Singularity extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(
       new Singularity__totalBorrowResult(
         value[0].toBigInt(),
-        value[1].toBigInt()
-      )
+        value[1].toBigInt(),
+      ),
     );
   }
 
@@ -2678,7 +2676,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "totalBorrowCap",
       "totalBorrowCap():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2691,7 +2689,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "totalCollateralShare",
       "totalCollateralShare():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -2701,7 +2699,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "totalCollateralShare",
       "totalCollateralShare():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2728,7 +2726,7 @@ export class Singularity extends ethereum.SmartContract {
   transfer(to: Address, amount: BigInt): boolean {
     let result = super.call("transfer", "transfer(address,uint256):(bool)", [
       ethereum.Value.fromAddress(to),
-      ethereum.Value.fromUnsignedBigInt(amount)
+      ethereum.Value.fromUnsignedBigInt(amount),
     ]);
 
     return result[0].toBoolean();
@@ -2737,7 +2735,7 @@ export class Singularity extends ethereum.SmartContract {
   try_transfer(to: Address, amount: BigInt): ethereum.CallResult<boolean> {
     let result = super.tryCall("transfer", "transfer(address,uint256):(bool)", [
       ethereum.Value.fromAddress(to),
-      ethereum.Value.fromUnsignedBigInt(amount)
+      ethereum.Value.fromUnsignedBigInt(amount),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2753,8 +2751,8 @@ export class Singularity extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
-        ethereum.Value.fromUnsignedBigInt(amount)
-      ]
+        ethereum.Value.fromUnsignedBigInt(amount),
+      ],
     );
 
     return result[0].toBoolean();
@@ -2763,7 +2761,7 @@ export class Singularity extends ethereum.SmartContract {
   try_transferFrom(
     from: Address,
     to: Address,
-    amount: BigInt
+    amount: BigInt,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "transferFrom",
@@ -2771,8 +2769,8 @@ export class Singularity extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
-        ethereum.Value.fromUnsignedBigInt(amount)
-      ]
+        ethereum.Value.fromUnsignedBigInt(amount),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2785,22 +2783,20 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "updateExchangeRate",
       "updateExchangeRate():(bool,uint256)",
-      []
+      [],
     );
 
     return new Singularity__updateExchangeRateResult(
       result[0].toBoolean(),
-      result[1].toBigInt()
+      result[1].toBigInt(),
     );
   }
 
-  try_updateExchangeRate(): ethereum.CallResult<
-    Singularity__updateExchangeRateResult
-  > {
+  try_updateExchangeRate(): ethereum.CallResult<Singularity__updateExchangeRateResult> {
     let result = super.tryCall(
       "updateExchangeRate",
       "updateExchangeRate():(bool,uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2809,8 +2805,8 @@ export class Singularity extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(
       new Singularity__updateExchangeRateResult(
         value[0].toBoolean(),
-        value[1].toBigInt()
-      )
+        value[1].toBigInt(),
+      ),
     );
   }
 
@@ -2818,7 +2814,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "userBorrowPart",
       "userBorrowPart(address):(uint256)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
 
     return result[0].toBigInt();
@@ -2828,7 +2824,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "userBorrowPart",
       "userBorrowPart(address):(uint256)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2841,7 +2837,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.call(
       "userCollateralShare",
       "userCollateralShare(address):(uint256)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
 
     return result[0].toBigInt();
@@ -2851,7 +2847,7 @@ export class Singularity extends ethereum.SmartContract {
     let result = super.tryCall(
       "userCollateralShare",
       "userCollateralShare(address):(uint256)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -2863,7 +2859,7 @@ export class Singularity extends ethereum.SmartContract {
   viewLiquidationCollateralAmount(
     user: Address,
     maxBorrowPart: BigInt,
-    minLiquidationBonus: BigInt
+    minLiquidationBonus: BigInt,
   ): Bytes {
     let result = super.call(
       "viewLiquidationCollateralAmount",
@@ -2871,8 +2867,8 @@ export class Singularity extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddress(user),
         ethereum.Value.fromUnsignedBigInt(maxBorrowPart),
-        ethereum.Value.fromUnsignedBigInt(minLiquidationBonus)
-      ]
+        ethereum.Value.fromUnsignedBigInt(minLiquidationBonus),
+      ],
     );
 
     return result[0].toBytes();
@@ -2881,7 +2877,7 @@ export class Singularity extends ethereum.SmartContract {
   try_viewLiquidationCollateralAmount(
     user: Address,
     maxBorrowPart: BigInt,
-    minLiquidationBonus: BigInt
+    minLiquidationBonus: BigInt,
   ): ethereum.CallResult<Bytes> {
     let result = super.tryCall(
       "viewLiquidationCollateralAmount",
@@ -2889,8 +2885,8 @@ export class Singularity extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddress(user),
         ethereum.Value.fromUnsignedBigInt(maxBorrowPart),
-        ethereum.Value.fromUnsignedBigInt(minLiquidationBonus)
-      ]
+        ethereum.Value.fromUnsignedBigInt(minLiquidationBonus),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();

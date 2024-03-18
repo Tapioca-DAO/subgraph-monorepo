@@ -217,6 +217,12 @@
       },
       {
         "indexed": false,
+        "internalType": "address",
+        "name": "sglAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
         "internalType": "uint256",
         "name": "tolpTokenId",
         "type": "uint256"
@@ -245,6 +251,12 @@
         "internalType": "uint256",
         "name": "sglAssetId",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "sglAddress",
+        "type": "address"
       },
       {
         "indexed": false,

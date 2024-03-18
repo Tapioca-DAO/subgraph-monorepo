@@ -7,7 +7,7 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
+  BigInt,
 } from "@graphprotocol/graph-ts";
 
 export class AMLDivergence extends ethereum.Event {
@@ -435,7 +435,7 @@ export class TOB extends ethereum.SmartContract {
     let result = super.tryCall(
       "EPOCH_DURATION",
       "EPOCH_DURATION():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -448,7 +448,7 @@ export class TOB extends ethereum.SmartContract {
     let result = super.call(
       "MIN_WEIGHT_FACTOR",
       "MIN_WEIGHT_FACTOR():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -458,7 +458,7 @@ export class TOB extends ethereum.SmartContract {
     let result = super.tryCall(
       "MIN_WEIGHT_FACTOR",
       "MIN_WEIGHT_FACTOR():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -471,7 +471,7 @@ export class TOB extends ethereum.SmartContract {
     let result = super.call(
       "emissionsStartTime",
       "emissionsStartTime():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -481,7 +481,7 @@ export class TOB extends ethereum.SmartContract {
     let result = super.tryCall(
       "emissionsStartTime",
       "emissionsStartTime():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -509,7 +509,7 @@ export class TOB extends ethereum.SmartContract {
     let result = super.call(
       "epochTAPValuation",
       "epochTAPValuation():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -519,7 +519,7 @@ export class TOB extends ethereum.SmartContract {
     let result = super.tryCall(
       "epochTAPValuation",
       "epochTAPValuation():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -538,7 +538,7 @@ export class TOB extends ethereum.SmartContract {
     let result = super.tryCall(
       "getCurrentWeek",
       "getCurrentWeek():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -550,7 +550,7 @@ export class TOB extends ethereum.SmartContract {
   getOTCDealDetails(
     _oTAPTokenID: BigInt,
     _paymentToken: Address,
-    _tapAmount: BigInt
+    _tapAmount: BigInt,
   ): TOB__getOTCDealDetailsResult {
     let result = super.call(
       "getOTCDealDetails",
@@ -558,21 +558,21 @@ export class TOB extends ethereum.SmartContract {
       [
         ethereum.Value.fromUnsignedBigInt(_oTAPTokenID),
         ethereum.Value.fromAddress(_paymentToken),
-        ethereum.Value.fromUnsignedBigInt(_tapAmount)
-      ]
+        ethereum.Value.fromUnsignedBigInt(_tapAmount),
+      ],
     );
 
     return new TOB__getOTCDealDetailsResult(
       result[0].toBigInt(),
       result[1].toBigInt(),
-      result[2].toBigInt()
+      result[2].toBigInt(),
     );
   }
 
   try_getOTCDealDetails(
     _oTAPTokenID: BigInt,
     _paymentToken: Address,
-    _tapAmount: BigInt
+    _tapAmount: BigInt,
   ): ethereum.CallResult<TOB__getOTCDealDetailsResult> {
     let result = super.tryCall(
       "getOTCDealDetails",
@@ -580,8 +580,8 @@ export class TOB extends ethereum.SmartContract {
       [
         ethereum.Value.fromUnsignedBigInt(_oTAPTokenID),
         ethereum.Value.fromAddress(_paymentToken),
-        ethereum.Value.fromUnsignedBigInt(_tapAmount)
-      ]
+        ethereum.Value.fromUnsignedBigInt(_tapAmount),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -591,8 +591,8 @@ export class TOB extends ethereum.SmartContract {
       new TOB__getOTCDealDetailsResult(
         value[0].toBigInt(),
         value[1].toBigInt(),
-        value[2].toBigInt()
-      )
+        value[2].toBigInt(),
+      ),
     );
   }
 
@@ -602,8 +602,8 @@ export class TOB extends ethereum.SmartContract {
       "netDepositedForEpoch(uint256,uint256):(int256)",
       [
         ethereum.Value.fromUnsignedBigInt(epoch),
-        ethereum.Value.fromUnsignedBigInt(sglAssetID)
-      ]
+        ethereum.Value.fromUnsignedBigInt(sglAssetID),
+      ],
     );
 
     return result[0].toBigInt();
@@ -611,15 +611,15 @@ export class TOB extends ethereum.SmartContract {
 
   try_netDepositedForEpoch(
     epoch: BigInt,
-    sglAssetID: BigInt
+    sglAssetID: BigInt,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "netDepositedForEpoch",
       "netDepositedForEpoch(uint256,uint256):(int256)",
       [
         ethereum.Value.fromUnsignedBigInt(epoch),
-        ethereum.Value.fromUnsignedBigInt(sglAssetID)
-      ]
+        ethereum.Value.fromUnsignedBigInt(sglAssetID),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -649,8 +649,8 @@ export class TOB extends ethereum.SmartContract {
       "oTAPCalls(uint256,uint256):(uint256)",
       [
         ethereum.Value.fromUnsignedBigInt(param0),
-        ethereum.Value.fromUnsignedBigInt(param1)
-      ]
+        ethereum.Value.fromUnsignedBigInt(param1),
+      ],
     );
 
     return result[0].toBigInt();
@@ -662,8 +662,8 @@ export class TOB extends ethereum.SmartContract {
       "oTAPCalls(uint256,uint256):(uint256)",
       [
         ethereum.Value.fromUnsignedBigInt(param0),
-        ethereum.Value.fromUnsignedBigInt(param1)
-      ]
+        ethereum.Value.fromUnsignedBigInt(param1),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -676,7 +676,7 @@ export class TOB extends ethereum.SmartContract {
     operator: Address,
     from: Address,
     tokenId: BigInt,
-    data: Bytes
+    data: Bytes,
   ): Bytes {
     let result = super.call(
       "onERC721Received",
@@ -685,8 +685,8 @@ export class TOB extends ethereum.SmartContract {
         ethereum.Value.fromAddress(operator),
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigInt(tokenId),
-        ethereum.Value.fromBytes(data)
-      ]
+        ethereum.Value.fromBytes(data),
+      ],
     );
 
     return result[0].toBytes();
@@ -696,7 +696,7 @@ export class TOB extends ethereum.SmartContract {
     operator: Address,
     from: Address,
     tokenId: BigInt,
-    data: Bytes
+    data: Bytes,
   ): ethereum.CallResult<Bytes> {
     let result = super.tryCall(
       "onERC721Received",
@@ -705,8 +705,8 @@ export class TOB extends ethereum.SmartContract {
         ethereum.Value.fromAddress(operator),
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigInt(tokenId),
-        ethereum.Value.fromBytes(data)
-      ]
+        ethereum.Value.fromBytes(data),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -734,23 +734,23 @@ export class TOB extends ethereum.SmartContract {
     let result = super.call(
       "participants",
       "participants(uint256):(bool,bool,uint256)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
 
     return new TOB__participantsResult(
       result[0].toBoolean(),
       result[1].toBoolean(),
-      result[2].toBigInt()
+      result[2].toBigInt(),
     );
   }
 
   try_participants(
-    param0: BigInt
+    param0: BigInt,
   ): ethereum.CallResult<TOB__participantsResult> {
     let result = super.tryCall(
       "participants",
       "participants(uint256):(bool,bool,uint256)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -760,14 +760,14 @@ export class TOB extends ethereum.SmartContract {
       new TOB__participantsResult(
         value[0].toBoolean(),
         value[1].toBoolean(),
-        value[2].toBigInt()
-      )
+        value[2].toBigInt(),
+      ),
     );
   }
 
   participate(_tOLPTokenID: BigInt): BigInt {
     let result = super.call("participate", "participate(uint256):(uint256)", [
-      ethereum.Value.fromUnsignedBigInt(_tOLPTokenID)
+      ethereum.Value.fromUnsignedBigInt(_tOLPTokenID),
     ]);
 
     return result[0].toBigInt();
@@ -777,7 +777,7 @@ export class TOB extends ethereum.SmartContract {
     let result = super.tryCall(
       "participate",
       "participate(uint256):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(_tOLPTokenID)]
+      [ethereum.Value.fromUnsignedBigInt(_tOLPTokenID)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -805,7 +805,7 @@ export class TOB extends ethereum.SmartContract {
     let result = super.call(
       "paymentTokenBeneficiary",
       "paymentTokenBeneficiary():(address)",
-      []
+      [],
     );
 
     return result[0].toAddress();
@@ -815,7 +815,7 @@ export class TOB extends ethereum.SmartContract {
     let result = super.tryCall(
       "paymentTokenBeneficiary",
       "paymentTokenBeneficiary():(address)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -828,29 +828,29 @@ export class TOB extends ethereum.SmartContract {
     let result = super.call(
       "paymentTokens",
       "paymentTokens(address):(address,bytes)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
 
     return new TOB__paymentTokensResult(
       result[0].toAddress(),
-      result[1].toBytes()
+      result[1].toBytes(),
     );
   }
 
   try_paymentTokens(
-    param0: Address
+    param0: Address,
   ): ethereum.CallResult<TOB__paymentTokensResult> {
     let result = super.tryCall(
       "paymentTokens",
       "paymentTokens(address):(address,bytes)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new TOB__paymentTokensResult(value[0].toAddress(), value[1].toBytes())
+      new TOB__paymentTokensResult(value[0].toAddress(), value[1].toBytes()),
     );
   }
 
@@ -875,8 +875,8 @@ export class TOB extends ethereum.SmartContract {
       "singularityGauges(uint256,uint256):(uint256)",
       [
         ethereum.Value.fromUnsignedBigInt(param0),
-        ethereum.Value.fromUnsignedBigInt(param1)
-      ]
+        ethereum.Value.fromUnsignedBigInt(param1),
+      ],
     );
 
     return result[0].toBigInt();
@@ -884,15 +884,15 @@ export class TOB extends ethereum.SmartContract {
 
   try_singularityGauges(
     param0: BigInt,
-    param1: BigInt
+    param1: BigInt,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "singularityGauges",
       "singularityGauges(uint256,uint256):(uint256)",
       [
         ethereum.Value.fromUnsignedBigInt(param0),
-        ethereum.Value.fromUnsignedBigInt(param1)
-      ]
+        ethereum.Value.fromUnsignedBigInt(param1),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -965,7 +965,7 @@ export class TOB extends ethereum.SmartContract {
     let result = super.call(
       "timestampToWeek",
       "timestampToWeek(uint256):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(timestamp)]
+      [ethereum.Value.fromUnsignedBigInt(timestamp)],
     );
 
     return result[0].toBigInt();
@@ -975,7 +975,7 @@ export class TOB extends ethereum.SmartContract {
     let result = super.tryCall(
       "timestampToWeek",
       "timestampToWeek(uint256):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(timestamp)]
+      [ethereum.Value.fromUnsignedBigInt(timestamp)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -988,14 +988,14 @@ export class TOB extends ethereum.SmartContract {
     let result = super.call(
       "twAML",
       "twAML(uint256):(uint256,uint256,uint256,uint256)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
 
     return new TOB__twAMLResult(
       result[0].toBigInt(),
       result[1].toBigInt(),
       result[2].toBigInt(),
-      result[3].toBigInt()
+      result[3].toBigInt(),
     );
   }
 
@@ -1003,7 +1003,7 @@ export class TOB extends ethereum.SmartContract {
     let result = super.tryCall(
       "twAML",
       "twAML(uint256):(uint256,uint256,uint256,uint256)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1014,8 +1014,8 @@ export class TOB extends ethereum.SmartContract {
         value[0].toBigInt(),
         value[1].toBigInt(),
         value[2].toBigInt(),
-        value[3].toBigInt()
-      )
+        value[3].toBigInt(),
+      ),
     );
   }
 }

@@ -7,7 +7,7 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
+  BigInt,
 } from "@graphprotocol/graph-ts";
 
 export class Approval extends ethereum.Event {
@@ -432,7 +432,7 @@ export class TOFT__eip712DomainResult {
     value3: BigInt,
     value4: Address,
     value5: Bytes,
-    value6: Array<BigInt>
+    value6: Array<BigInt>,
   ) {
     this.value0 = value0;
     this.value1 = value1;
@@ -543,7 +543,7 @@ export class TOFT extends ethereum.SmartContract {
     let result = super.call(
       "DEFAULT_PAYLOAD_SIZE_LIMIT",
       "DEFAULT_PAYLOAD_SIZE_LIMIT():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -553,7 +553,7 @@ export class TOFT extends ethereum.SmartContract {
     let result = super.tryCall(
       "DEFAULT_PAYLOAD_SIZE_LIMIT",
       "DEFAULT_PAYLOAD_SIZE_LIMIT():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -566,7 +566,7 @@ export class TOFT extends ethereum.SmartContract {
     let result = super.call(
       "DOMAIN_SEPARATOR",
       "DOMAIN_SEPARATOR():(bytes32)",
-      []
+      [],
     );
 
     return result[0].toBytes();
@@ -576,7 +576,7 @@ export class TOFT extends ethereum.SmartContract {
     let result = super.tryCall(
       "DOMAIN_SEPARATOR",
       "DOMAIN_SEPARATOR():(bytes32)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -619,7 +619,7 @@ export class TOFT extends ethereum.SmartContract {
     let result = super.call(
       "PT_SEND_AND_CALL",
       "PT_SEND_AND_CALL():(uint8)",
-      []
+      [],
     );
 
     return result[0].toI32();
@@ -629,7 +629,7 @@ export class TOFT extends ethereum.SmartContract {
     let result = super.tryCall(
       "PT_SEND_AND_CALL",
       "PT_SEND_AND_CALL():(uint8)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -642,7 +642,7 @@ export class TOFT extends ethereum.SmartContract {
     let result = super.call(
       "allowance",
       "allowance(address,address):(uint256)",
-      [ethereum.Value.fromAddress(owner), ethereum.Value.fromAddress(spender)]
+      [ethereum.Value.fromAddress(owner), ethereum.Value.fromAddress(spender)],
     );
 
     return result[0].toBigInt();
@@ -652,7 +652,7 @@ export class TOFT extends ethereum.SmartContract {
     let result = super.tryCall(
       "allowance",
       "allowance(address,address):(uint256)",
-      [ethereum.Value.fromAddress(owner), ethereum.Value.fromAddress(spender)]
+      [ethereum.Value.fromAddress(owner), ethereum.Value.fromAddress(spender)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -664,7 +664,7 @@ export class TOFT extends ethereum.SmartContract {
   approve(spender: Address, amount: BigInt): boolean {
     let result = super.call("approve", "approve(address,uint256):(bool)", [
       ethereum.Value.fromAddress(spender),
-      ethereum.Value.fromUnsignedBigInt(amount)
+      ethereum.Value.fromUnsignedBigInt(amount),
     ]);
 
     return result[0].toBoolean();
@@ -673,7 +673,7 @@ export class TOFT extends ethereum.SmartContract {
   try_approve(spender: Address, amount: BigInt): ethereum.CallResult<boolean> {
     let result = super.tryCall("approve", "approve(address,uint256):(bool)", [
       ethereum.Value.fromAddress(spender),
-      ethereum.Value.fromUnsignedBigInt(amount)
+      ethereum.Value.fromUnsignedBigInt(amount),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -684,7 +684,7 @@ export class TOFT extends ethereum.SmartContract {
 
   balanceOf(account: Address): BigInt {
     let result = super.call("balanceOf", "balanceOf(address):(uint256)", [
-      ethereum.Value.fromAddress(account)
+      ethereum.Value.fromAddress(account),
     ]);
 
     return result[0].toBigInt();
@@ -692,7 +692,7 @@ export class TOFT extends ethereum.SmartContract {
 
   try_balanceOf(account: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall("balanceOf", "balanceOf(address):(uint256)", [
-      ethereum.Value.fromAddress(account)
+      ethereum.Value.fromAddress(account),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -705,7 +705,7 @@ export class TOFT extends ethereum.SmartContract {
     let result = super.call(
       "circulatingSupply",
       "circulatingSupply():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -715,7 +715,7 @@ export class TOFT extends ethereum.SmartContract {
     let result = super.tryCall(
       "circulatingSupply",
       "circulatingSupply():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -746,8 +746,8 @@ export class TOFT extends ethereum.SmartContract {
       [
         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0)),
         ethereum.Value.fromBytes(param1),
-        ethereum.Value.fromUnsignedBigInt(param2)
-      ]
+        ethereum.Value.fromUnsignedBigInt(param2),
+      ],
     );
 
     return result[0].toBoolean();
@@ -756,7 +756,7 @@ export class TOFT extends ethereum.SmartContract {
   try_creditedPackets(
     param0: i32,
     param1: Bytes,
-    param2: BigInt
+    param2: BigInt,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "creditedPackets",
@@ -764,8 +764,8 @@ export class TOFT extends ethereum.SmartContract {
       [
         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0)),
         ethereum.Value.fromBytes(param1),
-        ethereum.Value.fromUnsignedBigInt(param2)
-      ]
+        ethereum.Value.fromUnsignedBigInt(param2),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -795,8 +795,8 @@ export class TOFT extends ethereum.SmartContract {
       "decreaseAllowance(address,uint256):(bool)",
       [
         ethereum.Value.fromAddress(spender),
-        ethereum.Value.fromUnsignedBigInt(subtractedValue)
-      ]
+        ethereum.Value.fromUnsignedBigInt(subtractedValue),
+      ],
     );
 
     return result[0].toBoolean();
@@ -804,15 +804,15 @@ export class TOFT extends ethereum.SmartContract {
 
   try_decreaseAllowance(
     spender: Address,
-    subtractedValue: BigInt
+    subtractedValue: BigInt,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "decreaseAllowance",
       "decreaseAllowance(address,uint256):(bool)",
       [
         ethereum.Value.fromAddress(spender),
-        ethereum.Value.fromUnsignedBigInt(subtractedValue)
-      ]
+        ethereum.Value.fromUnsignedBigInt(subtractedValue),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -825,7 +825,7 @@ export class TOFT extends ethereum.SmartContract {
     let result = super.call(
       "eip712Domain",
       "eip712Domain():(bytes1,string,string,uint256,address,bytes32,uint256[])",
-      []
+      [],
     );
 
     return new TOFT__eip712DomainResult(
@@ -835,7 +835,7 @@ export class TOFT extends ethereum.SmartContract {
       result[3].toBigInt(),
       result[4].toAddress(),
       result[5].toBytes(),
-      result[6].toBigIntArray()
+      result[6].toBigIntArray(),
     );
   }
 
@@ -843,7 +843,7 @@ export class TOFT extends ethereum.SmartContract {
     let result = super.tryCall(
       "eip712Domain",
       "eip712Domain():(bytes1,string,string,uint256,address,bytes32,uint256[])",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -857,8 +857,8 @@ export class TOFT extends ethereum.SmartContract {
         value[3].toBigInt(),
         value[4].toAddress(),
         value[5].toBytes(),
-        value[6].toBigIntArray()
-      )
+        value[6].toBigIntArray(),
+      ),
     );
   }
 
@@ -884,7 +884,7 @@ export class TOFT extends ethereum.SmartContract {
     _payload: Bytes,
     _dstGasForCall: BigInt,
     _useZro: boolean,
-    _adapterParams: Bytes
+    _adapterParams: Bytes,
   ): TOFT__estimateSendAndCallFeeResult {
     let result = super.call(
       "estimateSendAndCallFee",
@@ -896,13 +896,13 @@ export class TOFT extends ethereum.SmartContract {
         ethereum.Value.fromBytes(_payload),
         ethereum.Value.fromUnsignedBigInt(_dstGasForCall),
         ethereum.Value.fromBoolean(_useZro),
-        ethereum.Value.fromBytes(_adapterParams)
-      ]
+        ethereum.Value.fromBytes(_adapterParams),
+      ],
     );
 
     return new TOFT__estimateSendAndCallFeeResult(
       result[0].toBigInt(),
-      result[1].toBigInt()
+      result[1].toBigInt(),
     );
   }
 
@@ -913,7 +913,7 @@ export class TOFT extends ethereum.SmartContract {
     _payload: Bytes,
     _dstGasForCall: BigInt,
     _useZro: boolean,
-    _adapterParams: Bytes
+    _adapterParams: Bytes,
   ): ethereum.CallResult<TOFT__estimateSendAndCallFeeResult> {
     let result = super.tryCall(
       "estimateSendAndCallFee",
@@ -925,8 +925,8 @@ export class TOFT extends ethereum.SmartContract {
         ethereum.Value.fromBytes(_payload),
         ethereum.Value.fromUnsignedBigInt(_dstGasForCall),
         ethereum.Value.fromBoolean(_useZro),
-        ethereum.Value.fromBytes(_adapterParams)
-      ]
+        ethereum.Value.fromBytes(_adapterParams),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -935,8 +935,8 @@ export class TOFT extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(
       new TOFT__estimateSendAndCallFeeResult(
         value[0].toBigInt(),
-        value[1].toBigInt()
-      )
+        value[1].toBigInt(),
+      ),
     );
   }
 
@@ -945,7 +945,7 @@ export class TOFT extends ethereum.SmartContract {
     _toAddress: Bytes,
     _amount: BigInt,
     _useZro: boolean,
-    _adapterParams: Bytes
+    _adapterParams: Bytes,
   ): TOFT__estimateSendFeeResult {
     let result = super.call(
       "estimateSendFee",
@@ -955,13 +955,13 @@ export class TOFT extends ethereum.SmartContract {
         ethereum.Value.fromFixedBytes(_toAddress),
         ethereum.Value.fromUnsignedBigInt(_amount),
         ethereum.Value.fromBoolean(_useZro),
-        ethereum.Value.fromBytes(_adapterParams)
-      ]
+        ethereum.Value.fromBytes(_adapterParams),
+      ],
     );
 
     return new TOFT__estimateSendFeeResult(
       result[0].toBigInt(),
-      result[1].toBigInt()
+      result[1].toBigInt(),
     );
   }
 
@@ -970,7 +970,7 @@ export class TOFT extends ethereum.SmartContract {
     _toAddress: Bytes,
     _amount: BigInt,
     _useZro: boolean,
-    _adapterParams: Bytes
+    _adapterParams: Bytes,
   ): ethereum.CallResult<TOFT__estimateSendFeeResult> {
     let result = super.tryCall(
       "estimateSendFee",
@@ -980,15 +980,15 @@ export class TOFT extends ethereum.SmartContract {
         ethereum.Value.fromFixedBytes(_toAddress),
         ethereum.Value.fromUnsignedBigInt(_amount),
         ethereum.Value.fromBoolean(_useZro),
-        ethereum.Value.fromBytes(_adapterParams)
-      ]
+        ethereum.Value.fromBytes(_adapterParams),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new TOFT__estimateSendFeeResult(value[0].toBigInt(), value[1].toBigInt())
+      new TOFT__estimateSendFeeResult(value[0].toBigInt(), value[1].toBigInt()),
     );
   }
 
@@ -999,8 +999,8 @@ export class TOFT extends ethereum.SmartContract {
       [
         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0)),
         ethereum.Value.fromBytes(param1),
-        ethereum.Value.fromUnsignedBigInt(param2)
-      ]
+        ethereum.Value.fromUnsignedBigInt(param2),
+      ],
     );
 
     return result[0].toBytes();
@@ -1009,7 +1009,7 @@ export class TOFT extends ethereum.SmartContract {
   try_failedMessages(
     param0: i32,
     param1: Bytes,
-    param2: BigInt
+    param2: BigInt,
   ): ethereum.CallResult<Bytes> {
     let result = super.tryCall(
       "failedMessages",
@@ -1017,8 +1017,8 @@ export class TOFT extends ethereum.SmartContract {
       [
         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0)),
         ethereum.Value.fromBytes(param1),
-        ethereum.Value.fromUnsignedBigInt(param2)
-      ]
+        ethereum.Value.fromUnsignedBigInt(param2),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1031,7 +1031,7 @@ export class TOFT extends ethereum.SmartContract {
     _version: i32,
     _chainId: i32,
     param2: Address,
-    _configType: BigInt
+    _configType: BigInt,
   ): Bytes {
     let result = super.call(
       "getConfig",
@@ -1040,8 +1040,8 @@ export class TOFT extends ethereum.SmartContract {
         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_version)),
         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_chainId)),
         ethereum.Value.fromAddress(param2),
-        ethereum.Value.fromUnsignedBigInt(_configType)
-      ]
+        ethereum.Value.fromUnsignedBigInt(_configType),
+      ],
     );
 
     return result[0].toBytes();
@@ -1051,7 +1051,7 @@ export class TOFT extends ethereum.SmartContract {
     _version: i32,
     _chainId: i32,
     param2: Address,
-    _configType: BigInt
+    _configType: BigInt,
   ): ethereum.CallResult<Bytes> {
     let result = super.tryCall(
       "getConfig",
@@ -1060,8 +1060,8 @@ export class TOFT extends ethereum.SmartContract {
         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_version)),
         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_chainId)),
         ethereum.Value.fromAddress(param2),
-        ethereum.Value.fromUnsignedBigInt(_configType)
-      ]
+        ethereum.Value.fromUnsignedBigInt(_configType),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1074,7 +1074,7 @@ export class TOFT extends ethereum.SmartContract {
     let result = super.call(
       "getTrustedRemoteAddress",
       "getTrustedRemoteAddress(uint16):(bytes)",
-      [ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_remoteChainId))]
+      [ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_remoteChainId))],
     );
 
     return result[0].toBytes();
@@ -1084,7 +1084,7 @@ export class TOFT extends ethereum.SmartContract {
     let result = super.tryCall(
       "getTrustedRemoteAddress",
       "getTrustedRemoteAddress(uint16):(bytes)",
-      [ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_remoteChainId))]
+      [ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_remoteChainId))],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1114,8 +1114,8 @@ export class TOFT extends ethereum.SmartContract {
       "increaseAllowance(address,uint256):(bool)",
       [
         ethereum.Value.fromAddress(spender),
-        ethereum.Value.fromUnsignedBigInt(addedValue)
-      ]
+        ethereum.Value.fromUnsignedBigInt(addedValue),
+      ],
     );
 
     return result[0].toBoolean();
@@ -1123,15 +1123,15 @@ export class TOFT extends ethereum.SmartContract {
 
   try_increaseAllowance(
     spender: Address,
-    addedValue: BigInt
+    addedValue: BigInt,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "increaseAllowance",
       "increaseAllowance(address,uint256):(bool)",
       [
         ethereum.Value.fromAddress(spender),
-        ethereum.Value.fromUnsignedBigInt(addedValue)
-      ]
+        ethereum.Value.fromUnsignedBigInt(addedValue),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1146,8 +1146,8 @@ export class TOFT extends ethereum.SmartContract {
       "isTrustedRemote(uint16,bytes):(bool)",
       [
         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_srcChainId)),
-        ethereum.Value.fromBytes(_srcAddress)
-      ]
+        ethereum.Value.fromBytes(_srcAddress),
+      ],
     );
 
     return result[0].toBoolean();
@@ -1155,15 +1155,15 @@ export class TOFT extends ethereum.SmartContract {
 
   try_isTrustedRemote(
     _srcChainId: i32,
-    _srcAddress: Bytes
+    _srcAddress: Bytes,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "isTrustedRemote",
       "isTrustedRemote(uint16,bytes):(bool)",
       [
         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_srcChainId)),
-        ethereum.Value.fromBytes(_srcAddress)
-      ]
+        ethereum.Value.fromBytes(_srcAddress),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1193,8 +1193,8 @@ export class TOFT extends ethereum.SmartContract {
       "minDstGasLookup(uint16,uint16):(uint256)",
       [
         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0)),
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param1))
-      ]
+        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param1)),
+      ],
     );
 
     return result[0].toBigInt();
@@ -1206,8 +1206,8 @@ export class TOFT extends ethereum.SmartContract {
       "minDstGasLookup(uint16,uint16):(uint256)",
       [
         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0)),
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param1))
-      ]
+        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param1)),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1233,7 +1233,7 @@ export class TOFT extends ethereum.SmartContract {
 
   nonces(owner: Address): BigInt {
     let result = super.call("nonces", "nonces(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+      ethereum.Value.fromAddress(owner),
     ]);
 
     return result[0].toBigInt();
@@ -1241,7 +1241,7 @@ export class TOFT extends ethereum.SmartContract {
 
   try_nonces(owner: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall("nonces", "nonces(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+      ethereum.Value.fromAddress(owner),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1269,7 +1269,7 @@ export class TOFT extends ethereum.SmartContract {
     let result = super.call(
       "payloadSizeLimitLookup",
       "payloadSizeLimitLookup(uint16):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0))]
+      [ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0))],
     );
 
     return result[0].toBigInt();
@@ -1279,7 +1279,7 @@ export class TOFT extends ethereum.SmartContract {
     let result = super.tryCall(
       "payloadSizeLimitLookup",
       "payloadSizeLimitLookup(uint16):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0))]
+      [ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0))],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1313,7 +1313,7 @@ export class TOFT extends ethereum.SmartContract {
     let result = super.tryCall(
       "sharedDecimals",
       "sharedDecimals():(uint8)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1326,7 +1326,7 @@ export class TOFT extends ethereum.SmartContract {
     let result = super.call(
       "supportsInterface",
       "supportsInterface(bytes4):(bool)",
-      [ethereum.Value.fromFixedBytes(interfaceId)]
+      [ethereum.Value.fromFixedBytes(interfaceId)],
     );
 
     return result[0].toBoolean();
@@ -1336,7 +1336,7 @@ export class TOFT extends ethereum.SmartContract {
     let result = super.tryCall(
       "supportsInterface",
       "supportsInterface(bytes4):(bool)",
-      [ethereum.Value.fromFixedBytes(interfaceId)]
+      [ethereum.Value.fromFixedBytes(interfaceId)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1393,7 +1393,7 @@ export class TOFT extends ethereum.SmartContract {
   transfer(to: Address, amount: BigInt): boolean {
     let result = super.call("transfer", "transfer(address,uint256):(bool)", [
       ethereum.Value.fromAddress(to),
-      ethereum.Value.fromUnsignedBigInt(amount)
+      ethereum.Value.fromUnsignedBigInt(amount),
     ]);
 
     return result[0].toBoolean();
@@ -1402,7 +1402,7 @@ export class TOFT extends ethereum.SmartContract {
   try_transfer(to: Address, amount: BigInt): ethereum.CallResult<boolean> {
     let result = super.tryCall("transfer", "transfer(address,uint256):(bool)", [
       ethereum.Value.fromAddress(to),
-      ethereum.Value.fromUnsignedBigInt(amount)
+      ethereum.Value.fromUnsignedBigInt(amount),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1418,8 +1418,8 @@ export class TOFT extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
-        ethereum.Value.fromUnsignedBigInt(amount)
-      ]
+        ethereum.Value.fromUnsignedBigInt(amount),
+      ],
     );
 
     return result[0].toBoolean();
@@ -1428,7 +1428,7 @@ export class TOFT extends ethereum.SmartContract {
   try_transferFrom(
     from: Address,
     to: Address,
-    amount: BigInt
+    amount: BigInt,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "transferFrom",
@@ -1436,8 +1436,8 @@ export class TOFT extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
-        ethereum.Value.fromUnsignedBigInt(amount)
-      ]
+        ethereum.Value.fromUnsignedBigInt(amount),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1450,7 +1450,7 @@ export class TOFT extends ethereum.SmartContract {
     let result = super.call(
       "trustedRemoteLookup",
       "trustedRemoteLookup(uint16):(bytes)",
-      [ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0))]
+      [ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0))],
     );
 
     return result[0].toBytes();
@@ -1460,7 +1460,7 @@ export class TOFT extends ethereum.SmartContract {
     let result = super.tryCall(
       "trustedRemoteLookup",
       "trustedRemoteLookup(uint16):(bytes)",
-      [ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0))]
+      [ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0))],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1473,7 +1473,7 @@ export class TOFT extends ethereum.SmartContract {
     let result = super.call(
       "useCustomAdapterParams",
       "useCustomAdapterParams():(bool)",
-      []
+      [],
     );
 
     return result[0].toBoolean();
@@ -1483,7 +1483,7 @@ export class TOFT extends ethereum.SmartContract {
     let result = super.tryCall(
       "useCustomAdapterParams",
       "useCustomAdapterParams():(bool)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1762,32 +1762,28 @@ export class ExerciseOptionCall__Inputs {
 
   get optionsData(): ExerciseOptionCallOptionsDataStruct {
     return changetype<ExerciseOptionCallOptionsDataStruct>(
-      this._call.inputValues[0].value.toTuple()
+      this._call.inputValues[0].value.toTuple(),
     );
   }
 
   get lzData(): ExerciseOptionCallLzDataStruct {
     return changetype<ExerciseOptionCallLzDataStruct>(
-      this._call.inputValues[1].value.toTuple()
+      this._call.inputValues[1].value.toTuple(),
     );
   }
 
   get tapSendData(): ExerciseOptionCallTapSendDataStruct {
     return changetype<ExerciseOptionCallTapSendDataStruct>(
-      this._call.inputValues[2].value.toTuple()
+      this._call.inputValues[2].value.toTuple(),
     );
   }
 
   get approvals(): Array<ExerciseOptionCallApprovalsStruct> {
-    return this._call.inputValues[3].value.toTupleArray<
-      ExerciseOptionCallApprovalsStruct
-    >();
+    return this._call.inputValues[3].value.toTupleArray<ExerciseOptionCallApprovalsStruct>();
   }
 
   get revokes(): Array<ExerciseOptionCallRevokesStruct> {
-    return this._call.inputValues[4].value.toTupleArray<
-      ExerciseOptionCallRevokesStruct
-    >();
+    return this._call.inputValues[4].value.toTupleArray<ExerciseOptionCallRevokesStruct>();
   }
 
   get adapterParams(): Bytes {
@@ -2226,26 +2222,22 @@ export class RemoveCollateralCall__Inputs {
 
   get withdrawParams(): RemoveCollateralCallWithdrawParamsStruct {
     return changetype<RemoveCollateralCallWithdrawParamsStruct>(
-      this._call.inputValues[4].value.toTuple()
+      this._call.inputValues[4].value.toTuple(),
     );
   }
 
   get removeParams(): RemoveCollateralCallRemoveParamsStruct {
     return changetype<RemoveCollateralCallRemoveParamsStruct>(
-      this._call.inputValues[5].value.toTuple()
+      this._call.inputValues[5].value.toTuple(),
     );
   }
 
   get approvals(): Array<RemoveCollateralCallApprovalsStruct> {
-    return this._call.inputValues[6].value.toTupleArray<
-      RemoveCollateralCallApprovalsStruct
-    >();
+    return this._call.inputValues[6].value.toTupleArray<RemoveCollateralCallApprovalsStruct>();
   }
 
   get revokes(): Array<RemoveCollateralCallRevokesStruct> {
-    return this._call.inputValues[7].value.toTupleArray<
-      RemoveCollateralCallRevokesStruct
-    >();
+    return this._call.inputValues[7].value.toTupleArray<RemoveCollateralCallRevokesStruct>();
   }
 
   get adapterParams(): Bytes {
@@ -2612,7 +2604,7 @@ export class SendAndCallCall__Inputs {
 
   get _callParams(): SendAndCallCall_callParamsStruct {
     return changetype<SendAndCallCall_callParamsStruct>(
-      this._call.inputValues[6].value.toTuple()
+      this._call.inputValues[6].value.toTuple(),
     );
   }
 }
@@ -2666,19 +2658,19 @@ export class SendForLeverageCall__Inputs {
 
   get lzData(): SendForLeverageCallLzDataStruct {
     return changetype<SendForLeverageCallLzDataStruct>(
-      this._call.inputValues[2].value.toTuple()
+      this._call.inputValues[2].value.toTuple(),
     );
   }
 
   get swapData(): SendForLeverageCallSwapDataStruct {
     return changetype<SendForLeverageCallSwapDataStruct>(
-      this._call.inputValues[3].value.toTuple()
+      this._call.inputValues[3].value.toTuple(),
     );
   }
 
   get externalData(): SendForLeverageCallExternalDataStruct {
     return changetype<SendForLeverageCallExternalDataStruct>(
-      this._call.inputValues[4].value.toTuple()
+      this._call.inputValues[4].value.toTuple(),
     );
   }
 }
@@ -2788,7 +2780,7 @@ export class SendFromCall__Inputs {
 
   get _callParams(): SendFromCall_callParamsStruct {
     return changetype<SendFromCall_callParamsStruct>(
-      this._call.inputValues[4].value.toTuple()
+      this._call.inputValues[4].value.toTuple(),
     );
   }
 }
@@ -2850,7 +2842,7 @@ export class SendFromWithParamsCall__Inputs {
 
   get callParams(): SendFromWithParamsCallCallParamsStruct {
     return changetype<SendFromWithParamsCallCallParamsStruct>(
-      this._call.inputValues[4].value.toTuple()
+      this._call.inputValues[4].value.toTuple(),
     );
   }
 
@@ -2859,15 +2851,11 @@ export class SendFromWithParamsCall__Inputs {
   }
 
   get approvals(): Array<SendFromWithParamsCallApprovalsStruct> {
-    return this._call.inputValues[6].value.toTupleArray<
-      SendFromWithParamsCallApprovalsStruct
-    >();
+    return this._call.inputValues[6].value.toTupleArray<SendFromWithParamsCallApprovalsStruct>();
   }
 
   get revokes(): Array<SendFromWithParamsCallRevokesStruct> {
-    return this._call.inputValues[7].value.toTupleArray<
-      SendFromWithParamsCallRevokesStruct
-    >();
+    return this._call.inputValues[7].value.toTupleArray<SendFromWithParamsCallRevokesStruct>();
   }
 }
 
@@ -3044,32 +3032,28 @@ export class SendToYBAndBorrowCall__Inputs {
 
   get borrowParams(): SendToYBAndBorrowCallBorrowParamsStruct {
     return changetype<SendToYBAndBorrowCallBorrowParamsStruct>(
-      this._call.inputValues[4].value.toTuple()
+      this._call.inputValues[4].value.toTuple(),
     );
   }
 
   get withdrawParams(): SendToYBAndBorrowCallWithdrawParamsStruct {
     return changetype<SendToYBAndBorrowCallWithdrawParamsStruct>(
-      this._call.inputValues[5].value.toTuple()
+      this._call.inputValues[5].value.toTuple(),
     );
   }
 
   get options(): SendToYBAndBorrowCallOptionsStruct {
     return changetype<SendToYBAndBorrowCallOptionsStruct>(
-      this._call.inputValues[6].value.toTuple()
+      this._call.inputValues[6].value.toTuple(),
     );
   }
 
   get approvals(): Array<SendToYBAndBorrowCallApprovalsStruct> {
-    return this._call.inputValues[7].value.toTupleArray<
-      SendToYBAndBorrowCallApprovalsStruct
-    >();
+    return this._call.inputValues[7].value.toTupleArray<SendToYBAndBorrowCallApprovalsStruct>();
   }
 
   get revokes(): Array<SendToYBAndBorrowCallRevokesStruct> {
-    return this._call.inputValues[8].value.toTupleArray<
-      SendToYBAndBorrowCallRevokesStruct
-    >();
+    return this._call.inputValues[8].value.toTupleArray<SendToYBAndBorrowCallRevokesStruct>();
   }
 }
 
@@ -3804,14 +3788,12 @@ export class TriggerApproveOrRevokeCall__Inputs {
 
   get lzCallParams(): TriggerApproveOrRevokeCallLzCallParamsStruct {
     return changetype<TriggerApproveOrRevokeCallLzCallParamsStruct>(
-      this._call.inputValues[1].value.toTuple()
+      this._call.inputValues[1].value.toTuple(),
     );
   }
 
   get approvals(): Array<TriggerApproveOrRevokeCallApprovalsStruct> {
-    return this._call.inputValues[2].value.toTupleArray<
-      TriggerApproveOrRevokeCallApprovalsStruct
-    >();
+    return this._call.inputValues[2].value.toTupleArray<TriggerApproveOrRevokeCallApprovalsStruct>();
   }
 }
 
@@ -3930,20 +3912,16 @@ export class TriggerSendFromCall__Inputs {
 
   get sendFromData(): TriggerSendFromCallSendFromDataStruct {
     return changetype<TriggerSendFromCallSendFromDataStruct>(
-      this._call.inputValues[4].value.toTuple()
+      this._call.inputValues[4].value.toTuple(),
     );
   }
 
   get approvals(): Array<TriggerSendFromCallApprovalsStruct> {
-    return this._call.inputValues[5].value.toTupleArray<
-      TriggerSendFromCallApprovalsStruct
-    >();
+    return this._call.inputValues[5].value.toTupleArray<TriggerSendFromCallApprovalsStruct>();
   }
 
   get revokes(): Array<TriggerSendFromCallRevokesStruct> {
-    return this._call.inputValues[6].value.toTupleArray<
-      TriggerSendFromCallRevokesStruct
-    >();
+    return this._call.inputValues[6].value.toTupleArray<TriggerSendFromCallRevokesStruct>();
   }
 }
 
