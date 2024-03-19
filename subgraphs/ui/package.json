@@ -4,17 +4,22 @@
   "scripts": {
     "codegen": "graph codegen && git checkout ./generated/TapiocaWrapper/TapiocaWrapper.ts",
     "build": "graph build",
-    "deploy:thegraph": "graph deploy --skip-migrations --node https://api.thegraph.com/deploy/"
+    "deploy:thegraph": "graph deploy --skip-migrations --node https://api.thegraph.com/deploy/",
+    "deploy:dev": "bash deploy.sh",
+    "prepare:addresses": "node addressesToDataSources.js"
   },
   "dependencies": {
-    "@graphprotocol/graph-cli": "^0.62.0",
-    "@graphprotocol/graph-ts": "^0.31.0"
+    "@graphprotocol/graph-cli": "^0.68.5",
+    "@graphprotocol/graph-ts": "^0.33.0"
   },
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*",
     "@repo/eslint-config": "workspace:*",
     "@repo/prettier-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "commander": "^12.0.0",
+    "fs-extra": "^11.2.0",
     "matchstick-as": "^0.6.0",
-    "typescript": "5.2.2"
+    "typescript": "5.2.2",
+    "yaml": "^2.4.1"
   }
 }
