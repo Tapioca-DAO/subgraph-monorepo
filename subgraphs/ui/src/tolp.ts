@@ -1,4 +1,10 @@
-import { Address, BigInt, Bytes, store } from "@graphprotocol/graph-ts"
+import {
+  Address,
+  BigInt,
+  Bytes,
+  dataSource,
+  store,
+} from "@graphprotocol/graph-ts"
 
 import {
   Transfer as TransferEvent,
@@ -16,6 +22,7 @@ import {
   TapiocaOptionLiquidityProvision,
   TolpSingularityPool,
 } from "../generated/schema"
+import { putTobEntity } from "./tob"
 import { ZERO_ADDRESS_STRING } from "./utils/helper"
 
 export function putTOLPEntity(nftId: BigInt): TOLP {
@@ -36,11 +43,13 @@ export function putTOLPEntity(nftId: BigInt): TOLP {
 }
 
 export function putTapiocaOptionLiquidityProvisionEntity(): TapiocaOptionLiquidityProvision {
-  const ID = Bytes.fromHexString("00")
-  let tolpEntity = TapiocaOptionLiquidityProvision.load(ID)
+  const tolpAddress = Address.fromHexString(
+    dataSource.context().getString("tolp_address")
+  )
+  let tolpEntity = TapiocaOptionLiquidityProvision.load(tolpAddress)
 
   if (tolpEntity == null) {
-    tolpEntity = new TapiocaOptionLiquidityProvision(ID)
+    tolpEntity = new TapiocaOptionLiquidityProvision(tolpAddress)
     tolpEntity.totalSingularityPoolWeights = BigInt.fromI32(0)
     tolpEntity.singularityPools = []
     tolpEntity.save()
@@ -172,7 +181,12 @@ export function handleMint(event: MintEvent): void {
   tolpLockPositionEntity.ybShares = event.params.ybShares
   tolpLockPositionEntity.lockTime = event.block.timestamp.toI32()
   tolpLockPositionEntity.lockDuration = event.params.lockDuration.toI32()
+  tolpLockPositionEntity.sglAddress = event.params.sglAddress.toHexString()
   tolpLockPositionEntity.tolp = tolpEntity.id
+  tolpLockPositionEntity.lockedAtEpoch = putTobEntity().currentEpoch
+  tolpLockPositionEntity.tolpSingularityPool = getTolpSingularityPool(
+    event.params.sglAssetId
+  ).id
   tolpLockPositionEntity.save()
 
   tolpEntity.lockPosition = tolpLockPositionEntity.id

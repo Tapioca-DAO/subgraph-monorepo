@@ -1,4 +1,10 @@
-import { Address, BigInt, Bytes, store } from "@graphprotocol/graph-ts"
+import {
+  Address,
+  BigInt,
+  Bytes,
+  dataSource,
+  store,
+} from "@graphprotocol/graph-ts"
 
 import {
   SetPaymentToken as SetPaymentTokenEvent,
@@ -6,6 +12,7 @@ import {
   TOB,
   Participate as ParticipateEvent,
   ExitPosition as ExitPositionEvent,
+  ExerciseOption as ExerciseOptionEvent,
 } from "../generated/TOB/TOB"
 import {
   TapiocaOptionBrokerPaymentToken,
@@ -36,12 +43,15 @@ function putEpochEntity(
   return tobEntity
 }
 
-function putTobEntity(address: Address): TapiocaOptionBroker {
-  let tobEntity = TapiocaOptionBroker.load(address)
+export function putTobEntity(): TapiocaOptionBroker {
+  const tobAddress = Address.fromBytes(
+    Address.fromHexString(dataSource.context().getString("tob_address"))
+  )
+  let tobEntity = TapiocaOptionBroker.load(tobAddress)
 
   if (tobEntity == null) {
-    tobEntity = new TapiocaOptionBroker(address)
-    const tobContract = TOB.bind(address)
+    tobEntity = new TapiocaOptionBroker(tobAddress)
+    const tobContract = TOB.bind(tobAddress)
 
     tobEntity.paymentTokens = []
     tobEntity.epochDuration = tobContract.EPOCH_DURATION().toI32()
@@ -77,7 +87,7 @@ function putPaymentToken(
 }
 
 export function handleSetPaymentToken(event: SetPaymentTokenEvent): void {
-  const tobEntity = putTobEntity(event.address)
+  const tobEntity = putTobEntity()
 
   const token = putToken(event.params.paymentToken)
 
@@ -93,7 +103,7 @@ export function handleSetPaymentToken(event: SetPaymentTokenEvent): void {
 }
 
 export function handleNewEpoch(event: NewEpochEvent): void {
-  const tobEntity = putTobEntity(event.address)
+  const tobEntity = putTobEntity()
 
   tobEntity.currentEpoch = putEpochEntity(
     event.params.epoch,
@@ -129,7 +139,7 @@ export function handleNewEpoch(event: NewEpochEvent): void {
 }
 
 export function handleParticipate(event: ParticipateEvent): void {
-  const tobEntity = putTobEntity(event.address)
+  const tobEntity = putTobEntity()
   const otapEntity = putOTAPEntity(event.params.otapTokenId)
   const tolpEntity = putTOLPEntity(event.params.tolpTokenId)
 
@@ -152,4 +162,29 @@ export function handleExitPosition(event: ExitPositionEvent): void {
   otapEntity.save()
 
   store.remove("OTAPParticipatePosition", otapEntity.id.toHexString())
+}
+
+export function handleExerciseOption(event: ExerciseOptionEvent): void {
+  const tobEntity = putTobEntity()
+  const otapEntity = putOTAPEntity(event.params.otapTokenId)
+
+  const otapParticipateEntity = OTAPParticipatePosition.load(otapEntity.id)
+
+  if (otapParticipateEntity == null) {
+    throw new Error("OTAPParticipatePosition not found")
+  }
+
+  if (
+    otapParticipateEntity.lastExercisedEpoch == null ||
+    otapParticipateEntity.lastExercisedEpoch != tobEntity.currentEpoch
+  ) {
+    otapParticipateEntity.lastExercisedEpoch = tobEntity.currentEpoch
+    otapParticipateEntity.exercisedTap = event.params.tapAmount
+  } else {
+    otapParticipateEntity.exercisedTap = event.params.tapAmount.plus(
+      otapParticipateEntity.exercisedTap as BigInt
+    )
+  }
+
+  otapParticipateEntity.save()
 }

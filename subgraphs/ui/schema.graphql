@@ -86,11 +86,14 @@ type TapiocaOptionLiquidityProvision @entity(immutable: false) {
 #START ######### TOLP NFT BASE ##########
 type TOLPLockPosition @entity(immutable: false) {
   id: Bytes!
+  sglAddress: String! # address
   sglAssetId: BigInt! # uint128
   ybShares: BigInt! # uint128
   lockTime: Int! # uint128
   lockDuration: Int! # uint128
+  lockedAtEpoch: TapiocaOptionBrokerEpoch!
   tolp: TOLP!
+  tolpSingularityPool: TolpSingularityPool!
 }
 
 type TOLP @entity(immutable: false) {
@@ -107,6 +110,8 @@ type OTAPParticipatePosition @entity(immutable: false) {
   id: Bytes!
   participatedAtEpoch: TapiocaOptionBrokerEpoch!
   discount: Int! # uint256
+  lastExercisedEpoch: TapiocaOptionBrokerEpoch
+  exercisedTap: BigInt
   tolp: TOLP!
   otap: OTAP!
 }

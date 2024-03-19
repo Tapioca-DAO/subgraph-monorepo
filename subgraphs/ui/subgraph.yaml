@@ -42,6 +42,29 @@ dataSources:
           handler: handleRegisterBigBang
       file: ./src/penrose.ts
     network: arbitrum-sepolia
+    context:
+      &a1
+      usdo_address:
+        type: String
+        data: "0x67b715806b93495dc64a938168ebda17eb01e732"
+      penrose_address:
+        type: String
+        data: "0x5bcb4eb9f66f05735045118560c6dd7097e7582d"
+      tapiocawrapper_address:
+        type: String
+        data: "0xb5098803dac7ff13e5cb1ecb13e11567670acaf6"
+      yieldbox_address:
+        type: String
+        data: "0xb7bd73f92af817055b6a5e2bcb19804b9d515864"
+      tob_address:
+        type: String
+        data: "0xe22a89ab75d5f6c033c9a9afed8e043fdc9579d7"
+      otap_address:
+        type: String
+        data: "0x2d7aed5308991d2eb1f2ad55c83c4a43b4abfd9d"
+      tolp_address:
+        type: String
+        data: "0x19e1b98e47baabe318802d4785cf9fff1a25d76f"
   - kind: ethereum
     name: TapiocaWrapper
     network: arbitrum-sepolia
@@ -70,6 +93,7 @@ dataSources:
         - event: CreateOFT(indexed address,indexed address)
           handler: handleCreateOFT
       file: ./src/tapioca-wrapper.ts
+    context: *a1
   - kind: ethereum
     name: USDO
     network: arbitrum-sepolia
@@ -96,6 +120,7 @@ dataSources:
         - event: SetTrustedRemote(uint16,bytes)
           handler: handleSetTrustedRemoteUSDO
       file: ./src/usdo.ts
+    context: *a1
   - kind: ethereum
     name: YieldBox
     source:
@@ -117,12 +142,13 @@ dataSources:
           handler: handleAssetRegistered
       file: ./src/yieldbox.ts
     network: arbitrum-sepolia
+    context: *a1
   - kind: ethereum
     name: TOLP
     source:
       abi: TOLP
       startBlock: 4954220
-      address: "0xF2FE6997F7dbc5f3F0b9e45B921eFb6045fa1F11"
+      address: "0x19e1b98e47BaABE318802D4785cf9fFF1A25D76f"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -134,9 +160,9 @@ dataSources:
         - name: TOLP
           file: ./abis/tOLP.json
       eventHandlers:
-        - event: Mint(indexed address,indexed uint256,uint256,uint128,uint128)
+        - event: Mint(indexed address,indexed uint256,address,uint256,uint128,uint128)
           handler: handleMint
-        - event: Burn(indexed address,indexed uint256,uint256)
+        - event: Burn(indexed address,indexed uint256,address,uint256)
           handler: handleBurn
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
@@ -152,12 +178,13 @@ dataSources:
           handler: handleActivateSGLPoolRescue
       file: ./src/tolp.ts
     network: arbitrum-sepolia
+    context: *a1
   - kind: ethereum
     name: TOB
     source:
       abi: TOB
       startBlock: 4954220
-      address: "0x925c1fa44796612CADaFc8624a9e27236BCCF39C"
+      address: "0xe22A89aB75D5f6C033C9a9afED8E043fDc9579D7"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -183,14 +210,18 @@ dataSources:
           handler: handleParticipate
         - event: ExitPosition(indexed uint256,indexed uint256,uint256)
           handler: handleExitPosition
+        - event: ExerciseOption(indexed uint256,indexed address,indexed
+            address,uint256,uint256)
+          handler: handleExerciseOption
       file: ./src/tob.ts
     network: arbitrum-sepolia
+    context: *a1
   - kind: ethereum
     name: OTAP
     source:
       abi: OTAP
       startBlock: 4954220
-      address: "0x53D07B6dd29702194Cf8B93671d28Afc94a957E1"
+      address: "0x2D7aeD5308991D2Eb1f2ad55c83c4a43b4AbFd9D"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -205,6 +236,7 @@ dataSources:
           handler: handleTransfer
       file: ./src/otap.ts
     network: arbitrum-sepolia
+    context: *a1
 templates:
   - kind: ethereum
     name: TOFT
