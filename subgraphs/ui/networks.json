@@ -27,6 +27,10 @@
     "TOLP": {
       "startBlock": 23590770,
       "address": "0x0000000000000000000000000000000000000000"
+    },
+    "TWTAP": {
+      "startBlock": 23590770,
+      "address": "0x0000000000000000000000000000000000000000"
     }
   },
   "arbitrum-sepolia": {
@@ -48,15 +52,19 @@
     },
     "TOB": {
       "startBlock": 4954220,
-      "address": "0xe22A89aB75D5f6C033C9a9afED8E043fDc9579D7"
+      "address": "0x448CE63f9a12d81658194E5035547ea83EE267F6"
     },
     "OTAP": {
       "startBlock": 4954220,
-      "address": "0x2D7aeD5308991D2Eb1f2ad55c83c4a43b4AbFd9D"
+      "address": "0xCa5fAA2431c5F2AB96427E3cf672d0f782cDaEFd"
     },
     "TOLP": {
       "startBlock": 4954220,
-      "address": "0x19e1b98e47BaABE318802D4785cf9fFF1A25D76f"
+      "address": "0x561339b30f47197D7d5BBE13b1314EfCBab5a114"
+    },
+    "TWTAP": {
+      "startBlock": 4954220,
+      "address": "0x61a4FFf4B29e28D38a8EC08da415918c47b8A69c"
     }
   }
 }

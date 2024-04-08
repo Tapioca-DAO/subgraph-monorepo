@@ -58,13 +58,16 @@ dataSources:
         data: "0xb7bd73f92af817055b6a5e2bcb19804b9d515864"
       tob_address:
         type: String
-        data: "0xe22a89ab75d5f6c033c9a9afed8e043fdc9579d7"
+        data: "0x448ce63f9a12d81658194e5035547ea83ee267f6"
       otap_address:
         type: String
-        data: "0x2d7aed5308991d2eb1f2ad55c83c4a43b4abfd9d"
+        data: "0xca5faa2431c5f2ab96427e3cf672d0f782cdaefd"
       tolp_address:
         type: String
-        data: "0x19e1b98e47baabe318802d4785cf9fff1a25d76f"
+        data: "0x561339b30f47197d7d5bbe13b1314efcbab5a114"
+      twtap_address:
+        type: String
+        data: "0x61a4fff4b29e28d38a8ec08da415918c47b8a69c"
   - kind: ethereum
     name: TapiocaWrapper
     network: arbitrum-sepolia
@@ -148,7 +151,7 @@ dataSources:
     source:
       abi: TOLP
       startBlock: 4954220
-      address: "0x19e1b98e47BaABE318802D4785cf9fFF1A25D76f"
+      address: "0x561339b30f47197D7d5BBE13b1314EfCBab5a114"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -184,7 +187,7 @@ dataSources:
     source:
       abi: TOB
       startBlock: 4954220
-      address: "0xe22A89aB75D5f6C033C9a9afED8E043fDc9579D7"
+      address: "0x448CE63f9a12d81658194E5035547ea83EE267F6"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -217,11 +220,61 @@ dataSources:
     network: arbitrum-sepolia
     context: *a1
   - kind: ethereum
+    name: TWTAP
+    source:
+      abi: TWTAP
+      startBlock: 4954220
+      address: "0x61a4FFf4B29e28D38a8EC08da415918c47b8A69c"
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - TWTAPLockPosition
+        - TWTAP
+        - TimeWeightedTapioca
+      abis:
+        - name: TWTAP
+          file: ./abis/twTAP.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+        - event: Participate(indexed address,uint256,uint256,uint256,uint256)
+          handler: handleParticipate
+        - event: ExitPosition(indexed uint256,indexed address,uint256)
+          handler: handleExitPosition
+        - event: AdvanceEpoch(indexed uint256,uint256)
+          handler: handleAdvanceEpoch
+        - event: AddRewardToken(indexed address,uint256)
+          handler: handleAddRewardToken
+        - event: SetMinWeightFactor(uint256,uint256)
+          handler: handleSetMinWeightFactor
+        - event: SetVirtualTotalAmount(uint256,uint256)
+          handler: handleSetVirtualTotalAmount
+        - event: Paused(address)
+          handler: handlePaused
+        - event: Unpaused(address)
+          handler: handleUnpaused
+        - event: ClaimReward(indexed address,indexed address,indexed
+            uint256,uint256,uint256)
+          handler: handleClaimReward
+        - event: DistributeReward(indexed address,indexed address,uint256,uint256)
+          handler: handleDistributeReward
+      file: ./src/twtap.ts
+    network: arbitrum-sepolia
+    context: *a1
+  - kind: ethereum
     name: OTAP
     source:
       abi: OTAP
       startBlock: 4954220
-      address: "0x2D7aeD5308991D2Eb1f2ad55c83c4a43b4AbFd9D"
+      address: "0xCa5fAA2431c5F2AB96427E3cf672d0f782cDaEFd"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7

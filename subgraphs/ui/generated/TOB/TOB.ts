@@ -673,19 +673,19 @@ export class TOB extends ethereum.SmartContract {
   }
 
   onERC721Received(
-    operator: Address,
-    from: Address,
-    tokenId: BigInt,
-    data: Bytes,
+    param0: Address,
+    param1: Address,
+    param2: BigInt,
+    param3: Bytes,
   ): Bytes {
     let result = super.call(
       "onERC721Received",
       "onERC721Received(address,address,uint256,bytes):(bytes4)",
       [
-        ethereum.Value.fromAddress(operator),
-        ethereum.Value.fromAddress(from),
-        ethereum.Value.fromUnsignedBigInt(tokenId),
-        ethereum.Value.fromBytes(data),
+        ethereum.Value.fromAddress(param0),
+        ethereum.Value.fromAddress(param1),
+        ethereum.Value.fromUnsignedBigInt(param2),
+        ethereum.Value.fromBytes(param3),
       ],
     );
 
@@ -693,19 +693,19 @@ export class TOB extends ethereum.SmartContract {
   }
 
   try_onERC721Received(
-    operator: Address,
-    from: Address,
-    tokenId: BigInt,
-    data: Bytes,
+    param0: Address,
+    param1: Address,
+    param2: BigInt,
+    param3: Bytes,
   ): ethereum.CallResult<Bytes> {
     let result = super.tryCall(
       "onERC721Received",
       "onERC721Received(address,address,uint256,bytes):(bytes4)",
       [
-        ethereum.Value.fromAddress(operator),
-        ethereum.Value.fromAddress(from),
-        ethereum.Value.fromUnsignedBigInt(tokenId),
-        ethereum.Value.fromBytes(data),
+        ethereum.Value.fromAddress(param0),
+        ethereum.Value.fromAddress(param1),
+        ethereum.Value.fromUnsignedBigInt(param2),
+        ethereum.Value.fromBytes(param3),
       ],
     );
     if (result.reverted) {
@@ -1221,52 +1221,6 @@ export class NewEpochCall__Outputs {
 
   constructor(call: NewEpochCall) {
     this._call = call;
-  }
-}
-
-export class OnERC721ReceivedCall extends ethereum.Call {
-  get inputs(): OnERC721ReceivedCall__Inputs {
-    return new OnERC721ReceivedCall__Inputs(this);
-  }
-
-  get outputs(): OnERC721ReceivedCall__Outputs {
-    return new OnERC721ReceivedCall__Outputs(this);
-  }
-}
-
-export class OnERC721ReceivedCall__Inputs {
-  _call: OnERC721ReceivedCall;
-
-  constructor(call: OnERC721ReceivedCall) {
-    this._call = call;
-  }
-
-  get operator(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
-  get from(): Address {
-    return this._call.inputValues[1].value.toAddress();
-  }
-
-  get tokenId(): BigInt {
-    return this._call.inputValues[2].value.toBigInt();
-  }
-
-  get data(): Bytes {
-    return this._call.inputValues[3].value.toBytes();
-  }
-}
-
-export class OnERC721ReceivedCall__Outputs {
-  _call: OnERC721ReceivedCall;
-
-  constructor(call: OnERC721ReceivedCall) {
-    this._call = call;
-  }
-
-  get value0(): Bytes {
-    return this._call.outputValues[0].value.toBytes();
   }
 }
 

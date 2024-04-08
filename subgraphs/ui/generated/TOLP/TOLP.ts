@@ -1066,21 +1066,21 @@ export class TOLP extends ethereum.SmartContract {
   }
 
   onERC1155BatchReceived(
-    operator: Address,
-    from: Address,
-    ids: Array<BigInt>,
-    values: Array<BigInt>,
-    data: Bytes,
+    param0: Address,
+    param1: Address,
+    param2: Array<BigInt>,
+    param3: Array<BigInt>,
+    param4: Bytes,
   ): Bytes {
     let result = super.call(
       "onERC1155BatchReceived",
       "onERC1155BatchReceived(address,address,uint256[],uint256[],bytes):(bytes4)",
       [
-        ethereum.Value.fromAddress(operator),
-        ethereum.Value.fromAddress(from),
-        ethereum.Value.fromUnsignedBigIntArray(ids),
-        ethereum.Value.fromUnsignedBigIntArray(values),
-        ethereum.Value.fromBytes(data),
+        ethereum.Value.fromAddress(param0),
+        ethereum.Value.fromAddress(param1),
+        ethereum.Value.fromUnsignedBigIntArray(param2),
+        ethereum.Value.fromUnsignedBigIntArray(param3),
+        ethereum.Value.fromBytes(param4),
       ],
     );
 
@@ -1088,21 +1088,21 @@ export class TOLP extends ethereum.SmartContract {
   }
 
   try_onERC1155BatchReceived(
-    operator: Address,
-    from: Address,
-    ids: Array<BigInt>,
-    values: Array<BigInt>,
-    data: Bytes,
+    param0: Address,
+    param1: Address,
+    param2: Array<BigInt>,
+    param3: Array<BigInt>,
+    param4: Bytes,
   ): ethereum.CallResult<Bytes> {
     let result = super.tryCall(
       "onERC1155BatchReceived",
       "onERC1155BatchReceived(address,address,uint256[],uint256[],bytes):(bytes4)",
       [
-        ethereum.Value.fromAddress(operator),
-        ethereum.Value.fromAddress(from),
-        ethereum.Value.fromUnsignedBigIntArray(ids),
-        ethereum.Value.fromUnsignedBigIntArray(values),
-        ethereum.Value.fromBytes(data),
+        ethereum.Value.fromAddress(param0),
+        ethereum.Value.fromAddress(param1),
+        ethereum.Value.fromUnsignedBigIntArray(param2),
+        ethereum.Value.fromUnsignedBigIntArray(param3),
+        ethereum.Value.fromBytes(param4),
       ],
     );
     if (result.reverted) {
@@ -1113,21 +1113,21 @@ export class TOLP extends ethereum.SmartContract {
   }
 
   onERC1155Received(
-    operator: Address,
-    from: Address,
-    id: BigInt,
-    value: BigInt,
-    data: Bytes,
+    param0: Address,
+    param1: Address,
+    param2: BigInt,
+    param3: BigInt,
+    param4: Bytes,
   ): Bytes {
     let result = super.call(
       "onERC1155Received",
       "onERC1155Received(address,address,uint256,uint256,bytes):(bytes4)",
       [
-        ethereum.Value.fromAddress(operator),
-        ethereum.Value.fromAddress(from),
-        ethereum.Value.fromUnsignedBigInt(id),
-        ethereum.Value.fromUnsignedBigInt(value),
-        ethereum.Value.fromBytes(data),
+        ethereum.Value.fromAddress(param0),
+        ethereum.Value.fromAddress(param1),
+        ethereum.Value.fromUnsignedBigInt(param2),
+        ethereum.Value.fromUnsignedBigInt(param3),
+        ethereum.Value.fromBytes(param4),
       ],
     );
 
@@ -1135,21 +1135,21 @@ export class TOLP extends ethereum.SmartContract {
   }
 
   try_onERC1155Received(
-    operator: Address,
-    from: Address,
-    id: BigInt,
-    value: BigInt,
-    data: Bytes,
+    param0: Address,
+    param1: Address,
+    param2: BigInt,
+    param3: BigInt,
+    param4: Bytes,
   ): ethereum.CallResult<Bytes> {
     let result = super.tryCall(
       "onERC1155Received",
       "onERC1155Received(address,address,uint256,uint256,bytes):(bytes4)",
       [
-        ethereum.Value.fromAddress(operator),
-        ethereum.Value.fromAddress(from),
-        ethereum.Value.fromUnsignedBigInt(id),
-        ethereum.Value.fromUnsignedBigInt(value),
-        ethereum.Value.fromBytes(data),
+        ethereum.Value.fromAddress(param0),
+        ethereum.Value.fromAddress(param1),
+        ethereum.Value.fromUnsignedBigInt(param2),
+        ethereum.Value.fromUnsignedBigInt(param3),
+        ethereum.Value.fromBytes(param4),
       ],
     );
     if (result.reverted) {
@@ -1349,6 +1349,27 @@ export class TOLP extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toString());
   }
 
+  tokenByIndex(index: BigInt): BigInt {
+    let result = super.call("tokenByIndex", "tokenByIndex(uint256):(uint256)", [
+      ethereum.Value.fromUnsignedBigInt(index),
+    ]);
+
+    return result[0].toBigInt();
+  }
+
+  try_tokenByIndex(index: BigInt): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "tokenByIndex",
+      "tokenByIndex(uint256):(uint256)",
+      [ethereum.Value.fromUnsignedBigInt(index)],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   tokenCounter(): BigInt {
     let result = super.call("tokenCounter", "tokenCounter():(uint256)", []);
 
@@ -1357,6 +1378,38 @@ export class TOLP extends ethereum.SmartContract {
 
   try_tokenCounter(): ethereum.CallResult<BigInt> {
     let result = super.tryCall("tokenCounter", "tokenCounter():(uint256)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  tokenOfOwnerByIndex(owner: Address, index: BigInt): BigInt {
+    let result = super.call(
+      "tokenOfOwnerByIndex",
+      "tokenOfOwnerByIndex(address,uint256):(uint256)",
+      [
+        ethereum.Value.fromAddress(owner),
+        ethereum.Value.fromUnsignedBigInt(index),
+      ],
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_tokenOfOwnerByIndex(
+    owner: Address,
+    index: BigInt,
+  ): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "tokenOfOwnerByIndex",
+      "tokenOfOwnerByIndex(address,uint256):(uint256)",
+      [
+        ethereum.Value.fromAddress(owner),
+        ethereum.Value.fromUnsignedBigInt(index),
+      ],
+    );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -1399,6 +1452,21 @@ export class TOLP extends ethereum.SmartContract {
       "totalSingularityPoolWeights():(uint256)",
       [],
     );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  totalSupply(): BigInt {
+    let result = super.call("totalSupply", "totalSupply():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_totalSupply(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("totalSupply", "totalSupply():(uint256)", []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -1608,106 +1676,6 @@ export class LockCall__Outputs {
   }
 }
 
-export class OnERC1155BatchReceivedCall extends ethereum.Call {
-  get inputs(): OnERC1155BatchReceivedCall__Inputs {
-    return new OnERC1155BatchReceivedCall__Inputs(this);
-  }
-
-  get outputs(): OnERC1155BatchReceivedCall__Outputs {
-    return new OnERC1155BatchReceivedCall__Outputs(this);
-  }
-}
-
-export class OnERC1155BatchReceivedCall__Inputs {
-  _call: OnERC1155BatchReceivedCall;
-
-  constructor(call: OnERC1155BatchReceivedCall) {
-    this._call = call;
-  }
-
-  get operator(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
-  get from(): Address {
-    return this._call.inputValues[1].value.toAddress();
-  }
-
-  get ids(): Array<BigInt> {
-    return this._call.inputValues[2].value.toBigIntArray();
-  }
-
-  get values(): Array<BigInt> {
-    return this._call.inputValues[3].value.toBigIntArray();
-  }
-
-  get data(): Bytes {
-    return this._call.inputValues[4].value.toBytes();
-  }
-}
-
-export class OnERC1155BatchReceivedCall__Outputs {
-  _call: OnERC1155BatchReceivedCall;
-
-  constructor(call: OnERC1155BatchReceivedCall) {
-    this._call = call;
-  }
-
-  get value0(): Bytes {
-    return this._call.outputValues[0].value.toBytes();
-  }
-}
-
-export class OnERC1155ReceivedCall extends ethereum.Call {
-  get inputs(): OnERC1155ReceivedCall__Inputs {
-    return new OnERC1155ReceivedCall__Inputs(this);
-  }
-
-  get outputs(): OnERC1155ReceivedCall__Outputs {
-    return new OnERC1155ReceivedCall__Outputs(this);
-  }
-}
-
-export class OnERC1155ReceivedCall__Inputs {
-  _call: OnERC1155ReceivedCall;
-
-  constructor(call: OnERC1155ReceivedCall) {
-    this._call = call;
-  }
-
-  get operator(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
-  get from(): Address {
-    return this._call.inputValues[1].value.toAddress();
-  }
-
-  get id(): BigInt {
-    return this._call.inputValues[2].value.toBigInt();
-  }
-
-  get value(): BigInt {
-    return this._call.inputValues[3].value.toBigInt();
-  }
-
-  get data(): Bytes {
-    return this._call.inputValues[4].value.toBytes();
-  }
-}
-
-export class OnERC1155ReceivedCall__Outputs {
-  _call: OnERC1155ReceivedCall;
-
-  constructor(call: OnERC1155ReceivedCall) {
-    this._call = call;
-  }
-
-  get value0(): Bytes {
-    return this._call.outputValues[0].value.toBytes();
-  }
-}
-
 export class PermitCall extends ethereum.Call {
   get inputs(): PermitCall__Inputs {
     return new PermitCall__Inputs(this);
@@ -1880,54 +1848,16 @@ export class SafeTransferFromCall__Inputs {
   get tokenId(): BigInt {
     return this._call.inputValues[2].value.toBigInt();
   }
-}
-
-export class SafeTransferFromCall__Outputs {
-  _call: SafeTransferFromCall;
-
-  constructor(call: SafeTransferFromCall) {
-    this._call = call;
-  }
-}
-
-export class SafeTransferFrom1Call extends ethereum.Call {
-  get inputs(): SafeTransferFrom1Call__Inputs {
-    return new SafeTransferFrom1Call__Inputs(this);
-  }
-
-  get outputs(): SafeTransferFrom1Call__Outputs {
-    return new SafeTransferFrom1Call__Outputs(this);
-  }
-}
-
-export class SafeTransferFrom1Call__Inputs {
-  _call: SafeTransferFrom1Call;
-
-  constructor(call: SafeTransferFrom1Call) {
-    this._call = call;
-  }
-
-  get from(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
-  get to(): Address {
-    return this._call.inputValues[1].value.toAddress();
-  }
-
-  get tokenId(): BigInt {
-    return this._call.inputValues[2].value.toBigInt();
-  }
 
   get data(): Bytes {
     return this._call.inputValues[3].value.toBytes();
   }
 }
 
-export class SafeTransferFrom1Call__Outputs {
-  _call: SafeTransferFrom1Call;
+export class SafeTransferFromCall__Outputs {
+  _call: SafeTransferFromCall;
 
-  constructor(call: SafeTransferFrom1Call) {
+  constructor(call: SafeTransferFromCall) {
     this._call = call;
   }
 }

@@ -1459,3 +1459,656 @@ export class OTAP extends Entity {
     }
   }
 }
+
+export class TwTapRewardToken extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save TwTapRewardToken entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type TwTapRewardToken must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+      );
+      store.set("TwTapRewardToken", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): TwTapRewardToken | null {
+    return changetype<TwTapRewardToken | null>(
+      store.get_in_block("TwTapRewardToken", id),
+    );
+  }
+
+  static load(id: string): TwTapRewardToken | null {
+    return changetype<TwTapRewardToken | null>(
+      store.get("TwTapRewardToken", id),
+    );
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get tokenId(): i32 {
+    let value = this.get("tokenId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set tokenId(value: i32) {
+    this.set("tokenId", Value.fromI32(value));
+  }
+
+  get token(): Bytes {
+    let value = this.get("token");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set token(value: Bytes) {
+    this.set("token", Value.fromBytes(value));
+  }
+}
+
+export class TwTapEpochRewardAmount extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(
+      id != null,
+      "Cannot save TwTapEpochRewardAmount entity without an ID",
+    );
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type TwTapEpochRewardAmount must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+      );
+      store.set("TwTapEpochRewardAmount", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): TwTapEpochRewardAmount | null {
+    return changetype<TwTapEpochRewardAmount | null>(
+      store.get_in_block("TwTapEpochRewardAmount", id),
+    );
+  }
+
+  static load(id: string): TwTapEpochRewardAmount | null {
+    return changetype<TwTapEpochRewardAmount | null>(
+      store.get("TwTapEpochRewardAmount", id),
+    );
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get token(): string {
+    let value = this.get("token");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set token(value: string) {
+    this.set("token", Value.fromString(value));
+  }
+
+  get amount(): BigInt {
+    let value = this.get("amount");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set amount(value: BigInt) {
+    this.set("amount", Value.fromBigInt(value));
+  }
+
+  get epoch(): string {
+    let value = this.get("epoch");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set epoch(value: string) {
+    this.set("epoch", Value.fromString(value));
+  }
+}
+
+export class TwTapEpoch extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save TwTapEpoch entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type TwTapEpoch must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+      );
+      store.set("TwTapEpoch", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): TwTapEpoch | null {
+    return changetype<TwTapEpoch | null>(store.get_in_block("TwTapEpoch", id));
+  }
+
+  static load(id: string): TwTapEpoch | null {
+    return changetype<TwTapEpoch | null>(store.get("TwTapEpoch", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get epochId(): i32 {
+    let value = this.get("epochId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set epochId(value: i32) {
+    this.set("epochId", Value.fromI32(value));
+  }
+
+  get lastDistributedRewardsTimestamp(): i32 {
+    let value = this.get("lastDistributedRewardsTimestamp");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set lastDistributedRewardsTimestamp(value: i32) {
+    this.set("lastDistributedRewardsTimestamp", Value.fromI32(value));
+  }
+
+  get distributedRewardAmounts(): TwTapEpochRewardAmountLoader {
+    return new TwTapEpochRewardAmountLoader(
+      "TwTapEpoch",
+      this.get("id")!.toString(),
+      "distributedRewardAmounts",
+    );
+  }
+}
+
+export class TimeWeightedTapioca extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save TimeWeightedTapioca entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type TimeWeightedTapioca must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+      );
+      store.set("TimeWeightedTapioca", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): TimeWeightedTapioca | null {
+    return changetype<TimeWeightedTapioca | null>(
+      store.get_in_block("TimeWeightedTapioca", id),
+    );
+  }
+
+  static load(id: string): TimeWeightedTapioca | null {
+    return changetype<TimeWeightedTapioca | null>(
+      store.get("TimeWeightedTapioca", id),
+    );
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get currentEpoch(): string {
+    let value = this.get("currentEpoch");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set currentEpoch(value: string) {
+    this.set("currentEpoch", Value.fromString(value));
+  }
+
+  get epochDuration(): i32 {
+    let value = this.get("epochDuration");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set epochDuration(value: i32) {
+    this.set("epochDuration", Value.fromI32(value));
+  }
+
+  get maxLockDuration(): i64 {
+    let value = this.get("maxLockDuration");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI64();
+    }
+  }
+
+  set maxLockDuration(value: i64) {
+    this.set("maxLockDuration", Value.fromI64(value));
+  }
+
+  get epochesStartTime(): i32 {
+    let value = this.get("epochesStartTime");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set epochesStartTime(value: i32) {
+    this.set("epochesStartTime", Value.fromI32(value));
+  }
+
+  get virtualTotalAmount(): BigInt {
+    let value = this.get("virtualTotalAmount");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set virtualTotalAmount(value: BigInt) {
+    this.set("virtualTotalAmount", Value.fromBigInt(value));
+  }
+
+  get minWeightFactor(): BigInt {
+    let value = this.get("minWeightFactor");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set minWeightFactor(value: BigInt) {
+    this.set("minWeightFactor", Value.fromBigInt(value));
+  }
+
+  get isPaused(): boolean {
+    let value = this.get("isPaused");
+    if (!value || value.kind == ValueKind.NULL) {
+      return false;
+    } else {
+      return value.toBoolean();
+    }
+  }
+
+  set isPaused(value: boolean) {
+    this.set("isPaused", Value.fromBoolean(value));
+  }
+
+  get rewardTokens(): Array<string> {
+    let value = this.get("rewardTokens");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set rewardTokens(value: Array<string>) {
+    this.set("rewardTokens", Value.fromStringArray(value));
+  }
+}
+
+export class TWTAPLockPosition extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save TWTAPLockPosition entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type TWTAPLockPosition must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+      );
+      store.set("TWTAPLockPosition", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): TWTAPLockPosition | null {
+    return changetype<TWTAPLockPosition | null>(
+      store.get_in_block("TWTAPLockPosition", id),
+    );
+  }
+
+  static load(id: string): TWTAPLockPosition | null {
+    return changetype<TWTAPLockPosition | null>(
+      store.get("TWTAPLockPosition", id),
+    );
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get tapAmount(): BigInt {
+    let value = this.get("tapAmount");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set tapAmount(value: BigInt) {
+    this.set("tapAmount", Value.fromBigInt(value));
+  }
+
+  get multiplier(): BigInt {
+    let value = this.get("multiplier");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set multiplier(value: BigInt) {
+    this.set("multiplier", Value.fromBigInt(value));
+  }
+
+  get votingPowerAmount(): BigInt {
+    let value = this.get("votingPowerAmount");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set votingPowerAmount(value: BigInt) {
+    this.set("votingPowerAmount", Value.fromBigInt(value));
+  }
+
+  get lockTime(): i32 {
+    let value = this.get("lockTime");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set lockTime(value: i32) {
+    this.set("lockTime", Value.fromI32(value));
+  }
+
+  get lockDuration(): i64 {
+    let value = this.get("lockDuration");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI64();
+    }
+  }
+
+  set lockDuration(value: i64) {
+    this.set("lockDuration", Value.fromI64(value));
+  }
+
+  get lockedAtEpoch(): string {
+    let value = this.get("lockedAtEpoch");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set lockedAtEpoch(value: string) {
+    this.set("lockedAtEpoch", Value.fromString(value));
+  }
+
+  get lastActiveEpoch(): string {
+    let value = this.get("lastActiveEpoch");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set lastActiveEpoch(value: string) {
+    this.set("lastActiveEpoch", Value.fromString(value));
+  }
+
+  get isExited(): boolean {
+    let value = this.get("isExited");
+    if (!value || value.kind == ValueKind.NULL) {
+      return false;
+    } else {
+      return value.toBoolean();
+    }
+  }
+
+  set isExited(value: boolean) {
+    this.set("isExited", Value.fromBoolean(value));
+  }
+
+  get lastClaimedTimestamp(): i32 {
+    let value = this.get("lastClaimedTimestamp");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set lastClaimedTimestamp(value: i32) {
+    this.set("lastClaimedTimestamp", Value.fromI32(value));
+  }
+
+  get twTap(): string {
+    let value = this.get("twTap");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set twTap(value: string) {
+    this.set("twTap", Value.fromString(value));
+  }
+}
+
+export class TWTAP extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save TWTAP entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type TWTAP must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+      );
+      store.set("TWTAP", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): TWTAP | null {
+    return changetype<TWTAP | null>(store.get_in_block("TWTAP", id));
+  }
+
+  static load(id: string): TWTAP | null {
+    return changetype<TWTAP | null>(store.get("TWTAP", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get nftId(): BigInt {
+    let value = this.get("nftId");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set nftId(value: BigInt) {
+    this.set("nftId", Value.fromBigInt(value));
+  }
+
+  get owner(): string {
+    let value = this.get("owner");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set owner(value: string) {
+    this.set("owner", Value.fromString(value));
+  }
+
+  get lockPosition(): string | null {
+    let value = this.get("lockPosition");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set lockPosition(value: string | null) {
+    if (!value) {
+      this.unset("lockPosition");
+    } else {
+      this.set("lockPosition", Value.fromString(<string>value));
+    }
+  }
+}
+
+export class TwTapEpochRewardAmountLoader extends Entity {
+  _entity: string;
+  _field: string;
+  _id: string;
+
+  constructor(entity: string, id: string, field: string) {
+    super();
+    this._entity = entity;
+    this._id = id;
+    this._field = field;
+  }
+
+  load(): TwTapEpochRewardAmount[] {
+    let value = store.loadRelated(this._entity, this._id, this._field);
+    return changetype<TwTapEpochRewardAmount[]>(value);
+  }
+}

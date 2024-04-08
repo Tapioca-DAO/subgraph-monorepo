@@ -124,3 +124,61 @@ type OTAP @entity(immutable: false) {
   participatePosition: OTAPParticipatePosition
 }
 #END ########### OTAP NFT BASE ##########
+
+#START ######### TWTAP BASE ##########
+type TwTapRewardToken @entity(immutable: true) {
+  id: ID! # rewardTokenId
+  tokenId: Int!
+  token: Token!
+}
+
+type TwTapEpochRewardAmount @entity(immutable: false) {
+  id: ID! # epochId-rewardTokenId
+  token: TwTapRewardToken!
+  amount: BigInt! # uint256
+  epoch: TwTapEpoch!
+}
+
+type TwTapEpoch @entity(immutable: false) {
+  id: ID! # epochId
+  epochId: Int! # uint256
+  lastDistributedRewardsTimestamp: Int! # timestamp
+  distributedRewardAmounts: [TwTapEpochRewardAmount!]! @derivedFrom(field: "epoch")
+}
+
+type TimeWeightedTapioca @entity(immutable: false) {
+  id: ID! # twtap address
+  currentEpoch: TwTapEpoch!
+  epochDuration: Int! # timestamp
+  maxLockDuration: Int8! # timestamp
+  epochesStartTime: Int! # timestamp
+  virtualTotalAmount: BigInt! # uint256
+  minWeightFactor: BigInt! # uint256
+  isPaused: Boolean! # bool
+  rewardTokens: [TwTapRewardToken!]!
+}
+#END ########### TWTAP BASE ##########
+
+#START ######### TWTAP NFT BASE ##########
+type TWTAPLockPosition @entity(immutable: false) {
+  id: ID! # nftId
+  tapAmount: BigInt! # uint256
+  multiplier: BigInt! # uint256
+  votingPowerAmount: BigInt! # uint256
+  lockTime: Int! # uint128
+  lockDuration: Int8! # uint128
+  lockedAtEpoch: TwTapEpoch! # uint256
+  lastActiveEpoch: TwTapEpoch! # uint256
+  isExited: Boolean! # bool
+  lastClaimedTimestamp: Int! # uint128
+  twTap: TWTAP!
+}
+
+type TWTAP @entity(immutable: false) {
+  id: ID! # nftId
+  nftId: BigInt! # uint256
+  owner: String! # address - mutable
+
+  lockPosition: TWTAPLockPosition
+}
+#END ########### TWTAP NFT BASE ##########
