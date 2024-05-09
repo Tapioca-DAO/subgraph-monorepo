@@ -1,8 +1,7 @@
-import { Address, Bytes } from "@graphprotocol/graph-ts"
+import { Address, Bytes, dataSource } from "@graphprotocol/graph-ts"
 
 import { Vault } from "../../generated/Vault/Vault"
 import { Pool } from "../../generated/schema"
-import { VAULT_ADDRESS } from "../constants"
 import { putToken } from "./token/token"
 
 export const putPool = (rawPoolId: Bytes): string => {
@@ -11,9 +10,10 @@ export const putPool = (rawPoolId: Bytes): string => {
   if (pool == null) {
     pool = new Pool(rawPoolId.toHexString())
 
-    const c_vault = Vault.bind(
-      Address.fromBytes(Address.fromHexString(VAULT_ADDRESS))
+    const vaultAddress = Address.fromBytes(
+      Address.fromHexString(dataSource.context().getString("vault_address"))
     )
+    const c_vault = Vault.bind(vaultAddress)
 
     const poolTokens = c_vault.try_getPoolTokens(rawPoolId)
 

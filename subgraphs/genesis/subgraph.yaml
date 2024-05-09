@@ -24,6 +24,23 @@ dataSources:
           handler: handleParticipate
       file: ./src/airdrop-broker.ts
     network: arbitrum-sepolia
+    context:
+      &a1
+      airdropbroker_address:
+        type: String
+        data: "0x2e3de46f97e3f46e53059b48e4d6f24a16dea68d"
+      vault_address:
+        type: String
+        data: "0x17edbb6e84ae8367d0227d5a5b79ecf24ac21ca7"
+      lbp_address:
+        type: String
+        data: "0x7375dccf76bd77bb3f8b954352e83d858b367127"
+      ltap_address:
+        type: String
+        data: "0xe32bfb8a2849e945465784fa998ed13d5fcb29a9"
+      aotap_address:
+        type: String
+        data: "0x24268da3fdb0cd2ae216173748bc29ad7684b9e1"
   - kind: ethereum
     name: LTAP
     source:
@@ -48,6 +65,7 @@ dataSources:
           handler: handleTransfer
       file: ./src/erc20.ts
     network: arbitrum-sepolia
+    context: *a1
   - kind: ethereum
     name: Vault
     source:
@@ -79,6 +97,7 @@ dataSources:
           handler: handleSwap
       file: ./src/vault.ts
     network: arbitrum-sepolia
+    context: *a1
   - kind: ethereum
     name: LBP
     source:
@@ -109,3 +128,4 @@ dataSources:
           handler: handleSwapEnabledSet
       file: ./src/lbp.ts
     network: arbitrum-sepolia
+    context: *a1

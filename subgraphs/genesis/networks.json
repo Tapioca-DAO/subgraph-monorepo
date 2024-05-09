@@ -29,6 +29,10 @@
     "LTAP": {
       "startBlock": 41310428,
       "address": "0xE32BFb8A2849E945465784fa998eD13d5fcB29a9"
+    },
+    "AOTAP": {
+      "startBlock": 41310428,
+      "address": "0x24268DA3FdB0Cd2ae216173748BC29Ad7684B9E1"
     }
   }
 }

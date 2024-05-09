@@ -1,14 +1,16 @@
-import { Address } from "@graphprotocol/graph-ts"
+import { Address, dataSource } from "@graphprotocol/graph-ts"
 
 import { AOTAP } from "../generated/AirdropBroker/AOTAP"
 import { Participate as ParticipateEvent } from "../generated/AirdropBroker/AirdropBroker"
 import { ParticipationAOTap } from "../generated/schema"
-import { AOTAP_ADDRESS, BASIS_POINT } from "./constants"
+import { BASIS_POINT } from "./constants"
 
 export function handleParticipate(event: ParticipateEvent): void {
-  const c_aotap = AOTAP.bind(
-    Address.fromBytes(Address.fromHexString(AOTAP_ADDRESS))
+  const aotapAddress = Address.fromBytes(
+    Address.fromHexString(dataSource.context().getString("aotap_address"))
   )
+
+  const c_aotap = AOTAP.bind(aotapAddress)
 
   const entity = new ParticipationAOTap(
     event.transaction.hash

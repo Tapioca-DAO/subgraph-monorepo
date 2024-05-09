@@ -4,7 +4,8 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy:thegraph": "graph deploy --skip-migrations --node https://api.thegraph.com/deploy/"
+    "deploy:thegraph": "graph deploy --skip-migrations --node https://api.thegraph.com/deploy/",
+    "prepare:addresses": "node addressesToDataSources.js"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "^0.62.0",
@@ -15,6 +16,9 @@
     "@repo/eslint-config": "workspace:*",
     "@repo/prettier-config": "workspace:*",
     "matchstick-as": "^0.6.0",
-    "typescript": "5.2.2"
+    "typescript": "5.2.2",
+    "yaml": "^2.4.1",
+    "commander": "^12.0.0",
+    "fs-extra": "^11.2.0"
   }
 }
