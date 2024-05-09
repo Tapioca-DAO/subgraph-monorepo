@@ -4,8 +4,6 @@ import { Vault } from "../../generated/Vault/Vault"
 import { Pool } from "../../generated/schema"
 import { putToken } from "./token/token"
 
-const POOL_ID_CONTEXT_ID = "lbp_pool_id"
-
 export const putPool = (rawPoolId: Bytes): string => {
   let pool = Pool.load(rawPoolId.toHexString())
 
@@ -36,19 +34,7 @@ export const putPool = (rawPoolId: Bytes): string => {
     pool.weights = null
 
     pool.save()
-
-    dataSource.context().setString(POOL_ID_CONTEXT_ID, rawPoolId.toHexString())
   }
 
   return rawPoolId.toHexString()
-}
-
-export function getPoolId(): string | null {
-  const data = dataSource.context().get(POOL_ID_CONTEXT_ID)
-
-  if (data === null) {
-    return null
-  }
-
-  return data.toString()
 }

@@ -1,23 +1,17 @@
 import { Transfer as TransferEvent } from "../generated/LTAP/LTAP"
 import { Pool } from "../generated/schema"
-import { getPoolId } from "./utils/pool"
+import { LBP_POOL_ID } from "./_config"
 import { putUserTokenBalance } from "./utils/userTokenBalance"
 
 export function handleTransfer(event: TransferEvent): void {
-  const poolId = getPoolId()
-  if (poolId === null) {
-    // we skip if pool is not set
-    return
-  }
-
-  const pool = Pool.load(poolId as string)
+  const pool = Pool.load(LBP_POOL_ID)
 
   if (pool === null) {
     // we skip if pool is not set
     return
   }
 
-  if (pool.swapEnabled == false) {
+  if (pool.swapEnabled === false) {
     // we skip if swap is not enabled
     return
   }
