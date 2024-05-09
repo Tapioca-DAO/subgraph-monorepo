@@ -483,6 +483,19 @@ export class Pool extends Entity {
       this.set("weights", Value.fromString(<string>value));
     }
   }
+
+  get swapEnabled(): boolean {
+    let value = this.get("swapEnabled");
+    if (!value || value.kind == ValueKind.NULL) {
+      return false;
+    } else {
+      return value.toBoolean();
+    }
+  }
+
+  set swapEnabled(value: boolean) {
+    this.set("swapEnabled", Value.fromBoolean(value));
+  }
 }
 
 export class Token extends Entity {
