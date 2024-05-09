@@ -6,7 +6,7 @@ dataSources:
     name: AirdropBroker
     source:
       abi: AirdropBroker
-      startBlock: 4865250
+      startBlock: 41310428
       address: "0x2e3de46f97E3F46e53059b48e4d6F24A16DEa68d"
     mapping:
       kind: ethereum/events
@@ -28,8 +28,8 @@ dataSources:
     name: LTAP
     source:
       abi: ERC20
-      startBlock: 4865250
-      address: "0x665A6450a3c4C225a4C2F37A4014D8EC2665346f"
+      startBlock: 41310428
+      address: "0xE32BFb8A2849E945465784fa998eD13d5fcB29a9"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -52,8 +52,8 @@ dataSources:
     name: Vault
     source:
       abi: Vault
-      startBlock: 4865250
-      address: "0xEce16053629a562474b9Ec2C89A2F25563400aB6"
+      startBlock: 41310428
+      address: "0x17EdbB6e84ae8367D0227D5a5b79eCf24Ac21cA7"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -83,8 +83,8 @@ dataSources:
     name: LBP
     source:
       abi: LBP
-      startBlock: 4865250
-      address: "0xf5F2bFBc12Bf945Ee90829503409052677a27762"
+      startBlock: 41310428
+      address: "0x7375DCCf76BD77BB3f8b954352E83D858B367127"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -105,5 +105,7 @@ dataSources:
       eventHandlers:
         - event: GradualWeightUpdateScheduled(uint256,uint256,uint256[],uint256[])
           handler: handleGradualWeightUpdateScheduled
+        - event: SwapEnabledSet(bool)
+          handler: handleSwapEnabledSet
       file: ./src/lbp.ts
     network: arbitrum-sepolia

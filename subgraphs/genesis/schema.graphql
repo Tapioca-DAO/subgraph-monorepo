@@ -32,11 +32,12 @@ type PoolWeights @entity(immutable: false) {
   endWeights: [BigInt!]!
 }
 
-type Pool @entity(immutable: true) {
+type Pool @entity(immutable: false) {
   id: ID!
   balances: [PoolBalance!]! @derivedFrom(field: "pool")
   tokens: [Token!]!
   weights: PoolWeights
+  swapEnabled: Boolean!
 }
 
 type Token @entity(immutable: true) {

@@ -1,5 +1,6 @@
 import {
   GradualWeightUpdateScheduled as GradualWeightUpdateScheduledEvent,
+  SwapEnabledSet as SwapEnabledSetEvent,
   LBP,
 } from "../generated/LBP/LBP"
 import { Pool, PoolWeights } from "../generated/schema"
@@ -41,6 +42,28 @@ export function handleGradualWeightUpdateScheduled(
   }
 
   pool.weights = entity.id
+
+  pool.save()
+}
+
+export function handleSwapEnabledSet(event: SwapEnabledSetEvent): void {
+  const c_lbp = LBP.bind(event.address)
+
+  const _poolId = c_lbp.try_getPoolId()
+
+  if (_poolId.reverted) {
+    throw new Error("poolId reverted")
+  }
+
+  const poolId = putPool(_poolId.value)
+
+  const pool = Pool.load(poolId)
+
+  if (pool === null) {
+    throw new Error("pool is null")
+  }
+
+  pool.swapEnabled = event.params.swapEnabled
 
   pool.save()
 }

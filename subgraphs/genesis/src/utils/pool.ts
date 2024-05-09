@@ -30,6 +30,7 @@ export const putPool = (rawPoolId: Bytes): string => {
     }
 
     pool.tokens = tokenIds
+    pool.swapEnabled = false
     pool.weights = null
 
     pool.save()
