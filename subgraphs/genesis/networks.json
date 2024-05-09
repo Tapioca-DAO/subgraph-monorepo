@@ -1,18 +1,4 @@
 {
-  "arbitrum-goerli": {
-    "AirdropBroker": {
-      "startBlock": 55592144,
-      "address": "0xcb4D35A46057cf87b06157cA962052705760F015"
-    },
-    "Vault": {
-      "startBlock": 49293101,
-      "address": "0x762e7626ad75d35f2524085e21e516f7cddf5138"
-    },
-    "LBP": {
-      "startBlock": 49293227,
-      "address": "0xc1dbd0a8fe1f449f4dfc02b45e11485ec305197a"
-    }
-  },
   "arbitrum-sepolia": {
     "AirdropBroker": {
       "startBlock": 41310428,

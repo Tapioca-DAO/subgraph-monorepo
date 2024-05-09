@@ -1,10 +1,12 @@
 {
   "name": "genesis",
   "license": "UNLICENSED",
+  "version": "1.0.0",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
     "deploy:thegraph": "graph deploy --skip-migrations --node https://api.thegraph.com/deploy/",
+    "deploy:gs": "bash _scripts/deploy.goldsky.sh",
     "prepare:addresses": "node addressesToDataSources.js"
   },
   "dependencies": {
