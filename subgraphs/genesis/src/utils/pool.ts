@@ -1,7 +1,7 @@
 import { Address, BigInt, Bytes, dataSource } from "@graphprotocol/graph-ts"
 
 import { Vault } from "../../generated/Vault/Vault"
-import { Pool, SimplePostSwapPool } from "../../generated/schema"
+import { Pool, PoolWeights, SimplePostSwapPool } from "../../generated/schema"
 import { putToken } from "./token/token"
 
 export const putPool = (rawPoolId: Bytes): string => {
@@ -46,7 +46,15 @@ export const createPostSwapPool = (
   const poolId = rawPoolId.toHexString()
   const pool = Pool.load(poolId)
 
-  if (pool !== null) {
+  if (pool !== null && pool.weights !== null) {
+    const weights = PoolWeights.load(pool.weights as string)
+    if (weights == null) {
+      return null
+    }
+
+    if (weights.endTimestamp >= blockTimestampUnix.toI32()) {
+      return null
+    }
     let postSwapPool = SimplePostSwapPool.load(poolId)
     if (postSwapPool === null) {
       postSwapPool = new SimplePostSwapPool(poolId)
