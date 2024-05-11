@@ -54,3 +54,10 @@ type UserTokenBalance @entity(immutable: false) {
   token: Token!
   amount: BigInt! 
 }
+
+type SimplePostSwapPool @entity(immutable: false) {
+  id: ID!
+  balances: [BigInt!]!
+  tokens: [Token!]!
+  timestampUnix: Int!
+}

@@ -1,7 +1,7 @@
-import { Address, Bytes, dataSource } from "@graphprotocol/graph-ts"
+import { Address, BigInt, Bytes, dataSource } from "@graphprotocol/graph-ts"
 
 import { Vault } from "../../generated/Vault/Vault"
-import { Pool } from "../../generated/schema"
+import { Pool, SimplePostSwapPool } from "../../generated/schema"
 import { putToken } from "./token/token"
 
 export const putPool = (rawPoolId: Bytes): string => {
@@ -34,6 +34,45 @@ export const putPool = (rawPoolId: Bytes): string => {
     pool.weights = null
 
     pool.save()
+  }
+
+  return rawPoolId.toHexString()
+}
+
+export const createPostSwapPool = (
+  rawPoolId: Bytes,
+  blockTimestampUnix: BigInt
+): string | null => {
+  const poolId = rawPoolId.toHexString()
+  const pool = Pool.load(poolId)
+
+  if (pool !== null) {
+    let postSwapPool = SimplePostSwapPool.load(poolId)
+    if (postSwapPool === null) {
+      postSwapPool = new SimplePostSwapPool(poolId)
+      postSwapPool.tokens = pool.tokens
+    }
+
+    postSwapPool.timestampUnix = blockTimestampUnix.toI32()
+
+    const currentPoolBalances = pool.balances.load()
+    const poolBalances: BigInt[] = []
+    // there should always be the same number of balances as tokens
+    // if not we fill 0 as the balance
+    for (let i = 0; i < pool.tokens.length; i++) {
+      let _bal = BigInt.fromI32(0)
+      if (currentPoolBalances.length - 1 >= i) {
+        _bal = currentPoolBalances[i].amount
+      }
+
+      poolBalances.push(_bal)
+    }
+
+    postSwapPool.balances = poolBalances
+
+    postSwapPool.save()
+  } else {
+    return null
   }
 
   return rawPoolId.toHexString()

@@ -4,7 +4,7 @@ import {
   LBP,
 } from "../generated/LBP/LBP"
 import { Pool, PoolWeights } from "../generated/schema"
-import { putPool } from "./utils/pool"
+import { createPostSwapPool, putPool } from "./utils/pool"
 
 export function handleGradualWeightUpdateScheduled(
   event: GradualWeightUpdateScheduledEvent
@@ -66,4 +66,9 @@ export function handleSwapEnabledSet(event: SwapEnabledSetEvent): void {
   pool.swapEnabled = event.params.swapEnabled
 
   pool.save()
+
+  // if swapping was disabled we create a post swap pool
+  if (!event.params.swapEnabled) {
+    createPostSwapPool(_poolId.value, event.block.timestamp)
+  }
 }
