@@ -108,7 +108,7 @@ export function putToken(tokenAddress: Address): Token {
   return token
 }
 
-export function putToft(tokenAddress: Address, isUSDO: boolean): TOFToken {
+export function putToft(tokenAddress: Address): TOFToken {
   let toftEntity = TOFToken.load(tokenAddress)
 
   if (toftEntity == null) {

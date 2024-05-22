@@ -1,4 +1,4 @@
-import { Address, dataSource } from "@graphprotocol/graph-ts"
+import { Address, dataSource, ethereum, log } from "@graphprotocol/graph-ts"
 
 import { BigBang } from "../generated/Penrose/BigBang"
 import {
@@ -7,6 +7,7 @@ import {
 } from "../generated/Penrose/Penrose"
 import { Singularity } from "../generated/Penrose/Singularity"
 import { BigBangMarket, SingularityMarket } from "../generated/schema"
+import { TOFT } from "../generated/templates"
 import { getNetworkId } from "./utils/networks/definition"
 import { putToft, putToken } from "./utils/token/token"
 
@@ -29,10 +30,7 @@ export function handleRegisterSingularity(
 
   putToken(event.params.location)
 
-  const borrowTokenToftEntity = putToft(
-    Address.fromBytes(entity.borrowToken),
-    false
-  )
+  const borrowTokenToftEntity = putToft(Address.fromBytes(entity.borrowToken))
 
   if (borrowTokenToftEntity != null) {
     let borrowTokenToftEntityMarkets = borrowTokenToftEntity.markets
@@ -47,8 +45,7 @@ export function handleRegisterSingularity(
   }
 
   const collateralTokenToftEntity = putToft(
-    Address.fromBytes(entity.collateralToken),
-    false
+    Address.fromBytes(entity.collateralToken)
   )
 
   if (collateralTokenToftEntity != null) {
@@ -79,10 +76,7 @@ export function handleRegisterBigBang(event: RegisterBigBangEvent): void {
 
   entity.save()
 
-  const borrowTokenToftEntity = putToft(
-    Address.fromBytes(entity.borrowToken),
-    false
-  )
+  const borrowTokenToftEntity = putToft(Address.fromBytes(entity.borrowToken))
 
   if (borrowTokenToftEntity != null) {
     let borrowTokenToftEntityMarkets = borrowTokenToftEntity.bigBangMarkets
@@ -97,8 +91,7 @@ export function handleRegisterBigBang(event: RegisterBigBangEvent): void {
   }
 
   const collateralTokenToftEntity = putToft(
-    Address.fromBytes(entity.collateralToken),
-    false
+    Address.fromBytes(entity.collateralToken)
   )
 
   if (collateralTokenToftEntity != null) {
@@ -112,5 +105,19 @@ export function handleRegisterBigBang(event: RegisterBigBangEvent): void {
     collateralTokenToftEntity.bigBangMarkets = collateralTokenToftEntityMarkets
 
     collateralTokenToftEntity.save()
+  }
+}
+
+const TOFT_CONTRACT_ADDRESSES = [
+  "0x6B981fE56325aee8D43DCC7aB922A05F880BbE72",
+  "0x8C497477BB97252C725D8f2495384FdF5AcBf7e0",
+  "0x1603fF86B03f8Cc5d51f8741D1EE8EC832E9795a",
+]
+
+export function mapToftAddresses(block: ethereum.Block): void {
+  for (let i = 0; i < TOFT_CONTRACT_ADDRESSES.length; i++) {
+    const address = TOFT_CONTRACT_ADDRESSES[i]
+    log.info("Mapping TOFT address: {}", [address])
+    TOFT.create(Address.fromBytes(Address.fromHexString(address)))
   }
 }

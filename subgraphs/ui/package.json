@@ -1,16 +1,19 @@
 {
-  "name": "ui",
+  "name": "tapioca",
+  "version": "1.0.0",
   "license": "UNLICENSED",
   "scripts": {
-    "codegen": "graph codegen && git checkout ./generated/TapiocaWrapper/TapiocaWrapper.ts",
+    "codegen": "graph codegen",
     "build": "graph build",
     "deploy:thegraph": "graph deploy --skip-migrations --node https://api.thegraph.com/deploy/",
-    "deploy:dev": "bash deploy.sh",
+    "deploy:gs": "bash _scripts/deploy.goldsky.sh",
+    "tag:create": "bash _scripts/tag.goldsky.sh",
+    "tag:delete": "bash _scripts/deletetag.goldsky.sh",
     "prepare:addresses": "node addressesToDataSources.js"
   },
   "dependencies": {
-    "@graphprotocol/graph-cli": "^0.68.5",
-    "@graphprotocol/graph-ts": "^0.33.0"
+    "@graphprotocol/graph-cli": "^0.72.2",
+    "@graphprotocol/graph-ts": "^0.35.1"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",

@@ -1,4 +1,4 @@
-specVersion: 0.0.5
+specVersion: 1.0.0
 schema:
   file: ./schema.graphql
 dataSources:
@@ -6,11 +6,11 @@ dataSources:
     name: Penrose
     source:
       abi: Penrose
-      startBlock: 4954220
-      address: "0x5bcB4eb9F66f05735045118560C6DD7097e7582D"
+      startBlock: 46750279
+      address: "0x1b9B76bF7630eA7538f6BeD10fDeFDE1c187a751"
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.7
+      apiVersion: 0.0.8
       language: wasm/assemblyscript
       entities:
         - FeeToUpdate
@@ -40,18 +40,17 @@ dataSources:
           handler: handleRegisterSingularity
         - event: RegisterBigBang(indexed address,indexed address)
           handler: handleRegisterBigBang
+      blockHandlers:
+        - handler: mapToftAddresses
+          filter:
+            kind: once
       file: ./src/penrose.ts
     network: arbitrum-sepolia
-    context: &a1
-      usdo_address:
-        type: String
-        data: "0x67b715806b93495dc64a938168ebda17eb01e732"
+    context:
+      &a1
       penrose_address:
         type: String
-        data: "0x5bcb4eb9f66f05735045118560c6dd7097e7582d"
-      yieldbox_address:
-        type: String
-        data: "0xb7bd73f92af817055b6a5e2bcb19804b9d515864"
+        data: "0x1b9b76bf7630ea7538f6bed10fdefde1c187a751"
       tob_address:
         type: String
         data: "0x448ce63f9a12d81658194e5035547ea83ee267f6"
@@ -65,63 +64,14 @@ dataSources:
         type: String
         data: "0x61a4fff4b29e28d38a8ec08da415918c47b8a69c"
   - kind: ethereum
-    name: USDO
-    network: arbitrum-sepolia
-    source:
-      abi: USDO
-      startBlock: 4954220
-      address: "0x67B715806B93495Dc64A938168EBDA17eb01E732"
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - TOFToken
-      abis:
-        - name: USDO
-          file: ./abis/USDO.json
-        - name: ERC20
-          file: ./abis/ERC20.json
-        - name: ERC20SymbolBytes
-          file: ./abis/ERC20SymbolBytes.json
-        - name: ERC20NameBytes
-          file: ./abis/ERC20NameBytes.json
-      eventHandlers:
-        - event: PeerSet(uint32,bytes32)
-          handler: handlePeerSetUSDO
-      file: ./src/usdo.ts
-    context: *a1
-  - kind: ethereum
-    name: YieldBox
-    source:
-      abi: YieldBox
-      startBlock: 4954220
-      address: "0xb7Bd73f92Af817055B6a5E2bcb19804b9D515864"
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - TOFToken
-      abis:
-        - name: YieldBox
-          file: ./abis/YieldBox.json
-      eventHandlers:
-        - event: AssetRegistered(indexed uint8,indexed address,address,indexed
-            uint256,uint256)
-          handler: handleAssetRegistered
-      file: ./src/yieldbox.ts
-    network: arbitrum-sepolia
-    context: *a1
-  - kind: ethereum
     name: TOLP
     source:
       abi: TOLP
-      startBlock: 4954220
+      startBlock: 46750279
       address: "0x561339b30f47197D7d5BBE13b1314EfCBab5a114"
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.7
+      apiVersion: 0.0.8
       language: wasm/assemblyscript
       entities:
         - TOLP
@@ -153,11 +103,11 @@ dataSources:
     name: TOB
     source:
       abi: TOB
-      startBlock: 4954220
+      startBlock: 46750279
       address: "0x448CE63f9a12d81658194E5035547ea83EE267F6"
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.7
+      apiVersion: 0.0.8
       language: wasm/assemblyscript
       entities:
         - TapiocaOptionBroker
@@ -190,11 +140,11 @@ dataSources:
     name: TWTAP
     source:
       abi: TWTAP
-      startBlock: 4954220
+      startBlock: 46750279
       address: "0x61a4FFf4B29e28D38a8EC08da415918c47b8A69c"
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.7
+      apiVersion: 0.0.8
       language: wasm/assemblyscript
       entities:
         - TWTAPLockPosition
@@ -240,11 +190,11 @@ dataSources:
     name: OTAP
     source:
       abi: OTAP
-      startBlock: 4954220
+      startBlock: 46750279
       address: "0xCa5fAA2431c5F2AB96427E3cf672d0f782cDaEFd"
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.7
+      apiVersion: 0.0.8
       language: wasm/assemblyscript
       entities:
         - TapiocaOptionBroker
@@ -265,7 +215,7 @@ templates:
       abi: TOFT
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.7
+      apiVersion: 0.0.8
       language: wasm/assemblyscript
       entities:
         - TOFToken

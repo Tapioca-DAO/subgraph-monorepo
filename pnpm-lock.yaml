@@ -153,11 +153,11 @@ importers:
   subgraphs/ui:
     dependencies:
       '@graphprotocol/graph-cli':
-        specifier: ^0.68.5
-        version: 0.68.5(@types/node@20.5.2)(encoding@0.1.13)(node-fetch@2.7.0(encoding@0.1.13))(typescript@5.2.2)
+        specifier: ^0.72.2
+        version: 0.72.2(@types/node@20.5.2)(encoding@0.1.13)(node-fetch@2.7.0(encoding@0.1.13))(typescript@5.2.2)
       '@graphprotocol/graph-ts':
-        specifier: ^0.33.0
-        version: 0.33.0
+        specifier: ^0.35.1
+        version: 0.35.1
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
@@ -515,16 +515,16 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  '@graphprotocol/graph-cli@0.68.5':
-    resolution: {integrity: sha512-3GY2pYr5LksO6JY6s5nvePnSKVdtzDEn1CUGezyjCMR1uq9YIXMPXKqcnrzCX/DLugioEabiEi2+yOg9+rnFDQ==}
+  '@graphprotocol/graph-cli@0.72.2':
+    resolution: {integrity: sha512-JuFFnir8dmfjDM3f8IaJBVZ5M4xf6TTOqj0uDSQZYlVeA6KPMqL3VrD5ogq1UADDB52BRPYULXjxyO01AF3lyw==}
     engines: {node: '>=18'}
     hasBin: true
 
   '@graphprotocol/graph-ts@0.31.0':
     resolution: {integrity: sha512-xreRVM6ho2BtolyOh2flDkNoGZximybnzUnF53zJVp0+Ed0KnAlO1/KOCUYw06euVI9tk0c9nA2Z/D5SIQV2Rg==}
 
-  '@graphprotocol/graph-ts@0.33.0':
-    resolution: {integrity: sha512-HBUVblHUdjQZ/MEjjYPzVgmh+SiuF9VV0D8KubYfFAtzkqpVJlvdyk+RZTAJUiu8hpyYy0EVIcAnLEPtKlwMGQ==}
+  '@graphprotocol/graph-ts@0.35.1':
+    resolution: {integrity: sha512-74CfuQmf7JI76/XCC34FTkMMKeaf+3Pn0FIV3m9KNeaOJ+OI3CvjMIVRhOZdKcJxsFCBGaCCl0eQjh47xTjxKA==}
 
   '@humanwhocodes/config-array@0.11.13':
     resolution: {integrity: sha512-JSBDMiDKSzQVngfRjOdFXgFfklaXI4K9nLF49Auh21lmBWRLIK3+xTErTWD4KU54pb6coM6ESE7Awz/FNU3zgQ==}
@@ -3694,7 +3694,7 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@graphprotocol/graph-cli@0.68.5(@types/node@20.5.2)(encoding@0.1.13)(node-fetch@2.7.0(encoding@0.1.13))(typescript@5.2.2)':
+  '@graphprotocol/graph-cli@0.72.2(@types/node@20.5.2)(encoding@0.1.13)(node-fetch@2.7.0(encoding@0.1.13))(typescript@5.2.2)':
     dependencies:
       '@float-capital/float-subgraph-uncrashable': 0.0.0-internal-testing.5
       '@oclif/core': 2.8.6(@types/node@20.5.2)(typescript@5.2.2)
@@ -3738,7 +3738,7 @@ snapshots:
     dependencies:
       assemblyscript: 0.19.10
 
-  '@graphprotocol/graph-ts@0.33.0':
+  '@graphprotocol/graph-ts@0.35.1':
     dependencies:
       assemblyscript: 0.19.10
 

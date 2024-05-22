@@ -1,11 +1,17 @@
-import { Bytes, log } from "@graphprotocol/graph-ts"
+import { BigInt, Bytes, dataSource, log } from "@graphprotocol/graph-ts"
 
 import { RemoteTOFTMeta, TOFToken } from "../generated/schema"
-import { SetTrustedRemote as SetTrustedRemoteEvent } from "../generated/templates/TOFT/TOFT"
+import {
+  TOFT as TOFTContract,
+  PeerSet as PeerSetEvent,
+  OwnershipTransferred as OwnershipTransferredEvent,
+} from "../generated/templates/TOFT/TOFT"
 import { StaticChainIdDefinition } from "./utils/layerzero/staticLZEVMChainId"
+import { getNetworkId } from "./utils/networks/definition"
+import { putToft, putToken } from "./utils/token/token"
 
-export function handleSetTrustedRemote(event: SetTrustedRemoteEvent): void {
-  const remoteAddress = event.params._path.toHexString().substring(0, 42)
+export function handlePeerSet(event: PeerSetEvent): void {
+  const remoteAddress = event.params.peer.toHexString().substring(0, 42)
 
   const toftEntity = TOFToken.load(event.address)
 
@@ -15,16 +21,16 @@ export function handleSetTrustedRemote(event: SetTrustedRemoteEvent): void {
   }
 
   const staticTokenDefinition = StaticChainIdDefinition.fromLzChainId(
-    event.params._remoteChainId
+    event.params.eid.toI32()
   )
   if (staticTokenDefinition == null) {
     log.error("Unsupported network with LZ ID {} found. Skipping.", [
-      event.params._remoteChainId.toString(),
+      event.params.eid.toString(),
     ])
     return
   }
   const remoteToftMetaEntityId = Bytes.fromHexString(
-    event.params._remoteChainId.toString() + "-" + event.address.toHexString()
+    event.params.eid.toString() + "-" + event.address.toHexString()
   )
   let remoteToftMetaEntity = RemoteTOFTMeta.load(remoteToftMetaEntityId)
   if (remoteToftMetaEntity == null) {
@@ -32,12 +38,39 @@ export function handleSetTrustedRemote(event: SetTrustedRemoteEvent): void {
   }
 
   remoteToftMetaEntity.chainId = staticTokenDefinition.chainId as u32
-  remoteToftMetaEntity.lzChainId = event.params._remoteChainId
+  remoteToftMetaEntity.lzChainId = event.params.eid.toI32()
   remoteToftMetaEntity.address = remoteAddress
   remoteToftMetaEntity.save()
 
   const remoteToftMetaArray = toftEntity.remoteTOFTs
   remoteToftMetaArray.push(remoteToftMetaEntity.id)
   toftEntity.remoteTOFTs = remoteToftMetaArray
+  toftEntity.save()
+}
+
+export function handleOwnershipTransferred(
+  event: OwnershipTransferredEvent
+): void {
+  const toftEntity = putToft(event.address)
+
+  const currentNetworkId = getNetworkId(dataSource.network())
+  const c_toft = TOFTContract.bind(event.address)
+  const result = c_toft.try_hostEid()
+
+  if (result.reverted) {
+    // this must be USDO then
+    // throw new Error("hostChainID is not available", result.value.toString())
+  } else {
+    if (
+      !BigInt.compare(BigInt.fromI32(currentNetworkId as i32), result.value)
+    ) {
+      const erc20Result = c_toft.try_erc20()
+      if (erc20Result.reverted) {
+        throw new Error("erc20 is not available")
+      }
+      toftEntity.underlyingToken = putToken(erc20Result.value).id
+    }
+  }
+
   toftEntity.save()
 }

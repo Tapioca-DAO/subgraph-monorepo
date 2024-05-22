@@ -1,61 +1,23 @@
 {
-  "fantom-testnet": {
-    "USDO": {
-      "startBlock": 23590770,
-      "address": "0xBE9b9ef8d018066960eBE9E6207dDE7b86cCF909"
-    },
-    "Penrose": {
-      "startBlock": 23590770,
-      "address": "0x503ad61b554e33288DCD6C63aD297fC244f4DD33"
-    },
-    "YieldBox": {
-      "startBlock": 23590770,
-      "address": "0x785B71FAf389aDeDeF4375DaBa54B4eC04Baecd5"
-    },
-    "TOB": {
-      "startBlock": 23590770,
-      "address": "0x0000000000000000000000000000000000000000"
-    },
-    "OTAP": {
-      "startBlock": 23590770,
-      "address": "0x0000000000000000000000000000000000000000"
-    },
-    "TOLP": {
-      "startBlock": 23590770,
-      "address": "0x0000000000000000000000000000000000000000"
-    },
-    "TWTAP": {
-      "startBlock": 23590770,
-      "address": "0x0000000000000000000000000000000000000000"
-    }
-  },
   "arbitrum-sepolia": {
-    "USDO": {
-      "startBlock": 4954220,
-      "address": "0x67B715806B93495Dc64A938168EBDA17eb01E732"
-    },
     "Penrose": {
-      "startBlock": 4954220,
-      "address": "0x5bcB4eb9F66f05735045118560C6DD7097e7582D"
-    },
-    "YieldBox": {
-      "startBlock": 4954220,
-      "address": "0xb7Bd73f92Af817055B6a5E2bcb19804b9D515864"
+      "startBlock": 46750279,
+      "address": "0x1b9B76bF7630eA7538f6BeD10fDeFDE1c187a751"
     },
     "TOB": {
-      "startBlock": 4954220,
+      "startBlock": 46750279,
       "address": "0x448CE63f9a12d81658194E5035547ea83EE267F6"
     },
     "OTAP": {
-      "startBlock": 4954220,
+      "startBlock": 46750279,
       "address": "0xCa5fAA2431c5F2AB96427E3cf672d0f782cDaEFd"
     },
     "TOLP": {
-      "startBlock": 4954220,
+      "startBlock": 46750279,
       "address": "0x561339b30f47197D7d5BBE13b1314EfCBab5a114"
     },
     "TWTAP": {
-      "startBlock": 4954220,
+      "startBlock": 46750279,
       "address": "0x61a4FFf4B29e28D38a8EC08da415918c47b8A69c"
     }
   }
