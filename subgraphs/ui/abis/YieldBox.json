@@ -1030,22 +1030,22 @@
     "inputs": [
       {
         "internalType": "enum TokenType",
-        "name": "",
+        "name": "tokenType",
         "type": "uint8"
       },
       {
         "internalType": "address",
-        "name": "",
+        "name": "contractAddress",
         "type": "address"
       },
       {
         "internalType": "contract IStrategy",
-        "name": "",
+        "name": "strategy",
         "type": "address"
       },
       {
         "internalType": "uint256",
-        "name": "",
+        "name": "tokenId",
         "type": "uint256"
       }
     ],
@@ -1053,7 +1053,7 @@
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "",
+        "name": "assetId",
         "type": "uint256"
       }
     ],

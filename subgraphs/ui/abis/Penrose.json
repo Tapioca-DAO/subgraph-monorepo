@@ -2,7 +2,7 @@
   {
     "inputs": [
       {
-        "internalType": "contract YieldBox",
+        "internalType": "contract IYieldBox",
         "name": "_yieldBox",
         "type": "address"
       },
@@ -22,9 +22,19 @@
         "type": "address"
       },
       {
-        "internalType": "uint16",
-        "name": "_hostLzChainId",
-        "type": "uint16"
+        "internalType": "contract IPearlmit",
+        "name": "_pearlmit",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_tapAssetId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_mainAssetId",
+        "type": "uint256"
       },
       {
         "internalType": "address",
@@ -34,6 +44,11 @@
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
+  },
+  {
+    "inputs": [],
+    "name": "AddressNotValid",
+    "type": "error"
   },
   {
     "inputs": [],
@@ -230,6 +245,25 @@
       }
     ],
     "name": "PausedUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "contract IPearlmit",
+        "name": "oldPearlmit",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "contract IPearlmit",
+        "name": "newPearlmit",
+        "type": "address"
+      }
+    ],
+    "name": "PearlmitUpdated",
     "type": "event"
   },
   {
@@ -549,13 +583,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "claimOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "address",
@@ -613,19 +640,6 @@
   },
   {
     "inputs": [],
-    "name": "computeTotalDebt",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "totalUsdoDebt",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "conservator",
     "outputs": [
       {
@@ -664,25 +678,6 @@
       }
     ],
     "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "emptyStrategies",
-    "outputs": [
-      {
-        "internalType": "contract IStrategy",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -745,19 +740,6 @@
         "internalType": "address[]",
         "name": "markets",
         "type": "address[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "hostLzChainId",
-    "outputs": [
-      {
-        "internalType": "uint16",
-        "name": "",
-        "type": "uint16"
       }
     ],
     "stateMutability": "view",
@@ -925,10 +907,10 @@
   },
   {
     "inputs": [],
-    "name": "pendingOwner",
+    "name": "pearlmit",
     "outputs": [
       {
-        "internalType": "address",
+        "internalType": "contract IPearlmit",
         "name": "",
         "type": "address"
       }
@@ -1038,6 +1020,13 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -1092,9 +1081,27 @@
   {
     "inputs": [
       {
+        "internalType": "contract IPearlmit",
+        "name": "_pearlmit",
+        "type": "address"
+      }
+    ],
+    "name": "setPearlmit",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "_usdoToken",
         "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_usdoAssetId",
+        "type": "uint256"
       }
     ],
     "name": "setUsdoToken",
@@ -1184,16 +1191,6 @@
         "internalType": "address",
         "name": "newOwner",
         "type": "address"
-      },
-      {
-        "internalType": "bool",
-        "name": "direct",
-        "type": "bool"
-      },
-      {
-        "internalType": "bool",
-        "name": "renounce",
-        "type": "bool"
       }
     ],
     "name": "transferOwnership",
@@ -1276,7 +1273,7 @@
     "name": "yieldBox",
     "outputs": [
       {
-        "internalType": "contract YieldBox",
+        "internalType": "contract IYieldBox",
         "name": "",
         "type": "address"
       }

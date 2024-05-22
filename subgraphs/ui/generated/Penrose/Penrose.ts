@@ -186,6 +186,28 @@ export class PausedUpdated__Params {
   }
 }
 
+export class PearlmitUpdated extends ethereum.Event {
+  get params(): PearlmitUpdated__Params {
+    return new PearlmitUpdated__Params(this);
+  }
+}
+
+export class PearlmitUpdated__Params {
+  _event: PearlmitUpdated;
+
+  constructor(event: PearlmitUpdated) {
+    this._event = event;
+  }
+
+  get oldPearlmit(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get newPearlmit(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+}
+
 export class ProtocolWithdrawal extends ethereum.Event {
   get params(): ProtocolWithdrawal__Params {
     return new ProtocolWithdrawal__Params(this);
@@ -704,29 +726,6 @@ export class Penrose extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  computeTotalDebt(): BigInt {
-    let result = super.call(
-      "computeTotalDebt",
-      "computeTotalDebt():(uint256)",
-      [],
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_computeTotalDebt(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "computeTotalDebt",
-      "computeTotalDebt():(uint256)",
-      [],
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
   conservator(): Address {
     let result = super.call("conservator", "conservator():(address)", []);
 
@@ -735,29 +734,6 @@ export class Penrose extends ethereum.SmartContract {
 
   try_conservator(): ethereum.CallResult<Address> {
     let result = super.tryCall("conservator", "conservator():(address)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
-  emptyStrategies(param0: Address): Address {
-    let result = super.call(
-      "emptyStrategies",
-      "emptyStrategies(address):(address)",
-      [ethereum.Value.fromAddress(param0)],
-    );
-
-    return result[0].toAddress();
-  }
-
-  try_emptyStrategies(param0: Address): ethereum.CallResult<Address> {
-    let result = super.tryCall(
-      "emptyStrategies",
-      "emptyStrategies(address):(address)",
-      [ethereum.Value.fromAddress(param0)],
-    );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -837,21 +813,6 @@ export class Penrose extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddressArray());
-  }
-
-  hostLzChainId(): i32 {
-    let result = super.call("hostLzChainId", "hostLzChainId():(uint16)", []);
-
-    return result[0].toI32();
-  }
-
-  try_hostLzChainId(): ethereum.CallResult<i32> {
-    let result = super.tryCall("hostLzChainId", "hostLzChainId():(uint16)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toI32());
   }
 
   isBigBangMasterContractRegistered(param0: Address): boolean {
@@ -1033,14 +994,14 @@ export class Penrose extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
-  pendingOwner(): Address {
-    let result = super.call("pendingOwner", "pendingOwner():(address)", []);
+  pearlmit(): Address {
+    let result = super.call("pearlmit", "pearlmit():(address)", []);
 
     return result[0].toAddress();
   }
 
-  try_pendingOwner(): ethereum.CallResult<Address> {
-    let result = super.tryCall("pendingOwner", "pendingOwner():(address)", []);
+  try_pearlmit(): ethereum.CallResult<Address> {
+    let result = super.tryCall("pearlmit", "pearlmit():(address)", []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -1257,12 +1218,20 @@ export class ConstructorCall__Inputs {
     return this._call.inputValues[3].value.toAddress();
   }
 
-  get _hostLzChainId(): i32 {
-    return this._call.inputValues[4].value.toI32();
+  get _pearlmit(): Address {
+    return this._call.inputValues[4].value.toAddress();
+  }
+
+  get _tapAssetId(): BigInt {
+    return this._call.inputValues[5].value.toBigInt();
+  }
+
+  get _mainAssetId(): BigInt {
+    return this._call.inputValues[6].value.toBigInt();
   }
 
   get _owner(): Address {
-    return this._call.inputValues[5].value.toAddress();
+    return this._call.inputValues[7].value.toAddress();
   }
 }
 
@@ -1369,62 +1338,6 @@ export class AddSingularityCall__Outputs {
 
   constructor(call: AddSingularityCall) {
     this._call = call;
-  }
-}
-
-export class ClaimOwnershipCall extends ethereum.Call {
-  get inputs(): ClaimOwnershipCall__Inputs {
-    return new ClaimOwnershipCall__Inputs(this);
-  }
-
-  get outputs(): ClaimOwnershipCall__Outputs {
-    return new ClaimOwnershipCall__Outputs(this);
-  }
-}
-
-export class ClaimOwnershipCall__Inputs {
-  _call: ClaimOwnershipCall;
-
-  constructor(call: ClaimOwnershipCall) {
-    this._call = call;
-  }
-}
-
-export class ClaimOwnershipCall__Outputs {
-  _call: ClaimOwnershipCall;
-
-  constructor(call: ClaimOwnershipCall) {
-    this._call = call;
-  }
-}
-
-export class ComputeTotalDebtCall extends ethereum.Call {
-  get inputs(): ComputeTotalDebtCall__Inputs {
-    return new ComputeTotalDebtCall__Inputs(this);
-  }
-
-  get outputs(): ComputeTotalDebtCall__Outputs {
-    return new ComputeTotalDebtCall__Outputs(this);
-  }
-}
-
-export class ComputeTotalDebtCall__Inputs {
-  _call: ComputeTotalDebtCall;
-
-  constructor(call: ComputeTotalDebtCall) {
-    this._call = call;
-  }
-}
-
-export class ComputeTotalDebtCall__Outputs {
-  _call: ComputeTotalDebtCall;
-
-  constructor(call: ComputeTotalDebtCall) {
-    this._call = call;
-  }
-
-  get totalUsdoDebt(): BigInt {
-    return this._call.outputValues[0].value.toBigInt();
   }
 }
 
@@ -1724,6 +1637,32 @@ export class RegisterSingularityMasterContractCall__Outputs {
   }
 }
 
+export class RenounceOwnershipCall extends ethereum.Call {
+  get inputs(): RenounceOwnershipCall__Inputs {
+    return new RenounceOwnershipCall__Inputs(this);
+  }
+
+  get outputs(): RenounceOwnershipCall__Outputs {
+    return new RenounceOwnershipCall__Outputs(this);
+  }
+}
+
+export class RenounceOwnershipCall__Inputs {
+  _call: RenounceOwnershipCall;
+
+  constructor(call: RenounceOwnershipCall) {
+    this._call = call;
+  }
+}
+
+export class RenounceOwnershipCall__Outputs {
+  _call: RenounceOwnershipCall;
+
+  constructor(call: RenounceOwnershipCall) {
+    this._call = call;
+  }
+}
+
 export class SetBigBangEthMarketCall extends ethereum.Call {
   get inputs(): SetBigBangEthMarketCall__Inputs {
     return new SetBigBangEthMarketCall__Inputs(this);
@@ -1844,6 +1783,36 @@ export class SetConservatorCall__Outputs {
   }
 }
 
+export class SetPearlmitCall extends ethereum.Call {
+  get inputs(): SetPearlmitCall__Inputs {
+    return new SetPearlmitCall__Inputs(this);
+  }
+
+  get outputs(): SetPearlmitCall__Outputs {
+    return new SetPearlmitCall__Outputs(this);
+  }
+}
+
+export class SetPearlmitCall__Inputs {
+  _call: SetPearlmitCall;
+
+  constructor(call: SetPearlmitCall) {
+    this._call = call;
+  }
+
+  get _pearlmit(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class SetPearlmitCall__Outputs {
+  _call: SetPearlmitCall;
+
+  constructor(call: SetPearlmitCall) {
+    this._call = call;
+  }
+}
+
 export class SetUsdoTokenCall extends ethereum.Call {
   get inputs(): SetUsdoTokenCall__Inputs {
     return new SetUsdoTokenCall__Inputs(this);
@@ -1863,6 +1832,10 @@ export class SetUsdoTokenCall__Inputs {
 
   get _usdoToken(): Address {
     return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _usdoAssetId(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
   }
 }
 
@@ -1893,14 +1866,6 @@ export class TransferOwnershipCall__Inputs {
 
   get newOwner(): Address {
     return this._call.inputValues[0].value.toAddress();
-  }
-
-  get direct(): boolean {
-    return this._call.inputValues[1].value.toBoolean();
-  }
-
-  get renounce(): boolean {
-    return this._call.inputValues[2].value.toBoolean();
   }
 }
 

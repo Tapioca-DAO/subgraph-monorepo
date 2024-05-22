@@ -1,12 +1,22 @@
 [
   {
     "inputs": [],
+    "name": "AllowanceNotValid",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "BadPair",
     "type": "error"
   },
   {
     "inputs": [],
     "name": "DebtRatesNotValid",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ExchangeRateNotValid",
     "type": "error"
   },
   {
@@ -129,13 +139,13 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "address",
         "name": "old",
         "type": "address"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "address",
         "name": "_new",
         "type": "address"
@@ -192,13 +202,13 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "address",
         "name": "oldVal",
         "type": "address"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "address",
         "name": "newVal",
         "type": "address"
@@ -217,13 +227,13 @@
         "type": "address"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "address[]",
         "name": "users",
         "type": "address[]"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "uint256",
         "name": "liquidatorReward",
         "type": "uint256"
@@ -254,13 +264,32 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "uint256",
         "name": "oldVal",
         "type": "uint256"
       },
       {
-        "indexed": true,
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newVal",
+        "type": "uint256"
+      }
+    ],
+    "name": "LiquidationMaxSlippageUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "oldVal",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
         "internalType": "uint256",
         "name": "newVal",
         "type": "uint256"
@@ -354,13 +383,13 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "uint256",
         "name": "_oldVal",
         "type": "uint256"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "uint256",
         "name": "_newVal",
         "type": "uint256"
@@ -373,7 +402,7 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "uint256",
         "name": "rate",
         "type": "uint256"
@@ -524,13 +553,13 @@
         "type": "uint8"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "bool",
         "name": "oldState",
         "type": "bool"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "bool",
         "name": "newState",
         "type": "bool"
@@ -630,13 +659,13 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "uint256",
         "name": "valType",
         "type": "uint256"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "uint256",
         "name": "_newVal",
         "type": "uint256"
@@ -653,6 +682,400 @@
         "internalType": "bytes32",
         "name": "",
         "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_asset",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_assetId",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_collateral",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_collateralId",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_collateralizationRate",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_conservator",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_exchangeRate",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_leverageExecutor",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_liquidationBonusAmount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_liquidationCollateralizationRate",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_liquidationMultiplier",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_maxLiquidationSlippage",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_maxLiquidatorReward",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_minLiquidatorReward",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_oracle",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_oracleData",
+    "outputs": [
+      {
+        "internalType": "bytes",
+        "name": "",
+        "type": "bytes"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "enum Market.PauseType",
+        "name": "_pauseProp",
+        "type": "uint8"
+      }
+    ],
+    "name": "_pauseOptions",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_pearlmit",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_penrose",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_protocolFee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_rateTimestamp",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_rateValidDuration",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_totalBorrow",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint128",
+            "name": "elastic",
+            "type": "uint128"
+          },
+          {
+            "internalType": "uint128",
+            "name": "base",
+            "type": "uint128"
+          }
+        ],
+        "internalType": "struct Rebase",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_totalBorrowCap",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_totalCollateralShare",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_user",
+        "type": "address"
+      }
+    ],
+    "name": "_userBorrowPart",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_user",
+        "type": "address"
+      }
+    ],
+    "name": "_userCollateralShare",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_yieldBox",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
       }
     ],
     "stateMutability": "view",
@@ -681,39 +1104,6 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "bool",
-        "name": "skim",
-        "type": "bool"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "share",
-        "type": "uint256"
-      }
-    ],
-    "name": "addCollateral",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -814,36 +1204,10 @@
   },
   {
     "inputs": [],
-    "name": "asset",
-    "outputs": [
-      {
-        "internalType": "contract IERC20",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "assetId",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "assetOracle",
     "outputs": [
       {
-        "internalType": "contract IOracle",
+        "internalType": "contract ITapiocaOracle",
         "name": "",
         "type": "address"
       }
@@ -884,40 +1248,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "borrow",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "part",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "share",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "borrowModule",
     "outputs": [
@@ -931,86 +1261,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "borrowAmount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "supplyAmount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bytes",
-        "name": "data",
-        "type": "bytes"
-      }
-    ],
-    "name": "buyCollateral",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "amountOut",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "callerFee",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "claimOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "collateral",
-    "outputs": [
-      {
-        "internalType": "contract IERC20",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "collateralId",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "collateralModule",
     "outputs": [
@@ -1018,19 +1268,6 @@
         "internalType": "contract BBCollateral",
         "name": "",
         "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "collateralizationRate",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -1090,6 +1327,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "computeOpenInterestMintable",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -1125,12 +1375,12 @@
   },
   {
     "inputs": [],
-    "name": "conservator",
+    "name": "debtMinted",
     "outputs": [
       {
-        "internalType": "address",
+        "internalType": "uint256",
         "name": "",
-        "type": "address"
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -1193,20 +1443,12 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "exchangeRate",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
+      {
+        "internalType": "enum Module[]",
+        "name": "modules",
+        "type": "uint8[]"
+      },
       {
         "internalType": "bytes[]",
         "name": "calls",
@@ -1226,9 +1468,9 @@
         "type": "bool[]"
       },
       {
-        "internalType": "string[]",
+        "internalType": "bytes[]",
         "name": "results",
-        "type": "string[]"
+        "type": "bytes[]"
       }
     ],
     "stateMutability": "nonpayable",
@@ -1264,7 +1506,7 @@
     "inputs": [
       {
         "internalType": "bytes",
-        "name": "data",
+        "name": "initData",
         "type": "bytes"
       }
     ],
@@ -1288,122 +1530,12 @@
   },
   {
     "inputs": [],
-    "name": "leverageExecutor",
-    "outputs": [
-      {
-        "internalType": "contract ILeverageExecutor",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "leverageModule",
     "outputs": [
       {
         "internalType": "contract BBLeverage",
         "name": "",
         "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address[]",
-        "name": "users",
-        "type": "address[]"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "maxBorrowParts",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "minLiquidationBonuses",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "contract IMarketLiquidatorReceiver[]",
-        "name": "liquidatorReceivers",
-        "type": "address[]"
-      },
-      {
-        "internalType": "bytes[]",
-        "name": "liquidatorReceiverDatas",
-        "type": "bytes[]"
-      }
-    ],
-    "name": "liquidate",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "user",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "receiver",
-        "type": "address"
-      },
-      {
-        "internalType": "contract IMarketLiquidatorReceiver",
-        "name": "liquidatorReceiver",
-        "type": "address"
-      },
-      {
-        "internalType": "bytes",
-        "name": "liquidatorReceiverData",
-        "type": "bytes"
-      },
-      {
-        "internalType": "bool",
-        "name": "swapCollateral",
-        "type": "bool"
-      }
-    ],
-    "name": "liquidateBadDebt",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "liquidationBonusAmount",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "liquidationCollateralizationRate",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -1424,33 +1556,7 @@
   },
   {
     "inputs": [],
-    "name": "liquidationMultiplier",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "maxDebtRate",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "maxLiquidatorReward",
     "outputs": [
       {
         "internalType": "uint256",
@@ -1490,19 +1596,6 @@
   {
     "inputs": [],
     "name": "minDebtRate",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "minLiquidatorReward",
     "outputs": [
       {
         "internalType": "uint256",
@@ -1559,29 +1652,81 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "oracle",
-    "outputs": [
+    "inputs": [
       {
-        "internalType": "contract IOracle",
+        "internalType": "address",
         "name": "",
         "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "oracleData",
-    "outputs": [
+      },
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      },
       {
         "internalType": "bytes",
         "name": "",
         "type": "bytes"
       }
     ],
-    "stateMutability": "view",
+    "name": "onERC1155BatchReceived",
+    "outputs": [
+      {
+        "internalType": "bytes4",
+        "name": "",
+        "type": "bytes4"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes",
+        "name": "",
+        "type": "bytes"
+      }
+    ],
+    "name": "onERC1155Received",
+    "outputs": [
+      {
+        "internalType": "bytes4",
+        "name": "",
+        "type": "bytes4"
+      }
+    ],
+    "stateMutability": "pure",
     "type": "function"
   },
   {
@@ -1590,51 +1735,6 @@
     "outputs": [
       {
         "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "enum Market.PauseType",
-        "name": "pauseProp",
-        "type": "uint8"
-      }
-    ],
-    "name": "pauseOptions",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "pauseStatus",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "pendingOwner",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "penrose",
-    "outputs": [
-      {
-        "internalType": "contract IPenrose",
         "name": "",
         "type": "address"
       }
@@ -1688,24 +1788,6 @@
   {
     "inputs": [
       {
-        "internalType": "bytes",
-        "name": "data",
-        "type": "bytes"
-      },
-      {
-        "internalType": "uint16",
-        "name": "actionType",
-        "type": "uint16"
-      }
-    ],
-    "name": "permitAction",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "address",
         "name": "owner",
         "type": "address"
@@ -1748,45 +1830,6 @@
   },
   {
     "inputs": [],
-    "name": "protocolFee",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "rateTimestamp",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "rateValidDuration",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "refreshPenroseFees",
     "outputs": [
       {
@@ -1799,59 +1842,9 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "share",
-        "type": "uint256"
-      }
-    ],
-    "name": "removeCollateral",
+    "inputs": [],
+    "name": "renounceOwnership",
     "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "bool",
-        "name": "skim",
-        "type": "bool"
-      },
-      {
-        "internalType": "uint256",
-        "name": "part",
-        "type": "uint256"
-      }
-    ],
-    "name": "repay",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -1870,35 +1863,6 @@
     ],
     "name": "rescueEth",
     "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "share",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bytes",
-        "name": "data",
-        "type": "bytes"
-      }
-    ],
-    "name": "sellCollateral",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "amountOut",
-        "type": "uint256"
-      }
-    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -1964,7 +1928,20 @@
   {
     "inputs": [
       {
-        "internalType": "contract IOracle",
+        "internalType": "uint256",
+        "name": "_val",
+        "type": "uint256"
+      }
+    ],
+    "name": "setLiquidationMaxSlippage",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract ITapiocaOracle",
         "name": "_oracle",
         "type": "address"
       },
@@ -1977,11 +1954,6 @@
         "internalType": "address",
         "name": "_conservator",
         "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_callerFee",
-        "type": "uint256"
       },
       {
         "internalType": "uint256",
@@ -2061,47 +2033,22 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "totalBorrow",
-    "outputs": [
+    "inputs": [
       {
-        "internalType": "uint128",
-        "name": "elastic",
-        "type": "uint128"
-      },
-      {
-        "internalType": "uint128",
-        "name": "base",
-        "type": "uint128"
+        "internalType": "bytes4",
+        "name": "interfaceId",
+        "type": "bytes4"
       }
     ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "totalBorrowCap",
+    "name": "supportsInterface",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "bool",
         "name": "",
-        "type": "uint256"
+        "type": "bool"
       }
     ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "totalCollateralShare",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
+    "stateMutability": "pure",
     "type": "function"
   },
   {
@@ -2121,12 +2068,12 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "",
+        "name": "to",
         "type": "address"
       },
       {
         "internalType": "uint256",
-        "name": "",
+        "name": "amount",
         "type": "uint256"
       }
     ],
@@ -2138,24 +2085,24 @@
         "type": "bool"
       }
     ],
-    "stateMutability": "pure",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
       {
         "internalType": "address",
-        "name": "",
+        "name": "from",
         "type": "address"
       },
       {
         "internalType": "address",
-        "name": "",
+        "name": "to",
         "type": "address"
       },
       {
         "internalType": "uint256",
-        "name": "",
+        "name": "amount",
         "type": "uint256"
       }
     ],
@@ -2167,7 +2114,7 @@
         "type": "bool"
       }
     ],
-    "stateMutability": "pure",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -2176,16 +2123,6 @@
         "internalType": "address",
         "name": "newOwner",
         "type": "address"
-      },
-      {
-        "internalType": "bool",
-        "name": "direct",
-        "type": "bool"
-      },
-      {
-        "internalType": "bool",
-        "name": "renounce",
-        "type": "bool"
       }
     ],
     "name": "transferOwnership",
@@ -2232,49 +2169,24 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
+        "internalType": "bool",
+        "name": "val",
+        "type": "bool"
       }
     ],
-    "name": "userBorrowPart",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "userCollateralShare",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
+    "name": "updatePauseAll",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [],
-    "name": "yieldBox",
+    "name": "viewOpenInterest",
     "outputs": [
       {
-        "internalType": "contract YieldBox",
+        "internalType": "uint256",
         "name": "",
-        "type": "address"
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",

@@ -21,9 +21,9 @@ export function handleRegisterSingularity(
 
   const singularityContract = Singularity.bind(event.params.location)
   entity.chainId = getNetworkId(dataSource.network()) as i32
-  entity.borrowToken = putToken(singularityContract.asset()).id
-  entity.collateralToken = putToken(singularityContract.collateral()).id
-  entity.oracleAddress = singularityContract.oracle().toHexString()
+  entity.borrowToken = putToken(singularityContract._asset()).id
+  entity.collateralToken = putToken(singularityContract._collateral()).id
+  entity.oracleAddress = singularityContract._oracle().toHexString()
 
   entity.save()
 
@@ -73,9 +73,9 @@ export function handleRegisterBigBang(event: RegisterBigBangEvent): void {
 
   const bbContract = BigBang.bind(event.params.location)
   entity.chainId = getNetworkId(dataSource.network()) as i32
-  entity.borrowToken = putToken(bbContract.asset()).id
-  entity.collateralToken = putToken(bbContract.collateral()).id
-  entity.oracleAddress = bbContract.oracle().toHexString()
+  entity.borrowToken = putToken(bbContract._asset()).id
+  entity.collateralToken = putToken(bbContract._collateral()).id
+  entity.oracleAddress = bbContract._oracle().toHexString()
 
   entity.save()
 

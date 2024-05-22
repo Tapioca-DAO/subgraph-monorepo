@@ -1100,15 +1100,20 @@ export class YieldBox extends ethereum.SmartContract {
     );
   }
 
-  ids(param0: i32, param1: Address, param2: Address, param3: BigInt): BigInt {
+  ids(
+    tokenType: i32,
+    contractAddress: Address,
+    strategy: Address,
+    tokenId: BigInt,
+  ): BigInt {
     let result = super.call(
       "ids",
       "ids(uint8,address,address,uint256):(uint256)",
       [
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0)),
-        ethereum.Value.fromAddress(param1),
-        ethereum.Value.fromAddress(param2),
-        ethereum.Value.fromUnsignedBigInt(param3),
+        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(tokenType)),
+        ethereum.Value.fromAddress(contractAddress),
+        ethereum.Value.fromAddress(strategy),
+        ethereum.Value.fromUnsignedBigInt(tokenId),
       ],
     );
 
@@ -1116,19 +1121,19 @@ export class YieldBox extends ethereum.SmartContract {
   }
 
   try_ids(
-    param0: i32,
-    param1: Address,
-    param2: Address,
-    param3: BigInt,
+    tokenType: i32,
+    contractAddress: Address,
+    strategy: Address,
+    tokenId: BigInt,
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "ids",
       "ids(uint8,address,address,uint256):(uint256)",
       [
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0)),
-        ethereum.Value.fromAddress(param1),
-        ethereum.Value.fromAddress(param2),
-        ethereum.Value.fromUnsignedBigInt(param3),
+        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(tokenType)),
+        ethereum.Value.fromAddress(contractAddress),
+        ethereum.Value.fromAddress(strategy),
+        ethereum.Value.fromUnsignedBigInt(tokenId),
       ],
     );
     if (result.reverted) {

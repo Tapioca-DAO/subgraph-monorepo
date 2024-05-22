@@ -42,17 +42,13 @@ dataSources:
           handler: handleRegisterBigBang
       file: ./src/penrose.ts
     network: arbitrum-sepolia
-    context:
-      &a1
+    context: &a1
       usdo_address:
         type: String
         data: "0x67b715806b93495dc64a938168ebda17eb01e732"
       penrose_address:
         type: String
         data: "0x5bcb4eb9f66f05735045118560c6dd7097e7582d"
-      tapiocawrapper_address:
-        type: String
-        data: "0xb5098803dac7ff13e5cb1ecb13e11567670acaf6"
       yieldbox_address:
         type: String
         data: "0xb7bd73f92af817055b6a5e2bcb19804b9d515864"
@@ -68,35 +64,6 @@ dataSources:
       twtap_address:
         type: String
         data: "0x61a4fff4b29e28d38a8ec08da415918c47b8a69c"
-  - kind: ethereum
-    name: TapiocaWrapper
-    network: arbitrum-sepolia
-    source:
-      abi: TapiocaWrapper
-      startBlock: 4954220
-      address: "0xB5098803dAC7ff13E5cb1ecb13E11567670aCAf6"
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - TOFToken
-      abis:
-        - name: TapiocaWrapper
-          file: ./abis/TapiocaWrapper.json
-        - name: ERC20
-          file: ./abis/ERC20.json
-        - name: ERC20SymbolBytes
-          file: ./abis/ERC20SymbolBytes.json
-        - name: ERC20NameBytes
-          file: ./abis/ERC20NameBytes.json
-        - name: TOFT
-          file: ./abis/TOFT.json
-      eventHandlers:
-        - event: CreateOFT(indexed address,indexed address)
-          handler: handleCreateOFT
-      file: ./src/tapioca-wrapper.ts
-    context: *a1
   - kind: ethereum
     name: USDO
     network: arbitrum-sepolia
@@ -120,8 +87,8 @@ dataSources:
         - name: ERC20NameBytes
           file: ./abis/ERC20NameBytes.json
       eventHandlers:
-        - event: SetTrustedRemote(uint16,bytes)
-          handler: handleSetTrustedRemoteUSDO
+        - event: PeerSet(uint32,bytes32)
+          handler: handlePeerSetUSDO
       file: ./src/usdo.ts
     context: *a1
   - kind: ethereum
@@ -305,7 +272,15 @@ templates:
       abis:
         - name: TOFT
           file: ./abis/TOFT.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
       eventHandlers:
-        - event: SetTrustedRemote(uint16,bytes)
-          handler: handleSetTrustedRemote
+        - event: PeerSet(uint32,bytes32)
+          handler: handlePeerSet
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
       file: ./src/toft.ts

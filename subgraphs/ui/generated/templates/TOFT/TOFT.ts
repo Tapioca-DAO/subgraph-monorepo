@@ -36,36 +36,6 @@ export class Approval__Params {
   }
 }
 
-export class CallOFTReceivedSuccess extends ethereum.Event {
-  get params(): CallOFTReceivedSuccess__Params {
-    return new CallOFTReceivedSuccess__Params(this);
-  }
-}
-
-export class CallOFTReceivedSuccess__Params {
-  _event: CallOFTReceivedSuccess;
-
-  constructor(event: CallOFTReceivedSuccess) {
-    this._event = event;
-  }
-
-  get _srcChainId(): i32 {
-    return this._event.parameters[0].value.toI32();
-  }
-
-  get _srcAddress(): Bytes {
-    return this._event.parameters[1].value.toBytes();
-  }
-
-  get _nonce(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
-  }
-
-  get _hash(): Bytes {
-    return this._event.parameters[3].value.toBytes();
-  }
-}
-
 export class EIP712DomainChanged extends ethereum.Event {
   get params(): EIP712DomainChanged__Params {
     return new EIP712DomainChanged__Params(this);
@@ -80,77 +50,117 @@ export class EIP712DomainChanged__Params {
   }
 }
 
-export class MaxSlippageUpdated extends ethereum.Event {
-  get params(): MaxSlippageUpdated__Params {
-    return new MaxSlippageUpdated__Params(this);
+export class EnforcedOptionSet extends ethereum.Event {
+  get params(): EnforcedOptionSet__Params {
+    return new EnforcedOptionSet__Params(this);
   }
 }
 
-export class MaxSlippageUpdated__Params {
-  _event: MaxSlippageUpdated;
+export class EnforcedOptionSet__Params {
+  _event: EnforcedOptionSet;
 
-  constructor(event: MaxSlippageUpdated) {
+  constructor(event: EnforcedOptionSet) {
     this._event = event;
   }
 
-  get _old(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
+  get _enforcedOptions(): Array<EnforcedOptionSet_enforcedOptionsStruct> {
+    return this._event.parameters[0].value.toTupleArray<EnforcedOptionSet_enforcedOptionsStruct>();
+  }
+}
+
+export class EnforcedOptionSet_enforcedOptionsStruct extends ethereum.Tuple {
+  get eid(): BigInt {
+    return this[0].toBigInt();
   }
 
-  get _newVal(): BigInt {
+  get msgType(): i32 {
+    return this[1].toI32();
+  }
+
+  get options(): Bytes {
+    return this[2].toBytes();
+  }
+}
+
+export class MsgInspectorSet extends ethereum.Event {
+  get params(): MsgInspectorSet__Params {
+    return new MsgInspectorSet__Params(this);
+  }
+}
+
+export class MsgInspectorSet__Params {
+  _event: MsgInspectorSet;
+
+  constructor(event: MsgInspectorSet) {
+    this._event = event;
+  }
+
+  get inspector(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+}
+
+export class OFTReceived extends ethereum.Event {
+  get params(): OFTReceived__Params {
+    return new OFTReceived__Params(this);
+  }
+}
+
+export class OFTReceived__Params {
+  _event: OFTReceived;
+
+  constructor(event: OFTReceived) {
+    this._event = event;
+  }
+
+  get guid(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get srcEid(): BigInt {
     return this._event.parameters[1].value.toBigInt();
   }
-}
 
-export class MessageFailed extends ethereum.Event {
-  get params(): MessageFailed__Params {
-    return new MessageFailed__Params(this);
+  get toAddress(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get amountReceivedLD(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
   }
 }
 
-export class MessageFailed__Params {
-  _event: MessageFailed;
+export class OFTSent extends ethereum.Event {
+  get params(): OFTSent__Params {
+    return new OFTSent__Params(this);
+  }
+}
 
-  constructor(event: MessageFailed) {
+export class OFTSent__Params {
+  _event: OFTSent;
+
+  constructor(event: OFTSent) {
     this._event = event;
   }
 
-  get _srcChainId(): i32 {
-    return this._event.parameters[0].value.toI32();
+  get guid(): Bytes {
+    return this._event.parameters[0].value.toBytes();
   }
 
-  get _srcAddress(): Bytes {
-    return this._event.parameters[1].value.toBytes();
+  get dstEid(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
   }
 
-  get _nonce(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
+  get fromAddress(): Address {
+    return this._event.parameters[2].value.toAddress();
   }
 
-  get _payload(): Bytes {
-    return this._event.parameters[3].value.toBytes();
+  get amountSentLD(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
   }
 
-  get _reason(): Bytes {
-    return this._event.parameters[4].value.toBytes();
-  }
-}
-
-export class NonContractAddress extends ethereum.Event {
-  get params(): NonContractAddress__Params {
-    return new NonContractAddress__Params(this);
-  }
-}
-
-export class NonContractAddress__Params {
-  _event: NonContractAddress;
-
-  constructor(event: NonContractAddress) {
-    this._event = event;
-  }
-
-  get _address(): Address {
-    return this._event.parameters[0].value.toAddress();
+  get amountReceivedLD(): BigInt {
+    return this._event.parameters[4].value.toBigInt();
   }
 }
 
@@ -176,217 +186,83 @@ export class OwnershipTransferred__Params {
   }
 }
 
-export class ReceiveFromChain extends ethereum.Event {
-  get params(): ReceiveFromChain__Params {
-    return new ReceiveFromChain__Params(this);
+export class Paused extends ethereum.Event {
+  get params(): Paused__Params {
+    return new Paused__Params(this);
   }
 }
 
-export class ReceiveFromChain__Params {
-  _event: ReceiveFromChain;
+export class Paused__Params {
+  _event: Paused;
 
-  constructor(event: ReceiveFromChain) {
+  constructor(event: Paused) {
     this._event = event;
   }
 
-  get _srcChainId(): i32 {
-    return this._event.parameters[0].value.toI32();
-  }
-
-  get _to(): Address {
-    return this._event.parameters[1].value.toAddress();
-  }
-
-  get _amount(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
-  }
-}
-
-export class RetryMessageSuccess extends ethereum.Event {
-  get params(): RetryMessageSuccess__Params {
-    return new RetryMessageSuccess__Params(this);
-  }
-}
-
-export class RetryMessageSuccess__Params {
-  _event: RetryMessageSuccess;
-
-  constructor(event: RetryMessageSuccess) {
-    this._event = event;
-  }
-
-  get _srcChainId(): i32 {
-    return this._event.parameters[0].value.toI32();
-  }
-
-  get _srcAddress(): Bytes {
-    return this._event.parameters[1].value.toBytes();
-  }
-
-  get _nonce(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
-  }
-
-  get _payloadHash(): Bytes {
-    return this._event.parameters[3].value.toBytes();
-  }
-}
-
-export class SendToChain extends ethereum.Event {
-  get params(): SendToChain__Params {
-    return new SendToChain__Params(this);
-  }
-}
-
-export class SendToChain__Params {
-  _event: SendToChain;
-
-  constructor(event: SendToChain) {
-    this._event = event;
-  }
-
-  get _dstChainId(): i32 {
-    return this._event.parameters[0].value.toI32();
-  }
-
-  get _from(): Address {
-    return this._event.parameters[1].value.toAddress();
-  }
-
-  get _toAddress(): Bytes {
-    return this._event.parameters[2].value.toBytes();
-  }
-
-  get _amount(): BigInt {
-    return this._event.parameters[3].value.toBigInt();
-  }
-}
-
-export class SetMinDstGas extends ethereum.Event {
-  get params(): SetMinDstGas__Params {
-    return new SetMinDstGas__Params(this);
-  }
-}
-
-export class SetMinDstGas__Params {
-  _event: SetMinDstGas;
-
-  constructor(event: SetMinDstGas) {
-    this._event = event;
-  }
-
-  get _dstChainId(): i32 {
-    return this._event.parameters[0].value.toI32();
-  }
-
-  get _type(): i32 {
-    return this._event.parameters[1].value.toI32();
-  }
-
-  get _minDstGas(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
-  }
-}
-
-export class SetPrecrime extends ethereum.Event {
-  get params(): SetPrecrime__Params {
-    return new SetPrecrime__Params(this);
-  }
-}
-
-export class SetPrecrime__Params {
-  _event: SetPrecrime;
-
-  constructor(event: SetPrecrime) {
-    this._event = event;
-  }
-
-  get precrime(): Address {
+  get account(): Address {
     return this._event.parameters[0].value.toAddress();
   }
 }
 
-export class SetTrustedRemote extends ethereum.Event {
-  get params(): SetTrustedRemote__Params {
-    return new SetTrustedRemote__Params(this);
+export class PearlmitUpdated extends ethereum.Event {
+  get params(): PearlmitUpdated__Params {
+    return new PearlmitUpdated__Params(this);
   }
 }
 
-export class SetTrustedRemote__Params {
-  _event: SetTrustedRemote;
+export class PearlmitUpdated__Params {
+  _event: PearlmitUpdated;
 
-  constructor(event: SetTrustedRemote) {
+  constructor(event: PearlmitUpdated) {
     this._event = event;
   }
 
-  get _remoteChainId(): i32 {
-    return this._event.parameters[0].value.toI32();
-  }
-
-  get _path(): Bytes {
-    return this._event.parameters[1].value.toBytes();
-  }
-}
-
-export class SetTrustedRemoteAddress extends ethereum.Event {
-  get params(): SetTrustedRemoteAddress__Params {
-    return new SetTrustedRemoteAddress__Params(this);
-  }
-}
-
-export class SetTrustedRemoteAddress__Params {
-  _event: SetTrustedRemoteAddress;
-
-  constructor(event: SetTrustedRemoteAddress) {
-    this._event = event;
-  }
-
-  get _remoteChainId(): i32 {
-    return this._event.parameters[0].value.toI32();
-  }
-
-  get _remoteAddress(): Bytes {
-    return this._event.parameters[1].value.toBytes();
-  }
-}
-
-export class SetUseCustomAdapterParams extends ethereum.Event {
-  get params(): SetUseCustomAdapterParams__Params {
-    return new SetUseCustomAdapterParams__Params(this);
-  }
-}
-
-export class SetUseCustomAdapterParams__Params {
-  _event: SetUseCustomAdapterParams;
-
-  constructor(event: SetUseCustomAdapterParams) {
-    this._event = event;
-  }
-
-  get _useCustomAdapterParams(): boolean {
-    return this._event.parameters[0].value.toBoolean();
-  }
-}
-
-export class StargateRouterUpdated extends ethereum.Event {
-  get params(): StargateRouterUpdated__Params {
-    return new StargateRouterUpdated__Params(this);
-  }
-}
-
-export class StargateRouterUpdated__Params {
-  _event: StargateRouterUpdated;
-
-  constructor(event: StargateRouterUpdated) {
-    this._event = event;
-  }
-
-  get _old(): Address {
+  get oldPearlmit(): Address {
     return this._event.parameters[0].value.toAddress();
   }
 
-  get _new(): Address {
+  get newPearlmit(): Address {
     return this._event.parameters[1].value.toAddress();
+  }
+}
+
+export class PeerSet extends ethereum.Event {
+  get params(): PeerSet__Params {
+    return new PeerSet__Params(this);
+  }
+}
+
+export class PeerSet__Params {
+  _event: PeerSet;
+
+  constructor(event: PeerSet) {
+    this._event = event;
+  }
+
+  get eid(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get peer(): Bytes {
+    return this._event.parameters[1].value.toBytes();
+  }
+}
+
+export class PreCrimeSet extends ethereum.Event {
+  get params(): PreCrimeSet__Params {
+    return new PreCrimeSet__Params(this);
+  }
+}
+
+export class PreCrimeSet__Params {
+  _event: PreCrimeSet;
+
+  constructor(event: PreCrimeSet) {
+    this._event = event;
+  }
+
+  get preCrimeAddress(): Address {
+    return this._event.parameters[0].value.toAddress();
   }
 }
 
@@ -413,6 +289,38 @@ export class Transfer__Params {
 
   get value(): BigInt {
     return this._event.parameters[2].value.toBigInt();
+  }
+}
+
+export class Unpaused extends ethereum.Event {
+  get params(): Unpaused__Params {
+    return new Unpaused__Params(this);
+  }
+}
+
+export class Unpaused__Params {
+  _event: Unpaused;
+
+  constructor(event: Unpaused) {
+    this._event = event;
+  }
+
+  get account(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+}
+
+export class TOFT__allowInitializePathInputOriginStruct extends ethereum.Tuple {
+  get srcEid(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get sender(): Bytes {
+    return this[1].toBytes();
+  }
+
+  get nonce(): BigInt {
+    return this[2].toBigInt();
   }
 }
 
@@ -484,7 +392,43 @@ export class TOFT__eip712DomainResult {
   }
 }
 
-export class TOFT__estimateSendAndCallFeeResult {
+export class TOFT__getTypedDataHashInput_permitDataStruct extends ethereum.Tuple {
+  get owner(): Address {
+    return this[0].toAddress();
+  }
+
+  get spender(): Address {
+    return this[1].toAddress();
+  }
+
+  get value(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get nonce(): BigInt {
+    return this[3].toBigInt();
+  }
+
+  get deadline(): BigInt {
+    return this[4].toBigInt();
+  }
+}
+
+export class TOFT__isComposeMsgSenderInputParam0Struct extends ethereum.Tuple {
+  get srcEid(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get sender(): Bytes {
+    return this[1].toBytes();
+  }
+
+  get nonce(): BigInt {
+    return this[2].toBigInt();
+  }
+}
+
+export class TOFT__oAppVersionResult {
   value0: BigInt;
   value1: BigInt;
 
@@ -500,37 +444,213 @@ export class TOFT__estimateSendAndCallFeeResult {
     return map;
   }
 
-  getNativeFee(): BigInt {
+  getSenderVersion(): BigInt {
     return this.value0;
   }
 
-  getZroFee(): BigInt {
+  getReceiverVersion(): BigInt {
     return this.value1;
   }
 }
 
-export class TOFT__estimateSendFeeResult {
-  value0: BigInt;
+export class TOFT__oftVersionResult {
+  value0: Bytes;
   value1: BigInt;
 
-  constructor(value0: BigInt, value1: BigInt) {
+  constructor(value0: Bytes, value1: BigInt) {
     this.value0 = value0;
     this.value1 = value1;
   }
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromUnsignedBigInt(this.value0));
+    map.set("value0", ethereum.Value.fromFixedBytes(this.value0));
     map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
     return map;
   }
 
-  getNativeFee(): BigInt {
+  getInterfaceId(): Bytes {
     return this.value0;
   }
 
-  getZroFee(): BigInt {
+  getVersion(): BigInt {
     return this.value1;
+  }
+}
+
+export class TOFT__quoteOFTResultOftLimitStruct extends ethereum.Tuple {
+  get minAmountLD(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get maxAmountLD(): BigInt {
+    return this[1].toBigInt();
+  }
+}
+
+export class TOFT__quoteOFTResultOftFeeDetailsStruct extends ethereum.Tuple {
+  get feeAmountLD(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get description(): string {
+    return this[1].toString();
+  }
+}
+
+export class TOFT__quoteOFTResultOftReceiptStruct extends ethereum.Tuple {
+  get amountSentLD(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get amountReceivedLD(): BigInt {
+    return this[1].toBigInt();
+  }
+}
+
+export class TOFT__quoteOFTResult {
+  value0: TOFT__quoteOFTResultOftLimitStruct;
+  value1: Array<TOFT__quoteOFTResultOftFeeDetailsStruct>;
+  value2: TOFT__quoteOFTResultOftReceiptStruct;
+
+  constructor(
+    value0: TOFT__quoteOFTResultOftLimitStruct,
+    value1: Array<TOFT__quoteOFTResultOftFeeDetailsStruct>,
+    value2: TOFT__quoteOFTResultOftReceiptStruct,
+  ) {
+    this.value0 = value0;
+    this.value1 = value1;
+    this.value2 = value2;
+  }
+
+  toMap(): TypedMap<string, ethereum.Value> {
+    let map = new TypedMap<string, ethereum.Value>();
+    map.set("value0", ethereum.Value.fromTuple(this.value0));
+    map.set("value1", ethereum.Value.fromTupleArray(this.value1));
+    map.set("value2", ethereum.Value.fromTuple(this.value2));
+    return map;
+  }
+
+  getOftLimit(): TOFT__quoteOFTResultOftLimitStruct {
+    return this.value0;
+  }
+
+  getOftFeeDetails(): Array<TOFT__quoteOFTResultOftFeeDetailsStruct> {
+    return this.value1;
+  }
+
+  getOftReceipt(): TOFT__quoteOFTResultOftReceiptStruct {
+    return this.value2;
+  }
+}
+
+export class TOFT__quoteOFTInput_sendParamStruct extends ethereum.Tuple {
+  get dstEid(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get to(): Bytes {
+    return this[1].toBytes();
+  }
+
+  get amountLD(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get minAmountLD(): BigInt {
+    return this[3].toBigInt();
+  }
+
+  get extraOptions(): Bytes {
+    return this[4].toBytes();
+  }
+
+  get composeMsg(): Bytes {
+    return this[5].toBytes();
+  }
+
+  get oftCmd(): Bytes {
+    return this[6].toBytes();
+  }
+}
+
+export class TOFT__quoteSendResultMsgFeeStruct extends ethereum.Tuple {
+  get nativeFee(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get lzTokenFee(): BigInt {
+    return this[1].toBigInt();
+  }
+}
+
+export class TOFT__quoteSendInput_sendParamStruct extends ethereum.Tuple {
+  get dstEid(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get to(): Bytes {
+    return this[1].toBytes();
+  }
+
+  get amountLD(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get minAmountLD(): BigInt {
+    return this[3].toBigInt();
+  }
+
+  get extraOptions(): Bytes {
+    return this[4].toBytes();
+  }
+
+  get composeMsg(): Bytes {
+    return this[5].toBytes();
+  }
+
+  get oftCmd(): Bytes {
+    return this[6].toBytes();
+  }
+}
+
+export class TOFT__quoteSendPacketResultMsgFeeStruct extends ethereum.Tuple {
+  get nativeFee(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get lzTokenFee(): BigInt {
+    return this[1].toBigInt();
+  }
+}
+
+export class TOFT__quoteSendPacketInput_sendParamStruct extends ethereum.Tuple {
+  get dstEid(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get to(): Bytes {
+    return this[1].toBytes();
+  }
+
+  get amountLD(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get minAmountLD(): BigInt {
+    return this[3].toBigInt();
+  }
+
+  get extraOptions(): Bytes {
+    return this[4].toBytes();
+  }
+
+  get composeMsg(): Bytes {
+    return this[5].toBytes();
+  }
+
+  get oftCmd(): Bytes {
+    return this[6].toBytes();
   }
 }
 
@@ -539,27 +659,19 @@ export class TOFT extends ethereum.SmartContract {
     return new TOFT("TOFT", address);
   }
 
-  DEFAULT_PAYLOAD_SIZE_LIMIT(): BigInt {
-    let result = super.call(
-      "DEFAULT_PAYLOAD_SIZE_LIMIT",
-      "DEFAULT_PAYLOAD_SIZE_LIMIT():(uint256)",
-      [],
-    );
+  CLUSTER_SLOT(): Bytes {
+    let result = super.call("CLUSTER_SLOT", "CLUSTER_SLOT():(bytes32)", []);
 
-    return result[0].toBigInt();
+    return result[0].toBytes();
   }
 
-  try_DEFAULT_PAYLOAD_SIZE_LIMIT(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "DEFAULT_PAYLOAD_SIZE_LIMIT",
-      "DEFAULT_PAYLOAD_SIZE_LIMIT():(uint256)",
-      [],
-    );
+  try_CLUSTER_SLOT(): ethereum.CallResult<Bytes> {
+    let result = super.tryCall("CLUSTER_SLOT", "CLUSTER_SLOT():(bytes32)", []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
+    return ethereum.CallResult.fromValue(value[0].toBytes());
   }
 
   DOMAIN_SEPARATOR(): Bytes {
@@ -585,29 +697,14 @@ export class TOFT extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBytes());
   }
 
-  NO_EXTRA_GAS(): BigInt {
-    let result = super.call("NO_EXTRA_GAS", "NO_EXTRA_GAS():(uint256)", []);
-
-    return result[0].toBigInt();
-  }
-
-  try_NO_EXTRA_GAS(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("NO_EXTRA_GAS", "NO_EXTRA_GAS():(uint256)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  PT_SEND(): i32 {
-    let result = super.call("PT_SEND", "PT_SEND():(uint8)", []);
+  MSG_SEND(): i32 {
+    let result = super.call("MSG_SEND", "MSG_SEND():(uint16)", []);
 
     return result[0].toI32();
   }
 
-  try_PT_SEND(): ethereum.CallResult<i32> {
-    let result = super.tryCall("PT_SEND", "PT_SEND():(uint8)", []);
+  try_MSG_SEND(): ethereum.CallResult<i32> {
+    let result = super.tryCall("MSG_SEND", "MSG_SEND():(uint16)", []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -615,27 +712,61 @@ export class TOFT extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toI32());
   }
 
-  PT_SEND_AND_CALL(): i32 {
+  SEND(): i32 {
+    let result = super.call("SEND", "SEND():(uint16)", []);
+
+    return result[0].toI32();
+  }
+
+  try_SEND(): ethereum.CallResult<i32> {
+    let result = super.tryCall("SEND", "SEND():(uint16)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toI32());
+  }
+
+  SEND_AND_CALL(): i32 {
+    let result = super.call("SEND_AND_CALL", "SEND_AND_CALL():(uint16)", []);
+
+    return result[0].toI32();
+  }
+
+  try_SEND_AND_CALL(): ethereum.CallResult<i32> {
+    let result = super.tryCall("SEND_AND_CALL", "SEND_AND_CALL():(uint16)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toI32());
+  }
+
+  allowInitializePath(
+    origin: TOFT__allowInitializePathInputOriginStruct,
+  ): boolean {
     let result = super.call(
-      "PT_SEND_AND_CALL",
-      "PT_SEND_AND_CALL():(uint8)",
-      [],
+      "allowInitializePath",
+      "allowInitializePath((uint32,bytes32,uint64)):(bool)",
+      [ethereum.Value.fromTuple(origin)],
     );
 
-    return result[0].toI32();
+    return result[0].toBoolean();
   }
 
-  try_PT_SEND_AND_CALL(): ethereum.CallResult<i32> {
+  try_allowInitializePath(
+    origin: TOFT__allowInitializePathInputOriginStruct,
+  ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
-      "PT_SEND_AND_CALL",
-      "PT_SEND_AND_CALL():(uint8)",
-      [],
+      "allowInitializePath",
+      "allowInitializePath((uint32,bytes32,uint64)):(bool)",
+      [ethereum.Value.fromTuple(origin)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toI32());
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
   allowance(owner: Address, spender: Address): BigInt {
@@ -659,6 +790,29 @@ export class TOFT extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  approvalRequired(): boolean {
+    let result = super.call(
+      "approvalRequired",
+      "approvalRequired():(bool)",
+      [],
+    );
+
+    return result[0].toBoolean();
+  }
+
+  try_approvalRequired(): ethereum.CallResult<boolean> {
+    let result = super.tryCall(
+      "approvalRequired",
+      "approvalRequired():(bool)",
+      [],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
   approve(spender: Address, amount: BigInt): boolean {
@@ -701,20 +855,55 @@ export class TOFT extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  circulatingSupply(): BigInt {
+  combineOptions(_eid: BigInt, _msgType: i32, _extraOptions: Bytes): Bytes {
     let result = super.call(
-      "circulatingSupply",
-      "circulatingSupply():(uint256)",
+      "combineOptions",
+      "combineOptions(uint32,uint16,bytes):(bytes)",
+      [
+        ethereum.Value.fromUnsignedBigInt(_eid),
+        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_msgType)),
+        ethereum.Value.fromBytes(_extraOptions),
+      ],
+    );
+
+    return result[0].toBytes();
+  }
+
+  try_combineOptions(
+    _eid: BigInt,
+    _msgType: i32,
+    _extraOptions: Bytes,
+  ): ethereum.CallResult<Bytes> {
+    let result = super.tryCall(
+      "combineOptions",
+      "combineOptions(uint32,uint16,bytes):(bytes)",
+      [
+        ethereum.Value.fromUnsignedBigInt(_eid),
+        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_msgType)),
+        ethereum.Value.fromBytes(_extraOptions),
+      ],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBytes());
+  }
+
+  decimalConversionRate(): BigInt {
+    let result = super.call(
+      "decimalConversionRate",
+      "decimalConversionRate():(uint256)",
       [],
     );
 
     return result[0].toBigInt();
   }
 
-  try_circulatingSupply(): ethereum.CallResult<BigInt> {
+  try_decimalConversionRate(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "circulatingSupply",
-      "circulatingSupply():(uint256)",
+      "decimalConversionRate",
+      "decimalConversionRate():(uint256)",
       [],
     );
     if (result.reverted) {
@@ -722,56 +911,6 @@ export class TOFT extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  cluster(): Address {
-    let result = super.call("cluster", "cluster():(address)", []);
-
-    return result[0].toAddress();
-  }
-
-  try_cluster(): ethereum.CallResult<Address> {
-    let result = super.tryCall("cluster", "cluster():(address)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
-  creditedPackets(param0: i32, param1: Bytes, param2: BigInt): boolean {
-    let result = super.call(
-      "creditedPackets",
-      "creditedPackets(uint16,bytes,uint64):(bool)",
-      [
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0)),
-        ethereum.Value.fromBytes(param1),
-        ethereum.Value.fromUnsignedBigInt(param2),
-      ],
-    );
-
-    return result[0].toBoolean();
-  }
-
-  try_creditedPackets(
-    param0: i32,
-    param1: Bytes,
-    param2: BigInt,
-  ): ethereum.CallResult<boolean> {
-    let result = super.tryCall(
-      "creditedPackets",
-      "creditedPackets(uint16,bytes,uint64):(bool)",
-      [
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0)),
-        ethereum.Value.fromBytes(param1),
-        ethereum.Value.fromUnsignedBigInt(param2),
-      ],
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
   decimals(): i32 {
@@ -862,6 +1001,50 @@ export class TOFT extends ethereum.SmartContract {
     );
   }
 
+  endpoint(): Address {
+    let result = super.call("endpoint", "endpoint():(address)", []);
+
+    return result[0].toAddress();
+  }
+
+  try_endpoint(): ethereum.CallResult<Address> {
+    let result = super.tryCall("endpoint", "endpoint():(address)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  enforcedOptions(eid: BigInt, msgType: i32): Bytes {
+    let result = super.call(
+      "enforcedOptions",
+      "enforcedOptions(uint32,uint16):(bytes)",
+      [
+        ethereum.Value.fromUnsignedBigInt(eid),
+        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(msgType)),
+      ],
+    );
+
+    return result[0].toBytes();
+  }
+
+  try_enforcedOptions(eid: BigInt, msgType: i32): ethereum.CallResult<Bytes> {
+    let result = super.tryCall(
+      "enforcedOptions",
+      "enforcedOptions(uint32,uint16):(bytes)",
+      [
+        ethereum.Value.fromUnsignedBigInt(eid),
+        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(msgType)),
+      ],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBytes());
+  }
+
   erc20(): Address {
     let result = super.call("erc20", "erc20():(address)", []);
 
@@ -877,191 +1060,40 @@ export class TOFT extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  estimateSendAndCallFee(
-    _dstChainId: i32,
-    _toAddress: Bytes,
-    _amount: BigInt,
-    _payload: Bytes,
-    _dstGasForCall: BigInt,
-    _useZro: boolean,
-    _adapterParams: Bytes,
-  ): TOFT__estimateSendAndCallFeeResult {
-    let result = super.call(
-      "estimateSendAndCallFee",
-      "estimateSendAndCallFee(uint16,bytes32,uint256,bytes,uint64,bool,bytes):(uint256,uint256)",
-      [
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_dstChainId)),
-        ethereum.Value.fromFixedBytes(_toAddress),
-        ethereum.Value.fromUnsignedBigInt(_amount),
-        ethereum.Value.fromBytes(_payload),
-        ethereum.Value.fromUnsignedBigInt(_dstGasForCall),
-        ethereum.Value.fromBoolean(_useZro),
-        ethereum.Value.fromBytes(_adapterParams),
-      ],
-    );
+  getCluster(): Address {
+    let result = super.call("getCluster", "getCluster():(address)", []);
 
-    return new TOFT__estimateSendAndCallFeeResult(
-      result[0].toBigInt(),
-      result[1].toBigInt(),
-    );
+    return result[0].toAddress();
   }
 
-  try_estimateSendAndCallFee(
-    _dstChainId: i32,
-    _toAddress: Bytes,
-    _amount: BigInt,
-    _payload: Bytes,
-    _dstGasForCall: BigInt,
-    _useZro: boolean,
-    _adapterParams: Bytes,
-  ): ethereum.CallResult<TOFT__estimateSendAndCallFeeResult> {
-    let result = super.tryCall(
-      "estimateSendAndCallFee",
-      "estimateSendAndCallFee(uint16,bytes32,uint256,bytes,uint64,bool,bytes):(uint256,uint256)",
-      [
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_dstChainId)),
-        ethereum.Value.fromFixedBytes(_toAddress),
-        ethereum.Value.fromUnsignedBigInt(_amount),
-        ethereum.Value.fromBytes(_payload),
-        ethereum.Value.fromUnsignedBigInt(_dstGasForCall),
-        ethereum.Value.fromBoolean(_useZro),
-        ethereum.Value.fromBytes(_adapterParams),
-      ],
-    );
+  try_getCluster(): ethereum.CallResult<Address> {
+    let result = super.tryCall("getCluster", "getCluster():(address)", []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
-    return ethereum.CallResult.fromValue(
-      new TOFT__estimateSendAndCallFeeResult(
-        value[0].toBigInt(),
-        value[1].toBigInt(),
-      ),
-    );
+    return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  estimateSendFee(
-    _dstChainId: i32,
-    _toAddress: Bytes,
-    _amount: BigInt,
-    _useZro: boolean,
-    _adapterParams: Bytes,
-  ): TOFT__estimateSendFeeResult {
-    let result = super.call(
-      "estimateSendFee",
-      "estimateSendFee(uint16,bytes32,uint256,bool,bytes):(uint256,uint256)",
-      [
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_dstChainId)),
-        ethereum.Value.fromFixedBytes(_toAddress),
-        ethereum.Value.fromUnsignedBigInt(_amount),
-        ethereum.Value.fromBoolean(_useZro),
-        ethereum.Value.fromBytes(_adapterParams),
-      ],
-    );
-
-    return new TOFT__estimateSendFeeResult(
-      result[0].toBigInt(),
-      result[1].toBigInt(),
-    );
-  }
-
-  try_estimateSendFee(
-    _dstChainId: i32,
-    _toAddress: Bytes,
-    _amount: BigInt,
-    _useZro: boolean,
-    _adapterParams: Bytes,
-  ): ethereum.CallResult<TOFT__estimateSendFeeResult> {
-    let result = super.tryCall(
-      "estimateSendFee",
-      "estimateSendFee(uint16,bytes32,uint256,bool,bytes):(uint256,uint256)",
-      [
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_dstChainId)),
-        ethereum.Value.fromFixedBytes(_toAddress),
-        ethereum.Value.fromUnsignedBigInt(_amount),
-        ethereum.Value.fromBoolean(_useZro),
-        ethereum.Value.fromBytes(_adapterParams),
-      ],
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(
-      new TOFT__estimateSendFeeResult(value[0].toBigInt(), value[1].toBigInt()),
-    );
-  }
-
-  failedMessages(param0: i32, param1: Bytes, param2: BigInt): Bytes {
-    let result = super.call(
-      "failedMessages",
-      "failedMessages(uint16,bytes,uint64):(bytes32)",
-      [
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0)),
-        ethereum.Value.fromBytes(param1),
-        ethereum.Value.fromUnsignedBigInt(param2),
-      ],
-    );
-
-    return result[0].toBytes();
-  }
-
-  try_failedMessages(
-    param0: i32,
-    param1: Bytes,
-    param2: BigInt,
-  ): ethereum.CallResult<Bytes> {
-    let result = super.tryCall(
-      "failedMessages",
-      "failedMessages(uint16,bytes,uint64):(bytes32)",
-      [
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0)),
-        ethereum.Value.fromBytes(param1),
-        ethereum.Value.fromUnsignedBigInt(param2),
-      ],
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBytes());
-  }
-
-  getConfig(
-    _version: i32,
-    _chainId: i32,
-    param2: Address,
-    _configType: BigInt,
+  getTypedDataHash(
+    _permitData: TOFT__getTypedDataHashInput_permitDataStruct,
   ): Bytes {
     let result = super.call(
-      "getConfig",
-      "getConfig(uint16,uint16,address,uint256):(bytes)",
-      [
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_version)),
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_chainId)),
-        ethereum.Value.fromAddress(param2),
-        ethereum.Value.fromUnsignedBigInt(_configType),
-      ],
+      "getTypedDataHash",
+      "getTypedDataHash((address,address,uint256,uint256,uint256)):(bytes32)",
+      [ethereum.Value.fromTuple(_permitData)],
     );
 
     return result[0].toBytes();
   }
 
-  try_getConfig(
-    _version: i32,
-    _chainId: i32,
-    param2: Address,
-    _configType: BigInt,
+  try_getTypedDataHash(
+    _permitData: TOFT__getTypedDataHashInput_permitDataStruct,
   ): ethereum.CallResult<Bytes> {
     let result = super.tryCall(
-      "getConfig",
-      "getConfig(uint16,uint16,address,uint256):(bytes)",
-      [
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_version)),
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_chainId)),
-        ethereum.Value.fromAddress(param2),
-        ethereum.Value.fromUnsignedBigInt(_configType),
-      ],
+      "getTypedDataHash",
+      "getTypedDataHash((address,address,uint256,uint256,uint256)):(bytes32)",
+      [ethereum.Value.fromTuple(_permitData)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1070,37 +1102,14 @@ export class TOFT extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBytes());
   }
 
-  getTrustedRemoteAddress(_remoteChainId: i32): Bytes {
-    let result = super.call(
-      "getTrustedRemoteAddress",
-      "getTrustedRemoteAddress(uint16):(bytes)",
-      [ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_remoteChainId))],
-    );
-
-    return result[0].toBytes();
-  }
-
-  try_getTrustedRemoteAddress(_remoteChainId: i32): ethereum.CallResult<Bytes> {
-    let result = super.tryCall(
-      "getTrustedRemoteAddress",
-      "getTrustedRemoteAddress(uint16):(bytes)",
-      [ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_remoteChainId))],
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBytes());
-  }
-
-  hostChainID(): BigInt {
-    let result = super.call("hostChainID", "hostChainID():(uint256)", []);
+  hostEid(): BigInt {
+    let result = super.call("hostEid", "hostEid():(uint256)", []);
 
     return result[0].toBigInt();
   }
 
-  try_hostChainID(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("hostChainID", "hostChainID():(uint256)", []);
+  try_hostEid(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("hostEid", "hostEid():(uint256)", []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -1140,29 +1149,36 @@ export class TOFT extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
-  isTrustedRemote(_srcChainId: i32, _srcAddress: Bytes): boolean {
+  isComposeMsgSender(
+    param0: TOFT__isComposeMsgSenderInputParam0Struct,
+    param1: Bytes,
+    _sender: Address,
+  ): boolean {
     let result = super.call(
-      "isTrustedRemote",
-      "isTrustedRemote(uint16,bytes):(bool)",
+      "isComposeMsgSender",
+      "isComposeMsgSender((uint32,bytes32,uint64),bytes,address):(bool)",
       [
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_srcChainId)),
-        ethereum.Value.fromBytes(_srcAddress),
+        ethereum.Value.fromTuple(param0),
+        ethereum.Value.fromBytes(param1),
+        ethereum.Value.fromAddress(_sender),
       ],
     );
 
     return result[0].toBoolean();
   }
 
-  try_isTrustedRemote(
-    _srcChainId: i32,
-    _srcAddress: Bytes,
+  try_isComposeMsgSender(
+    param0: TOFT__isComposeMsgSenderInputParam0Struct,
+    param1: Bytes,
+    _sender: Address,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
-      "isTrustedRemote",
-      "isTrustedRemote(uint16,bytes):(bool)",
+      "isComposeMsgSender",
+      "isComposeMsgSender((uint32,bytes32,uint64),bytes,address):(bool)",
       [
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_srcChainId)),
-        ethereum.Value.fromBytes(_srcAddress),
+        ethereum.Value.fromTuple(param0),
+        ethereum.Value.fromBytes(param1),
+        ethereum.Value.fromAddress(_sender),
       ],
     );
     if (result.reverted) {
@@ -1172,48 +1188,40 @@ export class TOFT extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
-  lzEndpoint(): Address {
-    let result = super.call("lzEndpoint", "lzEndpoint():(address)", []);
+  isPeer(_eid: BigInt, _peer: Bytes): boolean {
+    let result = super.call("isPeer", "isPeer(uint32,bytes32):(bool)", [
+      ethereum.Value.fromUnsignedBigInt(_eid),
+      ethereum.Value.fromFixedBytes(_peer),
+    ]);
+
+    return result[0].toBoolean();
+  }
+
+  try_isPeer(_eid: BigInt, _peer: Bytes): ethereum.CallResult<boolean> {
+    let result = super.tryCall("isPeer", "isPeer(uint32,bytes32):(bool)", [
+      ethereum.Value.fromUnsignedBigInt(_eid),
+      ethereum.Value.fromFixedBytes(_peer),
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
+  msgInspector(): Address {
+    let result = super.call("msgInspector", "msgInspector():(address)", []);
 
     return result[0].toAddress();
   }
 
-  try_lzEndpoint(): ethereum.CallResult<Address> {
-    let result = super.tryCall("lzEndpoint", "lzEndpoint():(address)", []);
+  try_msgInspector(): ethereum.CallResult<Address> {
+    let result = super.tryCall("msgInspector", "msgInspector():(address)", []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
-  minDstGasLookup(param0: i32, param1: i32): BigInt {
-    let result = super.call(
-      "minDstGasLookup",
-      "minDstGasLookup(uint16,uint16):(uint256)",
-      [
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0)),
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param1)),
-      ],
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_minDstGasLookup(param0: i32, param1: i32): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "minDstGasLookup",
-      "minDstGasLookup(uint16,uint16):(uint256)",
-      [
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0)),
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param1)),
-      ],
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   name(): string {
@@ -1229,6 +1237,31 @@ export class TOFT extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toString());
+  }
+
+  nextNonce(param0: BigInt, param1: Bytes): BigInt {
+    let result = super.call("nextNonce", "nextNonce(uint32,bytes32):(uint64)", [
+      ethereum.Value.fromUnsignedBigInt(param0),
+      ethereum.Value.fromFixedBytes(param1),
+    ]);
+
+    return result[0].toBigInt();
+  }
+
+  try_nextNonce(param0: BigInt, param1: Bytes): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "nextNonce",
+      "nextNonce(uint32,bytes32):(uint64)",
+      [
+        ethereum.Value.fromUnsignedBigInt(param0),
+        ethereum.Value.fromFixedBytes(param1),
+      ],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   nonces(owner: Address): BigInt {
@@ -1250,6 +1283,69 @@ export class TOFT extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
+  oApp(): Address {
+    let result = super.call("oApp", "oApp():(address)", []);
+
+    return result[0].toAddress();
+  }
+
+  try_oApp(): ethereum.CallResult<Address> {
+    let result = super.tryCall("oApp", "oApp():(address)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  oAppVersion(): TOFT__oAppVersionResult {
+    let result = super.call("oAppVersion", "oAppVersion():(uint64,uint64)", []);
+
+    return new TOFT__oAppVersionResult(
+      result[0].toBigInt(),
+      result[1].toBigInt(),
+    );
+  }
+
+  try_oAppVersion(): ethereum.CallResult<TOFT__oAppVersionResult> {
+    let result = super.tryCall(
+      "oAppVersion",
+      "oAppVersion():(uint64,uint64)",
+      [],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      new TOFT__oAppVersionResult(value[0].toBigInt(), value[1].toBigInt()),
+    );
+  }
+
+  oftVersion(): TOFT__oftVersionResult {
+    let result = super.call("oftVersion", "oftVersion():(bytes4,uint64)", []);
+
+    return new TOFT__oftVersionResult(
+      result[0].toBytes(),
+      result[1].toBigInt(),
+    );
+  }
+
+  try_oftVersion(): ethereum.CallResult<TOFT__oftVersionResult> {
+    let result = super.tryCall(
+      "oftVersion",
+      "oftVersion():(bytes4,uint64)",
+      [],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      new TOFT__oftVersionResult(value[0].toBytes(), value[1].toBigInt()),
+    );
+  }
+
   owner(): Address {
     let result = super.call("owner", "owner():(address)", []);
 
@@ -1265,42 +1361,216 @@ export class TOFT extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  payloadSizeLimitLookup(param0: i32): BigInt {
-    let result = super.call(
-      "payloadSizeLimitLookup",
-      "payloadSizeLimitLookup(uint16):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0))],
-    );
+  paused(): boolean {
+    let result = super.call("paused", "paused():(bool)", []);
 
-    return result[0].toBigInt();
+    return result[0].toBoolean();
   }
 
-  try_payloadSizeLimitLookup(param0: i32): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "payloadSizeLimitLookup",
-      "payloadSizeLimitLookup(uint16):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0))],
-    );
+  try_paused(): ethereum.CallResult<boolean> {
+    let result = super.tryCall("paused", "paused():(bool)", []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
-  precrime(): Address {
-    let result = super.call("precrime", "precrime():(address)", []);
+  pearlmit(): Address {
+    let result = super.call("pearlmit", "pearlmit():(address)", []);
 
     return result[0].toAddress();
   }
 
-  try_precrime(): ethereum.CallResult<Address> {
-    let result = super.tryCall("precrime", "precrime():(address)", []);
+  try_pearlmit(): ethereum.CallResult<Address> {
+    let result = super.tryCall("pearlmit", "pearlmit():(address)", []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  peers(eid: BigInt): Bytes {
+    let result = super.call("peers", "peers(uint32):(bytes32)", [
+      ethereum.Value.fromUnsignedBigInt(eid),
+    ]);
+
+    return result[0].toBytes();
+  }
+
+  try_peers(eid: BigInt): ethereum.CallResult<Bytes> {
+    let result = super.tryCall("peers", "peers(uint32):(bytes32)", [
+      ethereum.Value.fromUnsignedBigInt(eid),
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBytes());
+  }
+
+  preCrime(): Address {
+    let result = super.call("preCrime", "preCrime():(address)", []);
+
+    return result[0].toAddress();
+  }
+
+  try_preCrime(): ethereum.CallResult<Address> {
+    let result = super.tryCall("preCrime", "preCrime():(address)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  quoteOFT(
+    _sendParam: TOFT__quoteOFTInput_sendParamStruct,
+  ): TOFT__quoteOFTResult {
+    let result = super.call(
+      "quoteOFT",
+      "quoteOFT((uint32,bytes32,uint256,uint256,bytes,bytes,bytes)):((uint256,uint256),(int256,string)[],(uint256,uint256))",
+      [ethereum.Value.fromTuple(_sendParam)],
+    );
+
+    return changetype<TOFT__quoteOFTResult>(
+      new TOFT__quoteOFTResult(
+        changetype<TOFT__quoteOFTResultOftLimitStruct>(result[0].toTuple()),
+        result[1].toTupleArray<TOFT__quoteOFTResultOftFeeDetailsStruct>(),
+        changetype<TOFT__quoteOFTResultOftReceiptStruct>(result[2].toTuple()),
+      ),
+    );
+  }
+
+  try_quoteOFT(
+    _sendParam: TOFT__quoteOFTInput_sendParamStruct,
+  ): ethereum.CallResult<TOFT__quoteOFTResult> {
+    let result = super.tryCall(
+      "quoteOFT",
+      "quoteOFT((uint32,bytes32,uint256,uint256,bytes,bytes,bytes)):((uint256,uint256),(int256,string)[],(uint256,uint256))",
+      [ethereum.Value.fromTuple(_sendParam)],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      changetype<TOFT__quoteOFTResult>(
+        new TOFT__quoteOFTResult(
+          changetype<TOFT__quoteOFTResultOftLimitStruct>(value[0].toTuple()),
+          value[1].toTupleArray<TOFT__quoteOFTResultOftFeeDetailsStruct>(),
+          changetype<TOFT__quoteOFTResultOftReceiptStruct>(value[2].toTuple()),
+        ),
+      ),
+    );
+  }
+
+  quoteSend(
+    _sendParam: TOFT__quoteSendInput_sendParamStruct,
+    _payInLzToken: boolean,
+  ): TOFT__quoteSendResultMsgFeeStruct {
+    let result = super.call(
+      "quoteSend",
+      "quoteSend((uint32,bytes32,uint256,uint256,bytes,bytes,bytes),bool):((uint256,uint256))",
+      [
+        ethereum.Value.fromTuple(_sendParam),
+        ethereum.Value.fromBoolean(_payInLzToken),
+      ],
+    );
+
+    return changetype<TOFT__quoteSendResultMsgFeeStruct>(result[0].toTuple());
+  }
+
+  try_quoteSend(
+    _sendParam: TOFT__quoteSendInput_sendParamStruct,
+    _payInLzToken: boolean,
+  ): ethereum.CallResult<TOFT__quoteSendResultMsgFeeStruct> {
+    let result = super.tryCall(
+      "quoteSend",
+      "quoteSend((uint32,bytes32,uint256,uint256,bytes,bytes,bytes),bool):((uint256,uint256))",
+      [
+        ethereum.Value.fromTuple(_sendParam),
+        ethereum.Value.fromBoolean(_payInLzToken),
+      ],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      changetype<TOFT__quoteSendResultMsgFeeStruct>(value[0].toTuple()),
+    );
+  }
+
+  quoteSendPacket(
+    _sendParam: TOFT__quoteSendPacketInput_sendParamStruct,
+    _extraOptions: Bytes,
+    _payInLzToken: boolean,
+    _composeMsg: Bytes,
+    param4: Bytes,
+  ): TOFT__quoteSendPacketResultMsgFeeStruct {
+    let result = super.call(
+      "quoteSendPacket",
+      "quoteSendPacket((uint32,bytes32,uint256,uint256,bytes,bytes,bytes),bytes,bool,bytes,bytes):((uint256,uint256))",
+      [
+        ethereum.Value.fromTuple(_sendParam),
+        ethereum.Value.fromBytes(_extraOptions),
+        ethereum.Value.fromBoolean(_payInLzToken),
+        ethereum.Value.fromBytes(_composeMsg),
+        ethereum.Value.fromBytes(param4),
+      ],
+    );
+
+    return changetype<TOFT__quoteSendPacketResultMsgFeeStruct>(
+      result[0].toTuple(),
+    );
+  }
+
+  try_quoteSendPacket(
+    _sendParam: TOFT__quoteSendPacketInput_sendParamStruct,
+    _extraOptions: Bytes,
+    _payInLzToken: boolean,
+    _composeMsg: Bytes,
+    param4: Bytes,
+  ): ethereum.CallResult<TOFT__quoteSendPacketResultMsgFeeStruct> {
+    let result = super.tryCall(
+      "quoteSendPacket",
+      "quoteSendPacket((uint32,bytes32,uint256,uint256,bytes,bytes,bytes),bytes,bool,bytes,bytes):((uint256,uint256))",
+      [
+        ethereum.Value.fromTuple(_sendParam),
+        ethereum.Value.fromBytes(_extraOptions),
+        ethereum.Value.fromBoolean(_payInLzToken),
+        ethereum.Value.fromBytes(_composeMsg),
+        ethereum.Value.fromBytes(param4),
+      ],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      changetype<TOFT__quoteSendPacketResultMsgFeeStruct>(value[0].toTuple()),
+    );
+  }
+
+  removeDust(_amountLD: BigInt): BigInt {
+    let result = super.call("removeDust", "removeDust(uint256):(uint256)", [
+      ethereum.Value.fromUnsignedBigInt(_amountLD),
+    ]);
+
+    return result[0].toBigInt();
+  }
+
+  try_removeDust(_amountLD: BigInt): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("removeDust", "removeDust(uint256):(uint256)", [
+      ethereum.Value.fromUnsignedBigInt(_amountLD),
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   sharedDecimals(): i32 {
@@ -1322,29 +1592,6 @@ export class TOFT extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toI32());
   }
 
-  supportsInterface(interfaceId: Bytes): boolean {
-    let result = super.call(
-      "supportsInterface",
-      "supportsInterface(bytes4):(bool)",
-      [ethereum.Value.fromFixedBytes(interfaceId)],
-    );
-
-    return result[0].toBoolean();
-  }
-
-  try_supportsInterface(interfaceId: Bytes): ethereum.CallResult<boolean> {
-    let result = super.tryCall(
-      "supportsInterface",
-      "supportsInterface(bytes4):(bool)",
-      [ethereum.Value.fromFixedBytes(interfaceId)],
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBoolean());
-  }
-
   symbol(): string {
     let result = super.call("symbol", "symbol():(string)", []);
 
@@ -1358,6 +1605,44 @@ export class TOFT extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toString());
+  }
+
+  tapiocaOmnichainReceiveExtender(): Address {
+    let result = super.call(
+      "tapiocaOmnichainReceiveExtender",
+      "tapiocaOmnichainReceiveExtender():(address)",
+      [],
+    );
+
+    return result[0].toAddress();
+  }
+
+  try_tapiocaOmnichainReceiveExtender(): ethereum.CallResult<Address> {
+    let result = super.tryCall(
+      "tapiocaOmnichainReceiveExtender",
+      "tapiocaOmnichainReceiveExtender():(address)",
+      [],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  toeExtExec(): Address {
+    let result = super.call("toeExtExec", "toeExtExec():(address)", []);
+
+    return result[0].toAddress();
+  }
+
+  try_toeExtExec(): ethereum.CallResult<Address> {
+    let result = super.tryCall("toeExtExec", "toeExtExec():(address)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
   token(): Address {
@@ -1446,50 +1731,28 @@ export class TOFT extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
-  trustedRemoteLookup(param0: i32): Bytes {
-    let result = super.call(
-      "trustedRemoteLookup",
-      "trustedRemoteLookup(uint16):(bytes)",
-      [ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0))],
-    );
+  unwrap(_toAddress: Address, _amount: BigInt): BigInt {
+    let result = super.call("unwrap", "unwrap(address,uint256):(uint256)", [
+      ethereum.Value.fromAddress(_toAddress),
+      ethereum.Value.fromUnsignedBigInt(_amount),
+    ]);
 
-    return result[0].toBytes();
+    return result[0].toBigInt();
   }
 
-  try_trustedRemoteLookup(param0: i32): ethereum.CallResult<Bytes> {
-    let result = super.tryCall(
-      "trustedRemoteLookup",
-      "trustedRemoteLookup(uint16):(bytes)",
-      [ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(param0))],
-    );
+  try_unwrap(
+    _toAddress: Address,
+    _amount: BigInt,
+  ): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("unwrap", "unwrap(address,uint256):(uint256)", [
+      ethereum.Value.fromAddress(_toAddress),
+      ethereum.Value.fromUnsignedBigInt(_amount),
+    ]);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBytes());
-  }
-
-  useCustomAdapterParams(): boolean {
-    let result = super.call(
-      "useCustomAdapterParams",
-      "useCustomAdapterParams():(bool)",
-      [],
-    );
-
-    return result[0].toBoolean();
-  }
-
-  try_useCustomAdapterParams(): ethereum.CallResult<boolean> {
-    let result = super.tryCall(
-      "useCustomAdapterParams",
-      "useCustomAdapterParams():(bool)",
-      [],
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBoolean());
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   vault(): Address {
@@ -1540,64 +1803,16 @@ export class ConstructorCall__Inputs {
     this._call = call;
   }
 
-  get _lzEndpoint(): Address {
-    return this._call.inputValues[0].value.toAddress();
+  get _tOFTData(): ConstructorCall_tOFTDataStruct {
+    return changetype<ConstructorCall_tOFTDataStruct>(
+      this._call.inputValues[0].value.toTuple(),
+    );
   }
 
-  get _erc20(): Address {
-    return this._call.inputValues[1].value.toAddress();
-  }
-
-  get _yieldBox(): Address {
-    return this._call.inputValues[2].value.toAddress();
-  }
-
-  get _cluster(): Address {
-    return this._call.inputValues[3].value.toAddress();
-  }
-
-  get _name(): string {
-    return this._call.inputValues[4].value.toString();
-  }
-
-  get _symbol(): string {
-    return this._call.inputValues[5].value.toString();
-  }
-
-  get _decimal(): i32 {
-    return this._call.inputValues[6].value.toI32();
-  }
-
-  get _hostChainID(): BigInt {
-    return this._call.inputValues[7].value.toBigInt();
-  }
-
-  get __leverageModule(): Address {
-    return this._call.inputValues[8].value.toAddress();
-  }
-
-  get __leverageDestinationModule(): Address {
-    return this._call.inputValues[9].value.toAddress();
-  }
-
-  get __marketModule(): Address {
-    return this._call.inputValues[10].value.toAddress();
-  }
-
-  get __marketDestinationModule(): Address {
-    return this._call.inputValues[11].value.toAddress();
-  }
-
-  get __optionsModule(): Address {
-    return this._call.inputValues[12].value.toAddress();
-  }
-
-  get __optionsDestinationModule(): Address {
-    return this._call.inputValues[13].value.toAddress();
-  }
-
-  get __genericModule(): Address {
-    return this._call.inputValues[14].value.toAddress();
+  get _modulesData(): ConstructorCall_modulesDataStruct {
+    return changetype<ConstructorCall_modulesDataStruct>(
+      this._call.inputValues[1].value.toTuple(),
+    );
   }
 }
 
@@ -1605,6 +1820,100 @@ export class ConstructorCall__Outputs {
   _call: ConstructorCall;
 
   constructor(call: ConstructorCall) {
+    this._call = call;
+  }
+}
+
+export class ConstructorCall_tOFTDataStruct extends ethereum.Tuple {
+  get name(): string {
+    return this[0].toString();
+  }
+
+  get symbol(): string {
+    return this[1].toString();
+  }
+
+  get endpoint(): Address {
+    return this[2].toAddress();
+  }
+
+  get delegate(): Address {
+    return this[3].toAddress();
+  }
+
+  get yieldBox(): Address {
+    return this[4].toAddress();
+  }
+
+  get cluster(): Address {
+    return this[5].toAddress();
+  }
+
+  get erc20(): Address {
+    return this[6].toAddress();
+  }
+
+  get vault(): Address {
+    return this[7].toAddress();
+  }
+
+  get hostEid(): BigInt {
+    return this[8].toBigInt();
+  }
+
+  get extExec(): Address {
+    return this[9].toAddress();
+  }
+
+  get pearlmit(): Address {
+    return this[10].toAddress();
+  }
+}
+
+export class ConstructorCall_modulesDataStruct extends ethereum.Tuple {
+  get tOFTSenderModule(): Address {
+    return this[0].toAddress();
+  }
+
+  get tOFTReceiverModule(): Address {
+    return this[1].toAddress();
+  }
+
+  get marketReceiverModule(): Address {
+    return this[2].toAddress();
+  }
+
+  get optionsReceiverModule(): Address {
+    return this[3].toAddress();
+  }
+
+  get genericReceiverModule(): Address {
+    return this[4].toAddress();
+  }
+}
+
+export class DefaultCall extends ethereum.Call {
+  get inputs(): DefaultCall__Inputs {
+    return new DefaultCall__Inputs(this);
+  }
+
+  get outputs(): DefaultCall__Outputs {
+    return new DefaultCall__Outputs(this);
+  }
+}
+
+export class DefaultCall__Inputs {
+  _call: DefaultCall;
+
+  constructor(call: DefaultCall) {
+    this._call = call;
+  }
+}
+
+export class DefaultCall__Outputs {
+  _call: DefaultCall;
+
+  constructor(call: DefaultCall) {
     this._call = call;
   }
 }
@@ -1647,64 +1956,6 @@ export class ApproveCall__Outputs {
   }
 }
 
-export class CallOnOFTReceivedCall extends ethereum.Call {
-  get inputs(): CallOnOFTReceivedCall__Inputs {
-    return new CallOnOFTReceivedCall__Inputs(this);
-  }
-
-  get outputs(): CallOnOFTReceivedCall__Outputs {
-    return new CallOnOFTReceivedCall__Outputs(this);
-  }
-}
-
-export class CallOnOFTReceivedCall__Inputs {
-  _call: CallOnOFTReceivedCall;
-
-  constructor(call: CallOnOFTReceivedCall) {
-    this._call = call;
-  }
-
-  get _srcChainId(): i32 {
-    return this._call.inputValues[0].value.toI32();
-  }
-
-  get _srcAddress(): Bytes {
-    return this._call.inputValues[1].value.toBytes();
-  }
-
-  get _nonce(): BigInt {
-    return this._call.inputValues[2].value.toBigInt();
-  }
-
-  get _from(): Bytes {
-    return this._call.inputValues[3].value.toBytes();
-  }
-
-  get _to(): Address {
-    return this._call.inputValues[4].value.toAddress();
-  }
-
-  get _amount(): BigInt {
-    return this._call.inputValues[5].value.toBigInt();
-  }
-
-  get _payload(): Bytes {
-    return this._call.inputValues[6].value.toBytes();
-  }
-
-  get _gasForCall(): BigInt {
-    return this._call.inputValues[7].value.toBigInt();
-  }
-}
-
-export class CallOnOFTReceivedCall__Outputs {
-  _call: CallOnOFTReceivedCall;
-
-  constructor(call: CallOnOFTReceivedCall) {
-    this._call = call;
-  }
-}
-
 export class DecreaseAllowanceCall extends ethereum.Call {
   get inputs(): DecreaseAllowanceCall__Inputs {
     return new DecreaseAllowanceCall__Inputs(this);
@@ -1740,274 +1991,6 @@ export class DecreaseAllowanceCall__Outputs {
 
   get value0(): boolean {
     return this._call.outputValues[0].value.toBoolean();
-  }
-}
-
-export class ExerciseOptionCall extends ethereum.Call {
-  get inputs(): ExerciseOptionCall__Inputs {
-    return new ExerciseOptionCall__Inputs(this);
-  }
-
-  get outputs(): ExerciseOptionCall__Outputs {
-    return new ExerciseOptionCall__Outputs(this);
-  }
-}
-
-export class ExerciseOptionCall__Inputs {
-  _call: ExerciseOptionCall;
-
-  constructor(call: ExerciseOptionCall) {
-    this._call = call;
-  }
-
-  get optionsData(): ExerciseOptionCallOptionsDataStruct {
-    return changetype<ExerciseOptionCallOptionsDataStruct>(
-      this._call.inputValues[0].value.toTuple(),
-    );
-  }
-
-  get lzData(): ExerciseOptionCallLzDataStruct {
-    return changetype<ExerciseOptionCallLzDataStruct>(
-      this._call.inputValues[1].value.toTuple(),
-    );
-  }
-
-  get tapSendData(): ExerciseOptionCallTapSendDataStruct {
-    return changetype<ExerciseOptionCallTapSendDataStruct>(
-      this._call.inputValues[2].value.toTuple(),
-    );
-  }
-
-  get approvals(): Array<ExerciseOptionCallApprovalsStruct> {
-    return this._call.inputValues[3].value.toTupleArray<ExerciseOptionCallApprovalsStruct>();
-  }
-
-  get revokes(): Array<ExerciseOptionCallRevokesStruct> {
-    return this._call.inputValues[4].value.toTupleArray<ExerciseOptionCallRevokesStruct>();
-  }
-
-  get adapterParams(): Bytes {
-    return this._call.inputValues[5].value.toBytes();
-  }
-}
-
-export class ExerciseOptionCall__Outputs {
-  _call: ExerciseOptionCall;
-
-  constructor(call: ExerciseOptionCall) {
-    this._call = call;
-  }
-}
-
-export class ExerciseOptionCallOptionsDataStruct extends ethereum.Tuple {
-  get from(): Address {
-    return this[0].toAddress();
-  }
-
-  get target(): Address {
-    return this[1].toAddress();
-  }
-
-  get paymentTokenAmount(): BigInt {
-    return this[2].toBigInt();
-  }
-
-  get oTAPTokenID(): BigInt {
-    return this[3].toBigInt();
-  }
-
-  get tapAmount(): BigInt {
-    return this[4].toBigInt();
-  }
-}
-
-export class ExerciseOptionCallLzDataStruct extends ethereum.Tuple {
-  get lzDstChainId(): i32 {
-    return this[0].toI32();
-  }
-
-  get zroPaymentAddress(): Address {
-    return this[1].toAddress();
-  }
-
-  get extraGas(): BigInt {
-    return this[2].toBigInt();
-  }
-}
-
-export class ExerciseOptionCallTapSendDataStruct extends ethereum.Tuple {
-  get withdrawOnAnotherChain(): boolean {
-    return this[0].toBoolean();
-  }
-
-  get tapOftAddress(): Address {
-    return this[1].toAddress();
-  }
-
-  get lzDstChainId(): i32 {
-    return this[2].toI32();
-  }
-
-  get amount(): BigInt {
-    return this[3].toBigInt();
-  }
-
-  get zroPaymentAddress(): Address {
-    return this[4].toAddress();
-  }
-
-  get extraGas(): BigInt {
-    return this[5].toBigInt();
-  }
-}
-
-export class ExerciseOptionCallApprovalsStruct extends ethereum.Tuple {
-  get permitAll(): boolean {
-    return this[0].toBoolean();
-  }
-
-  get allowFailure(): boolean {
-    return this[1].toBoolean();
-  }
-
-  get yieldBoxTypeApproval(): boolean {
-    return this[2].toBoolean();
-  }
-
-  get revokeYieldBox(): boolean {
-    return this[3].toBoolean();
-  }
-
-  get actionType(): i32 {
-    return this[4].toI32();
-  }
-
-  get target(): Address {
-    return this[5].toAddress();
-  }
-
-  get permitBorrow(): boolean {
-    return this[6].toBoolean();
-  }
-
-  get owner(): Address {
-    return this[7].toAddress();
-  }
-
-  get spender(): Address {
-    return this[8].toAddress();
-  }
-
-  get value(): BigInt {
-    return this[9].toBigInt();
-  }
-
-  get deadline(): BigInt {
-    return this[10].toBigInt();
-  }
-
-  get v(): i32 {
-    return this[11].toI32();
-  }
-
-  get r(): Bytes {
-    return this[12].toBytes();
-  }
-
-  get s(): Bytes {
-    return this[13].toBytes();
-  }
-}
-
-export class ExerciseOptionCallRevokesStruct extends ethereum.Tuple {
-  get permitAll(): boolean {
-    return this[0].toBoolean();
-  }
-
-  get allowFailure(): boolean {
-    return this[1].toBoolean();
-  }
-
-  get yieldBoxTypeApproval(): boolean {
-    return this[2].toBoolean();
-  }
-
-  get revokeYieldBox(): boolean {
-    return this[3].toBoolean();
-  }
-
-  get actionType(): i32 {
-    return this[4].toI32();
-  }
-
-  get target(): Address {
-    return this[5].toAddress();
-  }
-
-  get permitBorrow(): boolean {
-    return this[6].toBoolean();
-  }
-
-  get owner(): Address {
-    return this[7].toAddress();
-  }
-
-  get spender(): Address {
-    return this[8].toAddress();
-  }
-
-  get value(): BigInt {
-    return this[9].toBigInt();
-  }
-
-  get deadline(): BigInt {
-    return this[10].toBigInt();
-  }
-
-  get v(): i32 {
-    return this[11].toI32();
-  }
-
-  get r(): Bytes {
-    return this[12].toBytes();
-  }
-
-  get s(): Bytes {
-    return this[13].toBytes();
-  }
-}
-
-export class ForceResumeReceiveCall extends ethereum.Call {
-  get inputs(): ForceResumeReceiveCall__Inputs {
-    return new ForceResumeReceiveCall__Inputs(this);
-  }
-
-  get outputs(): ForceResumeReceiveCall__Outputs {
-    return new ForceResumeReceiveCall__Outputs(this);
-  }
-}
-
-export class ForceResumeReceiveCall__Inputs {
-  _call: ForceResumeReceiveCall;
-
-  constructor(call: ForceResumeReceiveCall) {
-    this._call = call;
-  }
-
-  get _srcChainId(): i32 {
-    return this._call.inputValues[0].value.toI32();
-  }
-
-  get _srcAddress(): Bytes {
-    return this._call.inputValues[1].value.toBytes();
-  }
-}
-
-export class ForceResumeReceiveCall__Outputs {
-  _call: ForceResumeReceiveCall;
-
-  constructor(call: ForceResumeReceiveCall) {
-    this._call = call;
   }
 }
 
@@ -2066,20 +2049,26 @@ export class LzReceiveCall__Inputs {
     this._call = call;
   }
 
-  get _srcChainId(): i32 {
-    return this._call.inputValues[0].value.toI32();
+  get _origin(): LzReceiveCall_originStruct {
+    return changetype<LzReceiveCall_originStruct>(
+      this._call.inputValues[0].value.toTuple(),
+    );
   }
 
-  get _srcAddress(): Bytes {
+  get _guid(): Bytes {
     return this._call.inputValues[1].value.toBytes();
   }
 
-  get _nonce(): BigInt {
-    return this._call.inputValues[2].value.toBigInt();
+  get _message(): Bytes {
+    return this._call.inputValues[2].value.toBytes();
   }
 
-  get _payload(): Bytes {
-    return this._call.inputValues[3].value.toBytes();
+  get _executor(): Address {
+    return this._call.inputValues[3].value.toAddress();
+  }
+
+  get _extraData(): Bytes {
+    return this._call.inputValues[4].value.toBytes();
   }
 }
 
@@ -2091,45 +2080,159 @@ export class LzReceiveCall__Outputs {
   }
 }
 
-export class NonblockingLzReceiveCall extends ethereum.Call {
-  get inputs(): NonblockingLzReceiveCall__Inputs {
-    return new NonblockingLzReceiveCall__Inputs(this);
+export class LzReceiveCall_originStruct extends ethereum.Tuple {
+  get srcEid(): BigInt {
+    return this[0].toBigInt();
   }
 
-  get outputs(): NonblockingLzReceiveCall__Outputs {
-    return new NonblockingLzReceiveCall__Outputs(this);
+  get sender(): Bytes {
+    return this[1].toBytes();
+  }
+
+  get nonce(): BigInt {
+    return this[2].toBigInt();
   }
 }
 
-export class NonblockingLzReceiveCall__Inputs {
-  _call: NonblockingLzReceiveCall;
+export class LzReceiveAndRevertCall extends ethereum.Call {
+  get inputs(): LzReceiveAndRevertCall__Inputs {
+    return new LzReceiveAndRevertCall__Inputs(this);
+  }
 
-  constructor(call: NonblockingLzReceiveCall) {
+  get outputs(): LzReceiveAndRevertCall__Outputs {
+    return new LzReceiveAndRevertCall__Outputs(this);
+  }
+}
+
+export class LzReceiveAndRevertCall__Inputs {
+  _call: LzReceiveAndRevertCall;
+
+  constructor(call: LzReceiveAndRevertCall) {
     this._call = call;
   }
 
-  get _srcChainId(): i32 {
-    return this._call.inputValues[0].value.toI32();
+  get _packets(): Array<LzReceiveAndRevertCall_packetsStruct> {
+    return this._call.inputValues[0].value.toTupleArray<LzReceiveAndRevertCall_packetsStruct>();
+  }
+}
+
+export class LzReceiveAndRevertCall__Outputs {
+  _call: LzReceiveAndRevertCall;
+
+  constructor(call: LzReceiveAndRevertCall) {
+    this._call = call;
+  }
+}
+
+export class LzReceiveAndRevertCall_packetsStruct extends ethereum.Tuple {
+  get origin(): LzReceiveAndRevertCall_packetsOriginStruct {
+    return changetype<LzReceiveAndRevertCall_packetsOriginStruct>(
+      this[0].toTuple(),
+    );
   }
 
-  get _srcAddress(): Bytes {
+  get dstEid(): BigInt {
+    return this[1].toBigInt();
+  }
+
+  get receiver(): Address {
+    return this[2].toAddress();
+  }
+
+  get guid(): Bytes {
+    return this[3].toBytes();
+  }
+
+  get value(): BigInt {
+    return this[4].toBigInt();
+  }
+
+  get executor(): Address {
+    return this[5].toAddress();
+  }
+
+  get message(): Bytes {
+    return this[6].toBytes();
+  }
+
+  get extraData(): Bytes {
+    return this[7].toBytes();
+  }
+}
+
+export class LzReceiveAndRevertCall_packetsOriginStruct extends ethereum.Tuple {
+  get srcEid(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get sender(): Bytes {
+    return this[1].toBytes();
+  }
+
+  get nonce(): BigInt {
+    return this[2].toBigInt();
+  }
+}
+
+export class LzReceiveSimulateCall extends ethereum.Call {
+  get inputs(): LzReceiveSimulateCall__Inputs {
+    return new LzReceiveSimulateCall__Inputs(this);
+  }
+
+  get outputs(): LzReceiveSimulateCall__Outputs {
+    return new LzReceiveSimulateCall__Outputs(this);
+  }
+}
+
+export class LzReceiveSimulateCall__Inputs {
+  _call: LzReceiveSimulateCall;
+
+  constructor(call: LzReceiveSimulateCall) {
+    this._call = call;
+  }
+
+  get _origin(): LzReceiveSimulateCall_originStruct {
+    return changetype<LzReceiveSimulateCall_originStruct>(
+      this._call.inputValues[0].value.toTuple(),
+    );
+  }
+
+  get _guid(): Bytes {
     return this._call.inputValues[1].value.toBytes();
   }
 
-  get _nonce(): BigInt {
-    return this._call.inputValues[2].value.toBigInt();
+  get _message(): Bytes {
+    return this._call.inputValues[2].value.toBytes();
   }
 
-  get _payload(): Bytes {
-    return this._call.inputValues[3].value.toBytes();
+  get _executor(): Address {
+    return this._call.inputValues[3].value.toAddress();
+  }
+
+  get _extraData(): Bytes {
+    return this._call.inputValues[4].value.toBytes();
   }
 }
 
-export class NonblockingLzReceiveCall__Outputs {
-  _call: NonblockingLzReceiveCall;
+export class LzReceiveSimulateCall__Outputs {
+  _call: LzReceiveSimulateCall;
 
-  constructor(call: NonblockingLzReceiveCall) {
+  constructor(call: LzReceiveSimulateCall) {
     this._call = call;
+  }
+}
+
+export class LzReceiveSimulateCall_originStruct extends ethereum.Tuple {
+  get srcEid(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get sender(): Bytes {
+    return this[1].toBytes();
+  }
+
+  get nonce(): BigInt {
+    return this[2].toBigInt();
   }
 }
 
@@ -2184,236 +2287,6 @@ export class PermitCall__Outputs {
 
   constructor(call: PermitCall) {
     this._call = call;
-  }
-}
-
-export class RemoveCollateralCall extends ethereum.Call {
-  get inputs(): RemoveCollateralCall__Inputs {
-    return new RemoveCollateralCall__Inputs(this);
-  }
-
-  get outputs(): RemoveCollateralCall__Outputs {
-    return new RemoveCollateralCall__Outputs(this);
-  }
-}
-
-export class RemoveCollateralCall__Inputs {
-  _call: RemoveCollateralCall;
-
-  constructor(call: RemoveCollateralCall) {
-    this._call = call;
-  }
-
-  get from(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
-  get to(): Address {
-    return this._call.inputValues[1].value.toAddress();
-  }
-
-  get lzDstChainId(): i32 {
-    return this._call.inputValues[2].value.toI32();
-  }
-
-  get zroPaymentAddress(): Address {
-    return this._call.inputValues[3].value.toAddress();
-  }
-
-  get withdrawParams(): RemoveCollateralCallWithdrawParamsStruct {
-    return changetype<RemoveCollateralCallWithdrawParamsStruct>(
-      this._call.inputValues[4].value.toTuple(),
-    );
-  }
-
-  get removeParams(): RemoveCollateralCallRemoveParamsStruct {
-    return changetype<RemoveCollateralCallRemoveParamsStruct>(
-      this._call.inputValues[5].value.toTuple(),
-    );
-  }
-
-  get approvals(): Array<RemoveCollateralCallApprovalsStruct> {
-    return this._call.inputValues[6].value.toTupleArray<RemoveCollateralCallApprovalsStruct>();
-  }
-
-  get revokes(): Array<RemoveCollateralCallRevokesStruct> {
-    return this._call.inputValues[7].value.toTupleArray<RemoveCollateralCallRevokesStruct>();
-  }
-
-  get adapterParams(): Bytes {
-    return this._call.inputValues[8].value.toBytes();
-  }
-}
-
-export class RemoveCollateralCall__Outputs {
-  _call: RemoveCollateralCall;
-
-  constructor(call: RemoveCollateralCall) {
-    this._call = call;
-  }
-}
-
-export class RemoveCollateralCallWithdrawParamsStruct extends ethereum.Tuple {
-  get withdraw(): boolean {
-    return this[0].toBoolean();
-  }
-
-  get withdrawLzFeeAmount(): BigInt {
-    return this[1].toBigInt();
-  }
-
-  get withdrawOnOtherChain(): boolean {
-    return this[2].toBoolean();
-  }
-
-  get withdrawLzChainId(): i32 {
-    return this[3].toI32();
-  }
-
-  get withdrawAdapterParams(): Bytes {
-    return this[4].toBytes();
-  }
-
-  get unwrap(): boolean {
-    return this[5].toBoolean();
-  }
-
-  get refundAddress(): Address {
-    return this[6].toAddress();
-  }
-
-  get zroPaymentAddress(): Address {
-    return this[7].toAddress();
-  }
-}
-
-export class RemoveCollateralCallRemoveParamsStruct extends ethereum.Tuple {
-  get amount(): BigInt {
-    return this[0].toBigInt();
-  }
-
-  get marketHelper(): Address {
-    return this[1].toAddress();
-  }
-
-  get market(): Address {
-    return this[2].toAddress();
-  }
-}
-
-export class RemoveCollateralCallApprovalsStruct extends ethereum.Tuple {
-  get permitAll(): boolean {
-    return this[0].toBoolean();
-  }
-
-  get allowFailure(): boolean {
-    return this[1].toBoolean();
-  }
-
-  get yieldBoxTypeApproval(): boolean {
-    return this[2].toBoolean();
-  }
-
-  get revokeYieldBox(): boolean {
-    return this[3].toBoolean();
-  }
-
-  get actionType(): i32 {
-    return this[4].toI32();
-  }
-
-  get target(): Address {
-    return this[5].toAddress();
-  }
-
-  get permitBorrow(): boolean {
-    return this[6].toBoolean();
-  }
-
-  get owner(): Address {
-    return this[7].toAddress();
-  }
-
-  get spender(): Address {
-    return this[8].toAddress();
-  }
-
-  get value(): BigInt {
-    return this[9].toBigInt();
-  }
-
-  get deadline(): BigInt {
-    return this[10].toBigInt();
-  }
-
-  get v(): i32 {
-    return this[11].toI32();
-  }
-
-  get r(): Bytes {
-    return this[12].toBytes();
-  }
-
-  get s(): Bytes {
-    return this[13].toBytes();
-  }
-}
-
-export class RemoveCollateralCallRevokesStruct extends ethereum.Tuple {
-  get permitAll(): boolean {
-    return this[0].toBoolean();
-  }
-
-  get allowFailure(): boolean {
-    return this[1].toBoolean();
-  }
-
-  get yieldBoxTypeApproval(): boolean {
-    return this[2].toBoolean();
-  }
-
-  get revokeYieldBox(): boolean {
-    return this[3].toBoolean();
-  }
-
-  get actionType(): i32 {
-    return this[4].toI32();
-  }
-
-  get target(): Address {
-    return this[5].toAddress();
-  }
-
-  get permitBorrow(): boolean {
-    return this[6].toBoolean();
-  }
-
-  get owner(): Address {
-    return this[7].toAddress();
-  }
-
-  get spender(): Address {
-    return this[8].toAddress();
-  }
-
-  get value(): BigInt {
-    return this[9].toBigInt();
-  }
-
-  get deadline(): BigInt {
-    return this[10].toBigInt();
-  }
-
-  get v(): i32 {
-    return this[11].toI32();
-  }
-
-  get r(): Bytes {
-    return this[12].toBytes();
-  }
-
-  get s(): Bytes {
-    return this[13].toBytes();
   }
 }
 
@@ -2477,769 +2350,273 @@ export class RescueEthCall__Outputs {
   }
 }
 
-export class RetryMessageCall extends ethereum.Call {
-  get inputs(): RetryMessageCall__Inputs {
-    return new RetryMessageCall__Inputs(this);
+export class SendCall extends ethereum.Call {
+  get inputs(): SendCall__Inputs {
+    return new SendCall__Inputs(this);
   }
 
-  get outputs(): RetryMessageCall__Outputs {
-    return new RetryMessageCall__Outputs(this);
+  get outputs(): SendCall__Outputs {
+    return new SendCall__Outputs(this);
   }
 }
 
-export class RetryMessageCall__Inputs {
-  _call: RetryMessageCall;
+export class SendCall__Inputs {
+  _call: SendCall;
 
-  constructor(call: RetryMessageCall) {
+  constructor(call: SendCall) {
     this._call = call;
   }
 
-  get _srcChainId(): i32 {
-    return this._call.inputValues[0].value.toI32();
+  get _sendParam(): SendCall_sendParamStruct {
+    return changetype<SendCall_sendParamStruct>(
+      this._call.inputValues[0].value.toTuple(),
+    );
   }
 
-  get _srcAddress(): Bytes {
-    return this._call.inputValues[1].value.toBytes();
+  get _fee(): SendCall_feeStruct {
+    return changetype<SendCall_feeStruct>(
+      this._call.inputValues[1].value.toTuple(),
+    );
   }
 
-  get _nonce(): BigInt {
-    return this._call.inputValues[2].value.toBigInt();
-  }
-
-  get _payload(): Bytes {
-    return this._call.inputValues[3].value.toBytes();
-  }
-}
-
-export class RetryMessageCall__Outputs {
-  _call: RetryMessageCall;
-
-  constructor(call: RetryMessageCall) {
-    this._call = call;
+  get _refundAddress(): Address {
+    return this._call.inputValues[2].value.toAddress();
   }
 }
 
-export class RetryMessageWithSafeCallCall extends ethereum.Call {
-  get inputs(): RetryMessageWithSafeCallCall__Inputs {
-    return new RetryMessageWithSafeCallCall__Inputs(this);
-  }
+export class SendCall__Outputs {
+  _call: SendCall;
 
-  get outputs(): RetryMessageWithSafeCallCall__Outputs {
-    return new RetryMessageWithSafeCallCall__Outputs(this);
-  }
-}
-
-export class RetryMessageWithSafeCallCall__Inputs {
-  _call: RetryMessageWithSafeCallCall;
-
-  constructor(call: RetryMessageWithSafeCallCall) {
+  constructor(call: SendCall) {
     this._call = call;
   }
 
-  get _srcChainId(): i32 {
-    return this._call.inputValues[0].value.toI32();
+  get msgReceipt(): SendCallMsgReceiptStruct {
+    return changetype<SendCallMsgReceiptStruct>(
+      this._call.outputValues[0].value.toTuple(),
+    );
   }
 
-  get _srcAddress(): Bytes {
-    return this._call.inputValues[1].value.toBytes();
-  }
-
-  get _nonce(): BigInt {
-    return this._call.inputValues[2].value.toBigInt();
-  }
-
-  get _payload(): Bytes {
-    return this._call.inputValues[3].value.toBytes();
-  }
-}
-
-export class RetryMessageWithSafeCallCall__Outputs {
-  _call: RetryMessageWithSafeCallCall;
-
-  constructor(call: RetryMessageWithSafeCallCall) {
-    this._call = call;
-  }
-}
-
-export class SendAndCallCall extends ethereum.Call {
-  get inputs(): SendAndCallCall__Inputs {
-    return new SendAndCallCall__Inputs(this);
-  }
-
-  get outputs(): SendAndCallCall__Outputs {
-    return new SendAndCallCall__Outputs(this);
-  }
-}
-
-export class SendAndCallCall__Inputs {
-  _call: SendAndCallCall;
-
-  constructor(call: SendAndCallCall) {
-    this._call = call;
-  }
-
-  get _from(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
-  get _dstChainId(): i32 {
-    return this._call.inputValues[1].value.toI32();
-  }
-
-  get _toAddress(): Bytes {
-    return this._call.inputValues[2].value.toBytes();
-  }
-
-  get _amount(): BigInt {
-    return this._call.inputValues[3].value.toBigInt();
-  }
-
-  get _payload(): Bytes {
-    return this._call.inputValues[4].value.toBytes();
-  }
-
-  get _dstGasForCall(): BigInt {
-    return this._call.inputValues[5].value.toBigInt();
-  }
-
-  get _callParams(): SendAndCallCall_callParamsStruct {
-    return changetype<SendAndCallCall_callParamsStruct>(
-      this._call.inputValues[6].value.toTuple(),
+  get oftReceipt(): SendCallOftReceiptStruct {
+    return changetype<SendCallOftReceiptStruct>(
+      this._call.outputValues[1].value.toTuple(),
     );
   }
 }
 
-export class SendAndCallCall__Outputs {
-  _call: SendAndCallCall;
-
-  constructor(call: SendAndCallCall) {
-    this._call = call;
-  }
-}
-
-export class SendAndCallCall_callParamsStruct extends ethereum.Tuple {
-  get refundAddress(): Address {
-    return this[0].toAddress();
-  }
-
-  get zroPaymentAddress(): Address {
-    return this[1].toAddress();
-  }
-
-  get adapterParams(): Bytes {
-    return this[2].toBytes();
-  }
-}
-
-export class SendForLeverageCall extends ethereum.Call {
-  get inputs(): SendForLeverageCall__Inputs {
-    return new SendForLeverageCall__Inputs(this);
-  }
-
-  get outputs(): SendForLeverageCall__Outputs {
-    return new SendForLeverageCall__Outputs(this);
-  }
-}
-
-export class SendForLeverageCall__Inputs {
-  _call: SendForLeverageCall;
-
-  constructor(call: SendForLeverageCall) {
-    this._call = call;
-  }
-
-  get amount(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-
-  get leverageFor(): Address {
-    return this._call.inputValues[1].value.toAddress();
-  }
-
-  get lzData(): SendForLeverageCallLzDataStruct {
-    return changetype<SendForLeverageCallLzDataStruct>(
-      this._call.inputValues[2].value.toTuple(),
-    );
-  }
-
-  get swapData(): SendForLeverageCallSwapDataStruct {
-    return changetype<SendForLeverageCallSwapDataStruct>(
-      this._call.inputValues[3].value.toTuple(),
-    );
-  }
-
-  get externalData(): SendForLeverageCallExternalDataStruct {
-    return changetype<SendForLeverageCallExternalDataStruct>(
-      this._call.inputValues[4].value.toTuple(),
-    );
-  }
-}
-
-export class SendForLeverageCall__Outputs {
-  _call: SendForLeverageCall;
-
-  constructor(call: SendForLeverageCall) {
-    this._call = call;
-  }
-}
-
-export class SendForLeverageCallLzDataStruct extends ethereum.Tuple {
-  get srcExtraGasLimit(): BigInt {
+export class SendCall_sendParamStruct extends ethereum.Tuple {
+  get dstEid(): BigInt {
     return this[0].toBigInt();
-  }
-
-  get lzSrcChainId(): i32 {
-    return this[1].toI32();
-  }
-
-  get lzDstChainId(): i32 {
-    return this[2].toI32();
-  }
-
-  get zroPaymentAddress(): Address {
-    return this[3].toAddress();
-  }
-
-  get dstAirdropAdapterParam(): Bytes {
-    return this[4].toBytes();
-  }
-
-  get srcAirdropAdapterParam(): Bytes {
-    return this[5].toBytes();
-  }
-
-  get refundAddress(): Address {
-    return this[6].toAddress();
-  }
-}
-
-export class SendForLeverageCallSwapDataStruct extends ethereum.Tuple {
-  get tokenOut(): Address {
-    return this[0].toAddress();
-  }
-
-  get amountOutMin(): BigInt {
-    return this[1].toBigInt();
-  }
-
-  get data(): Bytes {
-    return this[2].toBytes();
-  }
-}
-
-export class SendForLeverageCallExternalDataStruct extends ethereum.Tuple {
-  get swapper(): Address {
-    return this[0].toAddress();
-  }
-
-  get magnetar(): Address {
-    return this[1].toAddress();
-  }
-
-  get tOft(): Address {
-    return this[2].toAddress();
-  }
-
-  get srcMarket(): Address {
-    return this[3].toAddress();
-  }
-}
-
-export class SendFromCall extends ethereum.Call {
-  get inputs(): SendFromCall__Inputs {
-    return new SendFromCall__Inputs(this);
-  }
-
-  get outputs(): SendFromCall__Outputs {
-    return new SendFromCall__Outputs(this);
-  }
-}
-
-export class SendFromCall__Inputs {
-  _call: SendFromCall;
-
-  constructor(call: SendFromCall) {
-    this._call = call;
-  }
-
-  get _from(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
-  get _dstChainId(): i32 {
-    return this._call.inputValues[1].value.toI32();
-  }
-
-  get _toAddress(): Bytes {
-    return this._call.inputValues[2].value.toBytes();
-  }
-
-  get _amount(): BigInt {
-    return this._call.inputValues[3].value.toBigInt();
-  }
-
-  get _callParams(): SendFromCall_callParamsStruct {
-    return changetype<SendFromCall_callParamsStruct>(
-      this._call.inputValues[4].value.toTuple(),
-    );
-  }
-}
-
-export class SendFromCall__Outputs {
-  _call: SendFromCall;
-
-  constructor(call: SendFromCall) {
-    this._call = call;
-  }
-}
-
-export class SendFromCall_callParamsStruct extends ethereum.Tuple {
-  get refundAddress(): Address {
-    return this[0].toAddress();
-  }
-
-  get zroPaymentAddress(): Address {
-    return this[1].toAddress();
-  }
-
-  get adapterParams(): Bytes {
-    return this[2].toBytes();
-  }
-}
-
-export class SendFromWithParamsCall extends ethereum.Call {
-  get inputs(): SendFromWithParamsCall__Inputs {
-    return new SendFromWithParamsCall__Inputs(this);
-  }
-
-  get outputs(): SendFromWithParamsCall__Outputs {
-    return new SendFromWithParamsCall__Outputs(this);
-  }
-}
-
-export class SendFromWithParamsCall__Inputs {
-  _call: SendFromWithParamsCall;
-
-  constructor(call: SendFromWithParamsCall) {
-    this._call = call;
-  }
-
-  get from(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
-  get lzDstChainId(): i32 {
-    return this._call.inputValues[1].value.toI32();
   }
 
   get to(): Bytes {
-    return this._call.inputValues[2].value.toBytes();
+    return this[1].toBytes();
   }
 
-  get amount(): BigInt {
-    return this._call.inputValues[3].value.toBigInt();
+  get amountLD(): BigInt {
+    return this[2].toBigInt();
   }
 
-  get callParams(): SendFromWithParamsCallCallParamsStruct {
-    return changetype<SendFromWithParamsCallCallParamsStruct>(
-      this._call.inputValues[4].value.toTuple(),
-    );
+  get minAmountLD(): BigInt {
+    return this[3].toBigInt();
   }
 
-  get unwrap(): boolean {
-    return this._call.inputValues[5].value.toBoolean();
+  get extraOptions(): Bytes {
+    return this[4].toBytes();
   }
 
-  get approvals(): Array<SendFromWithParamsCallApprovalsStruct> {
-    return this._call.inputValues[6].value.toTupleArray<SendFromWithParamsCallApprovalsStruct>();
+  get composeMsg(): Bytes {
+    return this[5].toBytes();
   }
 
-  get revokes(): Array<SendFromWithParamsCallRevokesStruct> {
-    return this._call.inputValues[7].value.toTupleArray<SendFromWithParamsCallRevokesStruct>();
+  get oftCmd(): Bytes {
+    return this[6].toBytes();
   }
 }
 
-export class SendFromWithParamsCall__Outputs {
-  _call: SendFromWithParamsCall;
-
-  constructor(call: SendFromWithParamsCall) {
-    this._call = call;
-  }
-}
-
-export class SendFromWithParamsCallCallParamsStruct extends ethereum.Tuple {
-  get refundAddress(): Address {
-    return this[0].toAddress();
-  }
-
-  get zroPaymentAddress(): Address {
-    return this[1].toAddress();
-  }
-
-  get adapterParams(): Bytes {
-    return this[2].toBytes();
-  }
-}
-
-export class SendFromWithParamsCallApprovalsStruct extends ethereum.Tuple {
-  get permitAll(): boolean {
-    return this[0].toBoolean();
-  }
-
-  get allowFailure(): boolean {
-    return this[1].toBoolean();
-  }
-
-  get yieldBoxTypeApproval(): boolean {
-    return this[2].toBoolean();
-  }
-
-  get revokeYieldBox(): boolean {
-    return this[3].toBoolean();
-  }
-
-  get actionType(): i32 {
-    return this[4].toI32();
-  }
-
-  get target(): Address {
-    return this[5].toAddress();
-  }
-
-  get permitBorrow(): boolean {
-    return this[6].toBoolean();
-  }
-
-  get owner(): Address {
-    return this[7].toAddress();
-  }
-
-  get spender(): Address {
-    return this[8].toAddress();
-  }
-
-  get value(): BigInt {
-    return this[9].toBigInt();
-  }
-
-  get deadline(): BigInt {
-    return this[10].toBigInt();
-  }
-
-  get v(): i32 {
-    return this[11].toI32();
-  }
-
-  get r(): Bytes {
-    return this[12].toBytes();
-  }
-
-  get s(): Bytes {
-    return this[13].toBytes();
-  }
-}
-
-export class SendFromWithParamsCallRevokesStruct extends ethereum.Tuple {
-  get permitAll(): boolean {
-    return this[0].toBoolean();
-  }
-
-  get allowFailure(): boolean {
-    return this[1].toBoolean();
-  }
-
-  get yieldBoxTypeApproval(): boolean {
-    return this[2].toBoolean();
-  }
-
-  get revokeYieldBox(): boolean {
-    return this[3].toBoolean();
-  }
-
-  get actionType(): i32 {
-    return this[4].toI32();
-  }
-
-  get target(): Address {
-    return this[5].toAddress();
-  }
-
-  get permitBorrow(): boolean {
-    return this[6].toBoolean();
-  }
-
-  get owner(): Address {
-    return this[7].toAddress();
-  }
-
-  get spender(): Address {
-    return this[8].toAddress();
-  }
-
-  get value(): BigInt {
-    return this[9].toBigInt();
-  }
-
-  get deadline(): BigInt {
-    return this[10].toBigInt();
-  }
-
-  get v(): i32 {
-    return this[11].toI32();
-  }
-
-  get r(): Bytes {
-    return this[12].toBytes();
-  }
-
-  get s(): Bytes {
-    return this[13].toBytes();
-  }
-}
-
-export class SendToYBAndBorrowCall extends ethereum.Call {
-  get inputs(): SendToYBAndBorrowCall__Inputs {
-    return new SendToYBAndBorrowCall__Inputs(this);
-  }
-
-  get outputs(): SendToYBAndBorrowCall__Outputs {
-    return new SendToYBAndBorrowCall__Outputs(this);
-  }
-}
-
-export class SendToYBAndBorrowCall__Inputs {
-  _call: SendToYBAndBorrowCall;
-
-  constructor(call: SendToYBAndBorrowCall) {
-    this._call = call;
-  }
-
-  get from(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
-  get to(): Address {
-    return this._call.inputValues[1].value.toAddress();
-  }
-
-  get lzDstChainId(): i32 {
-    return this._call.inputValues[2].value.toI32();
-  }
-
-  get airdropAdapterParams(): Bytes {
-    return this._call.inputValues[3].value.toBytes();
-  }
-
-  get borrowParams(): SendToYBAndBorrowCallBorrowParamsStruct {
-    return changetype<SendToYBAndBorrowCallBorrowParamsStruct>(
-      this._call.inputValues[4].value.toTuple(),
-    );
-  }
-
-  get withdrawParams(): SendToYBAndBorrowCallWithdrawParamsStruct {
-    return changetype<SendToYBAndBorrowCallWithdrawParamsStruct>(
-      this._call.inputValues[5].value.toTuple(),
-    );
-  }
-
-  get options(): SendToYBAndBorrowCallOptionsStruct {
-    return changetype<SendToYBAndBorrowCallOptionsStruct>(
-      this._call.inputValues[6].value.toTuple(),
-    );
-  }
-
-  get approvals(): Array<SendToYBAndBorrowCallApprovalsStruct> {
-    return this._call.inputValues[7].value.toTupleArray<SendToYBAndBorrowCallApprovalsStruct>();
-  }
-
-  get revokes(): Array<SendToYBAndBorrowCallRevokesStruct> {
-    return this._call.inputValues[8].value.toTupleArray<SendToYBAndBorrowCallRevokesStruct>();
-  }
-}
-
-export class SendToYBAndBorrowCall__Outputs {
-  _call: SendToYBAndBorrowCall;
-
-  constructor(call: SendToYBAndBorrowCall) {
-    this._call = call;
-  }
-}
-
-export class SendToYBAndBorrowCallBorrowParamsStruct extends ethereum.Tuple {
-  get amount(): BigInt {
+export class SendCall_feeStruct extends ethereum.Tuple {
+  get nativeFee(): BigInt {
     return this[0].toBigInt();
   }
 
-  get borrowAmount(): BigInt {
+  get lzTokenFee(): BigInt {
+    return this[1].toBigInt();
+  }
+}
+
+export class SendCallMsgReceiptStruct extends ethereum.Tuple {
+  get guid(): Bytes {
+    return this[0].toBytes();
+  }
+
+  get nonce(): BigInt {
     return this[1].toBigInt();
   }
 
-  get marketHelper(): Address {
-    return this[2].toAddress();
+  get fee(): SendCallMsgReceiptFeeStruct {
+    return changetype<SendCallMsgReceiptFeeStruct>(this[2].toTuple());
+  }
+}
+
+export class SendCallMsgReceiptFeeStruct extends ethereum.Tuple {
+  get nativeFee(): BigInt {
+    return this[0].toBigInt();
   }
 
-  get market(): Address {
+  get lzTokenFee(): BigInt {
+    return this[1].toBigInt();
+  }
+}
+
+export class SendCallOftReceiptStruct extends ethereum.Tuple {
+  get amountSentLD(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get amountReceivedLD(): BigInt {
+    return this[1].toBigInt();
+  }
+}
+
+export class SendPacketCall extends ethereum.Call {
+  get inputs(): SendPacketCall__Inputs {
+    return new SendPacketCall__Inputs(this);
+  }
+
+  get outputs(): SendPacketCall__Outputs {
+    return new SendPacketCall__Outputs(this);
+  }
+}
+
+export class SendPacketCall__Inputs {
+  _call: SendPacketCall;
+
+  constructor(call: SendPacketCall) {
+    this._call = call;
+  }
+
+  get _lzSendParam(): SendPacketCall_lzSendParamStruct {
+    return changetype<SendPacketCall_lzSendParamStruct>(
+      this._call.inputValues[0].value.toTuple(),
+    );
+  }
+
+  get _composeMsg(): Bytes {
+    return this._call.inputValues[1].value.toBytes();
+  }
+}
+
+export class SendPacketCall__Outputs {
+  _call: SendPacketCall;
+
+  constructor(call: SendPacketCall) {
+    this._call = call;
+  }
+
+  get msgReceipt(): SendPacketCallMsgReceiptStruct {
+    return changetype<SendPacketCallMsgReceiptStruct>(
+      this._call.outputValues[0].value.toTuple(),
+    );
+  }
+
+  get oftReceipt(): SendPacketCallOftReceiptStruct {
+    return changetype<SendPacketCallOftReceiptStruct>(
+      this._call.outputValues[1].value.toTuple(),
+    );
+  }
+}
+
+export class SendPacketCall_lzSendParamStruct extends ethereum.Tuple {
+  get sendParam(): SendPacketCall_lzSendParamSendParamStruct {
+    return changetype<SendPacketCall_lzSendParamSendParamStruct>(
+      this[0].toTuple(),
+    );
+  }
+
+  get fee(): SendPacketCall_lzSendParamFeeStruct {
+    return changetype<SendPacketCall_lzSendParamFeeStruct>(this[1].toTuple());
+  }
+
+  get extraOptions(): Bytes {
+    return this[2].toBytes();
+  }
+
+  get refundAddress(): Address {
     return this[3].toAddress();
   }
 }
 
-export class SendToYBAndBorrowCallWithdrawParamsStruct extends ethereum.Tuple {
-  get withdraw(): boolean {
-    return this[0].toBoolean();
-  }
-
-  get withdrawLzFeeAmount(): BigInt {
-    return this[1].toBigInt();
-  }
-
-  get withdrawOnOtherChain(): boolean {
-    return this[2].toBoolean();
-  }
-
-  get withdrawLzChainId(): i32 {
-    return this[3].toI32();
-  }
-
-  get withdrawAdapterParams(): Bytes {
-    return this[4].toBytes();
-  }
-
-  get unwrap(): boolean {
-    return this[5].toBoolean();
-  }
-
-  get refundAddress(): Address {
-    return this[6].toAddress();
-  }
-
-  get zroPaymentAddress(): Address {
-    return this[7].toAddress();
-  }
-}
-
-export class SendToYBAndBorrowCallOptionsStruct extends ethereum.Tuple {
-  get extraGasLimit(): BigInt {
+export class SendPacketCall_lzSendParamSendParamStruct extends ethereum.Tuple {
+  get dstEid(): BigInt {
     return this[0].toBigInt();
   }
 
-  get zroPaymentAddress(): Address {
-    return this[1].toAddress();
+  get to(): Bytes {
+    return this[1].toBytes();
+  }
+
+  get amountLD(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get minAmountLD(): BigInt {
+    return this[3].toBigInt();
+  }
+
+  get extraOptions(): Bytes {
+    return this[4].toBytes();
+  }
+
+  get composeMsg(): Bytes {
+    return this[5].toBytes();
+  }
+
+  get oftCmd(): Bytes {
+    return this[6].toBytes();
   }
 }
 
-export class SendToYBAndBorrowCallApprovalsStruct extends ethereum.Tuple {
-  get permitAll(): boolean {
-    return this[0].toBoolean();
+export class SendPacketCall_lzSendParamFeeStruct extends ethereum.Tuple {
+  get nativeFee(): BigInt {
+    return this[0].toBigInt();
   }
 
-  get allowFailure(): boolean {
-    return this[1].toBoolean();
-  }
-
-  get yieldBoxTypeApproval(): boolean {
-    return this[2].toBoolean();
-  }
-
-  get revokeYieldBox(): boolean {
-    return this[3].toBoolean();
-  }
-
-  get actionType(): i32 {
-    return this[4].toI32();
-  }
-
-  get target(): Address {
-    return this[5].toAddress();
-  }
-
-  get permitBorrow(): boolean {
-    return this[6].toBoolean();
-  }
-
-  get owner(): Address {
-    return this[7].toAddress();
-  }
-
-  get spender(): Address {
-    return this[8].toAddress();
-  }
-
-  get value(): BigInt {
-    return this[9].toBigInt();
-  }
-
-  get deadline(): BigInt {
-    return this[10].toBigInt();
-  }
-
-  get v(): i32 {
-    return this[11].toI32();
-  }
-
-  get r(): Bytes {
-    return this[12].toBytes();
-  }
-
-  get s(): Bytes {
-    return this[13].toBytes();
+  get lzTokenFee(): BigInt {
+    return this[1].toBigInt();
   }
 }
 
-export class SendToYBAndBorrowCallRevokesStruct extends ethereum.Tuple {
-  get permitAll(): boolean {
-    return this[0].toBoolean();
+export class SendPacketCallMsgReceiptStruct extends ethereum.Tuple {
+  get guid(): Bytes {
+    return this[0].toBytes();
   }
 
-  get allowFailure(): boolean {
-    return this[1].toBoolean();
+  get nonce(): BigInt {
+    return this[1].toBigInt();
   }
 
-  get yieldBoxTypeApproval(): boolean {
-    return this[2].toBoolean();
+  get fee(): SendPacketCallMsgReceiptFeeStruct {
+    return changetype<SendPacketCallMsgReceiptFeeStruct>(this[2].toTuple());
+  }
+}
+
+export class SendPacketCallMsgReceiptFeeStruct extends ethereum.Tuple {
+  get nativeFee(): BigInt {
+    return this[0].toBigInt();
   }
 
-  get revokeYieldBox(): boolean {
-    return this[3].toBoolean();
+  get lzTokenFee(): BigInt {
+    return this[1].toBigInt();
+  }
+}
+
+export class SendPacketCallOftReceiptStruct extends ethereum.Tuple {
+  get amountSentLD(): BigInt {
+    return this[0].toBigInt();
   }
 
-  get actionType(): i32 {
-    return this[4].toI32();
-  }
-
-  get target(): Address {
-    return this[5].toAddress();
-  }
-
-  get permitBorrow(): boolean {
-    return this[6].toBoolean();
-  }
-
-  get owner(): Address {
-    return this[7].toAddress();
-  }
-
-  get spender(): Address {
-    return this[8].toAddress();
-  }
-
-  get value(): BigInt {
-    return this[9].toBigInt();
-  }
-
-  get deadline(): BigInt {
-    return this[10].toBigInt();
-  }
-
-  get v(): i32 {
-    return this[11].toI32();
-  }
-
-  get r(): Bytes {
-    return this[12].toBytes();
-  }
-
-  get s(): Bytes {
-    return this[13].toBytes();
+  get amountReceivedLD(): BigInt {
+    return this[1].toBigInt();
   }
 }
 
@@ -3273,384 +2650,290 @@ export class SetClusterCall__Outputs {
   }
 }
 
-export class SetConfigCall extends ethereum.Call {
-  get inputs(): SetConfigCall__Inputs {
-    return new SetConfigCall__Inputs(this);
+export class SetDelegateCall extends ethereum.Call {
+  get inputs(): SetDelegateCall__Inputs {
+    return new SetDelegateCall__Inputs(this);
   }
 
-  get outputs(): SetConfigCall__Outputs {
-    return new SetConfigCall__Outputs(this);
+  get outputs(): SetDelegateCall__Outputs {
+    return new SetDelegateCall__Outputs(this);
   }
 }
 
-export class SetConfigCall__Inputs {
-  _call: SetConfigCall;
+export class SetDelegateCall__Inputs {
+  _call: SetDelegateCall;
 
-  constructor(call: SetConfigCall) {
+  constructor(call: SetDelegateCall) {
     this._call = call;
   }
 
-  get _version(): i32 {
-    return this._call.inputValues[0].value.toI32();
-  }
-
-  get _chainId(): i32 {
-    return this._call.inputValues[1].value.toI32();
-  }
-
-  get _configType(): BigInt {
-    return this._call.inputValues[2].value.toBigInt();
-  }
-
-  get _config(): Bytes {
-    return this._call.inputValues[3].value.toBytes();
-  }
-}
-
-export class SetConfigCall__Outputs {
-  _call: SetConfigCall;
-
-  constructor(call: SetConfigCall) {
-    this._call = call;
-  }
-}
-
-export class SetMinDstGasCall extends ethereum.Call {
-  get inputs(): SetMinDstGasCall__Inputs {
-    return new SetMinDstGasCall__Inputs(this);
-  }
-
-  get outputs(): SetMinDstGasCall__Outputs {
-    return new SetMinDstGasCall__Outputs(this);
-  }
-}
-
-export class SetMinDstGasCall__Inputs {
-  _call: SetMinDstGasCall;
-
-  constructor(call: SetMinDstGasCall) {
-    this._call = call;
-  }
-
-  get _dstChainId(): i32 {
-    return this._call.inputValues[0].value.toI32();
-  }
-
-  get _packetType(): i32 {
-    return this._call.inputValues[1].value.toI32();
-  }
-
-  get _minGas(): BigInt {
-    return this._call.inputValues[2].value.toBigInt();
-  }
-}
-
-export class SetMinDstGasCall__Outputs {
-  _call: SetMinDstGasCall;
-
-  constructor(call: SetMinDstGasCall) {
-    this._call = call;
-  }
-}
-
-export class SetPayloadSizeLimitCall extends ethereum.Call {
-  get inputs(): SetPayloadSizeLimitCall__Inputs {
-    return new SetPayloadSizeLimitCall__Inputs(this);
-  }
-
-  get outputs(): SetPayloadSizeLimitCall__Outputs {
-    return new SetPayloadSizeLimitCall__Outputs(this);
-  }
-}
-
-export class SetPayloadSizeLimitCall__Inputs {
-  _call: SetPayloadSizeLimitCall;
-
-  constructor(call: SetPayloadSizeLimitCall) {
-    this._call = call;
-  }
-
-  get _dstChainId(): i32 {
-    return this._call.inputValues[0].value.toI32();
-  }
-
-  get _size(): BigInt {
-    return this._call.inputValues[1].value.toBigInt();
-  }
-}
-
-export class SetPayloadSizeLimitCall__Outputs {
-  _call: SetPayloadSizeLimitCall;
-
-  constructor(call: SetPayloadSizeLimitCall) {
-    this._call = call;
-  }
-}
-
-export class SetPrecrimeCall extends ethereum.Call {
-  get inputs(): SetPrecrimeCall__Inputs {
-    return new SetPrecrimeCall__Inputs(this);
-  }
-
-  get outputs(): SetPrecrimeCall__Outputs {
-    return new SetPrecrimeCall__Outputs(this);
-  }
-}
-
-export class SetPrecrimeCall__Inputs {
-  _call: SetPrecrimeCall;
-
-  constructor(call: SetPrecrimeCall) {
-    this._call = call;
-  }
-
-  get _precrime(): Address {
+  get _delegate(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
 }
 
-export class SetPrecrimeCall__Outputs {
-  _call: SetPrecrimeCall;
+export class SetDelegateCall__Outputs {
+  _call: SetDelegateCall;
 
-  constructor(call: SetPrecrimeCall) {
+  constructor(call: SetDelegateCall) {
     this._call = call;
   }
 }
 
-export class SetReceiveVersionCall extends ethereum.Call {
-  get inputs(): SetReceiveVersionCall__Inputs {
-    return new SetReceiveVersionCall__Inputs(this);
+export class SetEnforcedOptionsCall extends ethereum.Call {
+  get inputs(): SetEnforcedOptionsCall__Inputs {
+    return new SetEnforcedOptionsCall__Inputs(this);
   }
 
-  get outputs(): SetReceiveVersionCall__Outputs {
-    return new SetReceiveVersionCall__Outputs(this);
+  get outputs(): SetEnforcedOptionsCall__Outputs {
+    return new SetEnforcedOptionsCall__Outputs(this);
   }
 }
 
-export class SetReceiveVersionCall__Inputs {
-  _call: SetReceiveVersionCall;
+export class SetEnforcedOptionsCall__Inputs {
+  _call: SetEnforcedOptionsCall;
 
-  constructor(call: SetReceiveVersionCall) {
+  constructor(call: SetEnforcedOptionsCall) {
     this._call = call;
   }
 
-  get _version(): i32 {
-    return this._call.inputValues[0].value.toI32();
+  get _enforcedOptions(): Array<SetEnforcedOptionsCall_enforcedOptionsStruct> {
+    return this._call.inputValues[0].value.toTupleArray<SetEnforcedOptionsCall_enforcedOptionsStruct>();
   }
 }
 
-export class SetReceiveVersionCall__Outputs {
-  _call: SetReceiveVersionCall;
+export class SetEnforcedOptionsCall__Outputs {
+  _call: SetEnforcedOptionsCall;
 
-  constructor(call: SetReceiveVersionCall) {
-    this._call = call;
-  }
-}
-
-export class SetSendVersionCall extends ethereum.Call {
-  get inputs(): SetSendVersionCall__Inputs {
-    return new SetSendVersionCall__Inputs(this);
-  }
-
-  get outputs(): SetSendVersionCall__Outputs {
-    return new SetSendVersionCall__Outputs(this);
-  }
-}
-
-export class SetSendVersionCall__Inputs {
-  _call: SetSendVersionCall;
-
-  constructor(call: SetSendVersionCall) {
-    this._call = call;
-  }
-
-  get _version(): i32 {
-    return this._call.inputValues[0].value.toI32();
-  }
-}
-
-export class SetSendVersionCall__Outputs {
-  _call: SetSendVersionCall;
-
-  constructor(call: SetSendVersionCall) {
+  constructor(call: SetEnforcedOptionsCall) {
     this._call = call;
   }
 }
 
-export class SetStargateRouterCall extends ethereum.Call {
-  get inputs(): SetStargateRouterCall__Inputs {
-    return new SetStargateRouterCall__Inputs(this);
+export class SetEnforcedOptionsCall_enforcedOptionsStruct extends ethereum.Tuple {
+  get eid(): BigInt {
+    return this[0].toBigInt();
   }
 
-  get outputs(): SetStargateRouterCall__Outputs {
-    return new SetStargateRouterCall__Outputs(this);
+  get msgType(): i32 {
+    return this[1].toI32();
+  }
+
+  get options(): Bytes {
+    return this[2].toBytes();
   }
 }
 
-export class SetStargateRouterCall__Inputs {
-  _call: SetStargateRouterCall;
+export class SetMsgInspectorCall extends ethereum.Call {
+  get inputs(): SetMsgInspectorCall__Inputs {
+    return new SetMsgInspectorCall__Inputs(this);
+  }
 
-  constructor(call: SetStargateRouterCall) {
+  get outputs(): SetMsgInspectorCall__Outputs {
+    return new SetMsgInspectorCall__Outputs(this);
+  }
+}
+
+export class SetMsgInspectorCall__Inputs {
+  _call: SetMsgInspectorCall;
+
+  constructor(call: SetMsgInspectorCall) {
     this._call = call;
   }
 
-  get _router(): Address {
+  get _msgInspector(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
 }
 
-export class SetStargateRouterCall__Outputs {
-  _call: SetStargateRouterCall;
+export class SetMsgInspectorCall__Outputs {
+  _call: SetMsgInspectorCall;
 
-  constructor(call: SetStargateRouterCall) {
+  constructor(call: SetMsgInspectorCall) {
     this._call = call;
   }
 }
 
-export class SetTrustedRemoteCall extends ethereum.Call {
-  get inputs(): SetTrustedRemoteCall__Inputs {
-    return new SetTrustedRemoteCall__Inputs(this);
+export class SetPauseCall extends ethereum.Call {
+  get inputs(): SetPauseCall__Inputs {
+    return new SetPauseCall__Inputs(this);
   }
 
-  get outputs(): SetTrustedRemoteCall__Outputs {
-    return new SetTrustedRemoteCall__Outputs(this);
+  get outputs(): SetPauseCall__Outputs {
+    return new SetPauseCall__Outputs(this);
   }
 }
 
-export class SetTrustedRemoteCall__Inputs {
-  _call: SetTrustedRemoteCall;
+export class SetPauseCall__Inputs {
+  _call: SetPauseCall;
 
-  constructor(call: SetTrustedRemoteCall) {
+  constructor(call: SetPauseCall) {
     this._call = call;
   }
 
-  get _srcChainId(): i32 {
-    return this._call.inputValues[0].value.toI32();
-  }
-
-  get _path(): Bytes {
-    return this._call.inputValues[1].value.toBytes();
-  }
-}
-
-export class SetTrustedRemoteCall__Outputs {
-  _call: SetTrustedRemoteCall;
-
-  constructor(call: SetTrustedRemoteCall) {
-    this._call = call;
-  }
-}
-
-export class SetTrustedRemoteAddressCall extends ethereum.Call {
-  get inputs(): SetTrustedRemoteAddressCall__Inputs {
-    return new SetTrustedRemoteAddressCall__Inputs(this);
-  }
-
-  get outputs(): SetTrustedRemoteAddressCall__Outputs {
-    return new SetTrustedRemoteAddressCall__Outputs(this);
-  }
-}
-
-export class SetTrustedRemoteAddressCall__Inputs {
-  _call: SetTrustedRemoteAddressCall;
-
-  constructor(call: SetTrustedRemoteAddressCall) {
-    this._call = call;
-  }
-
-  get _remoteChainId(): i32 {
-    return this._call.inputValues[0].value.toI32();
-  }
-
-  get _remoteAddress(): Bytes {
-    return this._call.inputValues[1].value.toBytes();
-  }
-}
-
-export class SetTrustedRemoteAddressCall__Outputs {
-  _call: SetTrustedRemoteAddressCall;
-
-  constructor(call: SetTrustedRemoteAddressCall) {
-    this._call = call;
-  }
-}
-
-export class SetUseCustomAdapterParamsCall extends ethereum.Call {
-  get inputs(): SetUseCustomAdapterParamsCall__Inputs {
-    return new SetUseCustomAdapterParamsCall__Inputs(this);
-  }
-
-  get outputs(): SetUseCustomAdapterParamsCall__Outputs {
-    return new SetUseCustomAdapterParamsCall__Outputs(this);
-  }
-}
-
-export class SetUseCustomAdapterParamsCall__Inputs {
-  _call: SetUseCustomAdapterParamsCall;
-
-  constructor(call: SetUseCustomAdapterParamsCall) {
-    this._call = call;
-  }
-
-  get _useCustomAdapterParams(): boolean {
+  get _pauseState(): boolean {
     return this._call.inputValues[0].value.toBoolean();
   }
 }
 
-export class SetUseCustomAdapterParamsCall__Outputs {
-  _call: SetUseCustomAdapterParamsCall;
+export class SetPauseCall__Outputs {
+  _call: SetPauseCall;
 
-  constructor(call: SetUseCustomAdapterParamsCall) {
+  constructor(call: SetPauseCall) {
     this._call = call;
   }
 }
 
-export class SgReceiveCall extends ethereum.Call {
-  get inputs(): SgReceiveCall__Inputs {
-    return new SgReceiveCall__Inputs(this);
+export class SetPearlmitCall extends ethereum.Call {
+  get inputs(): SetPearlmitCall__Inputs {
+    return new SetPearlmitCall__Inputs(this);
   }
 
-  get outputs(): SgReceiveCall__Outputs {
-    return new SgReceiveCall__Outputs(this);
+  get outputs(): SetPearlmitCall__Outputs {
+    return new SetPearlmitCall__Outputs(this);
   }
 }
 
-export class SgReceiveCall__Inputs {
-  _call: SgReceiveCall;
+export class SetPearlmitCall__Inputs {
+  _call: SetPearlmitCall;
 
-  constructor(call: SgReceiveCall) {
+  constructor(call: SetPearlmitCall) {
     this._call = call;
   }
 
-  get value0(): i32 {
-    return this._call.inputValues[0].value.toI32();
+  get _pearlmit(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class SetPearlmitCall__Outputs {
+  _call: SetPearlmitCall;
+
+  constructor(call: SetPearlmitCall) {
+    this._call = call;
+  }
+}
+
+export class SetPeerCall extends ethereum.Call {
+  get inputs(): SetPeerCall__Inputs {
+    return new SetPeerCall__Inputs(this);
   }
 
-  get value1(): Bytes {
+  get outputs(): SetPeerCall__Outputs {
+    return new SetPeerCall__Outputs(this);
+  }
+}
+
+export class SetPeerCall__Inputs {
+  _call: SetPeerCall;
+
+  constructor(call: SetPeerCall) {
+    this._call = call;
+  }
+
+  get _eid(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get _peer(): Bytes {
     return this._call.inputValues[1].value.toBytes();
   }
+}
 
-  get value2(): BigInt {
-    return this._call.inputValues[2].value.toBigInt();
-  }
+export class SetPeerCall__Outputs {
+  _call: SetPeerCall;
 
-  get value3(): Address {
-    return this._call.inputValues[3].value.toAddress();
-  }
-
-  get amountLD(): BigInt {
-    return this._call.inputValues[4].value.toBigInt();
-  }
-
-  get value5(): Bytes {
-    return this._call.inputValues[5].value.toBytes();
+  constructor(call: SetPeerCall) {
+    this._call = call;
   }
 }
 
-export class SgReceiveCall__Outputs {
-  _call: SgReceiveCall;
+export class SetPreCrimeCall extends ethereum.Call {
+  get inputs(): SetPreCrimeCall__Inputs {
+    return new SetPreCrimeCall__Inputs(this);
+  }
 
-  constructor(call: SgReceiveCall) {
+  get outputs(): SetPreCrimeCall__Outputs {
+    return new SetPreCrimeCall__Outputs(this);
+  }
+}
+
+export class SetPreCrimeCall__Inputs {
+  _call: SetPreCrimeCall;
+
+  constructor(call: SetPreCrimeCall) {
+    this._call = call;
+  }
+
+  get _preCrime(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class SetPreCrimeCall__Outputs {
+  _call: SetPreCrimeCall;
+
+  constructor(call: SetPreCrimeCall) {
+    this._call = call;
+  }
+}
+
+export class SetTapiocaOmnichainReceiveExtenderCall extends ethereum.Call {
+  get inputs(): SetTapiocaOmnichainReceiveExtenderCall__Inputs {
+    return new SetTapiocaOmnichainReceiveExtenderCall__Inputs(this);
+  }
+
+  get outputs(): SetTapiocaOmnichainReceiveExtenderCall__Outputs {
+    return new SetTapiocaOmnichainReceiveExtenderCall__Outputs(this);
+  }
+}
+
+export class SetTapiocaOmnichainReceiveExtenderCall__Inputs {
+  _call: SetTapiocaOmnichainReceiveExtenderCall;
+
+  constructor(call: SetTapiocaOmnichainReceiveExtenderCall) {
+    this._call = call;
+  }
+
+  get _tapiocaOmnichainReceiveExtender(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class SetTapiocaOmnichainReceiveExtenderCall__Outputs {
+  _call: SetTapiocaOmnichainReceiveExtenderCall;
+
+  constructor(call: SetTapiocaOmnichainReceiveExtenderCall) {
+    this._call = call;
+  }
+}
+
+export class SetToeExtExecCall extends ethereum.Call {
+  get inputs(): SetToeExtExecCall__Inputs {
+    return new SetToeExtExecCall__Inputs(this);
+  }
+
+  get outputs(): SetToeExtExecCall__Outputs {
+    return new SetToeExtExecCall__Outputs(this);
+  }
+}
+
+export class SetToeExtExecCall__Inputs {
+  _call: SetToeExtExecCall;
+
+  constructor(call: SetToeExtExecCall) {
+    this._call = call;
+  }
+
+  get _extExec(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class SetToeExtExecCall__Outputs {
+  _call: SetToeExtExecCall;
+
+  constructor(call: SetToeExtExecCall) {
     this._call = call;
   }
 }
@@ -3765,304 +3048,6 @@ export class TransferOwnershipCall__Outputs {
   }
 }
 
-export class TriggerApproveOrRevokeCall extends ethereum.Call {
-  get inputs(): TriggerApproveOrRevokeCall__Inputs {
-    return new TriggerApproveOrRevokeCall__Inputs(this);
-  }
-
-  get outputs(): TriggerApproveOrRevokeCall__Outputs {
-    return new TriggerApproveOrRevokeCall__Outputs(this);
-  }
-}
-
-export class TriggerApproveOrRevokeCall__Inputs {
-  _call: TriggerApproveOrRevokeCall;
-
-  constructor(call: TriggerApproveOrRevokeCall) {
-    this._call = call;
-  }
-
-  get lzDstChainId(): i32 {
-    return this._call.inputValues[0].value.toI32();
-  }
-
-  get lzCallParams(): TriggerApproveOrRevokeCallLzCallParamsStruct {
-    return changetype<TriggerApproveOrRevokeCallLzCallParamsStruct>(
-      this._call.inputValues[1].value.toTuple(),
-    );
-  }
-
-  get approvals(): Array<TriggerApproveOrRevokeCallApprovalsStruct> {
-    return this._call.inputValues[2].value.toTupleArray<TriggerApproveOrRevokeCallApprovalsStruct>();
-  }
-}
-
-export class TriggerApproveOrRevokeCall__Outputs {
-  _call: TriggerApproveOrRevokeCall;
-
-  constructor(call: TriggerApproveOrRevokeCall) {
-    this._call = call;
-  }
-}
-
-export class TriggerApproveOrRevokeCallLzCallParamsStruct extends ethereum.Tuple {
-  get refundAddress(): Address {
-    return this[0].toAddress();
-  }
-
-  get zroPaymentAddress(): Address {
-    return this[1].toAddress();
-  }
-
-  get adapterParams(): Bytes {
-    return this[2].toBytes();
-  }
-}
-
-export class TriggerApproveOrRevokeCallApprovalsStruct extends ethereum.Tuple {
-  get permitAll(): boolean {
-    return this[0].toBoolean();
-  }
-
-  get allowFailure(): boolean {
-    return this[1].toBoolean();
-  }
-
-  get yieldBoxTypeApproval(): boolean {
-    return this[2].toBoolean();
-  }
-
-  get revokeYieldBox(): boolean {
-    return this[3].toBoolean();
-  }
-
-  get actionType(): i32 {
-    return this[4].toI32();
-  }
-
-  get target(): Address {
-    return this[5].toAddress();
-  }
-
-  get permitBorrow(): boolean {
-    return this[6].toBoolean();
-  }
-
-  get owner(): Address {
-    return this[7].toAddress();
-  }
-
-  get spender(): Address {
-    return this[8].toAddress();
-  }
-
-  get value(): BigInt {
-    return this[9].toBigInt();
-  }
-
-  get deadline(): BigInt {
-    return this[10].toBigInt();
-  }
-
-  get v(): i32 {
-    return this[11].toI32();
-  }
-
-  get r(): Bytes {
-    return this[12].toBytes();
-  }
-
-  get s(): Bytes {
-    return this[13].toBytes();
-  }
-}
-
-export class TriggerSendFromCall extends ethereum.Call {
-  get inputs(): TriggerSendFromCall__Inputs {
-    return new TriggerSendFromCall__Inputs(this);
-  }
-
-  get outputs(): TriggerSendFromCall__Outputs {
-    return new TriggerSendFromCall__Outputs(this);
-  }
-}
-
-export class TriggerSendFromCall__Inputs {
-  _call: TriggerSendFromCall;
-
-  constructor(call: TriggerSendFromCall) {
-    this._call = call;
-  }
-
-  get from(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
-  get lzDstChainId(): i32 {
-    return this._call.inputValues[1].value.toI32();
-  }
-
-  get to(): Bytes {
-    return this._call.inputValues[2].value.toBytes();
-  }
-
-  get amount(): BigInt {
-    return this._call.inputValues[3].value.toBigInt();
-  }
-
-  get sendFromData(): TriggerSendFromCallSendFromDataStruct {
-    return changetype<TriggerSendFromCallSendFromDataStruct>(
-      this._call.inputValues[4].value.toTuple(),
-    );
-  }
-
-  get approvals(): Array<TriggerSendFromCallApprovalsStruct> {
-    return this._call.inputValues[5].value.toTupleArray<TriggerSendFromCallApprovalsStruct>();
-  }
-
-  get revokes(): Array<TriggerSendFromCallRevokesStruct> {
-    return this._call.inputValues[6].value.toTupleArray<TriggerSendFromCallRevokesStruct>();
-  }
-}
-
-export class TriggerSendFromCall__Outputs {
-  _call: TriggerSendFromCall;
-
-  constructor(call: TriggerSendFromCall) {
-    this._call = call;
-  }
-}
-
-export class TriggerSendFromCallSendFromDataStruct extends ethereum.Tuple {
-  get refundAddress(): Address {
-    return this[0].toAddress();
-  }
-
-  get zroPaymentAddress(): Address {
-    return this[1].toAddress();
-  }
-
-  get adapterParams(): Bytes {
-    return this[2].toBytes();
-  }
-}
-
-export class TriggerSendFromCallApprovalsStruct extends ethereum.Tuple {
-  get permitAll(): boolean {
-    return this[0].toBoolean();
-  }
-
-  get allowFailure(): boolean {
-    return this[1].toBoolean();
-  }
-
-  get yieldBoxTypeApproval(): boolean {
-    return this[2].toBoolean();
-  }
-
-  get revokeYieldBox(): boolean {
-    return this[3].toBoolean();
-  }
-
-  get actionType(): i32 {
-    return this[4].toI32();
-  }
-
-  get target(): Address {
-    return this[5].toAddress();
-  }
-
-  get permitBorrow(): boolean {
-    return this[6].toBoolean();
-  }
-
-  get owner(): Address {
-    return this[7].toAddress();
-  }
-
-  get spender(): Address {
-    return this[8].toAddress();
-  }
-
-  get value(): BigInt {
-    return this[9].toBigInt();
-  }
-
-  get deadline(): BigInt {
-    return this[10].toBigInt();
-  }
-
-  get v(): i32 {
-    return this[11].toI32();
-  }
-
-  get r(): Bytes {
-    return this[12].toBytes();
-  }
-
-  get s(): Bytes {
-    return this[13].toBytes();
-  }
-}
-
-export class TriggerSendFromCallRevokesStruct extends ethereum.Tuple {
-  get permitAll(): boolean {
-    return this[0].toBoolean();
-  }
-
-  get allowFailure(): boolean {
-    return this[1].toBoolean();
-  }
-
-  get yieldBoxTypeApproval(): boolean {
-    return this[2].toBoolean();
-  }
-
-  get revokeYieldBox(): boolean {
-    return this[3].toBoolean();
-  }
-
-  get actionType(): i32 {
-    return this[4].toI32();
-  }
-
-  get target(): Address {
-    return this[5].toAddress();
-  }
-
-  get permitBorrow(): boolean {
-    return this[6].toBoolean();
-  }
-
-  get owner(): Address {
-    return this[7].toAddress();
-  }
-
-  get spender(): Address {
-    return this[8].toAddress();
-  }
-
-  get value(): BigInt {
-    return this[9].toBigInt();
-  }
-
-  get deadline(): BigInt {
-    return this[10].toBigInt();
-  }
-
-  get v(): i32 {
-    return this[11].toI32();
-  }
-
-  get r(): Bytes {
-    return this[12].toBytes();
-  }
-
-  get s(): Bytes {
-    return this[13].toBytes();
-  }
-}
-
 export class UnwrapCall extends ethereum.Call {
   get inputs(): UnwrapCall__Inputs {
     return new UnwrapCall__Inputs(this);
@@ -4094,6 +3079,10 @@ export class UnwrapCall__Outputs {
 
   constructor(call: UnwrapCall) {
     this._call = call;
+  }
+
+  get unwrapped(): BigInt {
+    return this._call.outputValues[0].value.toBigInt();
   }
 }
 
@@ -4132,5 +3121,9 @@ export class WrapCall__Outputs {
 
   constructor(call: WrapCall) {
     this._call = call;
+  }
+
+  get minted(): BigInt {
+    return this._call.outputValues[0].value.toBigInt();
   }
 }
