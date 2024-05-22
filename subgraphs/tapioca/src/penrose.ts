@@ -8,6 +8,7 @@ import {
 import { Singularity } from "../generated/Penrose/Singularity"
 import { BigBangMarket, SingularityMarket } from "../generated/schema"
 import { TOFT } from "../generated/templates"
+import { TOFT_CONTRACT_ADDRESSES } from "./_CONSTANTS"
 import { getNetworkId } from "./utils/networks/definition"
 import { putToft, putToken } from "./utils/token/token"
 
@@ -107,12 +108,6 @@ export function handleRegisterBigBang(event: RegisterBigBangEvent): void {
     collateralTokenToftEntity.save()
   }
 }
-
-const TOFT_CONTRACT_ADDRESSES = [
-  "0x6B981fE56325aee8D43DCC7aB922A05F880BbE72",
-  "0x8C497477BB97252C725D8f2495384FdF5AcBf7e0",
-  "0x1603fF86B03f8Cc5d51f8741D1EE8EC832E9795a",
-]
 
 export function mapToftAddresses(block: ethereum.Block): void {
   for (let i = 0; i < TOFT_CONTRACT_ADDRESSES.length; i++) {
