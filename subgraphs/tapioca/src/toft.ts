@@ -53,7 +53,12 @@ export function handleOwnershipTransferred(
 ): void {
   const toftEntity = putToft(event.address)
 
-  const currentNetworkId = getNetworkId(dataSource.network())
+  const currentNetworkInfo = StaticChainIdDefinition.fromChainId(
+    getNetworkId(dataSource.network())
+  )
+  if (currentNetworkInfo == null) {
+    throw new Error("Unsupported network found.")
+  }
   const c_toft = TOFTContract.bind(event.address)
   const result = c_toft.try_hostEid()
 
@@ -62,7 +67,10 @@ export function handleOwnershipTransferred(
     // throw new Error("hostChainID is not available", result.value.toString())
   } else {
     if (
-      !BigInt.compare(BigInt.fromI32(currentNetworkId as i32), result.value)
+      !BigInt.compare(
+        BigInt.fromI32(currentNetworkInfo.lzChainId as i32),
+        result.value
+      )
     ) {
       const erc20Result = c_toft.try_erc20()
       if (erc20Result.reverted) {

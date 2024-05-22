@@ -5,12 +5,10 @@ export class StaticChainIdDefinition {
   static getTestnetStaticDefinitions(): Array<StaticChainIdDefinition> {
     // https://layerzero.gitbook.io/docs/technical-reference/testnet/testnet-addresses
     const staticDefinitions = [
-      { lzChainId: 10106, chainId: 43113 },
-      { lzChainId: 10121, chainId: 5 },
-      { lzChainId: 10143, chainId: 421613 },
-      { lzChainId: 10109, chainId: 80001 },
-      { lzChainId: 10112, chainId: 4002 },
-      { lzChainId: 10231, chainId: 421614 },
+      { lzChainId: 40106, chainId: 43113 },
+      { lzChainId: 40109, chainId: 80001 },
+      { lzChainId: 40112, chainId: 4002 },
+      { lzChainId: 40231, chainId: 421614 },
     ] as Array<StaticChainIdDefinition>
 
     return staticDefinitions
@@ -18,7 +16,7 @@ export class StaticChainIdDefinition {
 
   static getMainnetStaticDefinitions(): Array<StaticChainIdDefinition> {
     const staticDefinitions = [
-      { lzChainId: 101, chainId: 1 },
+      { lzChainId: 30101, chainId: 1 },
     ] as Array<StaticChainIdDefinition>
 
     return staticDefinitions
@@ -38,6 +36,28 @@ export class StaticChainIdDefinition {
     for (let i = 0; i < testnetDefinitions.length; i++) {
       const staticDefinition = testnetDefinitions[i]
       if (staticDefinition.lzChainId == lzChainId) {
+        return staticDefinition
+      }
+    }
+
+    // If not found, return null
+    return null
+  }
+
+  static fromChainId(chainId: number): StaticChainIdDefinition | null {
+    const testnetDefinitions = this.getTestnetStaticDefinitions()
+    const mainnetDefinitions = this.getTestnetStaticDefinitions()
+
+    for (let i = 0; i < mainnetDefinitions.length; i++) {
+      const staticDefinition = mainnetDefinitions[i]
+      if (staticDefinition.chainId == chainId) {
+        return staticDefinition
+      }
+    }
+
+    for (let i = 0; i < testnetDefinitions.length; i++) {
+      const staticDefinition = testnetDefinitions[i]
+      if (staticDefinition.chainId == chainId) {
         return staticDefinition
       }
     }
