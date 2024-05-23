@@ -6,6 +6,10 @@ export class ContractAddressesConstants {
   chainId: number
   addresses: string[]
 
+  /**
+   * ADJUST THIS VALUE
+   * List of addresses of all the TOFT contracts.
+   */
   static getFullToftList(): Array<ContractAddressesConstants> {
     return [
       {
@@ -20,6 +24,7 @@ export class ContractAddressesConstants {
   }
 
   /**
+   * ADJUST THIS VALUE
    * List of addresses of the whitelisted markets.
    * This is to filter out the markets that had deployment issues.
    * If empty, all markets will be available on subgraph.

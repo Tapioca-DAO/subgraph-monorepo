@@ -1,24 +1,17 @@
-# Genesis Subgraph
+# Genesis subgraph
 
-This repository contains subgraph instructions for APIs required by Genesis UI.
+This repository contains subgraph instructions for APIs required by Genesis app.
 
-## Setup
-
-```bash
-pnpm i
-pnpm codegen
-```
+## Setup 
+- add addresses to `networks.json`
+- add addresses to `src/_CONSTANTS.ts` according to the comments
 
 ## Deployment
-### Authentication
-`graph auth --product hosted-service <ACCESS_TOKEN>` or `pnpx graph auth --product hosted-service <ACCESS_TOKEN>`
 
-### Deployment
-`bash deploy.sh` or for production `bash deploy-prod.sh`
+- deploy - `deploy:gs [chainId]`
+- redeploy - `deploy:gs [chainId] -r`
 
-**Supported Networks**
-```
-arbitrum goerli
-```
+- add tag - `tag:create [chainId] [dev|prod]`
+- add tag - `tag:delete [chainId] [dev|prod]`
 
-For more info on deployment see [Subgraph docs](https://thegraph.com/docs/en/deploying/deploying-a-subgraph-to-hosted/).
+For more info on deployment see [Goldsky docs](https://docs.goldsky.com/subgraphs/introduction).

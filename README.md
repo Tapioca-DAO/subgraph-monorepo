@@ -2,15 +2,14 @@
 
 Monorepo for all Tapioca subgraphs.
 
-# **Setup**
+## **Setup**
 
-## Prerequisites
+### Prerequisites
 - node version `18+` (only even major version numbers are supported)
 - pnpm version `v8.3.0+`
-- turbo version `1.9+`
+- [goldsky](https://docs.goldsky.com/introduction) latest version
 
-## Installation
-Install dependencies
+### Install dependencies
 ```bash
 pnpm install
 ```

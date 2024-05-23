@@ -1,29 +1,17 @@
 # Tapioca Subgraph
 
-This repository contains subgraph instructions for APIs required by UI (and other parts of protocol).
+This repository contains subgraph instructions for APIs required by main Tapioca app.
 
-## Setup
-
-```bash
-yarn
-yarn codegen
-```
+## Setup 
+- add addresses to `networks.json`
+- add addresses to `src/_CONSTANTS.ts` according to the comments
 
 ## Deployment
 
-```
-graph auth --product hosted-service <ACCESS_TOKEN>
-or
-npx graph auth --product hosted-service <ACCESS_TOKEN>
+- deploy - `deploy:gs [chainId]`
+- redeploy - `deploy:gs [chainId] -r`
 
-yarn deploy <SUBGRAPH_NAME> --network <SUPPORTED_NETWORK_NAME>
-```
-*Note: default deployment script is set to hoster service.*
+- add tag - `tag:create [chainId] [dev|prod]`
+- add tag - `tag:delete [chainId] [dev|prod]`
 
-**Supported Networks**
-```
-goerli
-fantom-testnet
-```
-
-For more info on deployment see [Subgraph docs](https://thegraph.com/docs/en/deploying/deploying-a-subgraph-to-hosted/).
+For more info on deployment see [Goldsky docs](https://docs.goldsky.com/subgraphs/introduction).

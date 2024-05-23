@@ -1,6 +1,6 @@
 import { Transfer as TransferEvent } from "../generated/LTAP/LTAP"
 import { Pool } from "../generated/schema"
-import { LBP_POOL_ID } from "./_config"
+import { LBP_POOL_ID } from "./_CONSTANTS"
 import { putUserTokenBalance } from "./utils/userTokenBalance"
 
 export function handleTransfer(event: TransferEvent): void {

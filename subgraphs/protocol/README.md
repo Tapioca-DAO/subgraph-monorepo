@@ -2,6 +2,13 @@
 
 This repository contains subgraph instructions that map whole Tapioca protocol.
 
+## Notes
+- main purpose of this subgraph is to provide scientific data
+- this goal of this subgraph is not synchronization performance rather code iteration speed - not suited for high velocity bots
+- this subgraph is outdated and will be updated in the near future
+- this subgraph was made mainly for Chaos Labs with requirements being as close as possible to [Aave subgraph](https://github.com/aave/protocol-subgraphs/blob/main/schemas/v3.schema.graphql) and/or [Messari subgraph](https://github.com/messari/subgraphs/blob/master/schema-lending.graphql)
+
+
 ## Setup
 
 ```bash
