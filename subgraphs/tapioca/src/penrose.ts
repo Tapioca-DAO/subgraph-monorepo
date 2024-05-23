@@ -8,7 +8,7 @@ import {
 import { Singularity } from "../generated/Penrose/Singularity"
 import { BigBangMarket, SingularityMarket } from "../generated/schema"
 import { TOFT } from "../generated/templates"
-import { TOFT_CONTRACT_ADDRESSES } from "./_CONSTANTS"
+import { ContractAddressesConstants } from "./_CONSTANTS"
 import { getNetworkId } from "./utils/networks/definition"
 import { putToft, putToken } from "./utils/token/token"
 
@@ -20,6 +20,11 @@ export function handleRegisterSingularity(
   )
 
   entity.address = event.params.location.toHexString()
+
+  if (!ContractAddressesConstants.isMarketWhitelisted(entity.address)) {
+    log.warning("Market {} is not whitelisted", [entity.address])
+    return
+  }
 
   const singularityContract = Singularity.bind(event.params.location)
   entity.chainId = getNetworkId(dataSource.network()) as i32
@@ -69,6 +74,11 @@ export function handleRegisterBigBang(event: RegisterBigBangEvent): void {
 
   entity.address = event.params.location.toHexString()
 
+  if (!ContractAddressesConstants.isMarketWhitelisted(entity.address)) {
+    log.warning("Market {} is not whitelisted", [entity.address])
+    return
+  }
+
   const bbContract = BigBang.bind(event.params.location)
   entity.chainId = getNetworkId(dataSource.network()) as i32
   entity.borrowToken = putToken(bbContract._asset()).id
@@ -110,8 +120,9 @@ export function handleRegisterBigBang(event: RegisterBigBangEvent): void {
 }
 
 export function mapToftAddresses(block: ethereum.Block): void {
-  for (let i = 0; i < TOFT_CONTRACT_ADDRESSES.length; i++) {
-    const address = TOFT_CONTRACT_ADDRESSES[i]
+  const addresses = ContractAddressesConstants.getToftListForCurrentNetwork()
+  for (let i = 0; i < addresses.length; i++) {
+    const address = addresses[i]
     log.info("Mapping TOFT address: {}", [address])
     TOFT.create(Address.fromBytes(Address.fromHexString(address)))
   }
