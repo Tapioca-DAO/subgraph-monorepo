@@ -11,7 +11,7 @@ import {
   BigDecimal,
 } from "@graphprotocol/graph-ts";
 
-export class BigBangMarket extends Entity {
+export class Market extends Entity {
   constructor(id: Bytes) {
     super();
     this.set("id", Value.fromBytes(id));
@@ -19,26 +19,24 @@ export class BigBangMarket extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save BigBangMarket entity without an ID");
+    assert(id != null, "Cannot save Market entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.BYTES,
-        `Entities of type BigBangMarket must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+        `Entities of type Market must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
-      store.set("BigBangMarket", id.toBytes().toHexString(), this);
+      store.set("Market", id.toBytes().toHexString(), this);
     }
   }
 
-  static loadInBlock(id: Bytes): BigBangMarket | null {
-    return changetype<BigBangMarket | null>(
-      store.get_in_block("BigBangMarket", id.toHexString()),
+  static loadInBlock(id: Bytes): Market | null {
+    return changetype<Market | null>(
+      store.get_in_block("Market", id.toHexString()),
     );
   }
 
-  static load(id: Bytes): BigBangMarket | null {
-    return changetype<BigBangMarket | null>(
-      store.get("BigBangMarket", id.toHexString()),
-    );
+  static load(id: Bytes): Market | null {
+    return changetype<Market | null>(store.get("Market", id.toHexString()));
   }
 
   get id(): Bytes {
@@ -118,66 +116,9 @@ export class BigBangMarket extends Entity {
   set oracleAddress(value: string) {
     this.set("oracleAddress", Value.fromString(value));
   }
-}
 
-export class SingularityMarket extends Entity {
-  constructor(id: Bytes) {
-    super();
-    this.set("id", Value.fromBytes(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save SingularityMarket entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.BYTES,
-        `Entities of type SingularityMarket must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`,
-      );
-      store.set("SingularityMarket", id.toBytes().toHexString(), this);
-    }
-  }
-
-  static loadInBlock(id: Bytes): SingularityMarket | null {
-    return changetype<SingularityMarket | null>(
-      store.get_in_block("SingularityMarket", id.toHexString()),
-    );
-  }
-
-  static load(id: Bytes): SingularityMarket | null {
-    return changetype<SingularityMarket | null>(
-      store.get("SingularityMarket", id.toHexString()),
-    );
-  }
-
-  get id(): Bytes {
-    let value = this.get("id");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBytes();
-    }
-  }
-
-  set id(value: Bytes) {
-    this.set("id", Value.fromBytes(value));
-  }
-
-  get chainId(): i32 {
-    let value = this.get("chainId");
-    if (!value || value.kind == ValueKind.NULL) {
-      return 0;
-    } else {
-      return value.toI32();
-    }
-  }
-
-  set chainId(value: i32) {
-    this.set("chainId", Value.fromI32(value));
-  }
-
-  get address(): string {
-    let value = this.get("address");
+  get marketType(): string {
+    let value = this.get("marketType");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
@@ -185,47 +126,8 @@ export class SingularityMarket extends Entity {
     }
   }
 
-  set address(value: string) {
-    this.set("address", Value.fromString(value));
-  }
-
-  get borrowToken(): Bytes {
-    let value = this.get("borrowToken");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBytes();
-    }
-  }
-
-  set borrowToken(value: Bytes) {
-    this.set("borrowToken", Value.fromBytes(value));
-  }
-
-  get collateralToken(): Bytes {
-    let value = this.get("collateralToken");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBytes();
-    }
-  }
-
-  set collateralToken(value: Bytes) {
-    this.set("collateralToken", Value.fromBytes(value));
-  }
-
-  get oracleAddress(): string {
-    let value = this.get("oracleAddress");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set oracleAddress(value: string) {
-    this.set("oracleAddress", Value.fromString(value));
+  set marketType(value: string) {
+    this.set("marketType", Value.fromString(value));
   }
 }
 
@@ -517,23 +419,6 @@ export class TOFToken extends Entity {
       this.unset("markets");
     } else {
       this.set("markets", Value.fromBytesArray(<Array<Bytes>>value));
-    }
-  }
-
-  get bigBangMarkets(): Array<Bytes> | null {
-    let value = this.get("bigBangMarkets");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytesArray();
-    }
-  }
-
-  set bigBangMarkets(value: Array<Bytes> | null) {
-    if (!value) {
-      this.unset("bigBangMarkets");
-    } else {
-      this.set("bigBangMarkets", Value.fromBytesArray(<Array<Bytes>>value));
     }
   }
 }

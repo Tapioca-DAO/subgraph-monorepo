@@ -96,9 +96,10 @@ export function putToken(tokenAddress: Address): Token {
   putNativeToken()
 
   let token = Token.load(tokenAddress)
-  if (token === null) {
-    token = new Token(tokenAddress)
+  if (token != null) {
+    return token
   }
+  token = new Token(tokenAddress)
   token.chainId = getNetworkId(dataSource.network()) as i32
   token.address = tokenAddress.toHexString()
   token.symbol = fetchTokenSymbol(tokenAddress)
@@ -127,7 +128,7 @@ export function putNativeToken(): void {
     "0x0000000000000000000000000000000000000000"
   )
   let token = Token.load(tokenAddress)
-  if (token !== null) {
+  if (token != null) {
     return
   }
   token = new Token(tokenAddress)

@@ -1,19 +1,16 @@
-type BigBangMarket @entity(immutable: true) {
-  id: Bytes!
-  chainId: Int! # uint32
-  address: String! # address
-  borrowToken: Token!
-  collateralToken: Token!
-  oracleAddress: String! # address
+enum MarketType {
+  BIG_BANG
+  SINGULARITY
 }
 
-type SingularityMarket @entity(immutable: true) {
+type Market @entity(immutable: true) {
   id: Bytes!
   chainId: Int! # uint32
   address: String! # address
   borrowToken: Token!
   collateralToken: Token!
   oracleAddress: String! # address
+  marketType: MarketType! # uint8
 }
 
 type Token @entity(immutable: true) {
@@ -37,8 +34,7 @@ type TOFToken @entity(immutable: false) {
   token: Token!
   underlyingToken: Token 
   remoteTOFTs: [RemoteTOFTMeta!]!
-  markets: [SingularityMarket!]
-  bigBangMarkets: [BigBangMarket!]
+  markets: [Market!]
 }
 
 #START ######### TOB BASE ##########

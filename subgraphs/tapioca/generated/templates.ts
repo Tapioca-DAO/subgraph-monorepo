@@ -15,3 +15,13 @@ export class TOFT extends DataSourceTemplate {
     DataSourceTemplate.createWithContext("TOFT", [address.toHex()], context);
   }
 }
+
+export class Markets extends DataSourceTemplate {
+  static create(address: Address): void {
+    DataSourceTemplate.create("Markets", [address.toHex()]);
+  }
+
+  static createWithContext(address: Address, context: DataSourceContext): void {
+    DataSourceTemplate.createWithContext("Markets", [address.toHex()], context);
+  }
+}

@@ -2,7 +2,7 @@
   "arbitrum-sepolia": {
     "Penrose": {
       "startBlock": 46750279,
-      "address": "0xAF5564C05840AD868d3236f5Db8133589D971567"
+      "address": "0x0000000000000000000000000000000000000000"
     },
     "TOB": {
       "startBlock": 46750279,
