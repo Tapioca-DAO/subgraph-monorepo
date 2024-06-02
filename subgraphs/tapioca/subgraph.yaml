@@ -7,7 +7,7 @@ dataSources:
     source:
       abi: Penrose
       startBlock: 46750279
-      address: "0xab9e524B4BE738bE0791AE1C22668e476B8CcB1c"
+      address: "0x0000000000000000000000000000000000000000"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.8
@@ -27,7 +27,7 @@ dataSources:
       &a1
       penrose_address:
         type: String
-        data: "0xab9e524b4be738be0791ae1c22668e476b8ccb1c"
+        data: "0x0000000000000000000000000000000000000000"
       tob_address:
         type: String
         data: "0x448ce63f9a12d81658194e5035547ea83ee267f6"

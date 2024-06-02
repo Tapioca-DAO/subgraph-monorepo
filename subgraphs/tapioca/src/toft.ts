@@ -11,7 +11,7 @@ import { getNetworkId } from "./utils/networks/definition"
 import { putToft, putToken } from "./utils/token/token"
 
 export function handlePeerSet(event: PeerSetEvent): void {
-  const remoteAddress = event.params.peer.toHexString().substring(0, 42)
+  const remoteAddress = "0x" + event.params.peer.toHexString().slice(-40)
 
   const toftEntity = TOFToken.load(event.address)
 

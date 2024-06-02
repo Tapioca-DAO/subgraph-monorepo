@@ -3,12 +3,13 @@ export class StaticChainIdDefinition {
   chainId: number
 
   static getTestnetStaticDefinitions(): Array<StaticChainIdDefinition> {
-    // https://layerzero.gitbook.io/docs/technical-reference/testnet/testnet-addresses
+    // https://docs.layerzero.network/v2/developers/evm/technical-reference/deployed-contracts
     const staticDefinitions = [
       { lzChainId: 40106, chainId: 43113 },
       { lzChainId: 40109, chainId: 80001 },
       { lzChainId: 40112, chainId: 4002 },
       { lzChainId: 40231, chainId: 421614 },
+      { lzChainId: 40232, chainId: 11155420 },
     ] as Array<StaticChainIdDefinition>
 
     return staticDefinitions
