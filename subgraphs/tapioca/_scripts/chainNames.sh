@@ -2,4 +2,4 @@
 declare -A CHAIN_NAMES
 CHAIN_NAMES["421614"]=arbitrum-sepolia
 CHAIN_NAMES["11155420"]=optimism-sepolia
-CHAIN_NAMES["43113"]=fuji
+CHAIN_NAMES["43113"]=avalanche-testnet

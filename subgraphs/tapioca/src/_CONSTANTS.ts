@@ -15,16 +15,23 @@ export class ContractAddressesConstants {
       {
         chainId: 421614,
         addresses: [
-          "0xEd6D90A2e0e106eDecCa2D22eD4d91580C02B782",
-          "0x518dd2F7b19f05e47eb8c24E5E93edF7587595d8",
-          "0x57fe12B8303A296Ebc9280Eaa702281829a2A6fd",
-          "0xcFA3E22c90ccDA74ddd665eF10f56710f89511f4",
-          "0xf1dA970B57c5B575d40478223BF328BF1E6c05DD",
+          "0x905EeDBc5e584E11B68f60E1deB50Efa08aD3e9F",
+          "0x62b1974CC9b66BBB307B21Bd176c9b5C5a86515a",
+          "0xf8AC713c5FD9603891B53Bc9caC53Adee7bbC6Ac",
+          "0xF3b33c02e39ACA9b34ff67bB738A1242f8B1631e",
+          "0xc9c8f2823c788CE9b76596263c00844F70d64e47",
         ],
       },
       {
         chainId: 11155420,
         addresses: ["0x15777E4ce87A213A0C10c0C0e06f4aFF8995e960"],
+      },
+      {
+        chainId: 43113,
+        addresses: [
+          "0x5AfCE7955b532C3e31873A5B1A248ccFD6a29201",
+          "0x453AcCDfB7f63D6c26Fb47a381f53B6047A8ca94",
+        ],
       },
     ] as Array<ContractAddressesConstants>
   }
@@ -37,7 +44,11 @@ export class ContractAddressesConstants {
     return [
       {
         chainId: 421614,
-        addresses: ["0x1e54280A84312bf13E60C0B10195F2411F8C75a8"],
+        addresses: ["0x56F147211d835272B24020B41543B76011d61676"],
+      },
+      {
+        chainId: 43113,
+        addresses: ["0xce441b7f37762eeAC37B9fAb819D4b6479779632"],
       },
     ] as Array<ContractAddressesConstants>
   }
@@ -51,9 +62,9 @@ export class ContractAddressesConstants {
       {
         chainId: 421614,
         addresses: [
-          "0x847eAEDeE2df4C84c29B0A7b50d44599bC45E917",
-          "0x388b2D02bDBc58Fefd4B1927B04746C4bb1ec571",
-          "0x3D1B2Fe2adBAA38FF3C46eABa6a42958707cfeaB",
+          "0x8B78E0Fdd67BC414F631Bb7A241474887cA0a523",
+          "0x67Ea8a6F9854e659C95e1d488e0c1525F6e8A5Fb",
+          "0x72E77fa6789Fe85b7EBD4931e3DB4c4FC974E70A",
         ],
       },
     ] as Array<ContractAddressesConstants>
@@ -109,6 +120,8 @@ export class ContractAddressesConstants {
       }
     }
 
-    throw new Error("No TOFT addresses found for current network")
+    throw new Error(
+      `No TOFT addresses found for current network ${dataSource.network()}`
+    )
   }
 }

@@ -12,7 +12,10 @@ export const ARBITRUM_GOERLI = "arbitrum-goerli"
 export const ARBITRUM_SEPOLIA = "arbitrum-sepolia"
 export const MUMBAI = "mumbai"
 export const FANTOM_TESTNET = "fantom-testnet"
-export const AVALANCHE_FUJI = "fuji"
+
+export const AVALANCHE_TESTNET = "avalanche-testnet" // goldksy
+export const AVALANCHE_FUJI = "fuji" // subgraph
+
 export const SEPOLIA = "sepolia"
 export const OPTIMISM_SEPOLIA = "optimism-sepolia"
 
@@ -35,7 +38,7 @@ export function getNetworkId(network: string): number {
     return 80001
   } else if (network == FANTOM_TESTNET) {
     return 4002
-  } else if (network == AVALANCHE_FUJI) {
+  } else if (network == AVALANCHE_FUJI || network == AVALANCHE_TESTNET) {
     return 43113
   } else if (network == SEPOLIA) {
     return 11155111

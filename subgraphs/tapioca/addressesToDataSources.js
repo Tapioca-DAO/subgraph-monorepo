@@ -6,7 +6,7 @@ const chainIdToName = {
     4002: "fantom-testnet",
     421614: "arbitrum-sepolia",
     11155420: "optimism-sepolia",
-    43113: "fuji"
+    43113: "avalanche-testnet"
 }
 
 program

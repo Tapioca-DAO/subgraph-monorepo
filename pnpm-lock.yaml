@@ -150,11 +150,11 @@ importers:
         specifier: 5.2.2
         version: 5.2.2
 
-  subgraphs/ui:
+  subgraphs/tapioca:
     dependencies:
       '@graphprotocol/graph-cli':
-        specifier: ^0.72.2
-        version: 0.72.2(@types/node@20.5.2)(encoding@0.1.13)(node-fetch@2.7.0(encoding@0.1.13))(typescript@5.2.2)
+        specifier: ^0.73.0
+        version: 0.73.0(@types/node@20.5.2)(encoding@0.1.13)(node-fetch@2.7.0(encoding@0.1.13))(typescript@5.2.2)
       '@graphprotocol/graph-ts':
         specifier: ^0.35.1
         version: 0.35.1
@@ -515,8 +515,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  '@graphprotocol/graph-cli@0.72.2':
-    resolution: {integrity: sha512-JuFFnir8dmfjDM3f8IaJBVZ5M4xf6TTOqj0uDSQZYlVeA6KPMqL3VrD5ogq1UADDB52BRPYULXjxyO01AF3lyw==}
+  '@graphprotocol/graph-cli@0.73.0':
+    resolution: {integrity: sha512-g+EapDRvxhRjMccnUJE8gBRGDIF6mXqtv8g0tzzixVClw/BezBni8QXtXMHs4Gg0G2UnerJJLp5ZQgZqtHWnmg==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -1268,6 +1268,10 @@ packages:
   define-data-property@1.1.1:
     resolution: {integrity: sha512-E7uGkTzkk1d0ByLeSc6ZsFS79Axg+m1P/VsgYsxHgiuc3tFSj+MjMIwe90FC4lOAZzNBdY7kkO2P2wKdsQ1vgQ==}
     engines: {node: '>= 0.4'}
+
+  define-lazy-prop@2.0.0:
+    resolution: {integrity: sha512-Ds09qNh8yw3khSjiJjiUInaGX9xlqZDY7JVryGxdxV7NPeuqQfplOpQ66yJFZut3jLa5zOwkXw1g9EI2uKh4Og==}
+    engines: {node: '>=8'}
 
   define-lazy-prop@3.0.0:
     resolution: {integrity: sha512-N+MeXYoqr3pOgn8xfyRPREN7gHakLYjhsHhWGT3fWAiL4IkAt0iDw14QiiEm2bE30c5XX5q0FtAA3CK5f9/BUg==}
@@ -2465,6 +2469,10 @@ packages:
 
   onetime@6.0.0:
     resolution: {integrity: sha512-1FlR+gjXK7X+AsAHso35MnyN5KqGwJRi/31ft6x0M194ht7S+rWAvd7PHss9xSKMzE0asv1pyIHaJYq+BbacAQ==}
+    engines: {node: '>=12'}
+
+  open@8.4.2:
+    resolution: {integrity: sha512-7x81NCL719oNbsq/3mh+hVrAWmFuEYUqrq/Iw3kUzH8ReypT9QQ0BLoJS7/G9k6N81XjW4qHWtjWwe/9eLy1EQ==}
     engines: {node: '>=12'}
 
   open@9.1.0:
@@ -3694,7 +3702,7 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@graphprotocol/graph-cli@0.72.2(@types/node@20.5.2)(encoding@0.1.13)(node-fetch@2.7.0(encoding@0.1.13))(typescript@5.2.2)':
+  '@graphprotocol/graph-cli@0.73.0(@types/node@20.5.2)(encoding@0.1.13)(node-fetch@2.7.0(encoding@0.1.13))(typescript@5.2.2)':
     dependencies:
       '@float-capital/float-subgraph-uncrashable': 0.0.0-internal-testing.5
       '@oclif/core': 2.8.6(@types/node@20.5.2)(typescript@5.2.2)
@@ -3716,6 +3724,7 @@ snapshots:
       ipfs-http-client: 55.0.0(encoding@0.1.13)(node-fetch@2.7.0(encoding@0.1.13))
       jayson: 4.0.0
       js-yaml: 3.14.1
+      open: 8.4.2
       prettier: 3.0.3
       semver: 7.4.0
       sync-request: 6.1.0
@@ -4678,6 +4687,8 @@ snapshots:
       get-intrinsic: 1.2.2
       gopd: 1.0.1
       has-property-descriptors: 1.0.1
+
+  define-lazy-prop@2.0.0: {}
 
   define-lazy-prop@3.0.0: {}
 
@@ -6059,6 +6070,12 @@ snapshots:
   onetime@6.0.0:
     dependencies:
       mimic-fn: 4.0.0
+
+  open@8.4.2:
+    dependencies:
+      define-lazy-prop: 2.0.0
+      is-docker: 2.2.1
+      is-wsl: 2.2.0
 
   open@9.1.0:
     dependencies:
