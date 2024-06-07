@@ -1,7 +1,20 @@
 {
+  "monorepoWorkspace.folders.custom": [
+    { "regex": "tapioca", "prefix": "🟣" },
+    { "regex": "genesis", "prefix": "🎆" },
+    { "regex": "lz-tracking", "prefix": "⚫" },
+    { "regex": "protocol", "prefix": "🔵" },
+    { "regex": "typescript-config", "prefix": "📦" },
+    { "regex": "eslint-config", "prefix": "📦" },
+    { "regex": "prettier-config", "prefix": "📦" },
+    { "regex": "subgraph-utils", "prefix": "⚙️" },
+  ],
   "eslint.workingDirectories": [
-    {
-      "mode": "auto"
-    }
-  ]
+    "./subgraphs/tapioca",
+    "./subgraphs/genesis",
+    "./subgraphs/lz-tracking",
+    "./subgraphs/protocol",
+    "./packages/subgraph-utils",
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

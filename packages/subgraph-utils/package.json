@@ -1,0 +1,35 @@
+{
+  "name": "subgraph-utils",
+  "version": "0.0.0",
+  "license": "MIT",
+  "exports": "./dist/index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch --onSuccess 'node ./dist/index.js'",
+    "start": "node ./dist/index.js",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --max-warnings 0 --fix",
+    "prettier": "prettier --write 'src/**/*.{ts,tsx,js}'",
+    "typechain:tapioca": "typechain --target=ethers-v6 ../../subgraphs/tapioca/abis/*.json --out-dir ./src/typechain --show-stack-traces"
+  },
+  "dependencies": {
+    "ethers": "^6.13.0",
+    "fs-extra": "^11.2.0"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@typechain/ethers-v6": "^0.5.1",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.11.24",
+    "tsup": "latest",
+    "typechain": "^8.3.2",
+    "typescript": "5.1.6"
+  },
+  "files": [
+    "dist"
+  ]
+}
