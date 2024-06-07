@@ -40,7 +40,7 @@ function putTwTapEpochEntity(epochId: BigInt): TwTapEpoch {
 
 function putTimeWeightedTapiocaEntity(): TimeWeightedTapioca {
   const twTapAddress = Address.fromBytes(
-    Address.fromHexString(dataSource.context().getString("twtap_address"))
+    Address.fromHexString(dataSource.context().getString("twtap_address")),
   )
   const ID = twTapAddress.toHexString()
   let twTapEntity = TimeWeightedTapioca.load(ID)
@@ -50,7 +50,7 @@ function putTimeWeightedTapiocaEntity(): TimeWeightedTapioca {
 
     twTapEntity = new TimeWeightedTapioca(ID)
     twTapEntity.currentEpoch = putTwTapEpochEntity(
-      c_twtap.lastProcessedWeek()
+      c_twtap.lastProcessedWeek(),
     ).id
     twTapEntity.epochDuration = c_twtap.EPOCH_DURATION().toI32()
     twTapEntity.maxLockDuration = c_twtap.MAX_LOCK_DURATION().toU64()
@@ -81,7 +81,7 @@ function putTWTAPEntity(nftId: BigInt): TWTAP {
 
 function putTwTapEpochRewardAmountEntity(
   epochId: BigInt,
-  rewardTokenId: BigInt
+  rewardTokenId: BigInt,
 ): TwTapEpochRewardAmount {
   const ID = epochId.toString() + "-" + rewardTokenId.toString()
   let twTapRewardAmountEntity = TwTapEpochRewardAmount.load(ID)
@@ -115,7 +115,7 @@ export function handleParticipate(event: ParticipateEvent): void {
   twTapLockPositionEntity.tapAmount = event.params.tapAmount
   twTapLockPositionEntity.multiplier = event.params.multiplier
   twTapLockPositionEntity.votingPowerAmount = event.params.multiplier.times(
-    event.params.tapAmount
+    event.params.tapAmount,
   )
   twTapLockPositionEntity.lockTime = event.block.timestamp.toI32()
   twTapLockPositionEntity.lockDuration = event.params.lockDuration.toU64()
@@ -124,7 +124,7 @@ export function handleParticipate(event: ParticipateEvent): void {
     event.block.timestamp
       .plus(event.params.lockDuration)
       .minus(BigInt.fromI32(twBaseEntity.epochesStartTime))
-      .div(BigInt.fromI32(twBaseEntity.epochDuration))
+      .div(BigInt.fromI32(twBaseEntity.epochDuration)),
   ).id
   twTapLockPositionEntity.isExited = false
   twTapLockPositionEntity.lastClaimedTimestamp = 0
@@ -162,7 +162,7 @@ export function handleAdvanceEpoch(event: AdvanceEpochEvent): void {
 export function handleAddRewardToken(event: AddRewardTokenEvent): void {
   const token = putToken(event.params.rewardTokenAddress)
   const twTapRewardTokenEntity = new TwTapRewardToken(
-    event.params.rewardTokenIndex.toString()
+    event.params.rewardTokenIndex.toString(),
   )
   twTapRewardTokenEntity.tokenId = event.params.rewardTokenIndex.toI32()
   twTapRewardTokenEntity.token = token.id
@@ -183,7 +183,7 @@ export function handleSetMinWeightFactor(event: SetMinWeightFactorEvent): void {
 }
 
 export function handleSetVirtualTotalAmount(
-  event: SetVirtualTotalAmountEvent
+  event: SetVirtualTotalAmountEvent,
 ): void {
   const twBaseEntity = putTimeWeightedTapiocaEntity()
   twBaseEntity.virtualTotalAmount = event.params.newVirtualTotalAmount
@@ -216,18 +216,18 @@ export function handleClaimReward(event: ClaimRewardEvent): void {
 export function handleDistributeReward(event: DistributeRewardEvent): void {
   const twBaseEntity = putTimeWeightedTapiocaEntity()
   const currentEpoch = putTwTapEpochEntity(
-    BigInt.fromString(twBaseEntity.currentEpoch)
+    BigInt.fromString(twBaseEntity.currentEpoch),
   )
   currentEpoch.lastDistributedRewardsTimestamp = event.block.timestamp.toI32()
   currentEpoch.save()
 
   const twTapRewardAmountEntity = putTwTapEpochRewardAmountEntity(
     BigInt.fromString(twBaseEntity.currentEpoch),
-    event.params.rewardTokenIndex
+    event.params.rewardTokenIndex,
   )
 
   twTapRewardAmountEntity.amount = twTapRewardAmountEntity.amount.plus(
-    event.params.amount
+    event.params.amount,
   )
 
   twTapRewardAmountEntity.save()

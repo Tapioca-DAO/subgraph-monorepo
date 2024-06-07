@@ -1,9 +1,9 @@
-import { BigInt, Address, dataSource } from "@graphprotocol/graph-ts"
+import { Address, BigInt, dataSource } from "@graphprotocol/graph-ts"
 
-import { ERC20 } from "../../../generated/Penrose/ERC20"
-import { ERC20NameBytes } from "../../../generated/Penrose/ERC20NameBytes"
-import { ERC20SymbolBytes } from "../../../generated/Penrose/ERC20SymbolBytes"
-import { Token, TOFToken } from "../../../generated/schema"
+import { ERC20 } from "../../../generated/TOB/ERC20"
+import { ERC20NameBytes } from "../../../generated/TOB/ERC20NameBytes"
+import { ERC20SymbolBytes } from "../../../generated/TOB/ERC20SymbolBytes"
+import { TOFToken, Token } from "../../../generated/schema"
 import { getNetworkId } from "../networks/definition"
 import { NativeTokenDefinition } from "../networks/nativeTokens"
 import { StaticTokenDefinition } from "./staticTokenDefinition"
@@ -125,7 +125,7 @@ export function putToft(tokenAddress: Address): TOFToken {
 
 export function putNativeToken(): void {
   const tokenAddress = Address.fromHexString(
-    "0x0000000000000000000000000000000000000000"
+    "0x0000000000000000000000000000000000000000",
   )
   let token = Token.load(tokenAddress)
   if (token != null) {

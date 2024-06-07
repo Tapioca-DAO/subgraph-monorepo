@@ -31,7 +31,7 @@ import { putToken } from "./utils/token/token"
 function putEpochEntity(
   epochId: BigInt,
   epochTAPAmount: BigInt,
-  epochTAPValuation: BigInt
+  epochTAPValuation: BigInt,
 ): TapiocaOptionBrokerEpoch {
   const tobEntity = new TapiocaOptionBrokerEpoch(epochId.toString())
 
@@ -45,7 +45,7 @@ function putEpochEntity(
 
 export function putTobEntity(): TapiocaOptionBroker {
   const tobAddress = Address.fromBytes(
-    Address.fromHexString(dataSource.context().getString("tob_address"))
+    Address.fromHexString(dataSource.context().getString("tob_address")),
   )
   let tobEntity = TapiocaOptionBroker.load(tobAddress)
 
@@ -59,7 +59,7 @@ export function putTobEntity(): TapiocaOptionBroker {
     tobEntity.currentEpoch = putEpochEntity(
       BigInt.fromU32(0),
       BigInt.fromI32(0),
-      BigInt.fromI32(0)
+      BigInt.fromI32(0),
     ).id
     tobEntity.save()
   }
@@ -70,7 +70,7 @@ export function putTobEntity(): TapiocaOptionBroker {
 function putPaymentToken(
   tokenId: Bytes,
   oracleAddress: Address,
-  oracleData: Bytes
+  oracleData: Bytes,
 ): TapiocaOptionBrokerPaymentToken {
   let paymentTokenEntity = TapiocaOptionBrokerPaymentToken.load(tokenId)
 
@@ -94,7 +94,7 @@ export function handleSetPaymentToken(event: SetPaymentTokenEvent): void {
   const paymentToken = putPaymentToken(
     token.id,
     event.params.oracle,
-    event.params.oracleData
+    event.params.oracleData,
   )
 
   tobEntity.paymentTokens.push(paymentToken.id)
@@ -108,7 +108,7 @@ export function handleNewEpoch(event: NewEpochEvent): void {
   tobEntity.currentEpoch = putEpochEntity(
     event.params.epoch,
     event.params.extractedTap,
-    event.params.epochTapValuation
+    event.params.epochTapValuation,
   ).id
 
   tobEntity.save()
@@ -125,7 +125,7 @@ export function handleNewEpoch(event: NewEpochEvent): void {
       tapiocaOptionLiquidityProvision.singularityPools[i]
 
     const singularityPool = getTolpSingularityPool(
-      BigInt.fromString(singularityPoolsId)
+      BigInt.fromString(singularityPoolsId),
     )
 
     // Calculates floor(x * y / denominator) with full precision. Throws if result overflows a uint256 or denominator == 0
@@ -182,7 +182,7 @@ export function handleExerciseOption(event: ExerciseOptionEvent): void {
     otapParticipateEntity.exercisedTap = event.params.tapAmount
   } else {
     otapParticipateEntity.exercisedTap = event.params.tapAmount.plus(
-      otapParticipateEntity.exercisedTap as BigInt
+      otapParticipateEntity.exercisedTap as BigInt,
     )
   }
 

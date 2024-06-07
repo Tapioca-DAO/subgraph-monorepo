@@ -21,7 +21,7 @@ export function handlePeerSet(event: PeerSetEvent): void {
   }
 
   const staticTokenDefinition = StaticChainIdDefinition.fromLzChainId(
-    event.params.eid.toI32()
+    event.params.eid.toI32(),
   )
   if (staticTokenDefinition == null) {
     log.error("Unsupported network with LZ ID {} found. Skipping.", [
@@ -30,7 +30,7 @@ export function handlePeerSet(event: PeerSetEvent): void {
     return
   }
   const remoteToftMetaEntityId = Bytes.fromHexString(
-    event.params.eid.toString() + "-" + event.address.toHexString()
+    event.params.eid.toString() + "-" + event.address.toHexString(),
   )
   let remoteToftMetaEntity = RemoteTOFTMeta.load(remoteToftMetaEntityId)
   if (remoteToftMetaEntity == null) {
@@ -49,12 +49,12 @@ export function handlePeerSet(event: PeerSetEvent): void {
 }
 
 export function handleOwnershipTransferred(
-  event: OwnershipTransferredEvent
+  event: OwnershipTransferredEvent,
 ): void {
   const toftEntity = putToft(event.address)
 
   const currentNetworkInfo = StaticChainIdDefinition.fromChainId(
-    getNetworkId(dataSource.network())
+    getNetworkId(dataSource.network()),
   )
   if (currentNetworkInfo == null) {
     throw new Error("Unsupported network found.")
@@ -69,7 +69,7 @@ export function handleOwnershipTransferred(
     if (
       !BigInt.compare(
         BigInt.fromI32(currentNetworkInfo.lzChainId as i32),
-        result.value
+        result.value,
       )
     ) {
       const erc20Result = c_toft.try_erc20()

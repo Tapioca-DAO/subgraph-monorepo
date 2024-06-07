@@ -121,7 +121,7 @@ export class ContractAddressesConstants {
     }
 
     throw new Error(
-      `No TOFT addresses found for current network ${dataSource.network()}`
+      `No TOFT addresses found for current network ${dataSource.network()}`,
     )
   }
 }

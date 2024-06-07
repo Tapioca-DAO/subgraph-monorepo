@@ -1,11 +1,11 @@
 import { Address, dataSource, ethereum, log } from "@graphprotocol/graph-ts"
 
-import {
-  Singularity,
-  OwnershipTransferred as OwnershipTransferredEvent,
-} from "../generated/Penrose/Singularity"
 import { Market } from "../generated/schema"
 import { Markets, TOFT } from "../generated/templates"
+import {
+  OwnershipTransferred as OwnershipTransferredEvent,
+  Singularity,
+} from "../generated/templates/Markets/Singularity"
 import { ContractAddressesConstants } from "./_CONSTANTS"
 import { ZERO_ADDRESS_STRING } from "./utils/helper"
 import { getNetworkId } from "./utils/networks/definition"
@@ -17,7 +17,7 @@ namespace MarketType {
 }
 
 export function handleOwnershipTransferred(
-  event: OwnershipTransferredEvent
+  event: OwnershipTransferredEvent,
 ): void {
   let entity = Market.load(event.address)
   if (entity != null) {
@@ -61,7 +61,7 @@ export function handleOwnershipTransferred(
   }
 
   const collateralTokenToftEntity = putToft(
-    Address.fromBytes(entity.collateralToken)
+    Address.fromBytes(entity.collateralToken),
   )
 
   if (collateralTokenToftEntity != null) {

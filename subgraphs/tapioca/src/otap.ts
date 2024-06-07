@@ -6,12 +6,12 @@ import { ZERO_ADDRESS_STRING } from "./utils/helper"
 
 export function putOTAPEntity(nftId: BigInt): OTAP {
   let tobEntity = OTAP.load(
-    Bytes.fromHexString(Bytes.fromBigInt(nftId).toHexString())
+    Bytes.fromHexString(Bytes.fromBigInt(nftId).toHexString()),
   )
 
   if (tobEntity == null) {
     tobEntity = new OTAP(
-      Bytes.fromHexString(Bytes.fromBigInt(nftId).toHexString())
+      Bytes.fromHexString(Bytes.fromBigInt(nftId).toHexString()),
     )
     tobEntity.nftId = nftId
     tobEntity.owner = ZERO_ADDRESS_STRING

@@ -27,12 +27,12 @@ import { ZERO_ADDRESS_STRING } from "./utils/helper"
 
 export function putTOLPEntity(nftId: BigInt): TOLP {
   let tolpEntity = TOLP.load(
-    Bytes.fromHexString(Bytes.fromBigInt(nftId).toHexString())
+    Bytes.fromHexString(Bytes.fromBigInt(nftId).toHexString()),
   )
 
   if (tolpEntity == null) {
     tolpEntity = new TOLP(
-      Bytes.fromHexString(Bytes.fromBigInt(nftId).toHexString())
+      Bytes.fromHexString(Bytes.fromBigInt(nftId).toHexString()),
     )
     tolpEntity.nftId = nftId
     tolpEntity.owner = ZERO_ADDRESS_STRING
@@ -44,7 +44,7 @@ export function putTOLPEntity(nftId: BigInt): TOLP {
 
 export function putTapiocaOptionLiquidityProvisionEntity(): TapiocaOptionLiquidityProvision {
   const tolpAddress = Address.fromHexString(
-    dataSource.context().getString("tolp_address")
+    dataSource.context().getString("tolp_address"),
   )
   let tolpEntity = TapiocaOptionLiquidityProvision.load(tolpAddress)
 
@@ -61,7 +61,7 @@ export function putTapiocaOptionLiquidityProvisionEntity(): TapiocaOptionLiquidi
 export function putTolpSingularityPool(
   sglAssetId: BigInt,
   sglAddress: Address,
-  weight: BigInt
+  weight: BigInt,
 ): TolpSingularityPool {
   let tolpSglPoolEntity = TolpSingularityPool.load(sglAssetId.toString())
 
@@ -88,7 +88,7 @@ export function putTolpSingularityPool(
 }
 
 export function getTolpSingularityPool(
-  sglAssetId: BigInt
+  sglAssetId: BigInt,
 ): TolpSingularityPool {
   const tolpSglPoolEntity = TolpSingularityPool.load(sglAssetId.toString())
 
@@ -101,17 +101,17 @@ export function getTolpSingularityPool(
 
 // We need to know who is the owner of the NFT
 export function handleRegisterSingularity(
-  event: RegisterSingularityEvent
+  event: RegisterSingularityEvent,
 ): void {
   putTolpSingularityPool(
     event.params.sglAssetId,
     event.params.sglAddress,
-    event.params.poolWeight
+    event.params.poolWeight,
   )
 }
 
 export function handleUnregisterSingularity(
-  event: UnregisterSingularityEvent
+  event: UnregisterSingularityEvent,
 ): void {
   const tolpSglPoolEntityId = event.params.sglAssetId.toString()
   const tolpEntity = putTapiocaOptionLiquidityProvisionEntity()
@@ -134,10 +134,10 @@ export function handleUnregisterSingularity(
 }
 
 export function handleActivateSGLPoolRescue(
-  event: ActivateSGLPoolRescueEvent
+  event: ActivateSGLPoolRescueEvent,
 ): void {
   const tolpSingularityPoolEntity = getTolpSingularityPool(
-    event.params.sglAssetId
+    event.params.sglAssetId,
   )
   tolpSingularityPoolEntity.isInRescueMode = true
   tolpSingularityPoolEntity.save()
@@ -145,14 +145,14 @@ export function handleActivateSGLPoolRescue(
 
 export function handleSetSGLPoolWeight(event: SetSGLPoolWeightEvent): void {
   const tolpSingularityPoolEntity = getTolpSingularityPool(
-    event.params.sglAssetId
+    event.params.sglAssetId,
   )
   tolpSingularityPoolEntity.poolWeight = event.params.poolWeight
   tolpSingularityPoolEntity.save()
 }
 
 export function handleUpdateTotalSingularityPoolWeights(
-  event: UpdateTotalSingularityPoolWeightsEvent
+  event: UpdateTotalSingularityPoolWeightsEvent,
 ): void {
   const tolpEntity = putTapiocaOptionLiquidityProvisionEntity()
   tolpEntity.totalSingularityPoolWeights =
@@ -185,7 +185,7 @@ export function handleMint(event: MintEvent): void {
   tolpLockPositionEntity.tolp = tolpEntity.id
   tolpLockPositionEntity.lockedAtEpoch = putTobEntity().currentEpoch
   tolpLockPositionEntity.tolpSingularityPool = getTolpSingularityPool(
-    event.params.sglAssetId
+    event.params.sglAssetId,
   ).id
   tolpLockPositionEntity.save()
 
@@ -196,7 +196,7 @@ export function handleMint(event: MintEvent): void {
   const tolpSglPoolEntity = getTolpSingularityPool(event.params.sglAssetId)
 
   tolpSglPoolEntity.totalDeposited = tolpSglPoolEntity.totalDeposited.plus(
-    event.params.ybShares
+    event.params.ybShares,
   )
 
   tolpSglPoolEntity.save()
@@ -223,7 +223,7 @@ export function handleBurn(event: BurnEvent): void {
   const tolpSglPoolEntity = getTolpSingularityPool(event.params.sglAssetId)
 
   tolpSglPoolEntity.totalDeposited = tolpSglPoolEntity.totalDeposited.minus(
-    tolpLockPositionEntity.ybShares
+    tolpLockPositionEntity.ybShares,
   )
 
   tolpSglPoolEntity.save()

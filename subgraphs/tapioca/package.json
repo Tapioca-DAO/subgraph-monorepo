@@ -9,20 +9,20 @@
     "deploy:gs": "bash _scripts/deploy.goldsky.sh",
     "tag:create": "bash _scripts/tag.goldsky.sh",
     "tag:delete": "bash _scripts/deletetag.goldsky.sh",
-    "prepare:addresses": "node addressesToDataSources.js"
+    "prepare:addresses": "node addressesToDataSources.js",
+    "prettier": "prettier --write 'src/**/*.{ts,tsx,js}'"
   },
   "dependencies": {
-    "@graphprotocol/graph-cli": "^0.73.0",
-    "@graphprotocol/graph-ts": "^0.35.1"
+    "@graphprotocol/graph-cli": "^0.73.0"
   },
   "devDependencies": {
+    "@graphprotocol/graph-ts": "^0.35.1",
     "@repo/eslint-config": "workspace:*",
-    "@repo/prettier-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "commander": "^12.0.0",
     "fs-extra": "^11.2.0",
     "matchstick-as": "^0.6.0",
-    "typescript": "5.2.2",
-    "yaml": "^2.4.1"
+    "yaml": "^2.4.1",
+    "typescript": "5.1.6"
   }
 }
