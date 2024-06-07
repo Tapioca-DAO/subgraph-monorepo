@@ -7,7 +7,7 @@ import { BASIS_POINT } from "./constants"
 
 export function handleParticipate(event: ParticipateEvent): void {
   const aotapAddress = Address.fromBytes(
-    Address.fromHexString(dataSource.context().getString("aotap_address"))
+    Address.fromHexString(dataSource.context().getString("aotap_address")),
   )
 
   const c_aotap = AOTAP.bind(aotapAddress)
@@ -16,14 +16,14 @@ export function handleParticipate(event: ParticipateEvent): void {
     event.transaction.hash
       .toHexString()
       .concat("-")
-      .concat(event.logIndex.toString())
+      .concat(event.logIndex.toString()),
   )
 
   const attributes = c_aotap.try_attributes(event.params.aoTAPTokenID)
 
   if (attributes.reverted) {
     throw new Error(
-      `Failed to get attributes of aoTAPTokenID ${event.params.aoTAPTokenID.toString()}`
+      `Failed to get attributes of aoTAPTokenID ${event.params.aoTAPTokenID.toString()}`,
     )
   }
 

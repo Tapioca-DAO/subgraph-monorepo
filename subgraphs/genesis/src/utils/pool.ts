@@ -11,7 +11,7 @@ export const putPool = (rawPoolId: Bytes): string => {
     pool = new Pool(rawPoolId.toHexString())
 
     const vaultAddress = Address.fromBytes(
-      Address.fromHexString(dataSource.context().getString("vault_address"))
+      Address.fromHexString(dataSource.context().getString("vault_address")),
     )
     const c_vault = Vault.bind(vaultAddress)
 
@@ -41,7 +41,7 @@ export const putPool = (rawPoolId: Bytes): string => {
 
 export const createPostSwapPool = (
   rawPoolId: Bytes,
-  blockTimestampUnix: BigInt
+  blockTimestampUnix: BigInt,
 ): string | null => {
   const poolId = rawPoolId.toHexString()
   const pool = Pool.load(poolId)

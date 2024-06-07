@@ -19,7 +19,7 @@ export function handleTransfer(event: TransferEvent): void {
   putUserTokenBalance(
     event.address,
     event.params.value.neg(),
-    event.params.from
+    event.params.from,
   )
   putUserTokenBalance(event.address, event.params.value, event.params.to)
 }

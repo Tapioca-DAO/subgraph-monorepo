@@ -9,7 +9,8 @@
     "deploy:gs": "bash _scripts/deploy.goldsky.sh",
     "tag:create": "bash _scripts/tag.goldsky.sh",
     "tag:delete": "bash _scripts/deletetag.goldsky.sh",
-    "prepare:addresses": "node addressesToDataSources.js"
+    "prepare:addresses": "node addressesToDataSources.js",
+    "prettier": "prettier --write 'src/**/*.{ts,tsx,js}'"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "^0.62.0",

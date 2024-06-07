@@ -7,7 +7,7 @@ import { Pool, PoolWeights } from "../generated/schema"
 import { createPostSwapPool, putPool } from "./utils/pool"
 
 export function handleGradualWeightUpdateScheduled(
-  event: GradualWeightUpdateScheduledEvent
+  event: GradualWeightUpdateScheduledEvent,
 ): void {
   const c_lbp = LBP.bind(event.address)
 

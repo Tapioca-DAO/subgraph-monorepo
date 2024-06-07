@@ -25,14 +25,14 @@ export function handleSwap(event: SwapEvent): void {
   const tokenInBalance = putBalance(
     event.params.poolId.toHexString(),
     event.params.tokenIn,
-    event.params.amountIn
+    event.params.amountIn,
   )
   updatePoolBalanceFiveMinuteData(event, tokenInBalance)
 
   const tokenOutBalance = putBalance(
     event.params.poolId.toHexString(),
     event.params.tokenOut,
-    event.params.amountOut.neg()
+    event.params.amountOut.neg(),
   )
 
   updatePoolBalanceFiveMinuteData(event, tokenOutBalance)

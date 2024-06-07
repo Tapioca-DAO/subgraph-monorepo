@@ -6,15 +6,15 @@ import { putToken } from "./token/token"
 export const putBalance = (
   poolId: string,
   token: Address,
-  delta: BigInt
+  delta: BigInt,
 ): PoolBalance => {
   const entity = PoolBalance.load(
-    poolId.concat("-").concat(token.toHexString())
+    poolId.concat("-").concat(token.toHexString()),
   )
 
   if (entity === null) {
     const entity = new PoolBalance(
-      poolId.concat("-").concat(token.toHexString())
+      poolId.concat("-").concat(token.toHexString()),
     )
 
     entity.token = putToken(token).id
@@ -31,7 +31,7 @@ export const putBalance = (
 
 export function updatePoolBalanceFiveMinuteData(
   event: ethereum.Event,
-  updatedPoolBalance: PoolBalance
+  updatedPoolBalance: PoolBalance,
 ): PoolBalanceFiveMinuteData {
   const timestamp = event.block.timestamp.toI32()
   const fiveMinuteIndex = timestamp / 300 // get unique hour within unix history
@@ -40,12 +40,12 @@ export function updatePoolBalanceFiveMinuteData(
     .concat("-")
     .concat(fiveMinuteIndex.toString())
   let poolBalanceFiveMinuteData = PoolBalanceFiveMinuteData.load(
-    poolBalanceFiveMinuteID
+    poolBalanceFiveMinuteID,
   )
 
   if (poolBalanceFiveMinuteData === null) {
     poolBalanceFiveMinuteData = new PoolBalanceFiveMinuteData(
-      poolBalanceFiveMinuteID
+      poolBalanceFiveMinuteID,
     )
 
     poolBalanceFiveMinuteData.periodStartUnix = fiveMinuteStartUnix
