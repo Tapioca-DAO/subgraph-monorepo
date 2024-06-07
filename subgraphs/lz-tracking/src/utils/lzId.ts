@@ -8,7 +8,7 @@ export function lzId(
   sourceAddress: string,
   destinationChainId: number,
   destinationAddress: string,
-  nonce: GPBigInt
+  nonce: GPBigInt,
 ): Bytes {
   return Bytes.fromI32(sourceChainId as i32)
     .concat(Bytes.fromHexString(sourceAddress))

@@ -1,5 +1,5 @@
 {
   "extends": "@repo/typescript-config/subgraph.json",
-  "include": ["src", "tests"],
-  "exclude": ["node_modules", "build", "generated"]
+  "include": ["src", "tests", "generated"],
+  "exclude": ["node_modules", "build"]
 }

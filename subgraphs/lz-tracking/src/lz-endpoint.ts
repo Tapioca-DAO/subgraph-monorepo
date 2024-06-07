@@ -17,7 +17,7 @@ export function handlePayloadCleared(event: PayloadClearedEvent): void {
     event.params.srcAddress.toHexString(),
     LzNetworkInfo.currentChain().lzChainId as i32,
     event.params.dstAddress.toHexString(),
-    event.params.nonce
+    event.params.nonce,
   )
 
   const entity = Receive.load(id)
@@ -44,7 +44,7 @@ export function handlePayloadStored(event: PayloadStoredEvent): void {
     event.params.srcAddress.toHexString().substring(0, 42),
     LzNetworkInfo.currentChain().lzChainId as i32,
     event.params.dstAddress.toHexString(),
-    event.params.nonce
+    event.params.nonce,
   )
 
   const entity = Receive.load(id)

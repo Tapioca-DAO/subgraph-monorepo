@@ -18,8 +18,8 @@ export class DeflatedPacket {
       .decode(
         "uint64",
         Bytes.fromHexString(
-          "0x" + this._packetPayload.substring(2, 18).padStart(64, "0")
-        )
+          "0x" + this._packetPayload.substring(2, 18).padStart(64, "0"),
+        ),
       )!
       .toBigInt()
   }
@@ -29,8 +29,8 @@ export class DeflatedPacket {
       .decode(
         "uint16",
         Bytes.fromHexString(
-          "0x" + this._packetPayload.substring(18, 22).padStart(64, "0")
-        )
+          "0x" + this._packetPayload.substring(18, 22).padStart(64, "0"),
+        ),
       )!
       .toI32()
   }
@@ -40,8 +40,8 @@ export class DeflatedPacket {
       .decode(
         "address",
         Bytes.fromHexString(
-          "0x" + this._packetPayload.substring(22, 62).padStart(64, "0")
-        )
+          "0x" + this._packetPayload.substring(22, 62).padStart(64, "0"),
+        ),
       )!
       .toAddress()
   }
@@ -51,8 +51,8 @@ export class DeflatedPacket {
       .decode(
         "uint16",
         Bytes.fromHexString(
-          "0x" + this._packetPayload.substring(62, 66).padStart(64, "0")
-        )
+          "0x" + this._packetPayload.substring(62, 66).padStart(64, "0"),
+        ),
       )!
       .toI32()
   }
@@ -62,8 +62,8 @@ export class DeflatedPacket {
       .decode(
         "address",
         Bytes.fromHexString(
-          "0x" + this._packetPayload.substring(66, 106).padStart(64, "0")
-        )
+          "0x" + this._packetPayload.substring(66, 106).padStart(64, "0"),
+        ),
       )!
       .toAddress()
   }

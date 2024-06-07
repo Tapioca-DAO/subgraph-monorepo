@@ -16,7 +16,7 @@ export function handleMessageFailed(event: MessageFailedEvent): void {
     event.params._srcAddress.toHexString().substring(0, 42),
     LzNetworkInfo.currentChain().lzChainId as i32,
     event.address.toHexString(),
-    event.params._nonce
+    event.params._nonce,
   )
 
   const entity = Receive.load(id)
@@ -39,14 +39,14 @@ export function handleMessageFailed(event: MessageFailedEvent): void {
 }
 
 export function handleRetryMessageSuccess(
-  event: RetryMessageSuccessEvent
+  event: RetryMessageSuccessEvent,
 ): void {
   const id = lzId(
     event.params._srcChainId,
     event.params._srcAddress.toHexString().substring(0, 42),
     LzNetworkInfo.currentChain().lzChainId as i32,
     event.address.toHexString(),
-    event.params._nonce
+    event.params._nonce,
   )
 
   const entity = Receive.load(id)

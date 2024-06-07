@@ -24,12 +24,12 @@ export function handlePacket(event: PacketEvent): void {
   entity.srcLzChainId = packet.srcChainId
   entity.srcChainId = LzNetworkInfo.chainFromLz(
     packet.srcChainId,
-    event.transaction.hash.toHexString()
+    event.transaction.hash.toHexString(),
   ).chainId as i32
   entity.dstLzChainId = packet.dstChainId
   entity.dstChainId = LzNetworkInfo.chainFromLz(
     packet.dstChainId,
-    event.transaction.hash.toHexString()
+    event.transaction.hash.toHexString(),
   ).chainId as i32
 
   entity.blockNumber = event.block.number
@@ -41,7 +41,7 @@ export function handlePacket(event: PacketEvent): void {
     entity.srcAddress,
     entity.dstLzChainId,
     entity.dstAddress,
-    entity.nonce
+    entity.nonce,
   )
 
   entity.save()
@@ -56,14 +56,14 @@ export function handlePacketReceived(event: PacketReceivedEvent): void {
   entity.srcLzChainId = event.params.srcChainId
   entity.srcChainId = LzNetworkInfo.chainFromLz(
     event.params.srcChainId,
-    event.transaction.hash.toHexString()
+    event.transaction.hash.toHexString(),
   ).chainId as i32
   entity.srcAddress = event.params.srcAddress.toHexString()
   entity.dstAddress = event.params.dstAddress.toHexString()
   entity.dstLzChainId = LzNetworkInfo.currentChain().lzChainId as i32
   entity.dstChainId = LzNetworkInfo.chainFromLz(
     entity.dstLzChainId,
-    event.transaction.hash.toHexString()
+    event.transaction.hash.toHexString(),
   ).chainId as i32
 
   entity.nonce = event.params.nonce
@@ -81,7 +81,7 @@ export function handlePacketReceived(event: PacketReceivedEvent): void {
     entity.srcAddress,
     entity.dstLzChainId,
     entity.dstAddress,
-    entity.nonce
+    entity.nonce,
   )
 
   entity.save()
