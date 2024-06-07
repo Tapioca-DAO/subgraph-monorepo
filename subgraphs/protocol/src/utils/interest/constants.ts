@@ -11,11 +11,11 @@ export const DAY_IN_SECONDS = 24 * HOUR_IN_SECONDS
 // MEDIUM RISK PAIR CONFIGURATION
 // https://github.com/Tapioca-DAO/YieldBox/blob/dba08de54cf50d8e8c479dcc4441dd49b2905080/contracts/samples/lending/Lending.sol#L79
 export const MINIMUM_TARGET_UTILIZATION = BigInt.fromI32(7).times(
-  BigInt.fromI32(10).pow(17)
+  BigInt.fromI32(10).pow(17),
 ) // 70%
 // https://github.com/Tapioca-DAO/YieldBox/blob/dba08de54cf50d8e8c479dcc4441dd49b2905080/contracts/samples/lending/Lending.sol#L80
 export const MAXIMUM_TARGET_UTILIZATION = BigInt.fromI32(8).times(
-  BigInt.fromI32(10).pow(17)
+  BigInt.fromI32(10).pow(17),
 ) // 80%
 // https://github.com/Tapioca-DAO/YieldBox/blob/dba08de54cf50d8e8c479dcc4441dd49b2905080/contracts/samples/lending/Lending.sol#L81
 export const UTILIZATION_PRECISION = BigInt.fromI32(10).pow(18)
@@ -23,12 +23,12 @@ export const UTILIZATION_PRECISION = BigInt.fromI32(10).pow(18)
 export const FULL_UTILIZATION = BigInt.fromI32(10).pow(18)
 // https://github.com/Tapioca-DAO/YieldBox/blob/dba08de54cf50d8e8c479dcc4441dd49b2905080/contracts/samples/lending/Lending.sol#L83
 export const FULL_UTILIZATION_MINUS_MAX = FULL_UTILIZATION.minus(
-  MAXIMUM_TARGET_UTILIZATION
+  MAXIMUM_TARGET_UTILIZATION,
 )
 
 // https://github.com/Tapioca-DAO/YieldBox/blob/dba08de54cf50d8e8c479dcc4441dd49b2905080/contracts/samples/lending/Lending.sol#L89
 export const INTEREST_ELASTICITY = BigInt.fromString(
-  "28800000000000000000000000000000000000000"
+  "28800000000000000000000000000000000000000",
 ) // Half or double in 28800 seconds (8 hours) if linear
 
 export const FACTOR_PRECISION = BigInt.fromString("1000000000000000000")
@@ -66,5 +66,5 @@ export const MINIMUM_INTEREST_PER_YEAR = BigInt.fromI32(79274480)
 
 // https://github.com/Tapioca-DAO/YieldBox/blob/dba08de54cf50d8e8c479dcc4441dd49b2905080/contracts/samples/lending/Lending.sol#L88
 export const MAXIMUM_INTEREST_PER_YEAR = STARTING_INTEREST_PER_YEAR.times(
-  BigInt.fromI32(1000)
+  BigInt.fromI32(1000),
 )

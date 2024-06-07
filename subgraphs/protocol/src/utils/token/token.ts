@@ -107,7 +107,7 @@ export function putToken(tokenAddress: Address): Token {
 export function putToft(
   tokenAddress: Address,
   isUSDO: boolean,
-  underlyingAddress: Address | null = null
+  underlyingAddress: Address | null = null,
 ): TOFToken {
   let toftEntity = TOFToken.load(tokenAddress.toHexString())
 

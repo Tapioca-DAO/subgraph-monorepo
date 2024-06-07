@@ -19,7 +19,7 @@ import { getTapiocaProtocol } from "../protocol/protocol"
 // this is a secondary option since not every market's price oracle "peekSpot()" will work
 export function updateAllTokenPrices(
   blockNumber: BigInt,
-  timestamp: BigInt
+  timestamp: BigInt,
 ): void {
   const protocol = getTapiocaProtocol()
   const ms = protocol.marketIds
@@ -39,11 +39,11 @@ export function updateAllTokenPrices(
     if (borrowToft.isUSDO) {
       updateTokenPrice(
         BigInt.fromI32(1).times(
-          BigInt.fromI32(10).pow(borrowToftToken.decimals.toI32() as u8)
+          BigInt.fromI32(10).pow(borrowToftToken.decimals.toI32() as u8),
         ),
         borrowToftToken,
         blockNumber,
-        timestamp
+        timestamp,
       )
     }
 
@@ -59,17 +59,17 @@ export function updateAllTokenPrices(
     }
 
     const marketPriceOracle = MarketOracle.bind(
-      Address.fromBytes(market.oracleAddress)
+      Address.fromBytes(market.oracleAddress),
     )
 
     // get exchange rate for input token
     const exchangeRateCall = marketPriceOracle.try_peekSpot(
-      Bytes.fromHexString("0x00")
+      Bytes.fromHexString("0x00"),
     )
     if (exchangeRateCall.reverted || exchangeRateCall.value == BIGINT_ZERO) {
       log.warning(
         "[updateAllTokenPrices] Market {} priceOracle peekSpot() failed",
-        [market.id]
+        [market.id],
       )
       continue
     }
@@ -78,7 +78,7 @@ export function updateAllTokenPrices(
       exchangeRateCall.value,
       collateralToftToken,
       blockNumber,
-      timestamp
+      timestamp,
     )
   }
 }
@@ -89,12 +89,12 @@ export function updateTokenPrice(
   rate: BigInt,
   token: Token,
   blockNumber: BigInt,
-  timestamp: BigInt
+  timestamp: BigInt,
 ): void {
   let priceUSD = BIGDECIMAL_ZERO
   if (rate != BIGINT_ZERO) {
     priceUSD = BIGDECIMAL_ONE.div(
-      bigIntToBigDecimal(rate, token.decimals.toI32())
+      bigIntToBigDecimal(rate, token.decimals.toI32()),
     )
   }
 

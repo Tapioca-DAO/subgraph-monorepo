@@ -29,7 +29,7 @@ class RebaseManagerImpl {
     blockNumber: BigInt,
     timestamp: BigInt,
     totalsElastic: BigInt | null = null,
-    totalsBase: BigInt | null = null
+    totalsBase: BigInt | null = null,
   ): Rebase {
     let rebase = Rebase.load(id)
 
@@ -82,7 +82,7 @@ class RebaseFetcherImpl {
 
   ybAssetTotals(ybTokenId: BigInt): YbAssetTotals {
     const contract = YieldBox.bind(
-      Address.fromBytes(YieldBoxManager.getOrCreate().yieldBoxAddress)
+      Address.fromBytes(YieldBoxManager.getOrCreate().yieldBoxAddress),
     )
     const totals = contract.try_assetTotals(ybTokenId)
 
@@ -159,7 +159,7 @@ class RebaseUtilsImpl {
     total: Rebase,
     shares: BigInt,
     roundUp: boolean = false,
-    tokenType: string = TokenType.ERC20
+    tokenType: string = TokenType.ERC20,
   ): BigInt {
     // TODO add actual token types
     if (tokenType === TokenType.Native || tokenType === TokenType.ERC721) {
@@ -183,7 +183,7 @@ class RebaseUtilsImpl {
     total: Rebase,
     amount: BigInt,
     roundUp: boolean = false,
-    tokenType: string = TokenType.ERC20
+    tokenType: string = TokenType.ERC20,
   ): BigInt {
     // TODO add actual token types
     if (tokenType === TokenType.Native || tokenType === TokenType.ERC721) {

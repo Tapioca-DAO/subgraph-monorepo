@@ -12,7 +12,7 @@ export function getTapiocaProtocol(): TapiocaProtocol {
 }
 
 export function createTapiocaProtocol(
-  penroseAddress: Address = ZERO_ADDRESS
+  penroseAddress: Address = ZERO_ADDRESS,
 ): TapiocaProtocol {
   let protocol = TapiocaProtocol.load(TAPIOCA_PROTOCOL_ID)
   if (protocol) {

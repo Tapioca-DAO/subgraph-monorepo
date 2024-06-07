@@ -30,7 +30,7 @@ import { MarketRebaseType, RebaseManager } from "./utils/rebase/rebase"
 import { getToken } from "./utils/token/token"
 
 export function handleRegisterSingularity(
-  event: RegisterSingularityEvent
+  event: RegisterSingularityEvent,
 ): void {
   if (!StaticMarketFilter.isPermittedSGL(event.params.location)) {
     return
@@ -50,7 +50,7 @@ export function handleRegisterSingularity(
       [
         singularityContract.asset().toHexString(),
         singularityContract.collateral().toHexString(),
-      ]
+      ],
     )
     return
   }
@@ -82,56 +82,56 @@ export function handleRegisterSingularity(
     event.params.location.toHexString(),
     InterestRateSide.LENDER,
     InterestRateType.STABLE,
-    STARTING_INTEREST_PER_YEAR
+    STARTING_INTEREST_PER_YEAR,
   ).id
   marketEntity.borrowInterest = InterestRateManager.getOrCreateInterestRate(
     event.params.location.toHexString(),
     InterestRateSide.BORROW,
-    InterestRateType.STABLE
+    InterestRateType.STABLE,
   ).id
   marketEntity.collateralInterest = InterestRateManager.getOrCreateInterestRate(
     event.params.location.toHexString(),
     InterestRateSide.COLLATERAL_PROVIDER,
-    InterestRateType.STABLE
+    InterestRateType.STABLE,
   ).id
   marketEntity.utilization = BigInt.fromU32(0)
 
   marketEntity.accrueInfo = MarketAccrueInfoManager.createMarketAccrueInfo(
-    event.params.location.toHexString()
+    event.params.location.toHexString(),
   ).id
 
   marketEntity._totalCollateralShare = BIGINT_ZERO
   marketEntity._totalAsset = RebaseManager.getOrCreateRebase(
     RebaseManager.marketId(
       event.params.location.toHexString(),
-      MarketRebaseType.SUPPLY
+      MarketRebaseType.SUPPLY,
     ),
     borrowToken.id,
     event.block.number,
-    event.block.timestamp
+    event.block.timestamp,
   ).id
   marketEntity._totalBorrow = RebaseManager.getOrCreateRebase(
     RebaseManager.marketId(
       event.params.location.toHexString(),
-      MarketRebaseType.BORROW
+      MarketRebaseType.BORROW,
     ),
     borrowToken.id,
     event.block.number,
-    event.block.timestamp
+    event.block.timestamp,
   ).id
 
   marketEntity._ybTotalAsset = RebaseManager.getOrCreateRebase(
     RebaseManager.ybId(marketEntity._borrowTokenYieldBoxId),
     borrowToken.id,
     event.block.number,
-    event.block.timestamp
+    event.block.timestamp,
   ).id
 
   marketEntity._ybTotalCollateralAsset = RebaseManager.getOrCreateRebase(
     RebaseManager.ybId(marketEntity._collateralTokenYieldBoxId),
     collateralToken.id,
     event.block.number,
-    event.block.timestamp
+    event.block.timestamp,
   ).id
 
   marketEntity.save()
@@ -160,7 +160,7 @@ export function handleRegisterBigBang(event: RegisterBigBangEvent): void {
   if (borrowToft == null || collateralToft == null) {
     log.error(
       "Market: TOFTs not found for borrowToken {} or collateralToken {}",
-      [contract.asset().toHexString(), contract.collateral().toHexString()]
+      [contract.asset().toHexString(), contract.collateral().toHexString()],
     )
     return
   }
@@ -185,7 +185,7 @@ export function handleRegisterBigBang(event: RegisterBigBangEvent): void {
     event.params.location.toHexString(),
     InterestRateSide.BORROW,
     InterestRateType.STABLE,
-    contract.getDebtRate()
+    contract.getDebtRate(),
   ).id
 
   entity.totalBorrowed = BIGINT_ZERO
@@ -201,47 +201,47 @@ export function handleRegisterBigBang(event: RegisterBigBangEvent): void {
   entity.collateralInterest = InterestRateManager.getOrCreateInterestRate(
     event.params.location.toHexString(),
     InterestRateSide.COLLATERAL_PROVIDER,
-    InterestRateType.STABLE
+    InterestRateType.STABLE,
   ).id
   entity.utilization = BIGINT_ZERO
 
   entity.accrueInfo = MarketAccrueInfoManager.createMarketAccrueInfo(
     event.params.location.toHexString(),
-    MarketType.BIG_BANG
+    MarketType.BIG_BANG,
   ).id
 
   entity._totalCollateralShare = BIGINT_ZERO
   entity._totalAsset = RebaseManager.getOrCreateRebase(
     RebaseManager.marketId(
       event.params.location.toHexString(),
-      MarketRebaseType.SUPPLY
+      MarketRebaseType.SUPPLY,
     ),
     borrowToft.id,
     event.block.number,
-    event.block.timestamp
+    event.block.timestamp,
   ).id
   entity._totalBorrow = RebaseManager.getOrCreateRebase(
     RebaseManager.marketId(
       event.params.location.toHexString(),
-      MarketRebaseType.BORROW
+      MarketRebaseType.BORROW,
     ),
     borrowToft.id,
     event.block.number,
-    event.block.timestamp
+    event.block.timestamp,
   ).id
 
   entity._ybTotalAsset = RebaseManager.getOrCreateRebase(
     RebaseManager.ybId(entity._borrowTokenYieldBoxId),
     borrowToft.id,
     event.block.number,
-    event.block.timestamp
+    event.block.timestamp,
   ).id
 
   entity._ybTotalCollateralAsset = RebaseManager.getOrCreateRebase(
     RebaseManager.ybId(entity._collateralTokenYieldBoxId),
     collateralToft.id,
     event.block.number,
-    event.block.timestamp
+    event.block.timestamp,
   ).id
 
   entity.save()

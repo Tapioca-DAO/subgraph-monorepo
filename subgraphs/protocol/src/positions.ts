@@ -25,7 +25,7 @@ export function updatePositions(
   eventType: string,
   account: Account,
   event: ethereum.Event,
-  liquidation: boolean = false
+  liquidation: boolean = false,
 ): string {
   if (
     eventType == EventType.DEPOSIT ||
@@ -48,8 +48,8 @@ export function updatePositions(
       getAccruedAccountBalance(
         Address.fromString(market.id),
         Address.fromString(account.id),
-        positionType
-      )
+        positionType,
+      ),
     ).id
   } else if (eventType == EventType.REPAY || eventType == EventType.WITHDRAW) {
     // This covers liquidations as well; they emit a repay event
@@ -59,11 +59,11 @@ export function updatePositions(
       getAccruedAccountBalance(
         Address.fromString(market.id),
         Address.fromString(account.id),
-        positionType
+        positionType,
       ),
       positionType,
       eventType,
-      event
+      event,
     )
     if (!position) {
       return ""
@@ -77,7 +77,7 @@ export function updatePositions(
 function getAccruedAccountBalance(
   marketAddress: Address,
   accountAddress: Address,
-  positionType: string
+  positionType: string,
 ): TapiocaProtocolAmountTemporary {
   const singularityMarket = Market.load(marketAddress.toHexString())!
   const singularityContract = Singularity.bind(marketAddress)
@@ -101,20 +101,20 @@ function getAccruedAccountBalance(
     amount = rawAmount
       .times(
         singularityMarket.totalBorrowSupply.plus(
-          singularityMarket.totalBorrowed
-        )
+          singularityMarket.totalBorrowed,
+        ),
       )
       .div(totalAsset.base)
   } else if (positionType == PositionType.PROVIDE_COLLATERAL_ASSET) {
     const try_amount = MagnetarHelper.bind(
-      StaticContractDefinition.currentChain("magnetar_helper")
+      StaticContractDefinition.currentChain("magnetar_helper"),
     ).try_getCollateralAmountForShare(marketAddress, rawAmount)
     amount = try_amount.reverted ? BIGINT_ZERO : try_amount.value
   } else if (positionType == PositionType.BORROW) {
     amount = getAmountFromRawAmount(
       rawAmount,
       PositionType.BORROW,
-      Address.fromBytes(singularityMarket.address)
+      Address.fromBytes(singularityMarket.address),
     )
   }
 
@@ -129,10 +129,10 @@ function getAccruedAccountBalance(
 export function getLiquidatePosition(
   side: string,
   marketId: string,
-  accountId: string
+  accountId: string,
 ): string {
   const positionCounter = PositionCounter.load(
-    accountId.concat("-").concat(marketId).concat("-").concat(side)
+    accountId.concat("-").concat(marketId).concat("-").concat(side),
   )
   if (!positionCounter) {
     log.warning("No liquidation position found for account {} on market {}", [
@@ -143,7 +143,7 @@ export function getLiquidatePosition(
   }
 
   const position = Position.load(
-    positionCounter.id.concat("-").concat(positionCounter.nextCount.toString())
+    positionCounter.id.concat("-").concat(positionCounter.nextCount.toString()),
   )
   if (!position) {
     log.warning("No liquidation position found for account {} on market {}", [
@@ -167,7 +167,7 @@ function addPosition(
   eventType: string,
   positionType: string,
   event: ethereum.Event,
-  temporaryBalance: TapiocaProtocolAmountTemporary
+  temporaryBalance: TapiocaProtocolAmountTemporary,
 ): Position {
   const counterID = account.id
     .concat("-")
@@ -262,7 +262,7 @@ function subtractPosition(
   newBalance: TapiocaProtocolAmountTemporary,
   side: string,
   eventType: string,
-  event: ethereum.Event
+  event: ethereum.Event,
 ): Position | null {
   const counterID = account.id
     .concat("-")
@@ -328,21 +328,21 @@ function subtractPosition(
 function snapshotPosition(
   position: Position,
   event: ethereum.Event,
-  balance: TapiocaProtocolAmount
+  balance: TapiocaProtocolAmount,
 ): void {
   const snapshot = new PositionSnapshot(
     position.id
       .concat("-")
       .concat(event.transaction.hash.toHexString())
       .concat("-")
-      .concat(event.logIndex.toString())
+      .concat(event.logIndex.toString()),
   )
   snapshot.hash = event.transaction.hash
   snapshot.logIndex = event.logIndex.toI32()
   snapshot.nonce = event.transaction.nonce
   snapshot.position = position.id
   snapshot.balance = PAC.cloneToTemporary(balance).saveImmutable(
-    event.block.timestamp
+    event.block.timestamp,
   ).id
   snapshot.blockNumber = event.block.number
   snapshot.timestamp = event.block.timestamp

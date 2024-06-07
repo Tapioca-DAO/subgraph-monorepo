@@ -11,7 +11,7 @@ class MarketAccrueInfoManagerImpl {
   id(
     marketAddress: string,
     interestRateSide: string,
-    interestRateType: string
+    interestRateType: string,
   ): string {
     // { Interest rate side }-{ Interest rate type }-{ Market ID }
     return interestRateSide
@@ -23,7 +23,7 @@ class MarketAccrueInfoManagerImpl {
 
   createMarketAccrueInfo(
     marketAddress: string,
-    marketType: string = MarketType.SINGULARITY
+    marketType: string = MarketType.SINGULARITY,
   ): MarketAccrueInfo {
     const kashiPairAccureInfo = new MarketAccrueInfo(marketAddress)
 

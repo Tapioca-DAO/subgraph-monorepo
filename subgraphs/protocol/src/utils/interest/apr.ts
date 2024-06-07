@@ -20,7 +20,7 @@ export function getInterestPerYear(
   interestPerSecond: BigInt,
   lastAccruedTimestamp: BigInt,
   timestamp: BigInt,
-  utilization: BigInt
+  utilization: BigInt,
 ): BigInt {
   if (totalBorrow == BigInt.fromI32(0)) {
     return STARTING_INTEREST_PER_YEAR
@@ -45,7 +45,7 @@ export function getInterestPerYear(
       .div(MINIMUM_TARGET_UTILIZATION)
 
     const scale = INTEREST_ELASTICITY.plus(
-      underFactor.times(underFactor.times(elapsedTime))
+      underFactor.times(underFactor.times(elapsedTime)),
     )
     currentInterest = currentInterest.times(INTEREST_ELASTICITY).div(scale)
 
@@ -58,7 +58,7 @@ export function getInterestPerYear(
       .times(FACTOR_PRECISION.div(FULL_UTILIZATION_MINUS_MAX))
 
     const scale = INTEREST_ELASTICITY.plus(
-      overFactor.times(overFactor.times(elapsedTime))
+      overFactor.times(overFactor.times(elapsedTime)),
     )
     currentInterest = currentInterest.times(scale).div(INTEREST_ELASTICITY)
 

@@ -21,7 +21,7 @@ class InterestManagerImpl {
   id(
     marketAddress: string,
     interestRateSide: string,
-    interestRateType: string
+    interestRateType: string,
   ): string {
     // { Interest rate side }-{ Interest rate type }-{ Market ID }
     return interestRateSide
@@ -36,22 +36,22 @@ class InterestManagerImpl {
     interestRateSide: string,
     interestRateType: string,
     rawRate: BigInt | null = null,
-    rate: BigDecimal = BIGDECIMAL_ZERO
+    rate: BigDecimal = BIGDECIMAL_ZERO,
   ): InterestRate {
     let interestRate = InterestRate.load(
-      this.id(marketAddress, interestRateSide, interestRateType)
+      this.id(marketAddress, interestRateSide, interestRateType),
     )
 
     if (interestRate === null) {
       interestRate = new InterestRate(
-        this.id(marketAddress, interestRateSide, interestRateType)
+        this.id(marketAddress, interestRateSide, interestRateType),
       )
     }
 
     if (rawRate !== null) {
       interestRate._rawRate = rawRate
       interestRate.rate = BigDecimal.fromString(rawRate.toString()).div(
-        BigDecimal.fromString("10000000000000000")
+        BigDecimal.fromString("10000000000000000"),
       )
     } else {
       interestRate._rawRate = BIGINT_ZERO
@@ -72,13 +72,13 @@ class InterestManagerImpl {
   updateInterestRate(
     id: string,
     rawRate: BigInt,
-    rate: BigDecimal | null = null
+    rate: BigDecimal | null = null,
   ): void {
     const interestRate = this.getInterestRate(id)
     interestRate._rawRate = rawRate
     if (rate === null) {
       interestRate.rate = BigDecimal.fromString(rawRate.toString()).div(
-        BigDecimal.fromString("10000000000000000")
+        BigDecimal.fromString("10000000000000000"),
       )
     } else {
       interestRate.rate = rate

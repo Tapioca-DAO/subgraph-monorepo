@@ -15,7 +15,7 @@ import { StaticChainIdDefinition } from "../utils/layerzero/staticLZEVMChainId"
 import { getToft } from "../utils/token/token"
 
 export function handleSetTrustedRemoteTofts(
-  event: SetTrustedRemoteEventToft
+  event: SetTrustedRemoteEventToft,
 ): void {
   const remoteAddress = event.params._path.toHexString().substring(0, 42)
 
@@ -27,7 +27,7 @@ export function handleSetTrustedRemoteTofts(
   }
 
   const staticTokenDefinition = StaticChainIdDefinition.fromLzChainId(
-    event.params._remoteChainId
+    event.params._remoteChainId,
   )
   if (staticTokenDefinition == null) {
     log.error("Unsupported network with LZ ID {} found. Skipping.", [
@@ -51,7 +51,7 @@ export function handleSetTrustedRemoteTofts(
 }
 
 export function handleReceiveFromChainTofts(
-  event: ReceiveFromChainEventToft
+  event: ReceiveFromChainEventToft,
 ): void {
   const toftEntity = TOFToken.load(event.address.toHexString())
 
@@ -61,7 +61,7 @@ export function handleReceiveFromChainTofts(
   }
 
   const staticChainDefinition = StaticChainIdDefinition.fromLzChainId(
-    event.params._srcChainId
+    event.params._srcChainId,
   )
   if (staticChainDefinition == null) {
     log.error("Unsupported network with LZ ID {} found. Skipping.", [
@@ -77,7 +77,7 @@ export function handleReceiveFromChainTofts(
   teleportReceivedEntity.sourceLZChainId = event.params._srcChainId
   teleportReceivedEntity.destinationTOFToken = toftEntity.id
   teleportReceivedEntity.destinationAccount = getOrCreateAccount(
-    event.params._to.toHexString()
+    event.params._to.toHexString(),
   ).id
 
   // Add transaction data

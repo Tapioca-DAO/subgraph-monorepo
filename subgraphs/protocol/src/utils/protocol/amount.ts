@@ -19,7 +19,7 @@ import { RebaseManager, RebaseUtils } from "../rebase/rebase"
 export function getAmountFromRawAmount(
   rawAmount: BigInt,
   positionType: string,
-  singularityMarketAddress: Address
+  singularityMarketAddress: Address,
 ): BigInt {
   const singularityMarket = Market.load(singularityMarketAddress.toHexString())!
   const singularityContract = Singularity.bind(singularityMarketAddress)
@@ -37,7 +37,7 @@ export function getAmountFromRawAmount(
     amount = YieldBox.bind(singularityContract.yieldBox()).toAmount(
       singularityMarket._collateralTokenYieldBoxId,
       rawAmount,
-      false
+      false,
     )
   } else {
     // * PositionType.BORROW
@@ -52,11 +52,11 @@ export interface ProtocolAmountCreatorInterface {
   getTemporary(
     tokenId: string,
     tokenAmount: BigInt,
-    rawAmount: BigInt | null
+    rawAmount: BigInt | null,
   ): TapiocaProtocolAmount
   clone(
     from: TapiocaProtocolAmount,
-    to: TapiocaProtocolAmount
+    to: TapiocaProtocolAmount,
   ): TapiocaProtocolAmount
   getOrCreate(id: string): TapiocaProtocolAmount
 }
@@ -104,7 +104,7 @@ export class TapiocaProtocolAmountTemporary extends TapiocaProtocolAmount {
   savePositionAccruedBalance(positionId: string): TapiocaProtocolAmount {
     const clone = PAC.clone(
       this,
-      PAC.getOrCreate(positionId + "-accrued-balance")
+      PAC.getOrCreate(positionId + "-accrued-balance"),
     )
     clone.save()
     return clone
@@ -113,7 +113,7 @@ export class TapiocaProtocolAmountTemporary extends TapiocaProtocolAmount {
   savePositionProtocolFeeBalance(positionId: string): TapiocaProtocolAmount {
     const clone = PAC.clone(
       this,
-      PAC.getOrCreate(positionId + "-protocol-fee-balance")
+      PAC.getOrCreate(positionId + "-protocol-fee-balance"),
     )
     clone.save()
     return clone
@@ -133,7 +133,7 @@ export class TapiocaProtocolAmountTemporary extends TapiocaProtocolAmount {
 
   addToAmount(
     amount: BigInt,
-    rawAmount: BigInt | null = null
+    rawAmount: BigInt | null = null,
   ): TapiocaProtocolAmountTemporary {
     this.amount = this.amount.plus(amount)
     const thisRaw = this.raw
@@ -156,7 +156,7 @@ export class TapiocaProtocolAmountTemporary extends TapiocaProtocolAmount {
     const tokenUsdValue = TokenUsdValue.load(tusdValueId)!
     const amountUSD = bigIntToBigDecimal(
       this.amount,
-      token.decimals.toI32()
+      token.decimals.toI32(),
     ).times(tokenUsdValue.usdValue)
 
     this.usdAmount = amountUSD
@@ -168,7 +168,7 @@ export class TapiocaProtocolAmountTemporary extends TapiocaProtocolAmount {
 export class ProtocolAmountCreator implements ProtocolAmountCreatorInterface {
   clone(
     from: TapiocaProtocolAmount,
-    to: TapiocaProtocolAmount
+    to: TapiocaProtocolAmount,
   ): TapiocaProtocolAmount {
     to.amount = from.amount
     to.usdAmount = from.usdAmount
@@ -179,7 +179,7 @@ export class ProtocolAmountCreator implements ProtocolAmountCreatorInterface {
   }
 
   cloneToTemporary(
-    from: TapiocaProtocolAmount
+    from: TapiocaProtocolAmount,
   ): TapiocaProtocolAmountTemporary {
     const tpaEntity = new TapiocaProtocolAmountTemporary()
 
@@ -194,7 +194,7 @@ export class ProtocolAmountCreator implements ProtocolAmountCreatorInterface {
   getTemporary(
     tokenId: string,
     tokenAmount: BigInt,
-    rawAmount: BigInt | null = null
+    rawAmount: BigInt | null = null,
   ): TapiocaProtocolAmountTemporary {
     const tpaEntity = new TapiocaProtocolAmountTemporary()
 
@@ -204,7 +204,7 @@ export class ProtocolAmountCreator implements ProtocolAmountCreatorInterface {
     const tokenUsdValue = TokenUsdValue.load(tusdValueId)!
     const amountUSD = bigIntToBigDecimal(
       tokenAmount,
-      token.decimals.toI32()
+      token.decimals.toI32(),
     ).times(tokenUsdValue.usdValue)
 
     tpaEntity.amount = tokenAmount

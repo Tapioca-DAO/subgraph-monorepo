@@ -57,12 +57,12 @@ export function handleBorrow(event: BorrowEvent): void {
 
   const amount = PAC.getTemporary(
     singularityMarket.borrowToken,
-    event.params.amount
+    event.params.amount,
   )
 
   const amountFee = PAC.getTemporary(
     singularityMarket.borrowToken,
-    event.params.feeAmount
+    event.params.feeAmount,
   )
 
   const amountAccrued = PAC.getTemporary(
@@ -70,9 +70,9 @@ export function handleBorrow(event: BorrowEvent): void {
     getAmountFromRawAmount(
       event.params.part,
       PositionType.BORROW,
-      Address.fromBytes(singularityMarket.address)
+      Address.fromBytes(singularityMarket.address),
     ),
-    event.params.part
+    event.params.part,
   )
 
   borrowEntity.fromAccount = fromAccount.id
@@ -81,10 +81,10 @@ export function handleBorrow(event: BorrowEvent): void {
   borrowEntity.market = event.address.toHexString()
   borrowEntity.amount = amount.saveImmutable(event.block.number).id
   borrowEntity.amountAccrued = amountAccrued.saveImmutable(
-    event.block.number
+    event.block.number,
   ).id
   borrowEntity.amountProtocolFees = amountFee.saveImmutable(
-    event.block.number
+    event.block.number,
   ).id
   borrowEntity.token = singularityMarket.borrowToken
 
@@ -101,7 +101,7 @@ export function handleBorrow(event: BorrowEvent): void {
     singularityMarket,
     EventType.BORROW,
     fromAccount,
-    event
+    event,
   )
 
   borrowEntity.save()
@@ -125,7 +125,7 @@ export function handleRepay(event: RepayEvent): void {
 
   const amount = PAC.getTemporary(
     singularityMarket.borrowToken,
-    event.params.amount
+    event.params.amount,
   )
 
   const amountAccrued = PAC.getTemporary(
@@ -133,9 +133,9 @@ export function handleRepay(event: RepayEvent): void {
     getAmountFromRawAmount(
       event.params.part,
       PositionType.BORROW,
-      Address.fromBytes(singularityMarket.address)
+      Address.fromBytes(singularityMarket.address),
     ),
-    event.params.part
+    event.params.part,
   )
 
   repayEntity.fromAccount = fromAccount.id
@@ -157,7 +157,7 @@ export function handleRepay(event: RepayEvent): void {
     singularityMarket,
     EventType.REPAY,
     toAccount,
-    event
+    event,
   )
 
   repayEntity.save()
@@ -184,9 +184,9 @@ export function handleAddCollateral(event: AddCollateralEvent): void {
     getAmountFromRawAmount(
       event.params.share,
       PositionType.PROVIDE_COLLATERAL_ASSET,
-      Address.fromBytes(singularityMarket.address)
+      Address.fromBytes(singularityMarket.address),
     ),
-    event.params.share
+    event.params.share,
   )
 
   depositEntity.fromAccount = fromAccount.id
@@ -210,7 +210,7 @@ export function handleAddCollateral(event: AddCollateralEvent): void {
     singularityMarket,
     EventType.DEPOSIT,
     toAccount,
-    event
+    event,
   )
 
   depositEntity.save()
@@ -237,9 +237,9 @@ export function handleRemoveCollateral(event: RemoveCollateralEvent): void {
     getAmountFromRawAmount(
       event.params.share,
       PositionType.PROVIDE_COLLATERAL_ASSET,
-      Address.fromBytes(singularityMarket.address)
+      Address.fromBytes(singularityMarket.address),
     ),
-    event.params.share
+    event.params.share,
   )
 
   withdrawalEntity.fromAccount = fromAccount.id
@@ -262,7 +262,7 @@ export function handleRemoveCollateral(event: RemoveCollateralEvent): void {
     singularityMarket,
     EventType.WITHDRAW,
     toAccount,
-    event
+    event,
   )
 
   withdrawalEntity.save()
@@ -289,9 +289,9 @@ export function handleAddAsset(event: AddAssetEvent): void {
     getAmountFromRawAmount(
       event.params.share,
       PositionType.LEND_BORROW_ASSET,
-      Address.fromBytes(singularityMarket.address)
+      Address.fromBytes(singularityMarket.address),
     ),
-    event.params.share
+    event.params.share,
   )
 
   depositEntity.fromAccount = fromAccount.id
@@ -315,7 +315,7 @@ export function handleAddAsset(event: AddAssetEvent): void {
     singularityMarket,
     EventType.DEPOSIT,
     toAccount,
-    event
+    event,
   )
 
   depositEntity.save()
@@ -342,9 +342,9 @@ export function handleRemoveAsset(event: RemoveAssetEvent): void {
     getAmountFromRawAmount(
       event.params.share,
       PositionType.LEND_BORROW_ASSET,
-      Address.fromBytes(singularityMarket.address)
+      Address.fromBytes(singularityMarket.address),
     ),
-    event.params.share
+    event.params.share,
   )
 
   withdrawalEntity.fromAccount = fromAccount.id
@@ -367,7 +367,7 @@ export function handleRemoveAsset(event: RemoveAssetEvent): void {
     singularityMarket,
     EventType.WITHDRAW,
     toAccount,
-    event
+    event,
   )
 
   withdrawalEntity.save()
@@ -384,10 +384,10 @@ export function handleAccrue(event: LogAccrueEvent): void {
   const totalBorrow = Rebase.load(market._totalBorrow) as Rebase
 
   const accrueInfo = MarketAccrueInfoManager.getMarketAccrueInfo(
-    event.address.toHexString()
+    event.address.toHexString(),
   )
   accrueInfo.feesEarnedFraction = accrueInfo.feesEarnedFraction.plus(
-    event.params.feeFraction
+    event.params.feeFraction,
   )
   accrueInfo.interestPerSecond = event.params.rate
   accrueInfo.lastAccrued = event.block.timestamp
@@ -398,10 +398,10 @@ export function handleAccrue(event: LogAccrueEvent): void {
     accrueInfo.interestPerSecond,
     accrueInfo.lastAccrued,
     event.block.timestamp,
-    market.utilization
+    market.utilization,
   )
   const supplyAPR = takeFee(borrowAPR.times(market.utilization)).div(
-    BigInt.fromString("1000000000000000000")
+    BigInt.fromString("1000000000000000000"),
   )
 
   InterestRateManager.updateInterestRate(market.supplyInterest, supplyAPR)
@@ -420,19 +420,19 @@ export function handleExchangeRate(event: LogExchangeRateEvent): void {
     event.params.rate,
     token,
     event.block.number,
-    event.block.timestamp
+    event.block.timestamp,
   )
   updateTokenPrice(
     event.params.rate,
     token,
     event.block.number,
-    event.block.timestamp
+    event.block.timestamp,
   )
 }
 
 function updateMarketTotals(
   marketAddress: string,
-  event: ethereum.Event
+  event: ethereum.Event,
 ): Market {
   const market = Market.load(marketAddress) as Market
   const borrowToken = Token.load(market.borrowToken) as Token
@@ -455,30 +455,30 @@ function updateMarketTotals(
   const totalBorrow = RebaseManager.getOrCreateRebase(
     RebaseManager.marketId(
       event.address.toHexString(),
-      MarketRebaseType.BORROW
+      MarketRebaseType.BORROW,
     ),
     market.borrowToken,
     event.block.number,
     event.block.timestamp,
     totalsBorrow.elastic,
-    totalsBorrow.base
+    totalsBorrow.base,
   )
 
   const totalAsset = RebaseFetcher.sglTotalAsset(event.address.toHexString())
   market._totalAsset = RebaseManager.getOrCreateRebase(
     RebaseManager.marketId(
       event.address.toHexString(),
-      MarketRebaseType.SUPPLY
+      MarketRebaseType.SUPPLY,
     ),
     market.borrowToken,
     event.block.number,
     event.block.timestamp,
     totalAsset.elastic,
-    totalAsset.base
+    totalAsset.base,
   ).id
 
   const totalYbBorrow = RebaseFetcher.ybAssetTotals(
-    market._borrowTokenYieldBoxId
+    market._borrowTokenYieldBoxId,
   )
   const totalYbBorrowRebase = RebaseManager.getOrCreateRebase(
     RebaseManager.ybId(market._borrowTokenYieldBoxId),
@@ -486,12 +486,12 @@ function updateMarketTotals(
     event.block.number,
     event.block.timestamp,
     totalYbBorrow.elastic,
-    totalYbBorrow.base
+    totalYbBorrow.base,
   )
   market._ybTotalAsset = totalYbBorrowRebase.id
 
   const totalYbCollateral = RebaseFetcher.ybAssetTotals(
-    market._collateralTokenYieldBoxId
+    market._collateralTokenYieldBoxId,
   )
   const totalYbCollateralRebase = RebaseManager.getOrCreateRebase(
     RebaseManager.ybId(market._collateralTokenYieldBoxId),
@@ -499,35 +499,35 @@ function updateMarketTotals(
     event.block.number,
     event.block.timestamp,
     totalYbCollateral.elastic,
-    totalYbCollateral.base
+    totalYbCollateral.base,
   )
   market._ybTotalCollateralAsset = totalYbCollateralRebase.id
 
   market._totalCollateralShare = Singularity.bind(
-    event.address
+    event.address,
   ).totalCollateralShare()
 
   market.totalBorrowed = totalBorrow.elastic
   market.totalBorrowSupply = RebaseUtils.ybToAmount(
     totalYbBorrowRebase,
-    totalAsset.elastic
+    totalAsset.elastic,
   )
   market.totalCollateral = RebaseUtils.ybToAmount(
     totalYbCollateralRebase,
-    market._totalCollateralShare
+    market._totalCollateralShare,
   )
 
   market.totalBorrowedUsd = bigIntToBigDecimal(
     market.totalBorrowed,
-    borrowToken.decimals.toI32()
+    borrowToken.decimals.toI32(),
   ).times(borrowTokenUsdValue)
   market.totalBorrowSupplyUsd = bigIntToBigDecimal(
     market.totalBorrowSupply,
-    borrowToken.decimals.toI32()
+    borrowToken.decimals.toI32(),
   ).times(borrowTokenUsdValue)
   market.totalCollateralUsd = bigIntToBigDecimal(
     market.totalCollateral,
-    collateralToken.decimals.toI32()
+    collateralToken.decimals.toI32(),
   ).times(collateralTokenUsdValue)
 
   const stateId = `${marketAddress}-${event.block.number.toString()}`
