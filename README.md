@@ -63,18 +63,21 @@ Inspired by angular's [CONTRIB.md](https://github.com/angular/angular/blob/main/
 To allow for best formatting and linting experience, you may use following `settings.json` file. Place it in `.vscode` folder in the root of **each app or package**.
 ```
 {
-  "editor.codeActionsOnSave": [
-    "source.fixAll"
-  ],
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+  },
   "editor.formatOnPaste": true,
   "editor.formatOnType": true,
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
   "[typescript]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "git.openRepositoryInParentFolders": "always",
 }
