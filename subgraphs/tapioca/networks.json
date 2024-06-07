@@ -45,23 +45,23 @@
   },
   "avalanche-testnet": {
     "Penrose": {
-      "startBlock": 33607834,
+      "startBlock": 33232180,
       "address": "0x0000000000000000000000000000000000000000"
     },
     "TOB": {
-      "startBlock": 33607834,
+      "startBlock": 33232180,
       "address": "0x0000000000000000000000000000000000000000"
     },
     "OTAP": {
-      "startBlock": 33607834,
+      "startBlock": 33232180,
       "address": "0x0000000000000000000000000000000000000000"
     },
     "TOLP": {
-      "startBlock": 33607834,
+      "startBlock": 33232180,
       "address": "0x0000000000000000000000000000000000000000"
     },
     "TWTAP": {
-      "startBlock": 33607834,
+      "startBlock": 33232180,
       "address": "0x0000000000000000000000000000000000000000"
     }
   }

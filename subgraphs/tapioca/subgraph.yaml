@@ -6,7 +6,7 @@ dataSources:
     name: Penrose
     source:
       abi: Penrose
-      startBlock: 33607834
+      startBlock: 33232180
       address: "0x0000000000000000000000000000000000000000"
     mapping:
       kind: ethereum/events
@@ -44,7 +44,7 @@ dataSources:
     name: TOLP
     source:
       abi: TOLP
-      startBlock: 33607834
+      startBlock: 33232180
       address: "0x0000000000000000000000000000000000000000"
     mapping:
       kind: ethereum/events
@@ -80,7 +80,7 @@ dataSources:
     name: TOB
     source:
       abi: TOB
-      startBlock: 33607834
+      startBlock: 33232180
       address: "0x0000000000000000000000000000000000000000"
     mapping:
       kind: ethereum/events
@@ -117,7 +117,7 @@ dataSources:
     name: TWTAP
     source:
       abi: TWTAP
-      startBlock: 33607834
+      startBlock: 33232180
       address: "0x0000000000000000000000000000000000000000"
     mapping:
       kind: ethereum/events
@@ -167,7 +167,7 @@ dataSources:
     name: OTAP
     source:
       abi: OTAP
-      startBlock: 33607834
+      startBlock: 33232180
       address: "0x0000000000000000000000000000000000000000"
     mapping:
       kind: ethereum/events

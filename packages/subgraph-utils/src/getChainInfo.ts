@@ -6,6 +6,7 @@ type ChainInfo = {
   chainId: number
 }
 
+// from https://chainid.network/chains.json
 const chainInfos = readJsonSync("./src/chains.json") as ChainInfo[]
 
 export const getChainInfo = (chainId: number): ChainInfo => {

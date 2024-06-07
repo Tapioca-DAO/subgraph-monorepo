@@ -10,13 +10,14 @@ type GDBInfo = {
   }
 }
 
-type ContractName = "PENROSE"
+type ContractName = "PENROSE" | "TAP_TOKEN"
+type RepoName = "tapioca-bar" | "tap-token"
 
 const gdb = readJsonSync("./src/_input/global.db.json") as GDBInfo
 
 export const browseGlobalDb = (
   tag: string,
-  repo: string,
+  repo: RepoName,
   contractName: ContractName,
 ) => {
   const contractsOut: { chainId: number; addresses: string[] }[] = []

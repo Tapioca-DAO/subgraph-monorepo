@@ -17,20 +17,27 @@ export class ContractAddressesConstants {
         addresses: [
           "0x905EeDBc5e584E11B68f60E1deB50Efa08aD3e9F",
           "0x62b1974CC9b66BBB307B21Bd176c9b5C5a86515a",
+          "0x1B460E311753fDB46451EF3d11d7B9eE5542b369",
           "0xf8AC713c5FD9603891B53Bc9caC53Adee7bbC6Ac",
+          "0x2EAe4fbc552fE35C1D3Df2B546032409bb0E431E",
           "0xF3b33c02e39ACA9b34ff67bB738A1242f8B1631e",
+          "0x518746126A545cC7F31EeD92bF2b04eb99eD103B",
           "0xc9c8f2823c788CE9b76596263c00844F70d64e47",
+          "0x568567fb156cDf083FA9e4A672fB462aA49673e9",
+          "0x3488d6fc4293E7954853ea2196580c9D3973ac3d",
         ],
       },
-      {
-        chainId: 11155420,
-        addresses: ["0x15777E4ce87A213A0C10c0C0e06f4aFF8995e960"],
-      },
+      // {
+      //   chainId: 11155420,
+      //   addresses: ["0x15777E4ce87A213A0C10c0C0e06f4aFF8995e960"],
+      // },
       {
         chainId: 43113,
         addresses: [
           "0x5AfCE7955b532C3e31873A5B1A248ccFD6a29201",
           "0x453AcCDfB7f63D6c26Fb47a381f53B6047A8ca94",
+          "0xed18DBCb2810E4178c23668794198C81B0668b23",
+          "0x696C42De6c623f75B1fB376531A5ebBb6e250B34",
         ],
       },
     ] as Array<ContractAddressesConstants>
