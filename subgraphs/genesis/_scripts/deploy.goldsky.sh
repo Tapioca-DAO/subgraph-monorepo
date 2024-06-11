@@ -21,7 +21,8 @@ fi
 CHAIN_ID=$1
 CHAIN_NAME=${CHAIN_NAMES[$CHAIN_ID]}
 SUBGRAPH_NAME=$NAME-$CHAIN_ID/$PACKAGE_VERSION
-START_BLOCK=$(grep -oP '(?<="startBlock": )[^,]*' ./networks.json | head -1)
+
+START_BLOCK=$(jq ".[\"$CHAIN_NAME\"] | .. | .startBlock? | select(type == \"number\")" networks.json | head -1)
 
 if [ $REDEPLOY == true ]; then
   echo "Redeploying subgraph $SUBGRAPH_NAME on $CHAIN_NAME stating from block $START_BLOCK"

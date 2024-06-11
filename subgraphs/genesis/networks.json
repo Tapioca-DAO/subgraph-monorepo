@@ -1,24 +1,46 @@
 {
   "arbitrum-sepolia": {
     "AirdropBroker": {
-      "startBlock": 41310428,
-      "address": "0x2e3de46f97E3F46e53059b48e4d6F24A16DEa68d"
+      "startBlock": 53300000,
+      "address": "0x0000000000000000000000000000000000000000"
     },
     "Vault": {
-      "startBlock": 41310428,
-      "address": "0x17EdbB6e84ae8367D0227D5a5b79eCf24Ac21cA7"
+      "startBlock": 53300000,
+      "address": "0xb58716e14c7549755ba1EC56b38DE979eBB71a7b"
     },
     "LBP": {
-      "startBlock": 41310428,
-      "address": "0x7375DCCf76BD77BB3f8b954352E83D858B367127"
+      "startBlock": 53300000,
+      "address": "0xb2eE517fa1E2a0BDA0215B27068b7Ce263a0F773"
     },
     "LTAP": {
-      "startBlock": 41310428,
-      "address": "0xE32BFb8A2849E945465784fa998eD13d5fcB29a9"
+      "startBlock": 53300000,
+      "address": "0x4873d79bCe7Fd29FdF723ea0C125B3B55Bac815b"
     },
     "AOTAP": {
-      "startBlock": 41310428,
-      "address": "0x24268DA3FdB0Cd2ae216173748BC29Ad7684B9E1"
+      "startBlock": 53300000,
+      "address": "0x0000000000000000000000000000000000000000"
+    }
+  },
+  "arbitrum-one": {
+    "AirdropBroker": {
+      "startBlock": 219825389,
+      "address": "0x0000000000000000000000000000000000000000"
+    },
+    "Vault": {
+      "startBlock": 219825389,
+      "address": "0x34d9ecdade9a3c0529C791e6F5300A8C01F87411"
+    },
+    "LBP": {
+      "startBlock": 219825389,
+      "address": "0x7634aF22a94A458C469449E6579Ee5130a7cB532"
+    },
+    "LTAP": {
+      "startBlock": 219825389,
+      "address": "0x00BeBF0fA54D8e67914Be964a7FA20130822a88d"
+    },
+    "AOTAP": {
+      "startBlock": 219825389,
+      "address": "0x0000000000000000000000000000000000000000"
     }
   }
 }
