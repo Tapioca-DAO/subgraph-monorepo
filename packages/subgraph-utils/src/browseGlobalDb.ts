@@ -11,14 +11,28 @@ type GDBInfo = {
 }
 
 type ContractName = "PENROSE" | "TAP_TOKEN"
-type RepoName = "tapioca-bar" | "tap-token"
+type RepoName = "tapioca-bar" | "tap-token" | "tapiocaz"
 
 const gdb = readJsonSync("./src/_input/global.db.json") as GDBInfo
+
+const parseWildcard = (pattern: string, stringToCheck: string): boolean => {
+  if (pattern.endsWith("*")) {
+    return stringToCheck.startsWith(pattern.slice(0, -1))
+  }
+  if (pattern.startsWith("*")) {
+    return stringToCheck.endsWith(pattern.slice(0, -1))
+  }
+
+  return stringToCheck.includes(pattern)
+}
 
 export const browseGlobalDb = (
   tag: string,
   repo: RepoName,
-  contractName: ContractName,
+  contractName: {
+    pick?: ContractName
+    pattern?: string
+  },
 ) => {
   const contractsOut: { chainId: number; addresses: string[] }[] = []
   const chainIds = Object.keys(gdb[tag][repo])
@@ -28,7 +42,12 @@ export const browseGlobalDb = (
     const contracts = chainInfo.contracts
     for (let j = 0; j < contracts.length; j++) {
       const contract = contracts[j]
-      if (contract.name === contractName) {
+
+      if (
+        contractName.pick
+          ? contract.name === contractName.pick
+          : parseWildcard(contractName.pattern!, contract.name)
+      ) {
         const numberChainId = parseInt(chainId)
         const outEntity = contractsOut.find((c) => c.chainId === numberChainId)
         if (!outEntity) {
