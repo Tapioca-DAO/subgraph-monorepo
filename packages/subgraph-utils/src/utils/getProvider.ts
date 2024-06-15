@@ -4,6 +4,11 @@ import { getChainInfo } from "./getChainInfo"
 
 const providers: { [chainId: number]: ethers.JsonRpcProvider } = {}
 
+/**
+ * Returns an ethers provider for a given chain id
+ * @param chainId chain id to get the provider for
+ * @returns ethers provider for the given chain id
+ */
 export const getProvider = (chainId: number) => {
   if (!providers[chainId]) {
     const chainInfo = getChainInfo(chainId)

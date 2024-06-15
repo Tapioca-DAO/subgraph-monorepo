@@ -26,6 +26,14 @@ const parseWildcard = (pattern: string, stringToCheck: string): boolean => {
   return stringToCheck.includes(pattern)
 }
 
+/**
+ * Browse the global database for a given tag, repo, contract name and supported chains
+ * @param tag deployment tag
+ * @param repo deployment repo of the contract
+ * @param contractName contract name to look for
+ * @param supportedChains list of supported chains
+ * @returns list of contract addresses for the given tag, repo, contract name and supported chains
+ */
 export const browseGlobalDb = (
   tag: string,
   repo: RepoName,
@@ -33,6 +41,7 @@ export const browseGlobalDb = (
     pick?: ContractName
     pattern?: string
   },
+  supportedChains?: number[],
 ) => {
   const contractsOut: { chainId: number; addresses: string[] }[] = []
   const chainIds = Object.keys(gdb[tag][repo])
@@ -62,5 +71,9 @@ export const browseGlobalDb = (
     }
   }
 
-  return contractsOut.filter((c) => c.addresses.length > 0)
+  return contractsOut
+    .filter((c) => c.addresses.length > 0)
+    .filter((c) =>
+      supportedChains?.length ? supportedChains.includes(c.chainId) : true,
+    )
 }

@@ -7,8 +7,13 @@ type ChainInfo = {
 }
 
 // from https://chainid.network/chains.json
-const chainInfos = readJsonSync("./src/chains.json") as ChainInfo[]
+const chainInfos = readJsonSync("./src/utils/chains.json") as ChainInfo[]
 
+/**
+ * Get chain info for a given chain id. Used to get rpc urls for a given chain.
+ * @param chainId chain id
+ * @returns name of the chain, rpc urls and chain id
+ */
 export const getChainInfo = (chainId: number): ChainInfo => {
   const chainInfo = chainInfos.find(
     (chainInfo) => chainInfo.chainId === chainId,
