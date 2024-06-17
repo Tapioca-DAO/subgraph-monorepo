@@ -7,7 +7,7 @@ dataSources:
     source:
       abi: AirdropBroker
       startBlock: 219825389
-      address: "0x0000000000000000000000000000000000000000"
+      address: "0x366F0E1c22D5759FEEa8C9ab968e1dB858D1C9Dc"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -28,7 +28,7 @@ dataSources:
       &a1
       airdropbroker_address:
         type: String
-        data: "0x0000000000000000000000000000000000000000"
+        data: "0x366f0e1c22d5759feea8c9ab968e1db858d1c9dc"
       vault_address:
         type: String
         data: "0x34d9ecdade9a3c0529c791e6f5300a8c01f87411"
@@ -40,7 +40,7 @@ dataSources:
         data: "0x00bebf0fa54d8e67914be964a7fa20130822a88d"
       aotap_address:
         type: String
-        data: "0x0000000000000000000000000000000000000000"
+        data: "0x6e72af331a9a8f9571b7159c297c887b2e5220f8"
   - kind: ethereum
     name: LTAP
     source:

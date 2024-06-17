@@ -24,7 +24,7 @@
   "arbitrum-one": {
     "AirdropBroker": {
       "startBlock": 219825389,
-      "address": "0x0000000000000000000000000000000000000000"
+      "address": "0x366F0E1c22D5759FEEa8C9ab968e1dB858D1C9Dc"
     },
     "Vault": {
       "startBlock": 219825389,
@@ -40,7 +40,7 @@
     },
     "AOTAP": {
       "startBlock": 219825389,
-      "address": "0x0000000000000000000000000000000000000000"
+      "address": "0x6E72AF331A9a8F9571B7159c297c887B2E5220F8"
     }
   }
 }

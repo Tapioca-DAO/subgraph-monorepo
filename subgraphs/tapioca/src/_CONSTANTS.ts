@@ -25,6 +25,8 @@ export class ContractAddressesConstants {
           "0xc9c8f2823c788CE9b76596263c00844F70d64e47",
           "0x568567fb156cDf083FA9e4A672fB462aA49673e9",
           "0x3488d6fc4293E7954853ea2196580c9D3973ac3d",
+          "0x7C3A083a61955519C15C4e89792dAF0C6bA37734",
+          "0x964F75A175e31ee1554F852Da09Fbf19f49D6faF",
         ],
       },
       // {
@@ -38,6 +40,7 @@ export class ContractAddressesConstants {
           "0x453AcCDfB7f63D6c26Fb47a381f53B6047A8ca94",
           "0xed18DBCb2810E4178c23668794198C81B0668b23",
           "0x696C42De6c623f75B1fB376531A5ebBb6e250B34",
+          "0xCE05af7568330A8F37f9707f24fB63bC0bC21455",
         ],
       },
     ] as Array<ContractAddressesConstants>

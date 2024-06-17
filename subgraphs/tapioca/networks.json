@@ -6,19 +6,19 @@
     },
     "TOB": {
       "startBlock": 46750279,
-      "address": "0x448CE63f9a12d81658194E5035547ea83EE267F6"
+      "address": "0x309C583dEd3D78140f59b9910e5c8f57eA3185AC"
     },
     "OTAP": {
       "startBlock": 46750279,
-      "address": "0xCa5fAA2431c5F2AB96427E3cf672d0f782cDaEFd"
+      "address": "0xAeF8f8B69d95a4D8Fa050D38494512CB30902246"
     },
     "TOLP": {
       "startBlock": 46750279,
-      "address": "0x561339b30f47197D7d5BBE13b1314EfCBab5a114"
+      "address": "0x9b47f96F13c557A4015c1aa670522A3586Ae0dc5"
     },
     "TWTAP": {
       "startBlock": 46750279,
-      "address": "0x61a4FFf4B29e28D38a8EC08da415918c47b8A69c"
+      "address": "0x9ABB92BD60a79326189aD1A964849b5e77E2b55e"
     }
   },
   "optimism-sepolia": {
