@@ -1,5 +1,5 @@
-import { getProvider } from "./getProvider"
 import { TOLP__factory } from "./typechain"
+import { getProvider } from "./utils/getProvider"
 
 export const playground = async () => {
   const tolp = TOLP__factory.connect(

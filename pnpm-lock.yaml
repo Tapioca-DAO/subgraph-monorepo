@@ -62,6 +62,9 @@ importers:
       fs-extra:
         specifier: ^11.2.0
         version: 11.2.0
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
@@ -75,6 +78,9 @@ importers:
       '@types/fs-extra':
         specifier: ^11.0.4
         version: 11.0.4
+      '@types/lodash':
+        specifier: ^4.17.5
+        version: 4.17.5
       '@types/node':
         specifier: ^20.11.24
         version: 20.14.2
@@ -775,6 +781,9 @@ packages:
 
   '@types/jsonfile@6.1.4':
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
+
+  '@types/lodash@4.17.5':
+    resolution: {integrity: sha512-MBIOHVZqVqgfro1euRDWX7OO0fBVUUMrN6Pwm8LQsz8cWhEpihlvR70ENj3f40j58TNxZaWv2ndSkInykNBBJw==}
 
   '@types/long@4.0.2':
     resolution: {integrity: sha512-MqTGEo5bj5t157U6fA/BiDynNkn0YknVdh48CMPkTSpFTVmvao5UQmm7uEF6xBEo7qIMAlY/JSleYaE6VOdpaA==}
@@ -3918,6 +3927,8 @@ snapshots:
   '@types/jsonfile@6.1.4':
     dependencies:
       '@types/node': 20.14.2
+
+  '@types/lodash@4.17.5': {}
 
   '@types/long@4.0.2': {}
 

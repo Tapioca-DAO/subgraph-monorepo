@@ -10,7 +10,10 @@ type GDBInfo = {
   }
 }
 
-type ContractName = "PENROSE" | "TAP_TOKEN"
+type ContractName =
+  | "PENROSE"
+  | "TAP_TOKEN"
+  | "TAPIOCA_OPTION_LIQUIDITY_PROVISION"
 type RepoName = "tapioca-bar" | "tap-token" | "tapiocaz"
 
 const gdb = readJsonSync("./src/_input/global.db.json") as GDBInfo

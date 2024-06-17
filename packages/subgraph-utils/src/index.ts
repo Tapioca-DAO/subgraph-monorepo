@@ -1,64 +1,107 @@
 import { writeJsonSync } from "fs-extra"
 
-import { browseGlobalDb } from "./browseGlobalDb"
-import { listDataForChain } from "./listDataForChain"
+import {
+  addNativeTokens,
+  addTapToStore,
+  crosscheckTofts,
+  deduplicateTokens,
+  parseTofts,
+  parseTokens,
+  storeFullySetupBbMarketsWithTofts,
+  storeFullySetupSglMarketsWithTofts,
+} from "./listDataForChain"
+import { STORE, initStore } from "./store"
+import { browseGlobalDb } from "./utils/browseGlobalDb"
 
 const TAG = "tap-token-test"
 
-const execute = async () => {
+const execute = async (supportedChains: number[]) => {
   console.log("Fetching Tapioca subgraph data")
-  const addressesChains = browseGlobalDb(TAG, "tapioca-bar", {
-    pick: "PENROSE",
-  })
+  initStore(supportedChains)
+  const addressesChains = browseGlobalDb(
+    TAG,
+    "tapioca-bar",
+    {
+      pick: "PENROSE",
+    },
+    supportedChains,
+  )
 
-  const output: {
-    [chainId: string]: Awaited<ReturnType<typeof listDataForChain>>
-  } = {}
-  for (let i = 0; i < addressesChains.length; i++) {
-    output[addressesChains[i].chainId.toFixed()] = await listDataForChain(
-      addressesChains[i].chainId,
-      addressesChains[i].addresses[0],
-    )
-  }
+  const addressesChainsSglOft = browseGlobalDb(
+    TAG,
+    "tapiocaz",
+    {
+      pattern: "T_SGL_*",
+    },
+    supportedChains,
+  )
 
-  const addressesChainsTapToken = browseGlobalDb(TAG, "tap-token", {
-    pick: "TAP_TOKEN",
-  })
+  const addressesChainsTapToken = browseGlobalDb(
+    TAG,
+    "tap-token",
+    {
+      pick: "TAP_TOKEN",
+    },
+    supportedChains,
+  )
 
-  for (let i = 0; i < addressesChainsTapToken.length; i++) {
-    if (!output[addressesChainsTapToken[i].chainId.toFixed()]) {
-      output[addressesChainsTapToken[i].chainId.toFixed()] = {
-        sglMarkets: [],
-        bbMarkets: [],
-        tofts: [],
-      }
-    }
-    output[addressesChainsTapToken[i].chainId.toFixed()].tofts = output[
-      addressesChainsTapToken[i].chainId.toFixed()
-    ].tofts.concat(addressesChainsTapToken[i].addresses)
-  }
+  const addressesChainsTOLP = browseGlobalDb(
+    TAG,
+    "tap-token",
+    {
+      pick: "TAPIOCA_OPTION_LIQUIDITY_PROVISION",
+    },
+    supportedChains,
+  )
 
-  const addressesChainsSglOft = browseGlobalDb(TAG, "tapiocaz", {
-    pattern: "T_SGL_*",
-  })
+  await storeFullySetupSglMarketsWithTofts(
+    addressesChains,
+    addressesChainsSglOft,
+    addressesChainsTOLP,
+    supportedChains,
+  )
 
-  for (let i = 0; i < addressesChainsSglOft.length; i++) {
-    if (!output[addressesChainsSglOft[i].chainId.toFixed()]) {
-      output[addressesChainsSglOft[i].chainId.toFixed()] = {
-        sglMarkets: [],
-        bbMarkets: [],
-        tofts: [],
-      }
-    }
-    output[addressesChainsSglOft[i].chainId.toFixed()].tofts = output[
-      addressesChainsSglOft[i].chainId.toFixed()
-    ].tofts.concat(addressesChainsSglOft[i].addresses)
-  }
+  await storeFullySetupBbMarketsWithTofts(addressesChains, supportedChains)
 
-  writeJsonSync("./src/_input/out.json", output, {
+  addTapToStore(addressesChainsTapToken, supportedChains)
+  await parseTokens(supportedChains)
+  await parseTofts(supportedChains)
+  addNativeTokens(supportedChains)
+  deduplicateTokens()
+
+  crosscheckTofts()
+
+  // const addressesChainsTapToken = browseGlobalDb(TAG, "tap-token", {
+  //   pick: "TAP_TOKEN",
+  // })
+
+  // for (let i = 0; i < addressesChainsTapToken.length; i++) {
+  //   if (!output[addressesChainsTapToken[i].chainId.toFixed()]) {
+  //     output[addressesChainsTapToken[i].chainId.toFixed()] = {
+  //       sglMarkets: [],
+  //       bbMarkets: [],
+  //       tofts: [],
+  //     }
+  //   }
+  //   output[addressesChainsTapToken[i].chainId.toFixed()].tofts = output[
+  //     addressesChainsTapToken[i].chainId.toFixed()
+  //   ].tofts.concat(addressesChainsTapToken[i].addresses)
+  // }
+
+  console.log("Collected " + STORE.output.tokens.length + " tokens")
+  console.log(
+    "Collected " +
+      STORE.output.markets.singularityMarkets.length +
+      " sgl markets",
+  )
+  console.log(
+    "Collected " + STORE.output.markets.bigBangMarkets.length + " bb markets",
+  )
+
+  writeJsonSync("./src/_input/out.json", STORE.output, {
     spaces: 2,
   })
   console.log("Done. Data saved to ./src/_input/out.json")
 }
 
-execute()
+execute([421614])
