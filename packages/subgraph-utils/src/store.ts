@@ -35,6 +35,7 @@ export type MarketBaseData = {
   collateralToken: TokenDefinition
   borrowToken: TokenDefinition
   tolpLockSglYbId?: number
+  tSglAddress?: string
 }
 
 export type TokenDefinition = {

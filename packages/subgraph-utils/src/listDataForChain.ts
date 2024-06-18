@@ -38,6 +38,7 @@ export const storeFullySetupSglMarketsWithTofts = async (
   }[],
   supportedChains: number[],
 ) => {
+  const mainChaindId = supportedChains[0]
   // sanity check
   if (penroses.some(({ addresses }) => addresses.length !== 1)) {
     throw new Error("Penroses with multiple addresses not supported")
@@ -99,7 +100,7 @@ export const storeFullySetupSglMarketsWithTofts = async (
       (tm) => tm.chainId === m.chainId && tm.address === m.address,
     )
 
-    if (filteredTofts.length !== supportedChains.length) {
+    if (filteredTofts.length !== 2 && m.chainId !== mainChaindId) {
       const missingChains = supportedChains.filter(
         (c) => !filteredTofts.map((m) => m.toft.chainId).includes(c),
       )
@@ -222,6 +223,7 @@ const storeMarketsAndTokensToStore = async (
 
     if (ybIdMetadata) {
       outM.tolpLockSglYbId = ybIdMetadata.tolpTsglYbId
+      outM.tSglAddress = ybIdMetadata.tSglAddress
     }
 
     STORE.output.markets.singularityMarkets.push(outM)
@@ -331,6 +333,7 @@ const parseToft = async (
   chainId: number,
   supportedChains: number[],
 ): Promise<TokenBaseData> => {
+  const mainChaindId = supportedChains[0]
   console.log("parsing toft", address, chainId)
   const contract = TOFT__factory.connect(address, getProvider(chainId))
 
@@ -384,8 +387,27 @@ const parseToft = async (
     }
   }
 
+  const allchainSymbols = ["USDO", "TAP"]
   // sanity check
-  if (toftDefinitions.remotes.length !== supportedChains.length) {
+  if (allchainSymbols.includes(token.symbol)) {
+    if (toftDefinitions.remotes.length !== supportedChains.length) {
+      console.log(
+        `TOFT remotes length mismatch for token ${token.symbol} - ${address} on chain ${chainId}. Printing remotes:`,
+      )
+      console.log(toftDefinitions.remotes)
+    }
+  } else if (
+    token.symbol.startsWith("T_SGL") &&
+    (!toftDefinitions.underlying ||
+      toftDefinitions.underlying.chainId !== mainChaindId)
+  ) {
+    if (toftDefinitions.remotes.length !== 2) {
+      console.log(
+        `TOFT remotes length mismatch for token ${token.symbol} - ${address} on chain ${chainId}. Printing remotes:`,
+      )
+      console.log(toftDefinitions.remotes)
+    }
+  } else if (toftDefinitions.remotes.length !== 1) {
     console.log(
       `TOFT remotes length mismatch for token ${token.symbol} - ${address} on chain ${chainId}. Printing remotes:`,
     )

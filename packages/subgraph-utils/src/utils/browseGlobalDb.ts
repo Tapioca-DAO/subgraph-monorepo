@@ -14,7 +14,22 @@ type ContractName =
   | "PENROSE"
   | "TAP_TOKEN"
   | "TAPIOCA_OPTION_LIQUIDITY_PROVISION"
-type RepoName = "tapioca-bar" | "tap-token" | "tapiocaz"
+  | "YieldBox"
+  | "MAGNETAR"
+  | "MAGNETAR_HELPER"
+  | "MARKET_HELPER"
+  | "USDO_HELPER"
+  | "PEARLMIT"
+  | "OTAP"
+  | "TAPIOCA_OPTION_BROKER"
+  | "TWTAP"
+
+type RepoName =
+  | "tapioca-bar"
+  | "tap-token"
+  | "tapiocaz"
+  | "yieldbox"
+  | "tapioca-periph"
 
 const gdb = readJsonSync("./src/_input/global.db.json") as GDBInfo
 
@@ -74,9 +89,20 @@ export const browseGlobalDb = (
     }
   }
 
-  return contractsOut
+  const filteredContractsOut = contractsOut
     .filter((c) => c.addresses.length > 0)
     .filter((c) =>
       supportedChains?.length ? supportedChains.includes(c.chainId) : true,
     )
+
+  if (supportedChains?.length) {
+    return supportedChains
+      .map((chainId) => filteredContractsOut.find((c) => c.chainId === chainId))
+      .filter((x) => x) as {
+      chainId: number
+      addresses: string[]
+    }[]
+  }
+
+  return filteredContractsOut
 }

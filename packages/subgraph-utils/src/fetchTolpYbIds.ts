@@ -24,6 +24,7 @@ export const fetchTolpYbIds = async (
     marketAddress: string
     marketChainId: number
     tolpTsglYbId: number
+    tSglAddress: string
   }[] = []
 
   for (let i = 0; i < sglYbIds.length; i++) {
@@ -48,6 +49,7 @@ export const fetchTolpYbIds = async (
       marketAddress: sglAddress,
       marketChainId,
       tolpTsglYbId: Number(sglYbId),
+      tSglAddress,
     })
   }
 

@@ -1,5 +1,6 @@
 import { writeJsonSync } from "fs-extra"
 
+import { fetchFrontendAddresses } from "./fetchFrontendAddresses"
 import {
   addNativeTokens,
   addTapToStore,
@@ -98,10 +99,16 @@ const execute = async (supportedChains: number[]) => {
     "Collected " + STORE.output.markets.bigBangMarkets.length + " bb markets",
   )
 
+  const addresses = fetchFrontendAddresses(supportedChains, TAG)
+
+  writeJsonSync("./src/_input/addresses.json", addresses, {
+    spaces: 2,
+  })
+
   writeJsonSync("./src/_input/out.json", STORE.output, {
     spaces: 2,
   })
   console.log("Done. Data saved to ./src/_input/out.json")
 }
 
-execute([421614])
+execute([421614, 43113])
