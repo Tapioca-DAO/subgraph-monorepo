@@ -301,18 +301,20 @@ const parseToken = async (
 ): Promise<TokenBaseData> => {
   const contract = TOFT__factory.connect(address, getProvider(chainId))
 
-  const [name, symbol, decimals] = await Promise.all([
+  const [name, symbol, decimals, supportsEip2612] = await Promise.allSettled([
     contract.name(),
     contract.symbol(),
     contract.decimals(),
+    contract.nonces(ethers.ZeroAddress),
   ])
 
   return {
     chainId,
     address,
-    name,
-    symbol,
-    decimals: Number(decimals),
+    name: name.status === "fulfilled" ? name.value : "",
+    symbol: symbol.status === "fulfilled" ? symbol.value : "",
+    decimals: Number(decimals.status === "fulfilled" ? decimals.value : 0),
+    supportsEip2612: supportsEip2612.status === "fulfilled",
   }
 }
 
@@ -496,6 +498,14 @@ const NATIVE_TOKENS = [
   },
   { chainId: 80001, decimals: 18, symbol: "MATIC", name: "MATIC" },
   { chainId: 4002, decimals: 18, symbol: "FTM", name: "Fantom" },
+  // mainnet
+  { chainId: 1, decimals: 18, symbol: "ETH", name: "Ether" },
+  {
+    chainId: 42161,
+    decimals: 18,
+    symbol: "ETH",
+    name: "Arbitrum Sepolia Ether",
+  },
 ]
 
 export const addNativeTokens = (supportedChains: number[]) => {

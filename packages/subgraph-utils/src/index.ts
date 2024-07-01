@@ -14,7 +14,7 @@ import {
 import { STORE, initStore } from "./store"
 import { browseGlobalDb } from "./utils/browseGlobalDb"
 
-const TAG = "tap-token-test"
+const TAG = "lbp-prod-deployment"
 
 const execute = async (supportedChains: number[]) => {
   console.log("Fetching Tapioca subgraph data")
@@ -101,14 +101,17 @@ const execute = async (supportedChains: number[]) => {
 
   const addresses = fetchFrontendAddresses(supportedChains, TAG)
 
-  writeJsonSync("./src/_input/addresses.json", addresses, {
+  writeJsonSync("./src/_output/addresses.json", addresses, {
     spaces: 2,
   })
 
-  writeJsonSync("./src/_input/out.json", STORE.output, {
+  writeJsonSync("./src/_output/markets.json", STORE.output.markets, {
     spaces: 2,
   })
-  console.log("Done. Data saved to ./src/_input/out.json")
+  writeJsonSync("./src/_output/tapiocaTokenList.json", STORE.output.tokens, {
+    spaces: 2,
+  })
+  console.log("Done. Data saved to ./src/_output/*")
 }
 
-execute([421614, 43113])
+execute([42161])

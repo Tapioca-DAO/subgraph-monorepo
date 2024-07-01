@@ -49,6 +49,7 @@ export type TokenBaseData = {
   name: string
   symbol: string
   decimals: number
+  supportsEip2612?: boolean
   toftDefinitions?: ToftDefinitions
 }
 
