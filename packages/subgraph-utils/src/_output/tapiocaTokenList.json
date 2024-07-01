@@ -1,0 +1,181 @@
+[
+  {
+    "chainId": 42161,
+    "address": "0x3baC8478868F219a087e5473cD484A5547C50ad0",
+    "name": "Tapioca Singularity-Tapioca OFT Staked GLP",
+    "symbol": "tm-tsGLP",
+    "decimals": 18,
+    "supportsEip2612": true
+  },
+  {
+    "chainId": 42161,
+    "address": "0x5402B5F40310bDED796c7D0F3FF6683f5C0cFfdf",
+    "name": "StakedGlp",
+    "symbol": "sGLP",
+    "decimals": 18,
+    "supportsEip2612": false
+  },
+  {
+    "chainId": 42161,
+    "address": "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
+    "name": "Wrapped Ether",
+    "symbol": "WETH",
+    "decimals": 18,
+    "supportsEip2612": true
+  },
+  {
+    "chainId": 42161,
+    "address": "0xEC70Dcb4A1EFa46b8F2D97C310C9c4790ba5ffA8",
+    "name": "Rocket Pool ETH",
+    "symbol": "rETH",
+    "decimals": 18,
+    "supportsEip2612": true
+  },
+  {
+    "chainId": 42161,
+    "address": "0x5979D7b546E38E414F7E9822514be443A4800529",
+    "name": "Wrapped liquid staked Ether 2.0",
+    "symbol": "wstETH",
+    "decimals": 18,
+    "supportsEip2612": false
+  },
+  {
+    "chainId": 42161,
+    "address": "0x3907fE9bde3FA4749986e8641FEab6F7d71C8099",
+    "name": "Tapioca OFT SGL GLP Market",
+    "symbol": "T_SGL_GLP_MARKET",
+    "decimals": 18,
+    "supportsEip2612": true,
+    "toftDefinitions": {
+      "underlying": {
+        "chainId": 42161,
+        "address": "0x3baC8478868F219a087e5473cD484A5547C50ad0"
+      },
+      "remotes": [
+        {
+          "chainId": 42161,
+          "address": "0x3907fE9bde3FA4749986e8641FEab6F7d71C8099"
+        }
+      ]
+    }
+  },
+  {
+    "chainId": 42161,
+    "address": "0x909260532E0B954bD90Be8B554A410E8cEAF50c7",
+    "name": "Tapioca OFT Staked GLP",
+    "symbol": "tsGLP",
+    "decimals": 18,
+    "supportsEip2612": true,
+    "toftDefinitions": {
+      "underlying": {
+        "chainId": 42161,
+        "address": "0x5402B5F40310bDED796c7D0F3FF6683f5C0cFfdf"
+      },
+      "remotes": [
+        {
+          "chainId": 42161,
+          "address": "0x909260532E0B954bD90Be8B554A410E8cEAF50c7"
+        }
+      ]
+    }
+  },
+  {
+    "chainId": 42161,
+    "address": "0xEB99062643cA5Ab880c077288345E0B14B297432",
+    "name": "USDO Stablecoin",
+    "symbol": "USDO",
+    "decimals": 18,
+    "supportsEip2612": true,
+    "toftDefinitions": {
+      "remotes": [
+        {
+          "chainId": 42161,
+          "address": "0xEB99062643cA5Ab880c077288345E0B14B297432"
+        }
+      ]
+    }
+  },
+  {
+    "chainId": 42161,
+    "address": "0xA351f7F36a169e795EB43afaA1725dEd93722210",
+    "name": "Multi Tapioca OFT Native Ether",
+    "symbol": "mtETH",
+    "decimals": 18,
+    "supportsEip2612": true,
+    "toftDefinitions": {
+      "underlying": {
+        "chainId": 42161,
+        "address": "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1"
+      },
+      "remotes": [
+        {
+          "chainId": 42161,
+          "address": "0xA351f7F36a169e795EB43afaA1725dEd93722210"
+        }
+      ]
+    }
+  },
+  {
+    "chainId": 42161,
+    "address": "0x3f24526ab5CeC07b6fD0e1c522a1222a686c63f1",
+    "name": "Tapioca OFT Rocket Pool Ether",
+    "symbol": "tRETH",
+    "decimals": 18,
+    "supportsEip2612": true,
+    "toftDefinitions": {
+      "underlying": {
+        "chainId": 42161,
+        "address": "0xEC70Dcb4A1EFa46b8F2D97C310C9c4790ba5ffA8"
+      },
+      "remotes": [
+        {
+          "chainId": 42161,
+          "address": "0x3f24526ab5CeC07b6fD0e1c522a1222a686c63f1"
+        }
+      ]
+    }
+  },
+  {
+    "chainId": 42161,
+    "address": "0x8837439Ddb4acbaBCe2aC84372264b9E99765a52",
+    "name": "Tapioca OFT Lido Wrapped Staked Ether",
+    "symbol": "tWSTETH",
+    "decimals": 18,
+    "supportsEip2612": true,
+    "toftDefinitions": {
+      "underlying": {
+        "chainId": 42161,
+        "address": "0x5979D7b546E38E414F7E9822514be443A4800529"
+      },
+      "remotes": [
+        {
+          "chainId": 42161,
+          "address": "0x8837439Ddb4acbaBCe2aC84372264b9E99765a52"
+        }
+      ]
+    }
+  },
+  {
+    "chainId": 42161,
+    "address": "0x2C650dAb03A59332e2E0C0C4A7F726913e5028C1",
+    "name": "TapToken",
+    "symbol": "TAP",
+    "decimals": 18,
+    "supportsEip2612": true,
+    "toftDefinitions": {
+      "remotes": [
+        {
+          "chainId": 42161,
+          "address": "0x2C650dAb03A59332e2E0C0C4A7F726913e5028C1"
+        }
+      ]
+    }
+  },
+  {
+    "chainId": 42161,
+    "decimals": 18,
+    "symbol": "ETH",
+    "name": "Arbitrum Sepolia Ether",
+    "address": "0x0000000000000000000000000000000000000000"
+  }
+]

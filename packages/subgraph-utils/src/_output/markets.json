@@ -1,0 +1,64 @@
+{
+  "singularityMarkets": [
+    {
+      "chainId": 42161,
+      "address": "0x3baC8478868F219a087e5473cD484A5547C50ad0",
+      "oracleAddress": "0xa6A80dCD0149904bD18E1e724B9e572b607c2668",
+      "type": "SGL",
+      "borrowToken": {
+        "address": "0xEB99062643cA5Ab880c077288345E0B14B297432",
+        "chainId": 42161
+      },
+      "collateralToken": {
+        "address": "0x909260532E0B954bD90Be8B554A410E8cEAF50c7",
+        "chainId": 42161
+      },
+      "tolpLockSglYbId": 10,
+      "tSglAddress": "0x3907fE9bde3FA4749986e8641FEab6F7d71C8099"
+    }
+  ],
+  "bigBangMarkets": [
+    {
+      "chainId": 42161,
+      "address": "0xA557C590171024d9ef6ecE3d922e2887894B650B",
+      "oracleAddress": "0x0Ec98e3bf28e4A92785701D1E8CE1983743D7c2D",
+      "type": "BB",
+      "borrowToken": {
+        "address": "0xEB99062643cA5Ab880c077288345E0B14B297432",
+        "chainId": 42161
+      },
+      "collateralToken": {
+        "address": "0xA351f7F36a169e795EB43afaA1725dEd93722210",
+        "chainId": 42161
+      }
+    },
+    {
+      "chainId": 42161,
+      "address": "0xacF4067F784a84A68CF3a3F83c0dF89A9116Cd8b",
+      "oracleAddress": "0xcD10D65D986c51745cE3545F629B9E045443Bb18",
+      "type": "BB",
+      "borrowToken": {
+        "address": "0xEB99062643cA5Ab880c077288345E0B14B297432",
+        "chainId": 42161
+      },
+      "collateralToken": {
+        "address": "0x3f24526ab5CeC07b6fD0e1c522a1222a686c63f1",
+        "chainId": 42161
+      }
+    },
+    {
+      "chainId": 42161,
+      "address": "0x1C7671b9E7805591dC60AC3641EE274A387DC171",
+      "oracleAddress": "0xcE743483d649902e68Ce0e840f4019Ce0833EF67",
+      "type": "BB",
+      "borrowToken": {
+        "address": "0xEB99062643cA5Ab880c077288345E0B14B297432",
+        "chainId": 42161
+      },
+      "collateralToken": {
+        "address": "0x8837439Ddb4acbaBCe2aC84372264b9E99765a52",
+        "chainId": 42161
+      }
+    }
+  ]
+}

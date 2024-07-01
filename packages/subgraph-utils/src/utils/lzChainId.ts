@@ -7,6 +7,14 @@ const chainIdLzId = [
     chainId: 43113,
     lzId: 40106,
   },
+  {
+    chainId: 42161,
+    lzId: 30110,
+  },
+  {
+    chainId: 1,
+    lzId: 30101,
+  },
 ]
 
 /**
