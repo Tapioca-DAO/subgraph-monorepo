@@ -1,10 +1,9 @@
-import { BigInt, Address } from "@graphprotocol/graph-ts"
+import { Address, BigInt } from "@graphprotocol/graph-ts"
 
 import { ERC20 } from "../../../generated/Penrose/ERC20"
 import { ERC20NameBytes } from "../../../generated/Penrose/ERC20NameBytes"
 import { ERC20SymbolBytes } from "../../../generated/Penrose/ERC20SymbolBytes"
-import { Token, TOFToken } from "../../../generated/schema"
-import { StaticTokenDefinition } from "./staticTokenDefinition"
+import { Token } from "../../../generated/schema"
 
 export function isNullEthValue(value: string): boolean {
   return (
@@ -27,12 +26,13 @@ export function fetchTokenSymbol(tokenAddress: Address): string {
       if (!isNullEthValue(symbolResultBytes.value.toHexString())) {
         symbolValue = symbolResultBytes.value.toString()
       } else {
-        // try with the static definition
-        const staticTokenDefinition =
-          StaticTokenDefinition.fromAddress(tokenAddress)
-        if (staticTokenDefinition != null) {
-          symbolValue = staticTokenDefinition.symbol
-        }
+        throw new Error("Symbol not found")
+        // // try with the static definition
+        // const staticTokenDefinition =
+        //   StaticTokenDefinition.fromAddress(tokenAddress)
+        // if (staticTokenDefinition != null) {
+        //   symbolValue = staticTokenDefinition.symbol
+        // }
       }
     }
   } else {
@@ -56,12 +56,13 @@ export function fetchTokenName(tokenAddress: Address): string {
       if (!isNullEthValue(nameResultBytes.value.toHexString())) {
         nameValue = nameResultBytes.value.toString()
       } else {
-        // try with the static definition
-        const staticTokenDefinition =
-          StaticTokenDefinition.fromAddress(tokenAddress)
-        if (staticTokenDefinition != null) {
-          nameValue = staticTokenDefinition.name
-        }
+        throw new Error("Name not found")
+        // // try with the static definition
+        // const staticTokenDefinition =
+        //   StaticTokenDefinition.fromAddress(tokenAddress)
+        // if (staticTokenDefinition != null) {
+        //   nameValue = staticTokenDefinition.name
+        // }
       }
     }
   } else {
@@ -79,12 +80,13 @@ export function fetchTokenDecimals(tokenAddress: Address): BigInt {
   if (!decimalResult.reverted) {
     decimalValue = decimalResult.value
   } else {
-    // try with the static definition
-    const staticTokenDefinition =
-      StaticTokenDefinition.fromAddress(tokenAddress)
-    if (staticTokenDefinition != null) {
-      return staticTokenDefinition.decimals
-    }
+    throw new Error("decimals not found" + tokenAddress.toHexString())
+    // // try with the static definition
+    // const staticTokenDefinition =
+    //   StaticTokenDefinition.fromAddress(tokenAddress)
+    // if (staticTokenDefinition != null) {
+    //   return staticTokenDefinition.decimals
+    // }
   }
 
   return BigInt.fromI32(decimalValue as i32)
@@ -102,35 +104,6 @@ export function putToken(tokenAddress: Address): Token {
 
   token.save()
   return token
-}
-
-export function putToft(
-  tokenAddress: Address,
-  isUSDO: boolean,
-  underlyingAddress: Address | null = null,
-): TOFToken {
-  let toftEntity = TOFToken.load(tokenAddress.toHexString())
-
-  if (toftEntity == null) {
-    toftEntity = new TOFToken(tokenAddress.toHexString())
-
-    toftEntity.TOFToken = putToken(tokenAddress).id
-
-    toftEntity.isUSDO = isUSDO
-
-    if (underlyingAddress) {
-      toftEntity.underlyingToken = putToken(underlyingAddress).id
-    }
-    toftEntity.save()
-  }
-
-  return toftEntity
-}
-
-export function getToft(tokenAddress: Address): TOFToken | null {
-  const toftEntity = TOFToken.load(tokenAddress.toHexString())
-
-  return toftEntity
 }
 
 export function getToken(tokenAddress: Address): Token | null {

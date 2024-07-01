@@ -1,12 +1,12 @@
-import { ethereum, BigInt, log, Address } from "@graphprotocol/graph-ts"
+import { Address, BigInt, ethereum, log } from "@graphprotocol/graph-ts"
 
 import { Singularity } from "../generated/Penrose/Singularity"
 import {
   Account,
   Market,
   Position,
-  PositionSnapshot,
   PositionCounter,
+  PositionSnapshot,
   TapiocaProtocolAmount,
 } from "../generated/schema"
 import { MagnetarHelper } from "../generated/templates/Singularity/MagnetarHelper"
@@ -84,9 +84,9 @@ function getAccruedAccountBalance(
 
   let tryRawAmount: ethereum.CallResult<BigInt>
   if (positionType == PositionType.BORROW) {
-    tryRawAmount = singularityContract.try_userBorrowPart(accountAddress)
+    tryRawAmount = singularityContract.try__userBorrowPart(accountAddress)
   } else if (positionType == PositionType.PROVIDE_COLLATERAL_ASSET) {
-    tryRawAmount = singularityContract.try_userCollateralShare(accountAddress)
+    tryRawAmount = singularityContract.try__userCollateralShare(accountAddress)
   } else {
     // * (positionSide == PositionType.LEND_BORROW_ASSET)
     // get userAssetFraction

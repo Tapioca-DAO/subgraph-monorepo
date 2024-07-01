@@ -32,36 +32,6 @@ type TapiocaProtocolAmount @entity {
   currentUsdValue: TokenUsdValue!   # current usd value of the token
 }
 
-" TOFToken holds information about OFT token "
-type TOFToken @entity {
-  " address of the TOFT "
-  id: ID!
-  " true if this is USDO "
-  isUSDO: Boolean!
-  " underlying Token - present if underlying token is from the same chain as current TOFT "
-  underlyingToken: Token
-  " TOFT token "
-  TOFToken: Token!
-  " information about TOFT tokens tied to current one on other chains "
-  remoteTOFTokenMetaData: [RemoteTOFTMeta!]! @derivedFrom(field: "TOFToken")
-  " list of successful teleports with **destination** of current TOFT token "
-  teleports: [TeleportReceived!]! @derivedFrom(field: "destinationTOFToken")
-}
-
-" RemoteTOFTMeta holds information about remote TOFT tokens "
-type RemoteTOFTMeta @entity {
-  " remote TOFT chain ID + source (current) TOFT address "
-  id: ID!
-  " TOFT token on current chain "
-  TOFToken: TOFToken!
-  " chain ID of remote TOFT "
-  remoteChainId: Int! # uint16
-  " layerzero chain ID of remote TOFT "
-  remoteLZChainId: Int! # uint16
-  " address of remote TOFT "
-  remoteTOFTokenAddress: Bytes!
-}
-
 ##################################
 ######## Utility entities ########
 ##################################
@@ -315,33 +285,6 @@ interface AccountEvent @entity(immutable: true) {
 An event is any user action that occurs in a protocol. Generally, they are Ethereum events
 emitted by a function in the smart contracts, stored in transaction receipts as event logs.
 """
-
-type TeleportReceived implements AccountEvent @entity(immutable: true) {
-  id: ID!
-  hash: Bytes!
-  nonce: BigInt!
-  logIndex: Int!
-  blockNumber: BigInt!
-  timestamp: BigInt!
-  callerAddress: Bytes!
-  # end AccountEvent implementation
-
-  " amount of TOFT tokens received "
-  amount: BigInt!
-
-  " chain ID of the sending chain "
-  sourceChainId: Int!
-
-  " LayerZero chain ID of the sending chain "
-  sourceLZChainId: Int!
-
-  " receiver's account "
-  destinationAccount: Account!
-
-  " received TOFT token "
-  destinationTOFToken: TOFToken!
-}
-
 type Deposit implements AccountEvent @entity(immutable: true) {
   id: ID!
   hash: Bytes!
@@ -530,9 +473,6 @@ type Account @entity {
 
   " Number of teleports this account received "
   teleportReceivedCount: Int!
-
-  " All teleport events of this account "
-  teleportsReceived: [TeleportReceived!]! @derivedFrom(field: "destinationAccount")
 }
 
 type Position @entity {

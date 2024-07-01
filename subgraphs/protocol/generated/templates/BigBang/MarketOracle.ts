@@ -7,7 +7,7 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
+  BigInt,
 } from "@graphprotocol/graph-ts";
 
 export class MarketOracle__getResult {
@@ -97,25 +97,25 @@ export class MarketOracle extends ethereum.SmartContract {
 
   get(param0: Bytes): MarketOracle__getResult {
     let result = super.call("get", "get(bytes):(bool,uint256)", [
-      ethereum.Value.fromBytes(param0)
+      ethereum.Value.fromBytes(param0),
     ]);
 
     return new MarketOracle__getResult(
       result[0].toBoolean(),
-      result[1].toBigInt()
+      result[1].toBigInt(),
     );
   }
 
   try_get(param0: Bytes): ethereum.CallResult<MarketOracle__getResult> {
     let result = super.tryCall("get", "get(bytes):(bool,uint256)", [
-      ethereum.Value.fromBytes(param0)
+      ethereum.Value.fromBytes(param0),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new MarketOracle__getResult(value[0].toBoolean(), value[1].toBigInt())
+      new MarketOracle__getResult(value[0].toBoolean(), value[1].toBigInt()),
     );
   }
 
@@ -123,7 +123,7 @@ export class MarketOracle extends ethereum.SmartContract {
     let result = super.call(
       "getDataParameter",
       "getDataParameter():(bytes)",
-      []
+      [],
     );
 
     return result[0].toBytes();
@@ -133,7 +133,7 @@ export class MarketOracle extends ethereum.SmartContract {
     let result = super.tryCall(
       "getDataParameter",
       "getDataParameter():(bytes)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -144,7 +144,7 @@ export class MarketOracle extends ethereum.SmartContract {
 
   name(param0: Bytes): string {
     let result = super.call("name", "name(bytes):(string)", [
-      ethereum.Value.fromBytes(param0)
+      ethereum.Value.fromBytes(param0),
     ]);
 
     return result[0].toString();
@@ -152,7 +152,7 @@ export class MarketOracle extends ethereum.SmartContract {
 
   try_name(param0: Bytes): ethereum.CallResult<string> {
     let result = super.tryCall("name", "name(bytes):(string)", [
-      ethereum.Value.fromBytes(param0)
+      ethereum.Value.fromBytes(param0),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -163,31 +163,31 @@ export class MarketOracle extends ethereum.SmartContract {
 
   peek(param0: Bytes): MarketOracle__peekResult {
     let result = super.call("peek", "peek(bytes):(bool,uint256)", [
-      ethereum.Value.fromBytes(param0)
+      ethereum.Value.fromBytes(param0),
     ]);
 
     return new MarketOracle__peekResult(
       result[0].toBoolean(),
-      result[1].toBigInt()
+      result[1].toBigInt(),
     );
   }
 
   try_peek(param0: Bytes): ethereum.CallResult<MarketOracle__peekResult> {
     let result = super.tryCall("peek", "peek(bytes):(bool,uint256)", [
-      ethereum.Value.fromBytes(param0)
+      ethereum.Value.fromBytes(param0),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new MarketOracle__peekResult(value[0].toBoolean(), value[1].toBigInt())
+      new MarketOracle__peekResult(value[0].toBoolean(), value[1].toBigInt()),
     );
   }
 
   peekSpot(param0: Bytes): BigInt {
     let result = super.call("peekSpot", "peekSpot(bytes):(uint256)", [
-      ethereum.Value.fromBytes(param0)
+      ethereum.Value.fromBytes(param0),
     ]);
 
     return result[0].toBigInt();
@@ -195,7 +195,7 @@ export class MarketOracle extends ethereum.SmartContract {
 
   try_peekSpot(param0: Bytes): ethereum.CallResult<BigInt> {
     let result = super.tryCall("peekSpot", "peekSpot(bytes):(uint256)", [
-      ethereum.Value.fromBytes(param0)
+      ethereum.Value.fromBytes(param0),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -236,7 +236,7 @@ export class MarketOracle extends ethereum.SmartContract {
 
   symbol(param0: Bytes): string {
     let result = super.call("symbol", "symbol(bytes):(string)", [
-      ethereum.Value.fromBytes(param0)
+      ethereum.Value.fromBytes(param0),
     ]);
 
     return result[0].toString();
@@ -244,7 +244,7 @@ export class MarketOracle extends ethereum.SmartContract {
 
   try_symbol(param0: Bytes): ethereum.CallResult<string> {
     let result = super.tryCall("symbol", "symbol(bytes):(string)", [
-      ethereum.Value.fromBytes(param0)
+      ethereum.Value.fromBytes(param0),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();

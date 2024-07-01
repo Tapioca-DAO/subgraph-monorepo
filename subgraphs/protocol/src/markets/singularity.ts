@@ -3,34 +3,48 @@ import { Address, BigInt, ethereum, log } from "@graphprotocol/graph-ts"
 import { Singularity } from "../../generated/Penrose/Singularity"
 import {
   Borrow,
-  Repay,
   Deposit,
-  Withdrawal,
-  Rebase,
   Market,
   MarketState,
+  Rebase,
+  Repay,
   Token,
-  TokenUsdValue, //TapiocaProtocolAmount,
+  TokenUsdValue,
+  Withdrawal,
 } from "../../generated/schema"
 import {
-  LogBorrow as BorrowEvent,
-  LogRepay as RepayEvent,
   LogAddAsset as AddAssetEvent,
   LogAddCollateral as AddCollateralEvent,
-  LogRemoveAsset as RemoveAssetEvent,
-  LogRemoveCollateral as RemoveCollateralEvent,
+  LogBorrow as BorrowEvent,
   LogAccrue as LogAccrueEvent,
   LogExchangeRate as LogExchangeRateEvent,
+  OwnershipTransferred as OwnershipTransferredEvent,
+  LogRemoveAsset as RemoveAssetEvent,
+  LogRemoveCollateral as RemoveCollateralEvent,
+  LogRepay as RepayEvent,
 } from "../../generated/templates/Singularity/Singularity"
-import { BIGDECIMAL_ZERO, EventType, PositionType } from "../common/constants"
+import {
+  BIGDECIMAL_ZERO,
+  BIGINT_ZERO,
+  EventType,
+  MarketType,
+  PositionType,
+  ZERO_ADDRESS,
+} from "../common/constants"
 import { bigIntToBigDecimal } from "../common/utils"
 import { updatePositions } from "../positions"
 import { getEventId } from "../utils"
 import { getOrCreateAccount } from "../utils/account/account"
 import { MarketAccrueInfoManager } from "../utils/interest/accrueInfo"
 import { getInterestPerYear, takeFee } from "../utils/interest/apr"
-import { InterestRateManager } from "../utils/interest/interest"
+import { STARTING_INTEREST_PER_YEAR } from "../utils/interest/constants"
+import {
+  InterestRateManager,
+  InterestRateSide,
+  InterestRateType,
+} from "../utils/interest/interest"
 import { PAC, getAmountFromRawAmount } from "../utils/protocol/amount"
+import { getTapiocaProtocol } from "../utils/protocol/protocol"
 import {
   MarketRebaseType,
   RebaseFetcher,
@@ -38,8 +52,140 @@ import {
   RebaseUtils,
 } from "../utils/rebase/rebase"
 import { updateAllTokenPrices, updateTokenPrice } from "../utils/token/price"
+import { putToken } from "../utils/token/token"
+
+function putSglMarket(
+  address: Address,
+  blockNumber: BigInt,
+  timestamp: BigInt,
+): void {
+  let marketEntity = Market.load(address.toHexString())
+  if (marketEntity != null) {
+    return
+  } else {
+    marketEntity = new Market(address.toHexString())
+  }
+
+  marketEntity.address = address
+  marketEntity.type = MarketType.SINGULARITY
+
+  const singularityContract = Singularity.bind(address)
+
+  const collateralAddress = singularityContract._collateral()
+  const borrowAddress = singularityContract._asset()
+  log.error("handleRegisterSingularity addresses {}", [
+    collateralAddress.toHexString(),
+    borrowAddress.toHexString(),
+  ])
+  if (
+    collateralAddress.toHexString() == ZERO_ADDRESS.toHexString() ||
+    borrowAddress.toHexString() == ZERO_ADDRESS.toHexString()
+  ) {
+    return
+  }
+  const borrowToken = putToken(borrowAddress)
+  const collateralToken = putToken(collateralAddress)
+
+  if (borrowToken == null || collateralToken == null) {
+    log.error(
+      "Market: TOFTs not found for borrowToken {} or collateralToken {}",
+      [
+        singularityContract._asset().toHexString(),
+        singularityContract._collateral().toHexString(),
+      ],
+    )
+    return
+  }
+
+  const protocol = getTapiocaProtocol()
+
+  marketEntity.borrowToken = borrowToken.id
+  marketEntity.collateralToken = collateralToken.id
+  marketEntity.oracleAddress = singularityContract._oracle()
+  marketEntity._borrowTokenYieldBoxId = singularityContract._assetId()
+  marketEntity._collateralTokenYieldBoxId = singularityContract._collateralId()
+  marketEntity.positionCount = 0
+  marketEntity.lendingPositionCount = 0
+  marketEntity.borrowingPositionCount = 0
+  marketEntity.openPositionCount = 0
+  marketEntity.closedPositionCount = 0
+  marketEntity.protocol = protocol.id
+
+  marketEntity.totalBorrowed = BIGINT_ZERO
+  marketEntity.totalBorrowedUsd = BIGDECIMAL_ZERO
+  marketEntity.totalBorrowSupply = BIGINT_ZERO
+  marketEntity.totalBorrowSupplyUsd = BIGDECIMAL_ZERO
+  marketEntity.totalCollateral = BIGINT_ZERO
+  marketEntity.totalCollateralUsd = BIGDECIMAL_ZERO
+
+  marketEntity.totalFeesEarnedFraction = BIGINT_ZERO
+
+  marketEntity.supplyInterest = InterestRateManager.getOrCreateInterestRate(
+    address.toHexString(),
+    InterestRateSide.LENDER,
+    InterestRateType.STABLE,
+    STARTING_INTEREST_PER_YEAR,
+  ).id
+  marketEntity.borrowInterest = InterestRateManager.getOrCreateInterestRate(
+    address.toHexString(),
+    InterestRateSide.BORROW,
+    InterestRateType.STABLE,
+  ).id
+  marketEntity.collateralInterest = InterestRateManager.getOrCreateInterestRate(
+    address.toHexString(),
+    InterestRateSide.COLLATERAL_PROVIDER,
+    InterestRateType.STABLE,
+  ).id
+  marketEntity.utilization = BigInt.fromU32(0)
+
+  marketEntity.accrueInfo = MarketAccrueInfoManager.createMarketAccrueInfo(
+    address.toHexString(),
+  ).id
+
+  marketEntity._totalCollateralShare = BIGINT_ZERO
+  marketEntity._totalAsset = RebaseManager.getOrCreateRebase(
+    RebaseManager.marketId(address.toHexString(), MarketRebaseType.SUPPLY),
+    borrowToken.id,
+    blockNumber,
+    timestamp,
+  ).id
+  marketEntity._totalBorrow = RebaseManager.getOrCreateRebase(
+    RebaseManager.marketId(address.toHexString(), MarketRebaseType.BORROW),
+    borrowToken.id,
+    blockNumber,
+    timestamp,
+  ).id
+
+  marketEntity._ybTotalAsset = RebaseManager.getOrCreateRebase(
+    RebaseManager.ybId(marketEntity._borrowTokenYieldBoxId),
+    borrowToken.id,
+    blockNumber,
+    timestamp,
+  ).id
+
+  marketEntity._ybTotalCollateralAsset = RebaseManager.getOrCreateRebase(
+    RebaseManager.ybId(marketEntity._collateralTokenYieldBoxId),
+    collateralToken.id,
+    blockNumber,
+    timestamp,
+  ).id
+
+  marketEntity.save()
+
+  const mktIds = protocol.marketIds
+  mktIds.push(marketEntity.id)
+  protocol.marketIds = mktIds
+  protocol.save()
+}
+
+export function handleOwnershipTransferred(
+  event: OwnershipTransferredEvent,
+): void {
+  putSglMarket(event.address, event.block.number, event.block.timestamp)
+}
 
 export function handleBorrow(event: BorrowEvent): void {
+  putSglMarket(event.address, event.block.number, event.block.timestamp)
   const singularityMarket = Market.load(event.address.toHexString())
   if (singularityMarket == null) {
     return
@@ -108,6 +254,7 @@ export function handleBorrow(event: BorrowEvent): void {
 }
 
 export function handleRepay(event: RepayEvent): void {
+  putSglMarket(event.address, event.block.number, event.block.timestamp)
   const singularityMarket = Market.load(event.address.toHexString())
   if (singularityMarket == null) {
     return
@@ -164,6 +311,7 @@ export function handleRepay(event: RepayEvent): void {
 }
 
 export function handleAddCollateral(event: AddCollateralEvent): void {
+  putSglMarket(event.address, event.block.number, event.block.timestamp)
   const singularityMarket = Market.load(event.address.toHexString())
   if (singularityMarket == null) {
     return
@@ -217,6 +365,7 @@ export function handleAddCollateral(event: AddCollateralEvent): void {
 }
 
 export function handleRemoveCollateral(event: RemoveCollateralEvent): void {
+  putSglMarket(event.address, event.block.number, event.block.timestamp)
   const singularityMarket = Market.load(event.address.toHexString())
   if (singularityMarket == null) {
     return
@@ -269,6 +418,7 @@ export function handleRemoveCollateral(event: RemoveCollateralEvent): void {
 }
 
 export function handleAddAsset(event: AddAssetEvent): void {
+  putSglMarket(event.address, event.block.number, event.block.timestamp)
   const singularityMarket = Market.load(event.address.toHexString())
   if (singularityMarket == null) {
     return
@@ -322,6 +472,7 @@ export function handleAddAsset(event: AddAssetEvent): void {
 }
 
 export function handleRemoveAsset(event: RemoveAssetEvent): void {
+  putSglMarket(event.address, event.block.number, event.block.timestamp)
   const singularityMarket = Market.load(event.address.toHexString())
   if (singularityMarket == null) {
     return
@@ -374,6 +525,7 @@ export function handleRemoveAsset(event: RemoveAssetEvent): void {
 }
 
 export function handleAccrue(event: LogAccrueEvent): void {
+  putSglMarket(event.address, event.block.number, event.block.timestamp)
   log.info("[YieldBox:SGL] Log Accrue {} {} {} {}", [
     event.params.accruedAmount.toString(),
     event.params.feeFraction.toString(),
@@ -413,6 +565,7 @@ export function handleAccrue(event: LogAccrueEvent): void {
 }
 
 export function handleExchangeRate(event: LogExchangeRateEvent): void {
+  putSglMarket(event.address, event.block.number, event.block.timestamp)
   // update market prices
   const market = Market.load(event.address.toHexString()) as Market
   const token = Token.load(market.collateralToken) as Token
@@ -505,7 +658,7 @@ function updateMarketTotals(
 
   market._totalCollateralShare = Singularity.bind(
     event.address,
-  ).totalCollateralShare()
+  )._totalCollateralShare()
 
   market.totalBorrowed = totalBorrow.elastic
   market.totalBorrowSupply = RebaseUtils.ybToAmount(

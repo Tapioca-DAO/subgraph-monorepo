@@ -3,36 +3,6 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_owner",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "previousOwner",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
-    ],
-    "name": "OwnershipTransferred",
-    "type": "event"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
         "name": "who",
         "type": "address"
       },
@@ -69,7 +39,7 @@
                 "type": "uint256"
               },
               {
-                "internalType": "contract IOracle",
+                "internalType": "contract ITapiocaOracle",
                 "name": "oracle",
                 "type": "address"
               },
@@ -151,7 +121,7 @@
                 "type": "uint256"
               },
               {
-                "internalType": "enum TokenType",
+                "internalType": "enum IYieldBoxTokenType",
                 "name": "yieldBoxCollateralTokenType",
                 "type": "uint8"
               },
@@ -171,7 +141,7 @@
                 "type": "uint256"
               },
               {
-                "internalType": "enum TokenType",
+                "internalType": "enum IYieldBoxTokenType",
                 "name": "yieldBoxAssetTokenType",
                 "type": "uint8"
               },
@@ -193,6 +163,36 @@
               {
                 "internalType": "uint256",
                 "name": "collateralizationRate",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "liquidationCollateralizationRate",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "minLiquidatorReward",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "maxLiquidatorReward",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "liquidationBonusAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "minBorrowAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "minCollateralAmount",
                 "type": "uint256"
               }
             ],
@@ -291,6 +291,11 @@
         "internalType": "uint256",
         "name": "borrowPart",
         "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "roundUp",
+        "type": "bool"
       }
     ],
     "name": "getAmountForBorrowPart",
@@ -315,6 +320,11 @@
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "roundUp",
+        "type": "bool"
       }
     ],
     "name": "getBorrowPartForAmount",
@@ -373,6 +383,16 @@
         "internalType": "uint256",
         "name": "exchangeRatePrecision",
         "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "roundAmounUp",
+        "type": "bool"
+      },
+      {
+        "internalType": "bool",
+        "name": "roundSharesUp",
+        "type": "bool"
       }
     ],
     "name": "getCollateralSharesForBorrowPart",
@@ -397,6 +417,11 @@
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "roundUp",
+        "type": "bool"
       }
     ],
     "name": "getFractionForAmount",
@@ -408,26 +433,6 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "renounceOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -470,7 +475,7 @@
                 "type": "uint256"
               },
               {
-                "internalType": "contract IOracle",
+                "internalType": "contract ITapiocaOracle",
                 "name": "oracle",
                 "type": "address"
               },
@@ -552,7 +557,7 @@
                 "type": "uint256"
               },
               {
-                "internalType": "enum TokenType",
+                "internalType": "enum IYieldBoxTokenType",
                 "name": "yieldBoxCollateralTokenType",
                 "type": "uint8"
               },
@@ -572,7 +577,7 @@
                 "type": "uint256"
               },
               {
-                "internalType": "enum TokenType",
+                "internalType": "enum IYieldBoxTokenType",
                 "name": "yieldBoxAssetTokenType",
                 "type": "uint8"
               },
@@ -594,6 +599,36 @@
               {
                 "internalType": "uint256",
                 "name": "collateralizationRate",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "liquidationCollateralizationRate",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "minLiquidatorReward",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "maxLiquidatorReward",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "liquidationBonusAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "minBorrowAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "minCollateralAmount",
                 "type": "uint256"
               }
             ],
@@ -679,6 +714,11 @@
             "internalType": "uint256",
             "name": "startingInterestPerSecond",
             "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "minLendAmount",
+            "type": "uint256"
           }
         ],
         "internalType": "struct MagnetarHelper.SingularityInfo[]",
@@ -687,19 +727,6 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
-    ],
-    "name": "transferOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]

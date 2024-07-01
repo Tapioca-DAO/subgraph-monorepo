@@ -7,42 +7,50 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
+  BigInt,
 } from "@graphprotocol/graph-ts";
 
-export class BigBangEthMarketDebtRate extends ethereum.Event {
-  get params(): BigBangEthMarketDebtRate__Params {
-    return new BigBangEthMarketDebtRate__Params(this);
+export class BigBangEthMarketDebtRateUpdated extends ethereum.Event {
+  get params(): BigBangEthMarketDebtRateUpdated__Params {
+    return new BigBangEthMarketDebtRateUpdated__Params(this);
   }
 }
 
-export class BigBangEthMarketDebtRate__Params {
-  _event: BigBangEthMarketDebtRate;
+export class BigBangEthMarketDebtRateUpdated__Params {
+  _event: BigBangEthMarketDebtRateUpdated;
 
-  constructor(event: BigBangEthMarketDebtRate) {
+  constructor(event: BigBangEthMarketDebtRateUpdated) {
     this._event = event;
   }
 
-  get _rate(): BigInt {
+  get _oldRate(): BigInt {
     return this._event.parameters[0].value.toBigInt();
   }
-}
 
-export class BigBangEthMarketSet extends ethereum.Event {
-  get params(): BigBangEthMarketSet__Params {
-    return new BigBangEthMarketSet__Params(this);
+  get _newRate(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
   }
 }
 
-export class BigBangEthMarketSet__Params {
-  _event: BigBangEthMarketSet;
+export class BigBangEthMarketUpdated extends ethereum.Event {
+  get params(): BigBangEthMarketUpdated__Params {
+    return new BigBangEthMarketUpdated__Params(this);
+  }
+}
 
-  constructor(event: BigBangEthMarketSet) {
+export class BigBangEthMarketUpdated__Params {
+  _event: BigBangEthMarketUpdated;
+
+  constructor(event: BigBangEthMarketUpdated) {
     this._event = event;
+  }
+
+  get _oldAddress(): Address {
+    return this._event.parameters[0].value.toAddress();
   }
 
   get _newAddress(): Address {
-    return this._event.parameters[0].value.toAddress();
+    return this._event.parameters[1].value.toAddress();
   }
 }
 
@@ -129,12 +137,22 @@ export class LogTwTapFeesDeposit__Params {
     this._event = event;
   }
 
-  get feeShares(): BigInt {
+  get amount(): BigInt {
     return this._event.parameters[0].value.toBigInt();
   }
+}
 
-  get ethAmount(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
+export class MainTokensUpdated extends ethereum.Event {
+  get params(): MainTokensUpdated__Params {
+    return new MainTokensUpdated__Params(this);
+  }
+}
+
+export class MainTokensUpdated__Params {
+  _event: MainTokensUpdated;
+
+  constructor(event: MainTokensUpdated) {
+    this._event = event;
   }
 }
 
@@ -160,25 +178,43 @@ export class OwnershipTransferred__Params {
   }
 }
 
-export class PausedUpdated extends ethereum.Event {
-  get params(): PausedUpdated__Params {
-    return new PausedUpdated__Params(this);
+export class Paused extends ethereum.Event {
+  get params(): Paused__Params {
+    return new Paused__Params(this);
   }
 }
 
-export class PausedUpdated__Params {
-  _event: PausedUpdated;
+export class Paused__Params {
+  _event: Paused;
 
-  constructor(event: PausedUpdated) {
+  constructor(event: Paused) {
     this._event = event;
   }
 
-  get oldState(): boolean {
-    return this._event.parameters[0].value.toBoolean();
+  get account(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+}
+
+export class PearlmitUpdated extends ethereum.Event {
+  get params(): PearlmitUpdated__Params {
+    return new PearlmitUpdated__Params(this);
+  }
+}
+
+export class PearlmitUpdated__Params {
+  _event: PearlmitUpdated;
+
+  constructor(event: PearlmitUpdated) {
+    this._event = event;
   }
 
-  get newState(): boolean {
-    return this._event.parameters[1].value.toBoolean();
+  get oldPearlmit(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get newPearlmit(): Address {
+    return this._event.parameters[1].value.toAddress();
   }
 }
 
@@ -195,12 +231,30 @@ export class ProtocolWithdrawal__Params {
     this._event = event;
   }
 
-  get markets(): Bytes {
-    return this._event.parameters[0].value.toBytes();
+  get markets(): Array<Address> {
+    return this._event.parameters[0].value.toAddressArray();
   }
 
   get timestamp(): BigInt {
     return this._event.parameters[1].value.toBigInt();
+  }
+}
+
+export class ReaccruedMarkets extends ethereum.Event {
+  get params(): ReaccruedMarkets__Params {
+    return new ReaccruedMarkets__Params(this);
+  }
+}
+
+export class ReaccruedMarkets__Params {
+  _event: ReaccruedMarkets;
+
+  constructor(event: ReaccruedMarkets) {
+    this._event = event;
+  }
+
+  get mainMarketIncluded(): boolean {
+    return this._event.parameters[0].value.toBoolean();
   }
 }
 
@@ -248,6 +302,24 @@ export class RegisterBigBangMasterContract__Params {
   }
 }
 
+export class RegisterOrigins extends ethereum.Event {
+  get params(): RegisterOrigins__Params {
+    return new RegisterOrigins__Params(this);
+  }
+}
+
+export class RegisterOrigins__Params {
+  _event: RegisterOrigins;
+
+  constructor(event: RegisterOrigins) {
+    this._event = event;
+  }
+
+  get location(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+}
+
 export class RegisterSingularity extends ethereum.Event {
   get params(): RegisterSingularity__Params {
     return new RegisterSingularity__Params(this);
@@ -292,29 +364,57 @@ export class RegisterSingularityMasterContract__Params {
   }
 }
 
-export class SwapperUpdate extends ethereum.Event {
-  get params(): SwapperUpdate__Params {
-    return new SwapperUpdate__Params(this);
+export class TotalUsdoDebt extends ethereum.Event {
+  get params(): TotalUsdoDebt__Params {
+    return new TotalUsdoDebt__Params(this);
   }
 }
 
-export class SwapperUpdate__Params {
-  _event: SwapperUpdate;
+export class TotalUsdoDebt__Params {
+  _event: TotalUsdoDebt;
 
-  constructor(event: SwapperUpdate) {
+  constructor(event: TotalUsdoDebt) {
     this._event = event;
   }
 
-  get swapper(): Address {
+  get amount(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
+export class Unpaused extends ethereum.Event {
+  get params(): Unpaused__Params {
+    return new Unpaused__Params(this);
+  }
+}
+
+export class Unpaused__Params {
+  _event: Unpaused;
+
+  constructor(event: Unpaused) {
+    this._event = event;
+  }
+
+  get account(): Address {
     return this._event.parameters[0].value.toAddress();
   }
+}
 
-  get id(): i32 {
-    return this._event.parameters[1].value.toI32();
+export class UnregisterContract extends ethereum.Event {
+  get params(): UnregisterContract__Params {
+    return new UnregisterContract__Params(this);
+  }
+}
+
+export class UnregisterContract__Params {
+  _event: UnregisterContract;
+
+  constructor(event: UnregisterContract) {
+    this._event = event;
   }
 
-  get isRegistered(): boolean {
-    return this._event.parameters[2].value.toBoolean();
+  get bb(): Address {
+    return this._event.parameters[0].value.toAddress();
   }
 }
 
@@ -340,16 +440,6 @@ export class UsdoTokenUpdated__Params {
   }
 }
 
-export class Penrose___getMasterContractLengthInputArrayStruct extends ethereum.Tuple {
-  get location(): Address {
-    return this[0].toAddress();
-  }
-
-  get risk(): i32 {
-    return this[1].toI32();
-  }
-}
-
 export class Penrose__bigbangMasterContractsResult {
   value0: Address;
   value1: i32;
@@ -364,7 +454,7 @@ export class Penrose__bigbangMasterContractsResult {
     map.set("value0", ethereum.Value.fromAddress(this.value0));
     map.set(
       "value1",
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value1))
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value1)),
     );
     return map;
   }
@@ -403,6 +493,41 @@ export class Penrose__executeMarketFnResult {
   }
 }
 
+export class Penrose__executeTargetFnResult {
+  value0: boolean;
+  value1: Bytes;
+
+  constructor(value0: boolean, value1: Bytes) {
+    this.value0 = value0;
+    this.value1 = value1;
+  }
+
+  toMap(): TypedMap<string, ethereum.Value> {
+    let map = new TypedMap<string, ethereum.Value>();
+    map.set("value0", ethereum.Value.fromBoolean(this.value0));
+    map.set("value1", ethereum.Value.fromBytes(this.value1));
+    return map;
+  }
+
+  getSuccess(): boolean {
+    return this.value0;
+  }
+
+  getReturnData(): Bytes {
+    return this.value1;
+  }
+}
+
+export class Penrose__getAllMasterContractClonesInputArrayStruct extends ethereum.Tuple {
+  get location(): Address {
+    return this[0].toAddress();
+  }
+
+  get risk(): i32 {
+    return this[1].toI32();
+  }
+}
+
 export class Penrose__singularityMasterContractsResult {
   value0: Address;
   value1: i32;
@@ -417,7 +542,7 @@ export class Penrose__singularityMasterContractsResult {
     map.set("value0", ethereum.Value.fromAddress(this.value0));
     map.set(
       "value1",
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value1))
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value1)),
     );
     return map;
   }
@@ -436,38 +561,11 @@ export class Penrose extends ethereum.SmartContract {
     return new Penrose("Penrose", address);
   }
 
-  _getMasterContractLength(
-    array: Array<Penrose___getMasterContractLengthInputArrayStruct>
-  ): Array<Address> {
-    let result = super.call(
-      "_getMasterContractLength",
-      "_getMasterContractLength((address,uint8)[]):(address[])",
-      [ethereum.Value.fromTupleArray(array)]
-    );
-
-    return result[0].toAddressArray();
-  }
-
-  try__getMasterContractLength(
-    array: Array<Penrose___getMasterContractLengthInputArrayStruct>
-  ): ethereum.CallResult<Array<Address>> {
-    let result = super.tryCall(
-      "_getMasterContractLength",
-      "_getMasterContractLength((address,uint8)[]):(address[])",
-      [ethereum.Value.fromTupleArray(array)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddressArray());
-  }
-
   allBigBangMarkets(param0: BigInt): Address {
     let result = super.call(
       "allBigBangMarkets",
       "allBigBangMarkets(uint256):(address)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
 
     return result[0].toAddress();
@@ -477,7 +575,30 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "allBigBangMarkets",
       "allBigBangMarkets(uint256):(address)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  allOriginsMarkets(param0: BigInt): Address {
+    let result = super.call(
+      "allOriginsMarkets",
+      "allOriginsMarkets(uint256):(address)",
+      [ethereum.Value.fromUnsignedBigInt(param0)],
+    );
+
+    return result[0].toAddress();
+  }
+
+  try_allOriginsMarkets(param0: BigInt): ethereum.CallResult<Address> {
+    let result = super.tryCall(
+      "allOriginsMarkets",
+      "allOriginsMarkets(uint256):(address)",
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -490,7 +611,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "bigBangEthDebtRate",
       "bigBangEthDebtRate():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -500,7 +621,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "bigBangEthDebtRate",
       "bigBangEthDebtRate():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -513,7 +634,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "bigBangEthMarket",
       "bigBangEthMarket():(address)",
-      []
+      [],
     );
 
     return result[0].toAddress();
@@ -523,7 +644,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "bigBangEthMarket",
       "bigBangEthMarket():(address)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -536,7 +657,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "bigBangMarkets",
       "bigBangMarkets():(address[])",
-      []
+      [],
     );
 
     return result[0].toAddressArray();
@@ -546,7 +667,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "bigBangMarkets",
       "bigBangMarkets():(address[])",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -559,7 +680,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "bigBangMasterContractLength",
       "bigBangMasterContractLength():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -569,7 +690,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "bigBangMasterContractLength",
       "bigBangMasterContractLength():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -579,27 +700,27 @@ export class Penrose extends ethereum.SmartContract {
   }
 
   bigbangMasterContracts(
-    param0: BigInt
+    param0: BigInt,
   ): Penrose__bigbangMasterContractsResult {
     let result = super.call(
       "bigbangMasterContracts",
       "bigbangMasterContracts(uint256):(address,uint8)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
 
     return new Penrose__bigbangMasterContractsResult(
       result[0].toAddress(),
-      result[1].toI32()
+      result[1].toI32(),
     );
   }
 
   try_bigbangMasterContracts(
-    param0: BigInt
+    param0: BigInt,
   ): ethereum.CallResult<Penrose__bigbangMasterContractsResult> {
     let result = super.tryCall(
       "bigbangMasterContracts",
       "bigbangMasterContracts(uint256):(address,uint8)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -608,15 +729,15 @@ export class Penrose extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(
       new Penrose__bigbangMasterContractsResult(
         value[0].toAddress(),
-        value[1].toI32()
-      )
+        value[1].toI32(),
+      ),
     );
   }
 
   clonesOf(param0: Address, param1: BigInt): Address {
     let result = super.call("clonesOf", "clonesOf(address,uint256):(address)", [
       ethereum.Value.fromAddress(param0),
-      ethereum.Value.fromUnsignedBigInt(param1)
+      ethereum.Value.fromUnsignedBigInt(param1),
     ]);
 
     return result[0].toAddress();
@@ -628,8 +749,8 @@ export class Penrose extends ethereum.SmartContract {
       "clonesOf(address,uint256):(address)",
       [
         ethereum.Value.fromAddress(param0),
-        ethereum.Value.fromUnsignedBigInt(param1)
-      ]
+        ethereum.Value.fromUnsignedBigInt(param1),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -642,7 +763,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "clonesOfCount",
       "clonesOfCount(address):(uint256)",
-      [ethereum.Value.fromAddress(masterContract)]
+      [ethereum.Value.fromAddress(masterContract)],
     );
 
     return result[0].toBigInt();
@@ -652,7 +773,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "clonesOfCount",
       "clonesOfCount(address):(uint256)",
-      [ethereum.Value.fromAddress(masterContract)]
+      [ethereum.Value.fromAddress(masterContract)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -676,48 +797,10 @@ export class Penrose extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  conservator(): Address {
-    let result = super.call("conservator", "conservator():(address)", []);
-
-    return result[0].toAddress();
-  }
-
-  try_conservator(): ethereum.CallResult<Address> {
-    let result = super.tryCall("conservator", "conservator():(address)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
-  emptyStrategies(param0: Address): Address {
-    let result = super.call(
-      "emptyStrategies",
-      "emptyStrategies(address):(address)",
-      [ethereum.Value.fromAddress(param0)]
-    );
-
-    return result[0].toAddress();
-  }
-
-  try_emptyStrategies(param0: Address): ethereum.CallResult<Address> {
-    let result = super.tryCall(
-      "emptyStrategies",
-      "emptyStrategies(address):(address)",
-      [ethereum.Value.fromAddress(param0)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
   executeMarketFn(
     mc: Array<Address>,
     data: Array<Bytes>,
-    forceSuccess: boolean
+    forceSuccess: boolean,
   ): Penrose__executeMarketFnResult {
     let result = super.call(
       "executeMarketFn",
@@ -725,20 +808,20 @@ export class Penrose extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddressArray(mc),
         ethereum.Value.fromBytesArray(data),
-        ethereum.Value.fromBoolean(forceSuccess)
-      ]
+        ethereum.Value.fromBoolean(forceSuccess),
+      ],
     );
 
     return new Penrose__executeMarketFnResult(
       result[0].toBooleanArray(),
-      result[1].toBytesArray()
+      result[1].toBytesArray(),
     );
   }
 
   try_executeMarketFn(
     mc: Array<Address>,
     data: Array<Bytes>,
-    forceSuccess: boolean
+    forceSuccess: boolean,
   ): ethereum.CallResult<Penrose__executeMarketFnResult> {
     let result = super.tryCall(
       "executeMarketFn",
@@ -746,8 +829,8 @@ export class Penrose extends ethereum.SmartContract {
       [
         ethereum.Value.fromAddressArray(mc),
         ethereum.Value.fromBytesArray(data),
-        ethereum.Value.fromBoolean(forceSuccess)
-      ]
+        ethereum.Value.fromBoolean(forceSuccess),
+      ],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -756,43 +839,92 @@ export class Penrose extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(
       new Penrose__executeMarketFnResult(
         value[0].toBooleanArray(),
-        value[1].toBytesArray()
-      )
+        value[1].toBytesArray(),
+      ),
     );
   }
 
-  hostLzChainId(): i32 {
-    let result = super.call("hostLzChainId", "hostLzChainId():(uint16)", []);
+  executeTargetFn(
+    target: Address,
+    data: Bytes,
+  ): Penrose__executeTargetFnResult {
+    let result = super.call(
+      "executeTargetFn",
+      "executeTargetFn(address,bytes):(bool,bytes)",
+      [ethereum.Value.fromAddress(target), ethereum.Value.fromBytes(data)],
+    );
 
-    return result[0].toI32();
+    return new Penrose__executeTargetFnResult(
+      result[0].toBoolean(),
+      result[1].toBytes(),
+    );
   }
 
-  try_hostLzChainId(): ethereum.CallResult<i32> {
-    let result = super.tryCall("hostLzChainId", "hostLzChainId():(uint16)", []);
+  try_executeTargetFn(
+    target: Address,
+    data: Bytes,
+  ): ethereum.CallResult<Penrose__executeTargetFnResult> {
+    let result = super.tryCall(
+      "executeTargetFn",
+      "executeTargetFn(address,bytes):(bool,bytes)",
+      [ethereum.Value.fromAddress(target), ethereum.Value.fromBytes(data)],
+    );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toI32());
+    return ethereum.CallResult.fromValue(
+      new Penrose__executeTargetFnResult(
+        value[0].toBoolean(),
+        value[1].toBytes(),
+      ),
+    );
+  }
+
+  getAllMasterContractClones(
+    array: Array<Penrose__getAllMasterContractClonesInputArrayStruct>,
+  ): Array<Address> {
+    let result = super.call(
+      "getAllMasterContractClones",
+      "getAllMasterContractClones((address,uint8)[]):(address[])",
+      [ethereum.Value.fromTupleArray(array)],
+    );
+
+    return result[0].toAddressArray();
+  }
+
+  try_getAllMasterContractClones(
+    array: Array<Penrose__getAllMasterContractClonesInputArrayStruct>,
+  ): ethereum.CallResult<Array<Address>> {
+    let result = super.tryCall(
+      "getAllMasterContractClones",
+      "getAllMasterContractClones((address,uint8)[]):(address[])",
+      [ethereum.Value.fromTupleArray(array)],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddressArray());
   }
 
   isBigBangMasterContractRegistered(param0: Address): boolean {
     let result = super.call(
       "isBigBangMasterContractRegistered",
       "isBigBangMasterContractRegistered(address):(bool)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
 
     return result[0].toBoolean();
   }
 
   try_isBigBangMasterContractRegistered(
-    param0: Address
+    param0: Address,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "isBigBangMasterContractRegistered",
       "isBigBangMasterContractRegistered(address):(bool)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -805,7 +937,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "isMarketRegistered",
       "isMarketRegistered(address):(bool)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
 
     return result[0].toBoolean();
@@ -815,7 +947,30 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "isMarketRegistered",
       "isMarketRegistered(address):(bool)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
+  isOriginRegistered(param0: Address): boolean {
+    let result = super.call(
+      "isOriginRegistered",
+      "isOriginRegistered(address):(bool)",
+      [ethereum.Value.fromAddress(param0)],
+    );
+
+    return result[0].toBoolean();
+  }
+
+  try_isOriginRegistered(param0: Address): ethereum.CallResult<boolean> {
+    let result = super.tryCall(
+      "isOriginRegistered",
+      "isOriginRegistered(address):(bool)",
+      [ethereum.Value.fromAddress(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -828,19 +983,19 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "isSingularityMasterContractRegistered",
       "isSingularityMasterContractRegistered(address):(bool)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
 
     return result[0].toBoolean();
   }
 
   try_isSingularityMasterContractRegistered(
-    param0: Address
+    param0: Address,
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "isSingularityMasterContractRegistered",
       "isSingularityMasterContractRegistered(address):(bool)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -883,7 +1038,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "masterContractOf",
       "masterContractOf(address):(address)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
 
     return result[0].toAddress();
@@ -893,7 +1048,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "masterContractOf",
       "masterContractOf(address):(address)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -932,14 +1087,14 @@ export class Penrose extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
-  pendingOwner(): Address {
-    let result = super.call("pendingOwner", "pendingOwner():(address)", []);
+  pearlmit(): Address {
+    let result = super.call("pearlmit", "pearlmit():(address)", []);
 
     return result[0].toAddress();
   }
 
-  try_pendingOwner(): ethereum.CallResult<Address> {
-    let result = super.tryCall("pendingOwner", "pendingOwner():(address)", []);
+  try_pearlmit(): ethereum.CallResult<Address> {
+    let result = super.tryCall("pearlmit", "pearlmit():(address)", []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -951,7 +1106,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "singularityMarkets",
       "singularityMarkets():(address[])",
-      []
+      [],
     );
 
     return result[0].toAddressArray();
@@ -961,7 +1116,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "singularityMarkets",
       "singularityMarkets():(address[])",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -974,7 +1129,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.call(
       "singularityMasterContractLength",
       "singularityMasterContractLength():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -984,7 +1139,7 @@ export class Penrose extends ethereum.SmartContract {
     let result = super.tryCall(
       "singularityMasterContractLength",
       "singularityMasterContractLength():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -994,27 +1149,27 @@ export class Penrose extends ethereum.SmartContract {
   }
 
   singularityMasterContracts(
-    param0: BigInt
+    param0: BigInt,
   ): Penrose__singularityMasterContractsResult {
     let result = super.call(
       "singularityMasterContracts",
       "singularityMasterContracts(uint256):(address,uint8)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
 
     return new Penrose__singularityMasterContractsResult(
       result[0].toAddress(),
-      result[1].toI32()
+      result[1].toI32(),
     );
   }
 
   try_singularityMasterContracts(
-    param0: BigInt
+    param0: BigInt,
   ): ethereum.CallResult<Penrose__singularityMasterContractsResult> {
     let result = super.tryCall(
       "singularityMasterContracts",
       "singularityMasterContracts(uint256):(address,uint8)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1023,8 +1178,8 @@ export class Penrose extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(
       new Penrose__singularityMasterContractsResult(
         value[0].toAddress(),
-        value[1].toI32()
-      )
+        value[1].toI32(),
+      ),
     );
   }
 
@@ -1088,6 +1243,25 @@ export class Penrose extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
+  viewTotalDebt(): BigInt {
+    let result = super.call("viewTotalDebt", "viewTotalDebt():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_viewTotalDebt(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "viewTotalDebt",
+      "viewTotalDebt():(uint256)",
+      [],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   yieldBox(): Address {
     let result = super.call("yieldBox", "yieldBox():(address)", []);
 
@@ -1137,12 +1311,20 @@ export class ConstructorCall__Inputs {
     return this._call.inputValues[3].value.toAddress();
   }
 
-  get _hostLzChainId(): i32 {
-    return this._call.inputValues[4].value.toI32();
+  get _pearlmit(): Address {
+    return this._call.inputValues[4].value.toAddress();
+  }
+
+  get _tapAssetId(): BigInt {
+    return this._call.inputValues[5].value.toBigInt();
+  }
+
+  get _mainAssetId(): BigInt {
+    return this._call.inputValues[6].value.toBigInt();
   }
 
   get _owner(): Address {
-    return this._call.inputValues[5].value.toAddress();
+    return this._call.inputValues[7].value.toAddress();
   }
 }
 
@@ -1188,6 +1370,36 @@ export class AddBigBangCall__Outputs {
   }
 }
 
+export class AddOriginsMarketCall extends ethereum.Call {
+  get inputs(): AddOriginsMarketCall__Inputs {
+    return new AddOriginsMarketCall__Inputs(this);
+  }
+
+  get outputs(): AddOriginsMarketCall__Outputs {
+    return new AddOriginsMarketCall__Outputs(this);
+  }
+}
+
+export class AddOriginsMarketCall__Inputs {
+  _call: AddOriginsMarketCall;
+
+  constructor(call: AddOriginsMarketCall) {
+    this._call = call;
+  }
+
+  get _contract(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class AddOriginsMarketCall__Outputs {
+  _call: AddOriginsMarketCall;
+
+  constructor(call: AddOriginsMarketCall) {
+    this._call = call;
+  }
+}
+
 export class AddSingularityCall extends ethereum.Call {
   get inputs(): AddSingularityCall__Inputs {
     return new AddSingularityCall__Inputs(this);
@@ -1218,32 +1430,6 @@ export class AddSingularityCall__Outputs {
   _call: AddSingularityCall;
 
   constructor(call: AddSingularityCall) {
-    this._call = call;
-  }
-}
-
-export class ClaimOwnershipCall extends ethereum.Call {
-  get inputs(): ClaimOwnershipCall__Inputs {
-    return new ClaimOwnershipCall__Inputs(this);
-  }
-
-  get outputs(): ClaimOwnershipCall__Outputs {
-    return new ClaimOwnershipCall__Outputs(this);
-  }
-}
-
-export class ClaimOwnershipCall__Inputs {
-  _call: ClaimOwnershipCall;
-
-  constructor(call: ClaimOwnershipCall) {
-    this._call = call;
-  }
-}
-
-export class ClaimOwnershipCall__Outputs {
-  _call: ClaimOwnershipCall;
-
-  constructor(call: ClaimOwnershipCall) {
     this._call = call;
   }
 }
@@ -1333,6 +1519,78 @@ export class ExecuteMarketFnCall__Outputs {
 
   get result(): Array<Bytes> {
     return this._call.outputValues[1].value.toBytesArray();
+  }
+}
+
+export class ExecuteTargetFnCall extends ethereum.Call {
+  get inputs(): ExecuteTargetFnCall__Inputs {
+    return new ExecuteTargetFnCall__Inputs(this);
+  }
+
+  get outputs(): ExecuteTargetFnCall__Outputs {
+    return new ExecuteTargetFnCall__Outputs(this);
+  }
+}
+
+export class ExecuteTargetFnCall__Inputs {
+  _call: ExecuteTargetFnCall;
+
+  constructor(call: ExecuteTargetFnCall) {
+    this._call = call;
+  }
+
+  get target(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get data(): Bytes {
+    return this._call.inputValues[1].value.toBytes();
+  }
+}
+
+export class ExecuteTargetFnCall__Outputs {
+  _call: ExecuteTargetFnCall;
+
+  constructor(call: ExecuteTargetFnCall) {
+    this._call = call;
+  }
+
+  get success(): boolean {
+    return this._call.outputValues[0].value.toBoolean();
+  }
+
+  get returnData(): Bytes {
+    return this._call.outputValues[1].value.toBytes();
+  }
+}
+
+export class MintOpenInterestDebtCall extends ethereum.Call {
+  get inputs(): MintOpenInterestDebtCall__Inputs {
+    return new MintOpenInterestDebtCall__Inputs(this);
+  }
+
+  get outputs(): MintOpenInterestDebtCall__Outputs {
+    return new MintOpenInterestDebtCall__Outputs(this);
+  }
+}
+
+export class MintOpenInterestDebtCall__Inputs {
+  _call: MintOpenInterestDebtCall;
+
+  constructor(call: MintOpenInterestDebtCall) {
+    this._call = call;
+  }
+
+  get twTap(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class MintOpenInterestDebtCall__Outputs {
+  _call: MintOpenInterestDebtCall;
+
+  constructor(call: MintOpenInterestDebtCall) {
+    this._call = call;
   }
 }
 
@@ -1514,6 +1772,32 @@ export class RegisterSingularityMasterContractCall__Outputs {
   }
 }
 
+export class RenounceOwnershipCall extends ethereum.Call {
+  get inputs(): RenounceOwnershipCall__Inputs {
+    return new RenounceOwnershipCall__Inputs(this);
+  }
+
+  get outputs(): RenounceOwnershipCall__Outputs {
+    return new RenounceOwnershipCall__Outputs(this);
+  }
+}
+
+export class RenounceOwnershipCall__Inputs {
+  _call: RenounceOwnershipCall;
+
+  constructor(call: RenounceOwnershipCall) {
+    this._call = call;
+  }
+}
+
+export class RenounceOwnershipCall__Outputs {
+  _call: RenounceOwnershipCall;
+
+  constructor(call: RenounceOwnershipCall) {
+    this._call = call;
+  }
+}
+
 export class SetBigBangEthMarketCall extends ethereum.Call {
   get inputs(): SetBigBangEthMarketCall__Inputs {
     return new SetBigBangEthMarketCall__Inputs(this);
@@ -1604,32 +1888,104 @@ export class SetClusterCall__Outputs {
   }
 }
 
-export class SetConservatorCall extends ethereum.Call {
-  get inputs(): SetConservatorCall__Inputs {
-    return new SetConservatorCall__Inputs(this);
+export class SetMainTokensCall extends ethereum.Call {
+  get inputs(): SetMainTokensCall__Inputs {
+    return new SetMainTokensCall__Inputs(this);
   }
 
-  get outputs(): SetConservatorCall__Outputs {
-    return new SetConservatorCall__Outputs(this);
+  get outputs(): SetMainTokensCall__Outputs {
+    return new SetMainTokensCall__Outputs(this);
   }
 }
 
-export class SetConservatorCall__Inputs {
-  _call: SetConservatorCall;
+export class SetMainTokensCall__Inputs {
+  _call: SetMainTokensCall;
 
-  constructor(call: SetConservatorCall) {
+  constructor(call: SetMainTokensCall) {
     this._call = call;
   }
 
-  get _conservator(): Address {
+  get _mainToken(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _mainAssetId(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+
+  get _tapToken(): Address {
+    return this._call.inputValues[2].value.toAddress();
+  }
+
+  get _tapTokenAssetId(): BigInt {
+    return this._call.inputValues[3].value.toBigInt();
+  }
+}
+
+export class SetMainTokensCall__Outputs {
+  _call: SetMainTokensCall;
+
+  constructor(call: SetMainTokensCall) {
+    this._call = call;
+  }
+}
+
+export class SetPauseCall extends ethereum.Call {
+  get inputs(): SetPauseCall__Inputs {
+    return new SetPauseCall__Inputs(this);
+  }
+
+  get outputs(): SetPauseCall__Outputs {
+    return new SetPauseCall__Outputs(this);
+  }
+}
+
+export class SetPauseCall__Inputs {
+  _call: SetPauseCall;
+
+  constructor(call: SetPauseCall) {
+    this._call = call;
+  }
+
+  get _pauseState(): boolean {
+    return this._call.inputValues[0].value.toBoolean();
+  }
+}
+
+export class SetPauseCall__Outputs {
+  _call: SetPauseCall;
+
+  constructor(call: SetPauseCall) {
+    this._call = call;
+  }
+}
+
+export class SetPearlmitCall extends ethereum.Call {
+  get inputs(): SetPearlmitCall__Inputs {
+    return new SetPearlmitCall__Inputs(this);
+  }
+
+  get outputs(): SetPearlmitCall__Outputs {
+    return new SetPearlmitCall__Outputs(this);
+  }
+}
+
+export class SetPearlmitCall__Inputs {
+  _call: SetPearlmitCall;
+
+  constructor(call: SetPearlmitCall) {
+    this._call = call;
+  }
+
+  get _pearlmit(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
 }
 
-export class SetConservatorCall__Outputs {
-  _call: SetConservatorCall;
+export class SetPearlmitCall__Outputs {
+  _call: SetPearlmitCall;
 
-  constructor(call: SetConservatorCall) {
+  constructor(call: SetPearlmitCall) {
     this._call = call;
   }
 }
@@ -1653,6 +2009,10 @@ export class SetUsdoTokenCall__Inputs {
 
   get _usdoToken(): Address {
     return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _usdoAssetId(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
   }
 }
 
@@ -1684,14 +2044,6 @@ export class TransferOwnershipCall__Inputs {
   get newOwner(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
-
-  get direct(): boolean {
-    return this._call.inputValues[1].value.toBoolean();
-  }
-
-  get renounce(): boolean {
-    return this._call.inputValues[2].value.toBoolean();
-  }
 }
 
 export class TransferOwnershipCall__Outputs {
@@ -1702,32 +2054,36 @@ export class TransferOwnershipCall__Outputs {
   }
 }
 
-export class UpdatePauseCall extends ethereum.Call {
-  get inputs(): UpdatePauseCall__Inputs {
-    return new UpdatePauseCall__Inputs(this);
+export class UnregisterContractCall extends ethereum.Call {
+  get inputs(): UnregisterContractCall__Inputs {
+    return new UnregisterContractCall__Inputs(this);
   }
 
-  get outputs(): UpdatePauseCall__Outputs {
-    return new UpdatePauseCall__Outputs(this);
+  get outputs(): UnregisterContractCall__Outputs {
+    return new UnregisterContractCall__Outputs(this);
   }
 }
 
-export class UpdatePauseCall__Inputs {
-  _call: UpdatePauseCall;
+export class UnregisterContractCall__Inputs {
+  _call: UnregisterContractCall;
 
-  constructor(call: UpdatePauseCall) {
+  constructor(call: UnregisterContractCall) {
     this._call = call;
   }
 
-  get val(): boolean {
-    return this._call.inputValues[0].value.toBoolean();
+  get mkt(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get marketType(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
   }
 }
 
-export class UpdatePauseCall__Outputs {
-  _call: UpdatePauseCall;
+export class UnregisterContractCall__Outputs {
+  _call: UnregisterContractCall;
 
-  constructor(call: UpdatePauseCall) {
+  constructor(call: UnregisterContractCall) {
     this._call = call;
   }
 }

@@ -8,7 +8,7 @@ import {
   store,
   Bytes,
   BigInt,
-  BigDecimal
+  BigDecimal,
 } from "@graphprotocol/graph-ts";
 
 export class Token extends Entity {
@@ -23,7 +23,7 @@ export class Token extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type Token must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type Token must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("Token", id.toString(), this);
     }
@@ -123,7 +123,7 @@ export class Token extends Entity {
     return new TokenUsdValueLoader(
       "Token",
       this.get("id")!.toString(),
-      "historicalUsdValue"
+      "historicalUsdValue",
     );
   }
 }
@@ -140,7 +140,7 @@ export class TokenUsdValue extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type TokenUsdValue must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type TokenUsdValue must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("TokenUsdValue", id.toString(), this);
     }
@@ -148,7 +148,7 @@ export class TokenUsdValue extends Entity {
 
   static loadInBlock(id: string): TokenUsdValue | null {
     return changetype<TokenUsdValue | null>(
-      store.get_in_block("TokenUsdValue", id)
+      store.get_in_block("TokenUsdValue", id),
     );
   }
 
@@ -232,12 +232,12 @@ export class TapiocaProtocolAmount extends Entity {
     let id = this.get("id");
     assert(
       id != null,
-      "Cannot save TapiocaProtocolAmount entity without an ID"
+      "Cannot save TapiocaProtocolAmount entity without an ID",
     );
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type TapiocaProtocolAmount must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type TapiocaProtocolAmount must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("TapiocaProtocolAmount", id.toString(), this);
     }
@@ -245,13 +245,13 @@ export class TapiocaProtocolAmount extends Entity {
 
   static loadInBlock(id: string): TapiocaProtocolAmount | null {
     return changetype<TapiocaProtocolAmount | null>(
-      store.get_in_block("TapiocaProtocolAmount", id)
+      store.get_in_block("TapiocaProtocolAmount", id),
     );
   }
 
   static load(id: string): TapiocaProtocolAmount | null {
     return changetype<TapiocaProtocolAmount | null>(
-      store.get("TapiocaProtocolAmount", id)
+      store.get("TapiocaProtocolAmount", id),
     );
   }
 
@@ -325,199 +325,6 @@ export class TapiocaProtocolAmount extends Entity {
   }
 }
 
-export class TOFToken extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save TOFToken entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type TOFToken must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("TOFToken", id.toString(), this);
-    }
-  }
-
-  static loadInBlock(id: string): TOFToken | null {
-    return changetype<TOFToken | null>(store.get_in_block("TOFToken", id));
-  }
-
-  static load(id: string): TOFToken | null {
-    return changetype<TOFToken | null>(store.get("TOFToken", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get isUSDO(): boolean {
-    let value = this.get("isUSDO");
-    if (!value || value.kind == ValueKind.NULL) {
-      return false;
-    } else {
-      return value.toBoolean();
-    }
-  }
-
-  set isUSDO(value: boolean) {
-    this.set("isUSDO", Value.fromBoolean(value));
-  }
-
-  get underlyingToken(): string | null {
-    let value = this.get("underlyingToken");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toString();
-    }
-  }
-
-  set underlyingToken(value: string | null) {
-    if (!value) {
-      this.unset("underlyingToken");
-    } else {
-      this.set("underlyingToken", Value.fromString(<string>value));
-    }
-  }
-
-  get TOFToken(): string {
-    let value = this.get("TOFToken");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set TOFToken(value: string) {
-    this.set("TOFToken", Value.fromString(value));
-  }
-
-  get remoteTOFTokenMetaData(): RemoteTOFTMetaLoader {
-    return new RemoteTOFTMetaLoader(
-      "TOFToken",
-      this.get("id")!.toString(),
-      "remoteTOFTokenMetaData"
-    );
-  }
-
-  get teleports(): TeleportReceivedLoader {
-    return new TeleportReceivedLoader(
-      "TOFToken",
-      this.get("id")!.toString(),
-      "teleports"
-    );
-  }
-}
-
-export class RemoteTOFTMeta extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save RemoteTOFTMeta entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type RemoteTOFTMeta must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("RemoteTOFTMeta", id.toString(), this);
-    }
-  }
-
-  static loadInBlock(id: string): RemoteTOFTMeta | null {
-    return changetype<RemoteTOFTMeta | null>(
-      store.get_in_block("RemoteTOFTMeta", id)
-    );
-  }
-
-  static load(id: string): RemoteTOFTMeta | null {
-    return changetype<RemoteTOFTMeta | null>(store.get("RemoteTOFTMeta", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get TOFToken(): string {
-    let value = this.get("TOFToken");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set TOFToken(value: string) {
-    this.set("TOFToken", Value.fromString(value));
-  }
-
-  get remoteChainId(): i32 {
-    let value = this.get("remoteChainId");
-    if (!value || value.kind == ValueKind.NULL) {
-      return 0;
-    } else {
-      return value.toI32();
-    }
-  }
-
-  set remoteChainId(value: i32) {
-    this.set("remoteChainId", Value.fromI32(value));
-  }
-
-  get remoteLZChainId(): i32 {
-    let value = this.get("remoteLZChainId");
-    if (!value || value.kind == ValueKind.NULL) {
-      return 0;
-    } else {
-      return value.toI32();
-    }
-  }
-
-  set remoteLZChainId(value: i32) {
-    this.set("remoteLZChainId", Value.fromI32(value));
-  }
-
-  get remoteTOFTokenAddress(): Bytes {
-    let value = this.get("remoteTOFTokenAddress");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBytes();
-    }
-  }
-
-  set remoteTOFTokenAddress(value: Bytes) {
-    this.set("remoteTOFTokenAddress", Value.fromBytes(value));
-  }
-}
-
 export class Rebase extends Entity {
   constructor(id: string) {
     super();
@@ -530,7 +337,7 @@ export class Rebase extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type Rebase must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type Rebase must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("Rebase", id.toString(), this);
     }
@@ -635,7 +442,7 @@ export class MarketAccrueInfo extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type MarketAccrueInfo must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type MarketAccrueInfo must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("MarketAccrueInfo", id.toString(), this);
     }
@@ -643,13 +450,13 @@ export class MarketAccrueInfo extends Entity {
 
   static loadInBlock(id: string): MarketAccrueInfo | null {
     return changetype<MarketAccrueInfo | null>(
-      store.get_in_block("MarketAccrueInfo", id)
+      store.get_in_block("MarketAccrueInfo", id),
     );
   }
 
   static load(id: string): MarketAccrueInfo | null {
     return changetype<MarketAccrueInfo | null>(
-      store.get("MarketAccrueInfo", id)
+      store.get("MarketAccrueInfo", id),
     );
   }
 
@@ -718,7 +525,7 @@ export class InterestRate extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type InterestRate must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type InterestRate must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("InterestRate", id.toString(), this);
     }
@@ -726,7 +533,7 @@ export class InterestRate extends Entity {
 
   static loadInBlock(id: string): InterestRate | null {
     return changetype<InterestRate | null>(
-      store.get_in_block("InterestRate", id)
+      store.get_in_block("InterestRate", id),
     );
   }
 
@@ -859,7 +666,7 @@ export class Market extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type Market must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type Market must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("Market", id.toString(), this);
     }
@@ -1002,7 +809,7 @@ export class Market extends Entity {
     return new WithdrawalLoader(
       "Market",
       this.get("id")!.toString(),
-      "withdrawals"
+      "withdrawals",
     );
   }
 
@@ -1010,7 +817,7 @@ export class Market extends Entity {
     return new PositionLoader(
       "Market",
       this.get("id")!.toString(),
-      "positions"
+      "positions",
     );
   }
 
@@ -1018,7 +825,7 @@ export class Market extends Entity {
     return new MarketStateLoader(
       "Market",
       this.get("id")!.toString(),
-      "historicalStates"
+      "historicalStates",
     );
   }
 
@@ -1321,7 +1128,7 @@ export class MarketState extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type MarketState must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type MarketState must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("MarketState", id.toString(), this);
     }
@@ -1329,7 +1136,7 @@ export class MarketState extends Entity {
 
   static loadInBlock(id: string): MarketState | null {
     return changetype<MarketState | null>(
-      store.get_in_block("MarketState", id)
+      store.get_in_block("MarketState", id),
     );
   }
 
@@ -1468,193 +1275,6 @@ export class MarketState extends Entity {
   }
 }
 
-export class TeleportReceived extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save TeleportReceived entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type TeleportReceived must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("TeleportReceived", id.toString(), this);
-    }
-  }
-
-  static loadInBlock(id: string): TeleportReceived | null {
-    return changetype<TeleportReceived | null>(
-      store.get_in_block("TeleportReceived", id)
-    );
-  }
-
-  static load(id: string): TeleportReceived | null {
-    return changetype<TeleportReceived | null>(
-      store.get("TeleportReceived", id)
-    );
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get hash(): Bytes {
-    let value = this.get("hash");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBytes();
-    }
-  }
-
-  set hash(value: Bytes) {
-    this.set("hash", Value.fromBytes(value));
-  }
-
-  get nonce(): BigInt {
-    let value = this.get("nonce");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set nonce(value: BigInt) {
-    this.set("nonce", Value.fromBigInt(value));
-  }
-
-  get logIndex(): i32 {
-    let value = this.get("logIndex");
-    if (!value || value.kind == ValueKind.NULL) {
-      return 0;
-    } else {
-      return value.toI32();
-    }
-  }
-
-  set logIndex(value: i32) {
-    this.set("logIndex", Value.fromI32(value));
-  }
-
-  get blockNumber(): BigInt {
-    let value = this.get("blockNumber");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set blockNumber(value: BigInt) {
-    this.set("blockNumber", Value.fromBigInt(value));
-  }
-
-  get timestamp(): BigInt {
-    let value = this.get("timestamp");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set timestamp(value: BigInt) {
-    this.set("timestamp", Value.fromBigInt(value));
-  }
-
-  get callerAddress(): Bytes {
-    let value = this.get("callerAddress");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBytes();
-    }
-  }
-
-  set callerAddress(value: Bytes) {
-    this.set("callerAddress", Value.fromBytes(value));
-  }
-
-  get amount(): BigInt {
-    let value = this.get("amount");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set amount(value: BigInt) {
-    this.set("amount", Value.fromBigInt(value));
-  }
-
-  get sourceChainId(): i32 {
-    let value = this.get("sourceChainId");
-    if (!value || value.kind == ValueKind.NULL) {
-      return 0;
-    } else {
-      return value.toI32();
-    }
-  }
-
-  set sourceChainId(value: i32) {
-    this.set("sourceChainId", Value.fromI32(value));
-  }
-
-  get sourceLZChainId(): i32 {
-    let value = this.get("sourceLZChainId");
-    if (!value || value.kind == ValueKind.NULL) {
-      return 0;
-    } else {
-      return value.toI32();
-    }
-  }
-
-  set sourceLZChainId(value: i32) {
-    this.set("sourceLZChainId", Value.fromI32(value));
-  }
-
-  get destinationAccount(): string {
-    let value = this.get("destinationAccount");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set destinationAccount(value: string) {
-    this.set("destinationAccount", Value.fromString(value));
-  }
-
-  get destinationTOFToken(): string {
-    let value = this.get("destinationTOFToken");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set destinationTOFToken(value: string) {
-    this.set("destinationTOFToken", Value.fromString(value));
-  }
-}
-
 export class Deposit extends Entity {
   constructor(id: string) {
     super();
@@ -1667,7 +1287,7 @@ export class Deposit extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type Deposit must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type Deposit must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("Deposit", id.toString(), this);
     }
@@ -1876,7 +1496,7 @@ export class Withdrawal extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type Withdrawal must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type Withdrawal must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("Withdrawal", id.toString(), this);
     }
@@ -2072,7 +1692,7 @@ export class Borrow extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type Borrow must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type Borrow must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("Borrow", id.toString(), this);
     }
@@ -2307,7 +1927,7 @@ export class Repay extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type Repay must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type Repay must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("Repay", id.toString(), this);
     }
@@ -2503,7 +2123,7 @@ export class Account extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type Account must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type Account must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("Account", id.toString(), this);
     }
@@ -2547,7 +2167,7 @@ export class Account extends Entity {
     return new PositionLoader(
       "Account",
       this.get("id")!.toString(),
-      "positions"
+      "positions",
     );
   }
 
@@ -2611,7 +2231,7 @@ export class Account extends Entity {
     return new WithdrawalLoader(
       "Account",
       this.get("id")!.toString(),
-      "withdrawals"
+      "withdrawals",
     );
   }
 
@@ -2661,14 +2281,6 @@ export class Account extends Entity {
   set teleportReceivedCount(value: i32) {
     this.set("teleportReceivedCount", Value.fromI32(value));
   }
-
-  get teleportsReceived(): TeleportReceivedLoader {
-    return new TeleportReceivedLoader(
-      "Account",
-      this.get("id")!.toString(),
-      "teleportsReceived"
-    );
-  }
 }
 
 export class Position extends Entity {
@@ -2683,7 +2295,7 @@ export class Position extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type Position must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type Position must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("Position", id.toString(), this);
     }
@@ -2882,7 +2494,7 @@ export class Position extends Entity {
     return new DepositLoader(
       "Position",
       this.get("id")!.toString(),
-      "deposits"
+      "deposits",
     );
   }
 
@@ -2903,7 +2515,7 @@ export class Position extends Entity {
     return new WithdrawalLoader(
       "Position",
       this.get("id")!.toString(),
-      "withdrawals"
+      "withdrawals",
     );
   }
 
@@ -2945,7 +2557,7 @@ export class Position extends Entity {
     return new PositionSnapshotLoader(
       "Position",
       this.get("id")!.toString(),
-      "snapshots"
+      "snapshots",
     );
   }
 }
@@ -2962,7 +2574,7 @@ export class PositionSnapshot extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type PositionSnapshot must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type PositionSnapshot must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("PositionSnapshot", id.toString(), this);
     }
@@ -2970,13 +2582,13 @@ export class PositionSnapshot extends Entity {
 
   static loadInBlock(id: string): PositionSnapshot | null {
     return changetype<PositionSnapshot | null>(
-      store.get_in_block("PositionSnapshot", id)
+      store.get_in_block("PositionSnapshot", id),
     );
   }
 
   static load(id: string): PositionSnapshot | null {
     return changetype<PositionSnapshot | null>(
-      store.get("PositionSnapshot", id)
+      store.get("PositionSnapshot", id),
     );
   }
 
@@ -3097,7 +2709,7 @@ export class PositionCounter extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type PositionCounter must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type PositionCounter must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("PositionCounter", id.toString(), this);
     }
@@ -3105,7 +2717,7 @@ export class PositionCounter extends Entity {
 
   static loadInBlock(id: string): PositionCounter | null {
     return changetype<PositionCounter | null>(
-      store.get_in_block("PositionCounter", id)
+      store.get_in_block("PositionCounter", id),
     );
   }
 
@@ -3152,7 +2764,7 @@ export class TapiocaProtocol extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type TapiocaProtocol must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type TapiocaProtocol must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("TapiocaProtocol", id.toString(), this);
     }
@@ -3160,7 +2772,7 @@ export class TapiocaProtocol extends Entity {
 
   static loadInBlock(id: string): TapiocaProtocol | null {
     return changetype<TapiocaProtocol | null>(
-      store.get_in_block("TapiocaProtocol", id)
+      store.get_in_block("TapiocaProtocol", id),
     );
   }
 
@@ -3306,7 +2918,7 @@ export class TapiocaProtocol extends Entity {
     return new MarketLoader(
       "TapiocaProtocol",
       this.get("id")!.toString(),
-      "markets"
+      "markets",
     );
   }
 
@@ -3336,7 +2948,7 @@ export class YieldBox extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type YieldBox must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type YieldBox must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("YieldBox", id.toString(), this);
     }
@@ -3380,7 +2992,7 @@ export class YieldBox extends Entity {
     return new TapiocaProtocolLoader(
       "YieldBox",
       this.get("id")!.toString(),
-      "protocol"
+      "protocol",
     );
   }
 
@@ -3413,42 +3025,6 @@ export class TokenUsdValueLoader extends Entity {
   load(): TokenUsdValue[] {
     let value = store.loadRelated(this._entity, this._id, this._field);
     return changetype<TokenUsdValue[]>(value);
-  }
-}
-
-export class RemoteTOFTMetaLoader extends Entity {
-  _entity: string;
-  _field: string;
-  _id: string;
-
-  constructor(entity: string, id: string, field: string) {
-    super();
-    this._entity = entity;
-    this._id = id;
-    this._field = field;
-  }
-
-  load(): RemoteTOFTMeta[] {
-    let value = store.loadRelated(this._entity, this._id, this._field);
-    return changetype<RemoteTOFTMeta[]>(value);
-  }
-}
-
-export class TeleportReceivedLoader extends Entity {
-  _entity: string;
-  _field: string;
-  _id: string;
-
-  constructor(entity: string, id: string, field: string) {
-    super();
-    this._entity = entity;
-    this._id = id;
-    this._field = field;
-  }
-
-  load(): TeleportReceived[] {
-    let value = store.loadRelated(this._entity, this._id, this._field);
-    return changetype<TeleportReceived[]>(value);
   }
 }
 

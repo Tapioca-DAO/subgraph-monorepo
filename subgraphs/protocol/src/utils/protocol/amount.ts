@@ -34,7 +34,7 @@ export function getAmountFromRawAmount(
     positionType == PositionType.LEND_BORROW_ASSET ||
     positionType == PositionType.PROVIDE_COLLATERAL_ASSET
   ) {
-    amount = YieldBox.bind(singularityContract.yieldBox()).toAmount(
+    amount = YieldBox.bind(singularityContract._yieldBox()).toAmount(
       singularityMarket._collateralTokenYieldBoxId,
       rawAmount,
       false,

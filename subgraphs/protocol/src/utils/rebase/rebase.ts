@@ -98,12 +98,12 @@ class RebaseFetcherImpl {
 
   sglTotalBorrow(marketAddress: string): SglBorrowTotals {
     const contract = Singularity.bind(Address.fromString(marketAddress))
-    const totals = contract.try_totalBorrow()
+    const totals = contract.try__totalBorrow()
 
     if (!totals.reverted) {
       return {
-        elastic: totals.value.getElastic(),
-        base: totals.value.getBase(),
+        elastic: totals.value.elastic,
+        base: totals.value.base,
       }
     }
 

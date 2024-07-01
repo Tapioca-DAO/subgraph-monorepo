@@ -11,24 +11,14 @@ export class StaticContractDefinition {
     // magnetar_helper
     {
       contractName: "magnetar_helper",
-      address: "0x706D724cED28142873D2bbc79345f051763FFcDB",
-      chainId: 421613,
-    },
-    {
-      contractName: "magnetar_helper",
-      address: "0x8441aEC51136cAB903A0FfB2B657d3c9D3925223",
-      chainId: 4002,
+      address: "0x21c9e7025373fac623327b67321bf40833dd23A6",
+      chainId: 42161,
     },
     // yieldbox
     {
       contractName: "yieldbox",
-      address: "0x36dF846354244ACcCBabb79c0F5942C94EE27091",
-      chainId: 421613,
-    },
-    {
-      contractName: "yieldbox",
-      address: "0x9628067e507Ad43D5e686C2B5fc6AE085Cb67aEb",
-      chainId: 4002,
+      address: "0xCFFd997DB053c0fC54010770b55A4E02B1D104a5",
+      chainId: 42161,
     },
   ]
 

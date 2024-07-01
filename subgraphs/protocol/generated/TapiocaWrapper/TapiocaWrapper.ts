@@ -7,7 +7,7 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
+  BigInt,
 } from "@graphprotocol/graph-ts";
 
 export class CreateOFT extends ethereum.Event {
@@ -81,7 +81,7 @@ export class TapiocaWrapper extends ethereum.SmartContract {
     let result = super.call(
       "harvestableTapiocaOFTsLength",
       "harvestableTapiocaOFTsLength():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -91,7 +91,7 @@ export class TapiocaWrapper extends ethereum.SmartContract {
     let result = super.tryCall(
       "harvestableTapiocaOFTsLength",
       "harvestableTapiocaOFTsLength():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -134,7 +134,7 @@ export class TapiocaWrapper extends ethereum.SmartContract {
     let result = super.call(
       "tapiocaOFTLength",
       "tapiocaOFTLength():(uint256)",
-      []
+      [],
     );
 
     return result[0].toBigInt();
@@ -144,7 +144,7 @@ export class TapiocaWrapper extends ethereum.SmartContract {
     let result = super.tryCall(
       "tapiocaOFTLength",
       "tapiocaOFTLength():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -155,7 +155,7 @@ export class TapiocaWrapper extends ethereum.SmartContract {
 
   tapiocaOFTs(param0: BigInt): Address {
     let result = super.call("tapiocaOFTs", "tapiocaOFTs(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(param0)
+      ethereum.Value.fromUnsignedBigInt(param0),
     ]);
 
     return result[0].toAddress();
@@ -165,7 +165,7 @@ export class TapiocaWrapper extends ethereum.SmartContract {
     let result = super.tryCall(
       "tapiocaOFTs",
       "tapiocaOFTs(uint256):(address)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
+      [ethereum.Value.fromUnsignedBigInt(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -178,7 +178,7 @@ export class TapiocaWrapper extends ethereum.SmartContract {
     let result = super.call(
       "tapiocaOFTsByErc20",
       "tapiocaOFTsByErc20(address):(address)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
 
     return result[0].toAddress();
@@ -188,7 +188,7 @@ export class TapiocaWrapper extends ethereum.SmartContract {
     let result = super.tryCall(
       "tapiocaOFTsByErc20",
       "tapiocaOFTsByErc20(address):(address)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -267,6 +267,44 @@ export class CreateTOFTCall__Outputs {
 
   constructor(call: CreateTOFTCall) {
     this._call = call;
+  }
+}
+
+export class ExecuteCallsCall extends ethereum.Call {
+  get inputs(): ExecuteCallsCall__Inputs {
+    return new ExecuteCallsCall__Inputs(this);
+  }
+
+  get outputs(): ExecuteCallsCall__Outputs {
+    return new ExecuteCallsCall__Outputs(this);
+  }
+}
+
+export class ExecuteCallsCall__Inputs {
+  _call: ExecuteCallsCall;
+
+  constructor(call: ExecuteCallsCall) {
+    this._call = call;
+  }
+
+  get _call(): Array<ExecuteCallsCall_callStruct> {
+    return this._call.inputValues[0].value.toTupleArray<ExecuteCallsCall_callStruct>();
+  }
+}
+
+export class ExecuteCallsCall__Outputs {
+  _call: ExecuteCallsCall;
+
+  constructor(call: ExecuteCallsCall) {
+    this._call = call;
+  }
+
+  get success(): boolean {
+    return this._call.outputValues[0].value.toBoolean();
+  }
+
+  get results(): Array<Bytes> {
+    return this._call.outputValues[1].value.toBytesArray();
   }
 }
 

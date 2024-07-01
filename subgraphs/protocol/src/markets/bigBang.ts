@@ -3,24 +3,32 @@ import { Address, BigInt, ethereum, log } from "@graphprotocol/graph-ts"
 import { BigBang } from "../../generated/Penrose/BigBang"
 import {
   Borrow,
-  Repay,
   Deposit,
-  Withdrawal,
-  Rebase,
   Market,
   MarketState,
+  Rebase,
+  Repay,
   Token,
-  TokenUsdValue, //TapiocaProtocolAmount,
+  TokenUsdValue,
+  Withdrawal,
 } from "../../generated/schema"
 import {
-  LogBorrow as BorrowEvent,
-  LogRepay as RepayEvent,
   LogAddCollateral as AddCollateralEvent,
-  LogRemoveCollateral as RemoveCollateralEvent,
+  LogBorrow as BorrowEvent,
   LogAccrue as LogAccrueEvent,
   LogExchangeRate as LogExchangeRateEvent,
+  OwnershipTransferred as OwnershipTransferredEvent,
+  LogRemoveCollateral as RemoveCollateralEvent,
+  LogRepay as RepayEvent,
 } from "../../generated/templates/BigBang/BigBang"
-import { BIGDECIMAL_ZERO, EventType, PositionType } from "../common/constants"
+import {
+  BIGDECIMAL_ZERO,
+  BIGINT_ZERO,
+  EventType,
+  MarketType,
+  PositionType,
+  ZERO_ADDRESS,
+} from "../common/constants"
 import { bigIntToBigDecimal } from "../common/utils"
 import { updatePositions } from "../positions"
 import { getEventId } from "../utils"
@@ -33,6 +41,7 @@ import {
   InterestRateType,
 } from "../utils/interest/interest"
 import { PAC, getAmountFromRawAmount } from "../utils/protocol/amount"
+import { getTapiocaProtocol } from "../utils/protocol/protocol"
 import {
   MarketRebaseType,
   RebaseFetcher,
@@ -40,8 +49,133 @@ import {
   RebaseUtils,
 } from "../utils/rebase/rebase"
 import { updateAllTokenPrices, updateTokenPrice } from "../utils/token/price"
+import { putToken } from "../utils/token/token"
 
+function putBbMarket(
+  address: Address,
+  blockNumber: BigInt,
+  timestamp: BigInt,
+): void {
+  let entity = Market.load(address.toHexString())
+  if (entity != null) {
+    return
+  } else {
+    entity = new Market(address.toHexString())
+  }
+
+  entity.address = address
+  entity.type = MarketType.BIG_BANG
+
+  const contract = BigBang.bind(address)
+  const collateralAddress = contract._collateral()
+  const borrowAddress = contract._asset()
+  if (
+    collateralAddress.toHexString() == ZERO_ADDRESS.toHexString() ||
+    borrowAddress.toHexString() == ZERO_ADDRESS.toHexString()
+  ) {
+    return
+  }
+  const borrowToft = putToken(borrowAddress)
+  const collateralToft = putToken(collateralAddress)
+
+  if (borrowToft == null || collateralToft == null) {
+    log.error(
+      "Market: TOFTs not found for borrowToken {} or collateralToken {}",
+      [contract._asset().toHexString(), contract._collateral().toHexString()],
+    )
+    return
+  }
+
+  const protocol = getTapiocaProtocol()
+
+  entity.borrowToken = borrowToft.id
+  entity.collateralToken = collateralToft.id
+  entity.oracleAddress = contract._oracle()
+  entity._borrowTokenYieldBoxId = contract._assetId()
+  entity._collateralTokenYieldBoxId = contract._collateralId()
+  entity.positionCount = 0
+  entity.lendingPositionCount = 0 // One, for the protocol? Probably not..
+  entity.borrowingPositionCount = 0
+  entity.openPositionCount = 0
+  entity.closedPositionCount = 0
+  entity.protocol = protocol.id
+
+  // TODO: Update vs USDO? Parse/cast?
+  const borrowCap = contract._totalBorrowCap()
+  const annualInterest = InterestRateManager.getOrCreateInterestRate(
+    address.toHexString(),
+    InterestRateSide.BORROW,
+    InterestRateType.STABLE,
+    contract.getDebtRate(),
+  ).id
+
+  entity.totalBorrowed = BIGINT_ZERO
+  entity.totalBorrowedUsd = BIGDECIMAL_ZERO
+  entity.totalBorrowSupply = borrowCap
+  entity.totalBorrowSupplyUsd = bigIntToBigDecimal(borrowCap)
+  entity.totalCollateral = BIGINT_ZERO
+  entity.totalCollateralUsd = BIGDECIMAL_ZERO
+  entity.totalFeesEarnedFraction = BIGINT_ZERO
+
+  entity.supplyInterest = annualInterest
+  entity.borrowInterest = annualInterest
+  entity.collateralInterest = InterestRateManager.getOrCreateInterestRate(
+    address.toHexString(),
+    InterestRateSide.COLLATERAL_PROVIDER,
+    InterestRateType.STABLE,
+  ).id
+  entity.utilization = BIGINT_ZERO
+
+  entity.accrueInfo = MarketAccrueInfoManager.createMarketAccrueInfo(
+    address.toHexString(),
+    MarketType.BIG_BANG,
+  ).id
+
+  entity._totalCollateralShare = BIGINT_ZERO
+  entity._totalAsset = RebaseManager.getOrCreateRebase(
+    RebaseManager.marketId(address.toHexString(), MarketRebaseType.SUPPLY),
+    borrowToft.id,
+    blockNumber,
+    timestamp,
+  ).id
+  entity._totalBorrow = RebaseManager.getOrCreateRebase(
+    RebaseManager.marketId(address.toHexString(), MarketRebaseType.BORROW),
+    borrowToft.id,
+    blockNumber,
+    timestamp,
+  ).id
+
+  entity._ybTotalAsset = RebaseManager.getOrCreateRebase(
+    RebaseManager.ybId(entity._borrowTokenYieldBoxId),
+    borrowToft.id,
+    blockNumber,
+    timestamp,
+  ).id
+
+  entity._ybTotalCollateralAsset = RebaseManager.getOrCreateRebase(
+    RebaseManager.ybId(entity._collateralTokenYieldBoxId),
+    collateralToft.id,
+    blockNumber,
+    timestamp,
+  ).id
+
+  entity.save()
+
+  const mktIds = protocol.marketIds
+  mktIds.push(entity.id)
+  protocol.marketIds = mktIds
+  protocol.save()
+
+  return
+}
+
+export function handleOwnershipTransferred(
+  event: OwnershipTransferredEvent,
+): void {
+  putBbMarket(event.address, event.block.number, event.block.timestamp)
+}
 export function handleBorrow(event: BorrowEvent): void {
+  putBbMarket(event.address, event.block.number, event.block.timestamp)
   const bigBangMarket = Market.load(event.address.toHexString())
   if (bigBangMarket == null) {
     return
@@ -110,6 +244,7 @@ export function handleBorrow(event: BorrowEvent): void {
 }
 
 export function handleRepay(event: RepayEvent): void {
+  putBbMarket(event.address, event.block.number, event.block.timestamp)
   const bigBangMarket = Market.load(event.address.toHexString())
   if (bigBangMarket == null) {
     return
@@ -166,6 +301,7 @@ export function handleRepay(event: RepayEvent): void {
 }
 
 export function handleAddCollateral(event: AddCollateralEvent): void {
+  putBbMarket(event.address, event.block.number, event.block.timestamp)
   const bigBangMarket = Market.load(event.address.toHexString())
   if (bigBangMarket == null) {
     return
@@ -219,6 +355,7 @@ export function handleAddCollateral(event: AddCollateralEvent): void {
 }
 
 export function handleRemoveCollateral(event: RemoveCollateralEvent): void {
+  putBbMarket(event.address, event.block.number, event.block.timestamp)
   const bigBangMarket = Market.load(event.address.toHexString())
   if (bigBangMarket == null) {
     return
@@ -271,6 +408,7 @@ export function handleRemoveCollateral(event: RemoveCollateralEvent): void {
 }
 
 export function handleAccrue(event: LogAccrueEvent): void {
+  putBbMarket(event.address, event.block.number, event.block.timestamp)
   log.info("[YieldBox:BB] Log Accrue {} {}", [
     event.params.accruedAmount.toString(),
     event.params.rate.toString(),
@@ -303,6 +441,7 @@ export function handleAccrue(event: LogAccrueEvent): void {
 }
 
 export function handleExchangeRate(event: LogExchangeRateEvent): void {
+  putBbMarket(event.address, event.block.number, event.block.timestamp)
   // update market prices
   const market = Market.load(event.address.toHexString()) as Market
   const token = Token.load(market.collateralToken) as Token
@@ -395,11 +534,11 @@ function updateMarketTotals(
 
   market._totalCollateralShare = BigBang.bind(
     event.address,
-  ).totalCollateralShare()
+  )._totalCollateralShare()
 
   // TODO: Find a way to not call the contract for this?
   const contract = BigBang.bind(Address.fromBytes(market.address))
-  const borrowCap = contract.totalBorrowCap()
+  const borrowCap = contract._totalBorrowCap()
   const annualInterest = InterestRateManager.getOrCreateInterestRate(
     marketAddress,
     InterestRateSide.BORROW,

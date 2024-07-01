@@ -6,8 +6,8 @@ dataSources:
     name: Penrose
     source:
       abi: Penrose
-      startBlock: 21338355
-      address: "0xDaea64A0FA0CbD12d9c85fC4B11904a1a5DcFB31"
+      startBlock: 224384842
+      address: "0xCa95038591e5175b0c125c7878ADAcfEe47698b6"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -38,89 +38,15 @@ dataSources:
         - event: RegisterBigBang(indexed address,indexed address)
           handler: handleRegisterBigBang
       file: ./src/penrose.ts
-    network: fantom-testnet
-  - kind: ethereum
-    name: TapiocaWrapper
-    network: fantom-testnet
-    source:
-      abi: TapiocaWrapper
-      startBlock: 21338355
-      address: "0x4c172840783CfeC4A3cB0D18EE6E59F18E180B78"
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - TOFToken
-      abis:
-        - name: TapiocaWrapper
-          file: ./abis/TapiocaWrapper.json
-        - name: ERC20
-          file: ./abis/ERC20.json
-        - name: ERC20SymbolBytes
-          file: ./abis/ERC20SymbolBytes.json
-        - name: ERC20NameBytes
-          file: ./abis/ERC20NameBytes.json
-        - name: TOFT
-          file: ./abis/TOFT.json
-      eventHandlers:
-        - event: CreateOFT(indexed address,indexed address)
-          handler: handleCreateOFT
-      file: ./src/tapioca-wrapper.ts
-  - kind: ethereum
-    name: USDO
-    network: fantom-testnet
-    source:
-      abi: USDO
-      startBlock: 21338355
-      address: "0xCBEcfB102031cCEF0C8BB1455d692BE4a75A0faC"
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - TOFToken
-      abis:
-        - name: USDO
-          file: ./abis/USDO.json
-        - name: ERC20
-          file: ./abis/ERC20.json
-        - name: ERC20SymbolBytes
-          file: ./abis/ERC20SymbolBytes.json
-        - name: ERC20NameBytes
-          file: ./abis/ERC20NameBytes.json
-      eventHandlers:
-        - event: SetTrustedRemote(uint16,bytes)
-          handler: handleSetTrustedRemote
-        - event: ReceiveFromChain(indexed uint16,indexed address,uint256)
-          handler: handleReceiveFromChain
-        - event: OwnershipTransferred(indexed address,indexed address)
-          handler: handleDeploy
-      file: ./src/usdo.ts
+    network: arbitrum-one
+    context:
+      penrose_address:
+        type: String
+        data: "0xca95038591e5175b0c125c7878adacfee47698b6"
 templates:
   - kind: ethereum
-    name: TOFT
-    network: fantom-testnet
-    source:
-      abi: TOFT
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - TOFToken
-      abis:
-        - name: TOFT
-          file: ./abis/TOFT.json
-      eventHandlers:
-        - event: SetTrustedRemote(uint16,bytes)
-          handler: handleSetTrustedRemote
-        - event: ReceiveFromChain(indexed uint16,indexed address,uint256)
-          handler: handleReceiveFromChain
-      file: ./src/toft.ts
-  - kind: ethereum
     name: Singularity
-    network: fantom-testnet
+    network: arbitrum-one
     source:
       abi: Singularity
     mapping:
@@ -140,28 +66,35 @@ templates:
           file: ./abis/MarketOracle.json
         - name: MagnetarHelper
           file: ./abis/MagnetarHelper.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
       eventHandlers:
-        - event: LogBorrow(indexed address,indexed address,indexed
-            uint256,uint256,uint256)
+        - event: LogBorrow(indexed address,indexed address,uint256,uint256,uint256)
           handler: handleBorrow
-        - event: LogAddAsset(indexed address,indexed address,indexed uint256,uint256)
+        - event: LogAddAsset(indexed address,indexed address,uint256,uint256)
           handler: handleAddAsset
-        - event: LogRemoveAsset(indexed address,indexed address,indexed uint256,uint256)
+        - event: LogRemoveAsset(indexed address,indexed address,uint256,uint256)
           handler: handleRemoveAsset
-        - event: LogRepay(indexed address,indexed address,indexed uint256,uint256)
+        - event: LogRepay(indexed address,indexed address,uint256,uint256)
           handler: handleRepay
-        - event: LogAddCollateral(indexed address,indexed address,indexed uint256)
+        - event: LogAddCollateral(indexed address,indexed address,uint256)
           handler: handleAddCollateral
-        - event: LogRemoveCollateral(indexed address,indexed address,indexed uint256)
+        - event: LogRemoveCollateral(indexed address,indexed address,uint256)
           handler: handleRemoveCollateral
         - event: LogAccrue(indexed uint256,indexed uint256,indexed uint64,uint256)
           handler: handleAccrue
-        - event: LogExchangeRate(indexed uint256)
+        - event: LogExchangeRate(uint256)
           handler: handleExchangeRate
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
       file: ./src/markets/singularity.ts
   - kind: ethereum
     name: BigBang
-    network: fantom-testnet
+    network: arbitrum-one
     source:
       abi: BigBang
     mapping:
@@ -183,6 +116,12 @@ templates:
           file: ./abis/MarketOracle.json
         - name: MagnetarHelper
           file: ./abis/MagnetarHelper.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
       eventHandlers:
         - event: LogBorrow(indexed address,indexed address,indexed
             uint256,uint256,uint256)
@@ -195,6 +134,8 @@ templates:
           handler: handleRemoveCollateral
         - event: LogAccrue(indexed uint256,indexed uint64)
           handler: handleAccrue
-        - event: LogExchangeRate(indexed uint256)
+        - event: LogExchangeRate(uint256)
           handler: handleExchangeRate
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
       file: ./src/markets/bigBang.ts

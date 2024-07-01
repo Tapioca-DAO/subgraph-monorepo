@@ -3,18 +3,8 @@
 import {
   Address,
   DataSourceTemplate,
-  DataSourceContext
+  DataSourceContext,
 } from "@graphprotocol/graph-ts";
-
-export class TOFT extends DataSourceTemplate {
-  static create(address: Address): void {
-    DataSourceTemplate.create("TOFT", [address.toHex()]);
-  }
-
-  static createWithContext(address: Address, context: DataSourceContext): void {
-    DataSourceTemplate.createWithContext("TOFT", [address.toHex()], context);
-  }
-}
 
 export class Singularity extends DataSourceTemplate {
   static create(address: Address): void {
@@ -25,7 +15,7 @@ export class Singularity extends DataSourceTemplate {
     DataSourceTemplate.createWithContext(
       "Singularity",
       [address.toHex()],
-      context
+      context,
     );
   }
 }

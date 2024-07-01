@@ -2,16 +2,11 @@
 import { Address, BigInt, Bytes, log } from "@graphprotocol/graph-ts"
 
 import { MarketOracle } from "../../../generated/Penrose/MarketOracle"
+import { Market, Token, TokenUsdValue } from "../../../generated/schema"
 import {
-  Market,
-  TOFToken,
-  Token,
-  TokenUsdValue,
-} from "../../../generated/schema"
-import {
-  BIGINT_ZERO,
-  BIGDECIMAL_ZERO,
   BIGDECIMAL_ONE,
+  BIGDECIMAL_ZERO,
+  BIGINT_ZERO,
 } from "../../common/constants"
 import { bigIntToBigDecimal } from "../../common/utils"
 import { getTapiocaProtocol } from "../protocol/protocol"
@@ -31,21 +26,17 @@ export function updateAllTokenPrices(
       continue
     }
 
-    const borrowToft = TOFToken.load(market.borrowToken)!
-
     const borrowToftToken = Token.load(market.borrowToken)!
     const collateralToftToken = Token.load(market.collateralToken)!
 
-    if (borrowToft.isUSDO) {
-      updateTokenPrice(
-        BigInt.fromI32(1).times(
-          BigInt.fromI32(10).pow(borrowToftToken.decimals.toI32() as u8),
-        ),
-        borrowToftToken,
-        blockNumber,
-        timestamp,
-      )
-    }
+    updateTokenPrice(
+      BigInt.fromI32(1).times(
+        BigInt.fromI32(10).pow(borrowToftToken.decimals.toI32() as u8),
+      ),
+      borrowToftToken,
+      blockNumber,
+      timestamp,
+    )
 
     // check if token price is already updated for this block
     const colLatestUsdValueId = collateralToftToken.latestUsdValue
